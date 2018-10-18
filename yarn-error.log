@@ -1,0 +1,44 @@
+Arguments: 
+  /usr/local/lib/node_modules/node/bin/node /usr/local/Cellar/yarn/1.10.1/libexec/bin/yarn.js start
+
+PATH: 
+  /Users/scottmagnuson/anaconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.10.1
+
+Node version: 
+  10.10.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/scottmagnuson/Documents/GitHub/18f-tellr-frontend/package.json: Unexpected token } in JSON at position 470
+      at JSON.parse (<anonymous>)
+      at /usr/local/Cellar/yarn/1.10.1/libexec/lib/cli.js:1136:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.10.1/libexec/lib/cli.js:98:30)
+      at /usr/local/Cellar/yarn/1.10.1/libexec/lib/cli.js:109:13
+
+npm manifest: 
+  {
+    "name": "Tellr-Frontend",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "git@github.com:dartmouth-cs98/18f-tellr-frontend.git",
+    "author": "Scott, Emily, Hanting, Gabe, Jed",
+    "license": "MIT",
+    "scripts": {
+      "start": "NODE_ENV=development webpack-serve ./webpack.config.js",
+      "build": "yarn clean; NODE_ENV=production webpack --colors",
+      "clean": "rimraf dist",
+      "deploy": "yarn build; surge -p dist -d tellr.surge.sh; yarn clean"
+    },
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
