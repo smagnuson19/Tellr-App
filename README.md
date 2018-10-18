@@ -10,7 +10,7 @@
 Organize and streamline task assignment and chores in your household while teaching your kids the value of money!
 
 ![alt text](https://github.com/dartmouth-cs98/18f-tellr-frontend/blob/master/Data%20Model%20and%20Sketches/homepage.png)
-![alt text](https://github.com/dartmouth-cs98/18f-tellr-frontend/blob/master/Data%20Model%20and%20Sketches/profile.png)
+
 ## Architecture
 
 TODO:  overall descriptions of code organization and tools and libraries used
