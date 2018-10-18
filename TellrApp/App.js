@@ -8,13 +8,19 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import Style from './Style';
 
 type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Hello World! This will be the beginning of the Tellr scaffold</Text>
+      <View style={Style.rootContainer}>
+          <View style={Style.displayContainer}>
+            <Text style={Style.displayText}>Hello World! </Text>
+          </View>
+          <View style={Style.inputContainer}>
+            <Text style={styles.welcome}>This will be the beginning of the Tellr scaffold</Text>
+          </View>
       </View>
     );
   }
