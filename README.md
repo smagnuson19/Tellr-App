@@ -16,7 +16,7 @@ Organize and streamline task assignment and chores in your household while teach
 TODO:  overall descriptions of code organization and tools and libraries used
 
 #### Tech Stack
-We are using React Native for our frontend and mobile app
+We are using React Native for our frontend and mobile app and flask for our backend
 
 #### Data Objects
 
