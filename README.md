@@ -69,7 +69,7 @@ With the loan model, a childUser creates a transaction request, which a parentUs
 ##### allowance
 With the allowance model, a parentUser simply transfers a specified amount of money to a designated childUser. There is no approval or request of an allowance from a parent or child. Additional request of money from a child to a parent are part of the loan model.
 
-allowance: { distributor: parentUser.id, child: childUser.id, amount }
+allowance: {distributor: parentUser.id, child: childUser.id, amount }
 
 ## Setup
 
@@ -84,6 +84,7 @@ We followed [these](https://medium.com/@randerson112358/setup-react-native-envir
 
 ## Deployment
 To run:
+
 `npm install`
 
 `react-native start`
