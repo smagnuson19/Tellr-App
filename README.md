@@ -78,13 +78,15 @@ Install Homebrew, npm, node, yarn
 
 #### Setup of React Native environment:
 We followed [these](https://medium.com/@randerson112358/setup-react-native-environment-for-ios-97bf7faadf77) setup instructions:
-1. Install watchman: brew install watchman
-2. Install React Native: sudo npm install -g react-native-cli
+1. Install watchman: `brew install watchman`
+2. Install React Native: `sudo npm install -g react-native-cli`
 3. Install XCode for iOS
 
 ## Deployment
+To run:
+`npm install`
 
-To run: react-native start
+`react-native start`
 
 ## Authors
 
