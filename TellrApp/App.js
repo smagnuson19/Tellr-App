@@ -5,8 +5,6 @@ import Style from './Style';
 import BottomTabBar from './navigation/bottom_tab_bar';
 import Home from './components/home';
 
-// type Props = {};
-
 
 const LandingPage = (props) => {
   return (
