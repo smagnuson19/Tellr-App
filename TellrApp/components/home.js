@@ -16,6 +16,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    //Will load data 
     this.fetchNames()
   }
 
