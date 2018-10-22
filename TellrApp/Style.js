@@ -6,11 +6,13 @@ var Style = StyleSheet.create({
         flex: 1
     },
 
-    displayContainer: {
-        flex: 2,
-        backgroundColor: '#411151',
-        justifyContent: 'center'
+    container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
     },
+
 
     inputContainer: {
         flex: 8,
@@ -22,7 +24,7 @@ var Style = StyleSheet.create({
         fontSize: 38,
         fontWeight: 'bold',
         textAlign: 'center',
-        padding: 20
+        padding: 30
     },
 });
 
