@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "axios": "^0.18.0"
+  },
+  "devDependencies": {
+    "react-router-native": "^4.3.0"
+  }
+}
