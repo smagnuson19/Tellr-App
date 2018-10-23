@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import { StyleSheet } from 'react-native';
 import axios from 'axios';
 
-const ROOT_URL = 'http://localhost:9090/api';
+const ROOT_URL = 'http://localhost:5000/api';
 const API_KEY = '';
 
 class Home extends Component {
@@ -16,19 +16,24 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    //Will load data 
+    //Will load data
+
     this.fetchNames()
   }
 
   fetchNames() {
-    return (dispatch) => {
-      axios.get(`${ROOT_URL}/${API_KEY}`).then((response) => {
+
+    return   axios.get(`${ROOT_URL}/${API_KEY}`).then((response) => {
+        console.log("Hello")
         const payload = response.data
-        this.setState([persons])
+        console.log(payload)
+        this.setState( { persons: payload })
+
       }).catch((error) => {
+        console.log("ERROR in ")
         const payload = null
       });
-    };
+
   }
 
   render() {
