@@ -1,6 +1,8 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-import { NativeRouter as Router, Route, Switch } from "react-router-native";
+import React, { Component } from 'react';
+import {
+  Platform, StyleSheet, Text, View,
+} from 'react-native';
+import { NativeRouter as Router, Route, Switch } from 'react-router-native';
 import Style from './Style';
 import BottomTabBar from './navigation/bottom_tab_bar';
 import Home from './components/home';
@@ -8,11 +10,11 @@ import Home from './components/home';
 
 const LandingPage = (props) => {
   return (
-        <Home />
-    );
+    <Home />
+  );
 };
 
-  //  <BottomTabBar /> - put this in below, was buggy error
+//  <BottomTabBar /> - put this in below, was buggy error
 const App = (props) => {
   return (
     <Router>
