@@ -81,6 +81,7 @@ We followed [these](https://medium.com/@randerson112358/setup-react-native-envir
 1. Install watchman: `brew install watchman`
 2. Install React Native: `sudo npm install -g react-native-cli`
 3. Install XCode for iOS
+4. Install pyMongo: `pip install pymongo=3.4.0`
 
 ## Deployment
 To run:
