@@ -3,8 +3,9 @@ import {
   View,
 } from 'react-native';
 import { NativeRouter as Router, Route, Switch } from 'react-router-native';
-import Style from './src/styling/Style';
-import Home from './src/components/home';
+import Style from './styling/Style';
+// import BottomTabBar from './navigation/bottom_tab_bar';
+import Home from './components/home';
 
 
 //  <BottomTabBar /> - put this in below, was buggy error
