@@ -3,7 +3,6 @@ import { View, Text, StyleSheet } from 'react-native';
 import axios from 'axios';
 import Login from './login';
 import Style from '../styling/Style';
-import MainTabBar from '../navigation/bottom_tab_bar';
 
 const ROOT_URL = 'http://localhost:5000/api';
 const API_KEY = '';
@@ -50,8 +49,6 @@ class Home extends Component {
             </Text>
           ))}
         </View>
-
-        <MainTabBar />
 
       </View>
     );
