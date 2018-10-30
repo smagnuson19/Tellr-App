@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import axios from 'axios';
-// import Login from './login';
-import Style from '../styling/Style';
+import Style from '../../styling/Style';
 
 const ROOT_URL = 'http://localhost:5000/api';
 const API_KEY = '';
 
-class Home extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,10 +33,10 @@ class Home extends Component {
     return (
       <View style={Style.rootContainer}>
         <View style={Style.displayContainer}>
-          <Text style={Style.displayText}>Hello World! </Text>
+          <Text style={Style.displayText}>Profile </Text>
         </View>
         <View style={Style.inputContainer}>
-          <Text style={styles.welcome}>This will be the beginning of the Tellr scaffold</Text>
+          <Text style={styles.welcome}>profile tab</Text>
         </View>
         <View style={Style.inputContainer}>
           { this.state.persons.map(person => (
@@ -74,4 +73,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Home;
+export default Profile;
