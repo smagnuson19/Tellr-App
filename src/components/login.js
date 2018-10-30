@@ -6,7 +6,7 @@ import axios from 'axios';
 import Style from '../styling/Style';
 
 
-const ROOT_URL = 'http://localhost:5000/api';
+const ROOT_URL = 'http://localhost:5000/api/users';
 
 class Login extends Component {
   constructor(props) {
@@ -18,7 +18,10 @@ class Login extends Component {
 
   submitEmail() {
     const loginInfo = {
-      email: 'test@test.com',
+      Name: 'John Smith',
+      Email: 'test@test.com',
+      Password: 'test',
+      Username: 'jsmith',
     };
 
     axios.post(`${ROOT_URL}`, { loginInfo })
