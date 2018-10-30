@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import axios from 'axios';
-import Login from './login';
+// import Login from './login';
 import Style from '../styling/Style';
 
 const ROOT_URL = 'http://localhost:5000/api';
@@ -40,7 +40,6 @@ class Home extends Component {
           <Text style={styles.welcome}>This will be the beginning of the Tellr scaffold</Text>
         </View>
         <View style={Style.inputContainer}>
-          <Login />
           { this.state.persons.map(person => (
             <Text style={styles.welcome}>
               {' '}
