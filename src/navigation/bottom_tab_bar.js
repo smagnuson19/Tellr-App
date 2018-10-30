@@ -1,8 +1,10 @@
 import React from 'react';
-import { createBottomTabNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 import { View, Text } from 'react-native';
 // import Ionicons from 'react-native-vector-icons/FontAwesome';
 import Home from '../components/home';
+import Login from '../components/login';
+import SignUp from '../components/signup';
 
 
 const PaymentsTab = (props) => {
@@ -20,8 +22,6 @@ const PaymentsTab = (props) => {
 // const ProfileTab = (props) => {
 //   return <View style={{ flex: 1, justifyContent: 'center' }}><Text>Profile</Text></View>;
 // };
-
-
 const MainTabBar = createBottomTabNavigator({
   Home,
   PaymentsTab,
@@ -31,4 +31,16 @@ const MainTabBar = createBottomTabNavigator({
 });
 
 
-export default MainTabBar;
+const RootStack = createStackNavigator(
+  {
+    SignUp: { screen: SignUp },
+    MainTabBar: { screen: MainTabBar },
+    Login: { screen: Login },
+  },
+  {
+    initialRouteName: 'Login',
+  },
+);
+
+
+export default RootStack;
