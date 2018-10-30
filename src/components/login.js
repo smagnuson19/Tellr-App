@@ -18,7 +18,8 @@ class Login extends Component {
 
   submitEmail() {
     const loginInfo = {
-      email: 'test@test.com',
+      email: '',
+      password: '',
     };
 
     axios.post(`${ROOT_URL}`, { loginInfo })
@@ -26,7 +27,10 @@ class Login extends Component {
         console.log(this.state.email);
         console.log(response.data);
       });
+
+    this.props.navigation.navigate('MainTabBar');
   }
+
 
   render() {
     return (
@@ -34,13 +38,22 @@ class Login extends Component {
         <TextInput
           onChangeText={text => this.setState({ email: text })}
           value={this.state.text}
-          defaultValue="Email"
+          placeholder="Email"
+        />
+        <TextInput
+          onChangeText={text => this.setState({ password: text })}
+          value={this.state.password}
+          placeholder="Password"
         />
         <Button
-          onPress={this.submitEmail}
+          onPress={() => this.submitEmail()}
           title="Submit"
           color="#841584"
           accessibilityLabel="enter email"
+        />
+        <Button
+          title="Create Account"
+          onPress={() => this.props.navigation.navigate('SignUp')}
         />
       </View>
     );
