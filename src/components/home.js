@@ -6,7 +6,7 @@ import Style from '../styling/Style';
 import MainTabBar from '../navigation/bottom_tab_bar';
 
 const ROOT_URL = 'http://localhost:5000/api';
-const API_KEY = '';
+const API_KEY = 'goals/100001';
 
 class Home extends Component {
   constructor(props) {
