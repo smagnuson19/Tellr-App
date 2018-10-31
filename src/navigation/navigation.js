@@ -2,13 +2,15 @@ import React from 'react';
 import {
   createBottomTabNavigator, createStackNavigator,
 } from 'react-navigation';
-import { View, Text } from 'react-native';
+// import { View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 // import Ionicons from 'react-native-vector-icons/FontAwesome';
 import Home from '../components/tabs/home';
 import Payments from '../components/tabs/payments';
+import AddTask from '../components/tabs/addTask';
 import Profile from '../components/tabs/profile';
 import Login from '../components/login';
+
 import SignUpFirstDialouge from '../components/signup/ageselector';
 
 
@@ -30,6 +32,7 @@ import SignUpFirstDialouge from '../components/signup/ageselector';
 const MainTabBar = createBottomTabNavigator({
   Home,
   Payments,
+  AddTask,
   Profile,
 },
 {
@@ -41,6 +44,8 @@ const MainTabBar = createBottomTabNavigator({
         iconName = `ios-home${focused ? '' : '-outline'}`;
       } else if (routeName === 'Payments') {
         iconName = `ios-card${focused ? '' : '-outline'}`;
+      } else if (routeName === 'AddTask') {
+        iconName = `ios-add-circle${focused ? '' : '-outline'}`;
       } else if (routeName === 'Profile') {
         iconName = `ios-person${focused ? '' : '-outline'}`;
       }
