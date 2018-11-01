@@ -2,17 +2,24 @@ import React from 'react';
 import {
   createBottomTabNavigator, createStackNavigator,
 } from 'react-navigation';
-import { View, Text } from 'react-native';
+// import { View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
+
 // import Ionicons from 'react-native-vector-icons/FontAwesome';
-import Home from '../components/home';
+import Home from '../components/tabs/home';
+import Payments from '../components/tabs/payments';
+import AddTask from '../components/tabs/addTask';
+import Profile from '../components/tabs/profile';
 import Login from '../components/login';
+
 import SignUpFirstDialouge from '../components/signup/ageselector';
 
 
-const PaymentsTab = (props) => {
-  return <View style={{ flex: 1, justifyContent: 'center' }}><Text>Payments</Text></View>;
-};
+// const PaymentsTab = (props) => {
+//   return <View style={{ flex: 1, justifyContent: 'center' }}><Text>Payments</Text></View>;
+// };
 
 // const AddTaskTab = (props) => {
 //   return <View style={{ flex: 1, justifyContent: 'center' }}><Text>Add Task</Text></View>;
@@ -27,7 +34,9 @@ const PaymentsTab = (props) => {
 // };
 const MainTabBar = createBottomTabNavigator({
   Home,
-  PaymentsTab,
+  Payments,
+  AddTask,
+  Profile,
 },
 {
   navigationOptions: ({ navigation }) => ({
@@ -36,13 +45,17 @@ const MainTabBar = createBottomTabNavigator({
       let iconName;
       if (routeName === 'Home') {
         iconName = `ios-home${focused ? '' : '-outline'}`;
-      } else if (routeName === 'PaymentsTab') {
+      } else if (routeName === 'Payments') {
         iconName = `ios-card${focused ? '' : '-outline'}`;
+      } else if (routeName === 'AddTask') {
+        iconName = `ios-add-circle${focused ? '' : '-outline'}`;
+      } else if (routeName === 'Profile') {
+        iconName = `ios-person${focused ? '' : '-outline'}`;
       }
 
       // You can return any component that you like here! We usually use an
       // icon component from react-native-vector-icons
-      return <Ionicons name={iconName} size={horizontal ? 20 : 25} color={tintColor} />;
+      return <Ionicons name={iconName} size={25} color={tintColor} />;
     },
   }),
   tabBarOptions: {
