@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Button,
+  View, Button, Image,
 } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import axios from 'axios';
@@ -33,6 +33,7 @@ class Login extends Component {
         console.log(response.data);
       });
 
+    // So that you are unable to navigate back to login page once logged in.
     const resetAction = StackActions.reset({
       index: 0, // <-- currect active route from actions array
       key: null,
@@ -49,7 +50,9 @@ class Login extends Component {
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
-
+          <Image
+            source="../media/Tellr-Logo.gif"
+          />
           <FormInput
             onChangeText={text => this.setState({ email: text })}
             value={this.state.text}
