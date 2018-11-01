@@ -90,6 +90,13 @@ To run:
 
 `react-native start`
 
+## Term 1 Demo Prioritizations
+1. User Login and signup flow complete
+2. User able to add children and parents to their family
+3. Children and parents able to add tasks/Goals
+4. Look at basic analystics of past spend/allowance history
+5. In kid and parent view show goal page
+
 ## Authors
 
 Gabe Corso, Hanting Guo, Scott Magnuson, Emily Pitts, Jed Rosen
