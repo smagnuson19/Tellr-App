@@ -4,6 +4,9 @@ import {
 } from 'react-navigation';
 // import { View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
+
 // import Ionicons from 'react-native-vector-icons/FontAwesome';
 import Home from '../components/tabs/home';
 import Payments from '../components/tabs/payments';
