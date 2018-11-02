@@ -36,6 +36,9 @@
     "react-router-native": "^4.3.0",
     "react-test-renderer": "16.6.0-alpha.8af6728"
   },
+  "rnpm": {
+   "assets": ["./src/fonts"]
+},
   "jest": {
     "preset": "react-native"
   }
