@@ -1,4 +1,7 @@
 import { StyleSheet } from 'react-native';
+import {
+  colors, fonts, dimensions,
+} from './base';
 
 
 const Style = StyleSheet.create({
@@ -30,13 +33,14 @@ const Style = StyleSheet.create({
 
   buttonContainer: {
     paddingTop: 20,
+    width: dimensions.fullWidth,
     flexDirection: 'column',
     justifyContent: 'center',
 
   },
 
   buttonLogin: {
-    fontFamily: 'Montserrat-Thin',
+    fontFamily: fonts.primary,
     margin: 20,
   },
 
@@ -48,8 +52,10 @@ const Style = StyleSheet.create({
   },
 
   fieldText: {
+    color: 'white',
+    fontFamily: fonts.secondary,
     textAlign: 'center',
-    fontSize: 23,
+    fontSize: fonts.md,
   },
 
   container: {
@@ -69,11 +75,11 @@ const Style = StyleSheet.create({
   },
 
   displayText: {
-    color: 'blue',
-    fontSize: 38,
+    color: colors.primary,
+    fontSize: fonts.large,
+    fontFamily: fonts.primary,
     fontWeight: 'bold',
     textAlign: 'center',
-    padding: 30,
   },
 });
 
