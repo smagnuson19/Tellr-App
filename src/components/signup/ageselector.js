@@ -2,34 +2,37 @@ import React, { Component } from 'react';
 import {
   View, Text, TouchableOpacity, StyleSheet,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import Style from '../../styling/Style';
 
 class SignUpFirstDialouge extends Component {
   render() {
     return (
       <View style={Style.rootContainer}>
-        <View style={Style.displayContainer}>
-          <Text style={Style.displayText}>Create Account </Text>
-        </View>
-        <View style={Style.inputContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate('ParentSignUp')}
-            title="Parent"
-            color="#3bb16e"
-          >
-            <Text> Parent </Text>
-          </TouchableOpacity>
+        <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
+          <View style={Style.displayContainer}>
+            <Text style={Style.displayText}>Choose Account Type </Text>
+          </View>
+          <View style={Style.inputContainer}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate('ParentSignUp')}
+              title="Parent"
+              color="#3bb16e"
+            >
+              <Text> Parent </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate('ChildSignUp')}
-            title="Parent"
-            color="#3bb16e"
-          >
-            <Text> Child </Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate('ChildSignUp')}
+              title="Parent"
+              color="#3bb16e"
+            >
+              <Text> Child </Text>
+            </TouchableOpacity>
+          </View>
+        </LinearGradient>
       </View>
     );
   }
