@@ -74,7 +74,6 @@ class AddTask extends Component {
             date={this.state.taskDeadline}
             mode="datetime"
             placeholder="Task Deadline"
-            // TODO: fix this to include hour and minute
             format="MMMM Do YYYY, h:mma"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
