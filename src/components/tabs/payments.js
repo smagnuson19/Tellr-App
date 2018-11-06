@@ -21,10 +21,15 @@ class Payments extends Component {
       accountSelected: '',
       amount: 0,
     };
+    this.aButtonPress = this.aButtonPress.bind(this);
   }
 
   componentDidMount() {
     this.fetchNames();
+  }
+
+  aButtonPress(item) {
+    console.log(item);
   }
 
   fetchNames() {
@@ -57,7 +62,7 @@ class Payments extends Component {
                 </Text>
               </View>
             </View>
-            <KeyPad />
+            <KeyPad onPress={this.aButtonPress} />
           </View>
         </LinearGradient>
       </View>
