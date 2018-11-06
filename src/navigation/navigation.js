@@ -11,6 +11,7 @@ import Home from '../components/tabs/home';
 import Payments from '../components/tabs/payments';
 import AddTask from '../components/tabs/addTask';
 import Profile from '../components/tabs/profile';
+import Goals from '../components/tabs/goals';
 import Login from '../components/login';
 import SignUp from '../components/signup/signUp';
 
@@ -35,6 +36,7 @@ import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 const MainTabBar = createBottomTabNavigator({
   Home,
   Payments,
+  Goals,
   'Add Task': AddTask,
   Profile,
 },
@@ -51,6 +53,8 @@ const MainTabBar = createBottomTabNavigator({
         iconName = `ios-add-circle${focused ? '' : ''}`;
       } else if (routeName === 'Profile') {
         iconName = `ios-person${focused ? '' : ''}`;
+      } else if (routeName === 'Goals') {
+        iconName = `ios-star${focused ? '' : ''}`;
       }
 
       // You can return any component that you like here! We usually use an

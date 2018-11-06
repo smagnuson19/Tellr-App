@@ -7,34 +7,33 @@ import axios from 'axios';
 import {
   Button, FormInput,
 } from 'react-native-elements';
-import DatePicker from 'react-native-datepicker';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
+// import newGoal from '../newGoal';
 
 const ROOT_URL = 'http://localhost:5000/api';
 
 // const API_KEY = '';
 
-class AddTask extends Component {
+class Goals extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      taskName: '',
-      taskDeadline: '',
+      goalsName: '',
+      goalsDeadline: '',
       child: '',
-      taskDescription: '',
+      goalsDescription: '',
       reward: '',
     };
   }
 
-  submitTask() {
+  submitgoals() {
     const payLoad = {
-      taskName: this.state.taskName,
-      taskDeadline: this.state.taskDeadline,
+      goalsName: this.state.goalsName,
+      goalsDeadline: this.state.goalsDeadline,
       child: this.state.child,
-      taskDescription: this.state.taskDescription,
+      goalsDescription: this.state.goalsDescription,
       reward: this.state.reward,
     };
 
@@ -60,31 +59,20 @@ class AddTask extends Component {
       <View style={Style.rootContainer}>
         <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
           <View style={Style.displayContainer}>
-            <Text style={Style.displayText}>New Task </Text>
+            <Text style={Style.displayText}>New goals </Text>
           </View>
           <FormInput
             containerStyle={{ width: '60%' }}
-            onChangeText={text => this.setState({ taskName: text })}
-            value={this.state.taskName}
-            placeholder="Task Name"
+            onChangeText={text => this.setState({ goalsName: text })}
+            value={this.state.goalsName}
+            placeholder="goals Name"
             style={Style.fieldInput}
           />
-          <DatePicker
-            style={{ width: 270 }}
-            date={this.state.taskDeadline}
-            mode="datetime"
-            placeholder="Task Deadline"
-            format="MMMM Do YYYY, h:mma"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={{
-              // dateInput: {
-              //   marginLeft: 36,
-              // },
-            }}
-            iconComponent=<Ionicons name="ios-calendar" size={30} color="white" />
-            onDateChange={date => this.setState({ taskDeadline: date })}
-            // value={this.state.taskDeadline}
+          <FormInput
+            containerStyle={{ width: '60%' }}
+            onChangeText={text => this.setState({ goalsDeadline: text })}
+            value={this.state.goalsDeadline}
+            placeholder="goals Deadline"
           />
           <FormInput
             containerStyle={{ width: '60%' }}
@@ -94,9 +82,9 @@ class AddTask extends Component {
           />
           <FormInput
             containerStyle={{ width: '90%' }}
-            onChangeText={text => this.setState({ taskDescription: text })}
-            value={this.state.taskDescription}
-            placeholder="Task Description..."
+            onChangeText={text => this.setState({ goalsDescription: text })}
+            value={this.state.goalsDescription}
+            placeholder="goals Description..."
           />
           <FormInput
             containerStyle={{ width: '60%' }}
@@ -105,14 +93,8 @@ class AddTask extends Component {
             placeholder="Reward: $0.00"
           />
           <Button
-            title="Publish!"
-            rounded
-            large
-            buttonStyle={{
-              backgroundColor: 'rgba(92, 99,216, 1)',
-              width: '50%',
-            }}
-            onPress={() => this.submitTask()}
+            onPress={() => NavigationActions.navigate('../newGoal')}
+            title="New Goal"
           />
         </LinearGradient>
       </View>
@@ -121,4 +103,4 @@ class AddTask extends Component {
 }
 
 
-export default AddTask;
+export default Goals;
