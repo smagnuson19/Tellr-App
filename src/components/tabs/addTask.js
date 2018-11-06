@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  StyleSheet,
 } from 'react-native';
 import axios from 'axios';
 import {
@@ -13,7 +14,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
-import { colors } from '../../styling/base';
+import { colors, fonts } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
 
@@ -99,17 +100,9 @@ class AddTask extends Component {
                   dateInput: {
                     marginLeft: 36,
                   },
-                  backgroundColor: 'black',
                 }}
                 iconComponent=<Ionicons name="ios-calendar" size={30} color="white" />
                 onDateChange={date => this.setState({ taskDeadline: date })}
-              />
-              <FormInput
-                containerStyle={Style.fieldContainerSecondary}
-                inputStyle={Style.fieldTextSecondary}
-                onChangeText={text => this.setState({ child: text })}
-                value={this.state.child}
-                placeholder="Select Child"
               />
               <RNPickerSelect
                 placeholder={{
@@ -122,6 +115,7 @@ class AddTask extends Component {
                     child: value,
                   });
                 }}
+                style={{ ...pickerSelectStyles }}
                 value={this.state.child}
               />
               <FormInput
@@ -155,6 +149,21 @@ class AddTask extends Component {
     );
   }
 }
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: fonts.md,
+    paddingTop: 10,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    width: 300,
+    marginLeft: 40,
+    fontFamily: fonts.secondary,
+  },
+});
 
 
 export default AddTask;
