@@ -20,6 +20,7 @@ const Style = StyleSheet.create({
     width: dimensions.fullWidth,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'column',
   },
 
   headerText: {
@@ -80,6 +81,7 @@ const Style = StyleSheet.create({
   fieldContainer: {
     borderBottomWidth: 1,
     flex: 0,
+    margin: 25,
     borderColor: 'rgb(176, 176, 176)',
     color: 'white',
   },
