@@ -4,8 +4,7 @@ import {
 } from 'react-navigation';
 // import { View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-// import MenuIcon from '@material-ui/icons/Menu';
-// import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
+// import colors from '../styling/base';
 
 // import Ionicons from 'react-native-vector-icons/FontAwesome';
 import Home from '../components/tabs/home';
@@ -36,7 +35,7 @@ import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 const MainTabBar = createBottomTabNavigator({
   Home,
   Payments,
-  AddTask,
+  'Add Task': AddTask,
   Profile,
 },
 {
@@ -45,13 +44,13 @@ const MainTabBar = createBottomTabNavigator({
       const { routeName } = navigation.state;
       let iconName;
       if (routeName === 'Home') {
-        iconName = `ios-home${focused ? '' : '-outline'}`;
+        iconName = `ios-home${focused ? '' : ''}`;
       } else if (routeName === 'Payments') {
-        iconName = `ios-card${focused ? '' : '-outline'}`;
-      } else if (routeName === 'AddTask') {
-        iconName = `ios-add-circle${focused ? '' : '-outline'}`;
+        iconName = `ios-card${focused ? '' : ''}`;
+      } else if (routeName === 'Add Task') {
+        iconName = `ios-add-circle${focused ? '' : ''}`;
       } else if (routeName === 'Profile') {
-        iconName = `ios-person${focused ? '' : '-outline'}`;
+        iconName = `ios-person${focused ? '' : ''}`;
       }
 
       // You can return any component that you like here! We usually use an
@@ -60,8 +59,11 @@ const MainTabBar = createBottomTabNavigator({
     },
   }),
   tabBarOptions: {
-    activeTintColor: 'blue',
-    inactiveTintColor: 'gray',
+    activeTintColor: '#3de594',
+    inactiveTintColor: 'white',
+    style: {
+      backgroundColor: 'rgba(1, 6, 3, 0.76)',
+    },
   },
 },
 {
