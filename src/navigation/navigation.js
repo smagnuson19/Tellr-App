@@ -13,8 +13,9 @@ import Payments from '../components/tabs/payments';
 import AddTask from '../components/tabs/addTask';
 import Profile from '../components/tabs/profile';
 import Login from '../components/login';
+import SignUp from '../components/signup/signUp';
 
-import SignUpFirstDialouge from '../components/signup/ageselector';
+import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 
 
 // const PaymentsTab = (props) => {
@@ -67,10 +68,23 @@ const MainTabBar = createBottomTabNavigator({
   initialRouteName: 'Home',
 });
 
+const SignUpDialouge = createStackNavigator({
+  SignUpFirstDialouge: { screen: SignUpFirstDialouge },
+  SignUp: { screen: SignUp },
+
+},
+{
+  initialRouteName: 'SignUpFirstDialouge',
+  headerBackTitleVisible: 'True',
+  navigationOptions: () => ({
+    headerTransparent: 'True',
+  }),
+});
+
 
 const RootStack = createStackNavigator(
   {
-    SignUpFirstDialouge: { screen: SignUpFirstDialouge },
+    SignUp: { screen: SignUpDialouge },
     MainTabBar: {
       screen: MainTabBar,
       navigationOptions: () => ({
@@ -86,6 +100,11 @@ const RootStack = createStackNavigator(
   },
   {
     initialRouteName: 'Login',
+    headerBackTitleVisible: 'True',
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+
   },
 );
 
