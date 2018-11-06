@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {
+  View, Text, StyleSheet, TouchableOpacity,
+} from 'react-native';
 import axios from 'axios';
+import LinearGradient from 'react-native-linear-gradient';
+// import { Button } from 'react-native-elements';
 import Style from '../../styling/Style';
+import KeyPad from './keypad';
+import { dimensions } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
 const API_KEY = '';
@@ -10,7 +16,10 @@ class Payments extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      persons: [],
+      familyMembers: [],
+      selectedFamilyMember: '',
+      accountSelected: '',
+      amount: 0,
     };
   }
 
@@ -20,56 +29,56 @@ class Payments extends Component {
 
   fetchNames() {
     return axios.get(`${ROOT_URL}/${API_KEY}`).then((response) => {
-      console.log('Hello');
       const payload = response.data;
       console.log(payload);
-      this.setState({ persons: payload });
+      this.setState({ familyMembers: payload });
     }).catch((error) => {
-      console.log('ERROR in ');
+      console.log('ERROR');
     });
   }
 
   render() {
     return (
       <View style={Style.rootContainer}>
-        <View style={Style.displayContainer}>
-          <Text style={Style.displayText}>Payments </Text>
-        </View>
-        <View style={Style.inputContainer}>
-          <Text style={styles.welcome}>payments tab</Text>
-        </View>
-        <View style={Style.inputContainer}>
-          { this.state.persons.map(person => (
-            <Text style={styles.welcome}>
-              {' '}
-              {person.name}
-              {' '}
-            </Text>
-          ))}
-        </View>
+        <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
+          <View style={Style.contentWrapper}>
 
+            <View style={pageStyle.upperContainer}>
+              <View style={pageStyle.selectorsContainer}>
+                <Text> Selector Containers will go here </Text>
+              </View>
+
+              <View style={pageStyle.amountContainer}>
+                <Text> $ </Text>
+                <Text style={pageStyle.amountStyle}>
+                  {' '}
+                  {this.state.amount}
+                  {' '}
+                </Text>
+              </View>
+            </View>
+            <KeyPad />
+          </View>
+        </LinearGradient>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+const pageStyle = StyleSheet.create({
+  upperContainer: {
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  selectorsContainer: {
+
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  amountContainer: {
+    flexDirection: 'row',
   },
+
+  amountStyle: {
+
+  },
+
 });
 
 
