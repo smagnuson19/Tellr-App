@@ -13,8 +13,7 @@ import Payments from '../components/tabs/payments';
 import AddTask from '../components/tabs/addTask';
 import Profile from '../components/tabs/profile';
 import Login from '../components/login';
-import ChildSignUp from '../components/signup/childSignUp';
-import ParentSignUp from '../components/signup/parentSignUp';
+import SignUp from '../components/signup/signUp';
 
 import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 
@@ -71,8 +70,7 @@ const MainTabBar = createBottomTabNavigator({
 
 const SignUpDialouge = createStackNavigator({
   SignUpFirstDialouge: { screen: SignUpFirstDialouge },
-  ChildSignUp: { screen: ChildSignUp },
-  ParentSignUp: { screen: ParentSignUp },
+  SignUp: { screen: SignUp },
 
 },
 {

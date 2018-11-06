@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  StyleSheet,
 } from 'react-native';
 import axios from 'axios';
 import {
@@ -14,7 +15,7 @@ import Style from '../../styling/Style';
 const ROOT_URL = 'http://localhost:5000/api';
 // const API_KEY = '';
 
-class ParentSignUp extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,19 +54,45 @@ class ParentSignUp extends Component {
     this.props.navigation.dispatch(resetAction);
   }
 
+  displayAdditionalFields(userType) {
+    if (userType === 'child') {
+      return (<View />);
+    } else {
+      return (
+        <FormInput
+          inputStyle={Style.fieldText}
+          containerStyle={Style.fieldContainer}
+          onChangeText={text => this.setState({ familySize: text })}
+          value={this.state.familySize}
+          placeholder="Family Size"
+          placeholderTextColor="rgb(232, 232, 232)"
+          spellCheck="false"
+          returnKeyType="next"
+          keyboardType="number-pad"
+        />
+      );
+    }
+  }
+
   render() {
+    const { navigation } = this.props;
+    const userType = navigation.getParam('userType');
+
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
-          <View style={Style.displayContainer}>
+          <View style={Style.contentWrapper}>
             <Text style={Style.headerText}>Create Account </Text>
-            <View style={Style.inputContainer}>
+            <View style={pageStyle.inputContainer}>
               <FormInput
                 containerStyle={Style.fieldContainer}
                 onChangeText={text => this.setState({ firstName: text })}
                 value={this.state.firstName}
                 placeholder="First Name"
                 inputStyle={Style.fieldText}
+                placeholderTextColor="rgb(232, 232, 232)"
+                spellCheck="false"
+                returnKeyType="next"
               />
               <FormInput
                 inputStyle={Style.fieldText}
@@ -73,6 +100,9 @@ class ParentSignUp extends Component {
                 onChangeText={text => this.setState({ lastName: text })}
                 value={this.state.lastName}
                 placeholder="Last Name"
+                placeholderTextColor="rgb(232, 232, 232)"
+                spellCheck="false"
+                returnKeyType="next"
               />
               <FormInput
                 inputStyle={Style.fieldText}
@@ -80,33 +110,35 @@ class ParentSignUp extends Component {
                 onChangeText={text => this.setState({ email: text })}
                 value={this.state.email}
                 placeholder="Email Address"
+                keyboardType="email-address"
+                placeholderTextColor="rgb(232, 232, 232)"
+                spellCheck="false"
+                returnKeyType="next"
               />
               <FormInput
                 inputStyle={Style.fieldText}
                 containerStyle={Style.fieldContainer}
                 onChangeText={text => this.setState({ password: text })}
                 value={this.state.password}
-                placeholder="Family Size"
+                placeholder="Set Password"
+                placeholderTextColor="rgb(232, 232, 232)"
+                spellCheck="false"
+                returnKeyType="next"
               />
-              <FormInput
-                inputStyle={Style.fieldText}
-                containerStyle={Style.fieldContainer}
-                onChangeText={text => this.setState({ familySize: text })}
-                value={this.state.familySize}
-                placeholder="Reward: $0.00"
+
+              {this.displayAdditionalFields(userType)}
+
+            </View>
+            <View style={pageStyle.buttonContainer}>
+              <Button
+                large
+                raised
+                rounded
+                title="Get Started"
+                backgroundColor="#3de594"
+                onPress={() => this.createAccount()}
+                style={Style.button}
               />
-              <View style={Style.buttonContainer}>
-                <Button
-                  large
-                  raised
-                  rounded
-                  title="Get Started"
-                  onPress={() => this.createAccount()}
-                  backgroundColor="#3de594"
-                  accessibilityLabel="enter email"
-                  style={Style.button}
-                />
-              </View>
             </View>
           </View>
         </LinearGradient>
@@ -116,5 +148,24 @@ class ParentSignUp extends Component {
   }
 }
 
+const pageStyle = StyleSheet.create({
+  inputContainer: {
+    flex: 1,
+    marginTop: 15,
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    flex: 0,
+    margin: 20,
+    width: '80%',
+    flexDirection: 'column',
+    justifyContent: 'center',
 
-export default ParentSignUp;
+  },
+
+});
+
+
+export default SignUp;
