@@ -93,7 +93,7 @@ class Login extends Component {
                 title="LOG IN"
                 backgroundColor="#3de594"
                 accessibilityLabel="enter email"
-                style={Style.buttonLogin}
+                style={Style.button}
               />
               <Button
                 large
@@ -102,7 +102,7 @@ class Login extends Component {
                 title="CREATE ACCOUNT"
                 backgroundColor="#3de594"
                 onPress={() => this.props.navigation.navigate('SignUpFirstDialouge')}
-                style={Style.buttonLogin}
+                style={Style.button}
               />
             </View>
           </View>
