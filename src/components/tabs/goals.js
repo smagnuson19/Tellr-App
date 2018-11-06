@@ -10,6 +10,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
+// import newGoal from '../newGoal';
 
 const ROOT_URL = 'http://localhost:5000/api';
 
@@ -92,14 +93,8 @@ class Goals extends Component {
             placeholder="Reward: $0.00"
           />
           <Button
-            title="Publish!"
-            rounded
-            large
-            buttonStyle={{
-              backgroundColor: 'rgba(92, 99,216, 1)',
-              width: '50%',
-            }}
-            onPress={() => this.submitgoals()}
+            onPress={() => NavigationActions.navigate('../newGoal')}
+            title="New Goal"
           />
         </LinearGradient>
       </View>
