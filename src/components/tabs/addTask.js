@@ -7,6 +7,8 @@ import axios from 'axios';
 import {
   Button, FormInput,
 } from 'react-native-elements';
+import DatePicker from 'react-native-datepicker';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
@@ -67,11 +69,22 @@ class AddTask extends Component {
             placeholder="Task Name"
             style={Style.fieldInput}
           />
-          <FormInput
-            containerStyle={{ width: '60%' }}
-            onChangeText={text => this.setState({ taskDeadline: text })}
-            value={this.state.taskDeadline}
+          <DatePicker
+            style={{ width: 270 }}
+            date={this.state.taskDeadline}
+            mode="datetime"
             placeholder="Task Deadline"
+            format="MMMM Do YYYY, h:mma"
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            customStyles={{
+              // dateInput: {
+              //   marginLeft: 36,
+              // },
+            }}
+            iconComponent=<Ionicons name="ios-calendar" size={30} color="white" />
+            onDateChange={date => this.setState({ taskDeadline: date })}
+            // value={this.state.taskDeadline}
           />
           <FormInput
             containerStyle={{ width: '60%' }}
