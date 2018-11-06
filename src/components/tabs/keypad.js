@@ -15,7 +15,7 @@ class KeyPad extends Component {
   }
 
   buttonPress(item) {
-    // call listed parent function here
+    this.props.onPress(item);
   }
 
   renderNumber() {
@@ -52,25 +52,25 @@ class KeyPad extends Component {
 
 const pageStyle = StyleSheet.create({
   numberPadContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 12,
     paddingTop: 10,
     paddingBottom: 10,
     alignItems: 'center',
   },
   numberButtonContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    justifyContent: 'center',
     flexWrap: 'wrap',
   },
 
   numberButton: {
     alignItems: 'center',
     paddingBottom: 15,
-    paddingHorizontal: 20,
+    paddingHorizontal: 33,
   },
 
   number: {
-    alignItems: 'center',
     fontFamily: fonts.secondary,
     textAlign: 'center',
     color: colors.secondary,

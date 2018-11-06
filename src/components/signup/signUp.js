@@ -12,7 +12,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 
-const ROOT_URL = 'http://localhost:5000/api';
+const ROOT_URL = 'http://localhost:5000/api/users';
 // const API_KEY = '';
 
 class SignUp extends Component {
