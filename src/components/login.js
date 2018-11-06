@@ -9,7 +9,7 @@ import { FormInput, Button } from 'react-native-elements';
 
 import Style from '../styling/Style';
 
-const ROOT_URL = 'http://localhost:5000/api';
+const ROOT_URL = 'http://localhost:5000/api/';
 
 class Login extends Component {
   constructor(props) {
@@ -29,7 +29,9 @@ class Login extends Component {
       password: this.state.password,
     };
 
-    axios.post(`${ROOT_URL}`, { loginInfo })
+    // take information
+    // /api/<email>/credentials/<password>
+    axios.post(`${ROOT_URL}/${this.state.email}/credentials/${this.state.password}`, { loginInfo })
       .then((response) => {
         console.log(response.data);
       });
