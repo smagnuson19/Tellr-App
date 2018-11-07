@@ -4,7 +4,7 @@ import {
 } from 'react-navigation';
 // import { View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-// import colors from '../styling/base';
+import { colors, fonts } from '../styling/base';
 
 // import Ionicons from 'react-native-vector-icons/FontAwesome';
 import Home from '../components/tabs/home';
@@ -63,10 +63,11 @@ const MainTabBar = createBottomTabNavigator({
     },
   }),
   tabBarOptions: {
-    activeTintColor: '#3de594',
+    activeTintColor: colors.primary,
     inactiveTintColor: 'white',
     style: {
-      backgroundColor: 'rgba(1, 6, 3, 0.76)',
+      backgroundColor: colors.linearGradientBottom,
+      fontFamily: fonts.secondary,
     },
   },
 },

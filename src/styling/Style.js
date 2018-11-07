@@ -29,8 +29,8 @@ const Style = StyleSheet.create({
     textAlign: 'center',
     fontFamily: fonts.secondary,
     fontSize: fonts.lg,
-    color: 'white',
-    marginTop: 100,
+    color: colors.primary,
+    marginTop: 50,
   },
 
   headerImage: {
@@ -94,6 +94,23 @@ const Style = StyleSheet.create({
     fontSize: fonts.md,
   },
 
+  fieldContainerSecondary: {
+    borderBottomWidth: 1,
+    flex: 0,
+    margin: 25,
+    borderColor: 'rgb(176, 176, 176)',
+    color: 'white',
+    width: '40%',
+  },
+
+  // Style for a FormInput
+  fieldTextSecondary: {
+    color: 'white',
+    fontFamily: fonts.secondary,
+    textAlign: 'left',
+    fontSize: fonts.md,
+    marginLeft: 25,
+  },
 
   container: {
     flex: 1,
