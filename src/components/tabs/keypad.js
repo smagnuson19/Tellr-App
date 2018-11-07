@@ -25,7 +25,7 @@ class KeyPad extends Component {
         { items.map((itemKey) => {
           return (
             <TouchableOpacity style={pageStyle.numberButton}
-              onPress={this.buttonPress(itemKey)}
+              onPress={() => this.buttonPress(itemKey)}
             >
               <Text style={pageStyle.number}>
                 {' '}
@@ -43,7 +43,6 @@ class KeyPad extends Component {
   render() {
     return (
       <View style={pageStyle.numberPadContainer}>
-        <Text> HELLOOO </Text>
         {this.renderNumber()}
       </View>
     );
@@ -52,6 +51,7 @@ class KeyPad extends Component {
 
 const pageStyle = StyleSheet.create({
   numberPadContainer: {
+    flex: 1,
     paddingHorizontal: 12,
     paddingTop: 10,
     paddingBottom: 10,
