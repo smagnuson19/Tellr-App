@@ -30,6 +30,15 @@ class AddTask extends Component {
   }
 
   submitTask() {
+    // So that you are unable to navigate back to login page once logged in.
+    const resetAction = StackActions.reset({
+      index: 0, // <-- currect active route from actions array
+      key: null,
+      actions: [
+        NavigationActions.navigate({ routeName: 'MainTabBar' }),
+      ],
+    });
+
     const payLoad = {
       taskName: this.state.taskName,
       taskDeadline: this.state.taskDeadline,
@@ -41,18 +50,8 @@ class AddTask extends Component {
     axios.post(`${ROOT_URL}`, { payLoad })
       .then((response) => {
         console.log(response.data);
+        this.props.navigation.dispatch(resetAction);
       });
-
-    // So that you are unable to navigate back to login page once logged in.
-    const resetAction = StackActions.reset({
-      index: 0, // <-- currect active route from actions array
-      key: null,
-      actions: [
-        NavigationActions.navigate({ routeName: 'MainTabBar' }),
-      ],
-    });
-
-    this.props.navigation.dispatch(resetAction);
   }
 
   render() {
