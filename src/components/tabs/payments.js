@@ -7,9 +7,10 @@ import LinearGradient from 'react-native-linear-gradient';
 // import { Button } from 'react-native-elements';
 import { Button } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
+import RNPickerSelect from 'react-native-picker-select';
 import Style from '../../styling/Style';
 import KeyPad from './keypad';
-import { fonts } from '../../styling/base';
+import { fonts, colors } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api/';
 const API_KEY = '';
@@ -18,10 +19,23 @@ class Payments extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // familyMembers: [],
-      // selectedFamilyMember: '',
+      selectedFamilyMember: [],
       // accountSelected: '',
       amount: '0',
+      familyMembers: [
+        {
+          label: 'Child 1',
+          value: 'child 1',
+        },
+        {
+          label: 'Child 2',
+          value: 'child 2',
+        },
+        {
+          label: 'Child 3',
+          value: 'child 3',
+        },
+      ],
     };
     this.aButtonPress = this.aButtonPress.bind(this);
   }
@@ -37,6 +51,9 @@ class Payments extends Component {
     // nothing is there
     if (updatedAmount === '0') {
       updatedAmount = '';
+    }
+    if (updatedAmount.length === '5') {
+      return { amount: updatedAmount };
     }
     if (item === '<') {
       if (updatedAmount !== '') {
@@ -75,7 +92,7 @@ class Payments extends Component {
     // Describing what should be sent
     const payLoad = {
       increment: this.state.amount,
-      email: 'Placeholder',
+      email: this.state.selectedFamilyMember.email,
     };
 
     axios.post(`${ROOT_URL}/balance`, { payLoad })
@@ -103,6 +120,28 @@ class Payments extends Component {
     });
   }
 
+  selectorsContainer() {
+    return (
+
+      <View style={pageStyle.selectorsContainer}>
+        <RNPickerSelect
+          placeholder={{
+            label: 'Select Family Member',
+            value: null,
+          }}
+          items={this.state.familyMembers}
+          onValueChange={(value) => {
+            this.setState({
+              selectedFamilyMember: value,
+            });
+          }}
+          style={{ ...pickerSelectStyles }}
+          value={this.state.selectedFamilyMember}
+        />
+      </View>
+    );
+  }
+
   render() {
     return (
       <View style={Style.rootContainer}>
@@ -110,9 +149,7 @@ class Payments extends Component {
           <View style={Style.contentWrapper}>
 
             <View style={pageStyle.upperContainer}>
-              <View style={pageStyle.selectorsContainer}>
-                <Text> Selector Containers will go here </Text>
-              </View>
+              {this.selectorsContainer()}
 
               <View style={pageStyle.amountContainer}>
                 <Text style={pageStyle.dollarSign}> $ </Text>
@@ -150,9 +187,13 @@ const pageStyle = StyleSheet.create({
     flex: 1,
   },
   selectorsContainer: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
 
   },
   amountContainer: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
   },
@@ -178,6 +219,20 @@ const pageStyle = StyleSheet.create({
     width: '100%',
   },
 
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: fonts.md,
+    paddingTop: 10,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    width: 300,
+    fontFamily: fonts.secondary,
+    textAlign: 'center',
+  },
 });
 
 
