@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  StyleSheet,
 } from 'react-native';
 import axios from 'axios';
 import {
   Button, FormInput,
 } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
+import RNPickerSelect from 'react-native-picker-select';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
+import { colors, fonts } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
 
@@ -26,6 +29,20 @@ class AddTask extends Component {
       child: '',
       taskDescription: '',
       reward: '',
+      items: [
+        {
+          label: 'Child 1',
+          value: 'child 1',
+        },
+        {
+          label: 'Child 2',
+          value: 'child 2',
+        },
+        {
+          label: 'Child 3',
+          value: 'child 3',
+        },
+      ],
     };
   }
 
@@ -58,66 +75,94 @@ class AddTask extends Component {
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
-          <View style={Style.displayContainer}>
-            <Text style={Style.displayText}>New Task </Text>
+          <View style={Style.contentWrapper}>
+            <View style={Style.headerText}>
+              <Text style={Style.headerText}>New Task </Text>
+            </View>
+            <View style={Style.inputContainer}>
+              <FormInput
+                containerStyle={Style.fieldContainerSecondary}
+                inputStyle={Style.fieldTextSecondary}
+                onChangeText={text => this.setState({ taskName: text })}
+                value={this.state.taskName}
+                placeholder="Task Name"
+              />
+              <DatePicker
+                style={{ width: 270 }}
+                date={this.state.taskDeadline}
+                mode="datetime"
+                placeholder="Task Deadline"
+                format="MMMM Do YYYY, h:mma"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                customStyles={{
+                  dateInput: {
+                    marginLeft: 36,
+                  },
+                }}
+                iconComponent=<Ionicons name="ios-calendar" size={30} color="white" />
+                onDateChange={date => this.setState({ taskDeadline: date })}
+              />
+              <RNPickerSelect
+                placeholder={{
+                  label: 'Select Child',
+                  value: null,
+                }}
+                items={this.state.items}
+                onValueChange={(value) => {
+                  this.setState({
+                    child: value,
+                  });
+                }}
+                style={{ ...pickerSelectStyles }}
+                value={this.state.child}
+              />
+              <FormInput
+                containerStyle={Style.fieldContainerSecondary}
+                inputStyle={Style.fieldTextSecondary}
+                onChangeText={text => this.setState({ taskDescription: text })}
+                value={this.state.taskDescription}
+                placeholder="Task Description..."
+              />
+              <FormInput
+                containerStyle={Style.fieldContainerSecondary}
+                inputStyle={Style.fieldTextSecondary}
+                onChangeText={text => this.setState({ reward: text })}
+                value={this.state.reward}
+                placeholder="Reward: $0.00"
+              />
+            </View>
+            <View style={Style.buttonContainer}>
+              <Button
+                title="Publish!"
+                rounded
+                large
+                style={Style.button}
+                backgroundColor={colors.secondary}
+                onPress={() => this.submitTask()}
+              />
+            </View>
           </View>
-          <FormInput
-            containerStyle={{ width: '60%' }}
-            onChangeText={text => this.setState({ taskName: text })}
-            value={this.state.taskName}
-            placeholder="Task Name"
-            style={Style.fieldInput}
-          />
-          <DatePicker
-            style={{ width: 270 }}
-            date={this.state.taskDeadline}
-            mode="datetime"
-            placeholder="Task Deadline"
-            format="MMMM Do YYYY, h:mma"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={{
-              // dateInput: {
-              //   marginLeft: 36,
-              // },
-            }}
-            iconComponent=<Ionicons name="ios-calendar" size={30} color="white" />
-            onDateChange={date => this.setState({ taskDeadline: date })}
-            // value={this.state.taskDeadline}
-          />
-          <FormInput
-            containerStyle={{ width: '60%' }}
-            onChangeText={text => this.setState({ child: text })}
-            value={this.state.child}
-            placeholder="Select Child"
-          />
-          <FormInput
-            containerStyle={{ width: '90%' }}
-            onChangeText={text => this.setState({ taskDescription: text })}
-            value={this.state.taskDescription}
-            placeholder="Task Description..."
-          />
-          <FormInput
-            containerStyle={{ width: '60%' }}
-            onChangeText={text => this.setState({ reward: text })}
-            value={this.state.reward}
-            placeholder="Reward: $0.00"
-          />
-          <Button
-            title="Publish!"
-            rounded
-            large
-            buttonStyle={{
-              backgroundColor: 'rgba(92, 99,216, 1)',
-              width: '50%',
-            }}
-            onPress={() => this.submitTask()}
-          />
         </LinearGradient>
       </View>
     );
   }
 }
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: fonts.md,
+    paddingTop: 10,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    width: 300,
+    marginLeft: 40,
+    fontFamily: fonts.secondary,
+  },
+});
 
 
 export default AddTask;
