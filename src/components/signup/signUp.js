@@ -12,7 +12,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 
-const ROOT_URL = 'http://localhost:5000/api';
+const ROOT_URL = 'http://localhost:5000/api/users';
 // const API_KEY = '';
 
 class SignUp extends Component {
@@ -23,25 +23,11 @@ class SignUp extends Component {
       lastName: '',
       email: '',
       password: '',
-      familySize: '',
+      familyName: '',
     };
   }
 
   createAccount() {
-    const payLoad = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      password: this.state.password,
-      familySize: this.state.familySize,
-      accountType: 'Parent',
-    };
-
-    axios.post(`${ROOT_URL}`, { payLoad })
-      .then((response) => {
-        console.log(response.data);
-      });
-
     // So that you are unable to navigate back to login page once logged in.
     const resetAction = StackActions.reset({
       index: 0, // <-- currect active route from actions array
@@ -51,7 +37,21 @@ class SignUp extends Component {
       ],
     });
 
-    this.props.navigation.dispatch(resetAction);
+    // Describing what will be sent
+    const payLoad = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      password: this.state.password,
+      familyName: this.state.familyName,
+      accountType: 'Parent',
+    };
+
+    axios.post(`${ROOT_URL}`, { payLoad })
+      .then((response) => {
+        console.log(response.data);
+        this.props.navigation.dispatch(resetAction);
+      });
   }
 
   displayAdditionalFields(userType) {
@@ -62,9 +62,9 @@ class SignUp extends Component {
         <FormInput
           inputStyle={Style.fieldText}
           containerStyle={Style.fieldContainer}
-          onChangeText={text => this.setState({ familySize: text })}
-          value={this.state.familySize}
-          placeholder="Family Size"
+          onChangeText={text => this.setState({ familyName: text })}
+          value={this.state.familyName}
+          placeholder="Family Name"
           placeholderTextColor="rgb(232, 232, 232)"
           spellCheck="false"
           returnKeyType="next"

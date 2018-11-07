@@ -4,7 +4,7 @@ import axios from 'axios';
 // import Login from './login';
 import Style from '../../styling/Style';
 
-const ROOT_URL = 'http://localhost:5000/api';
+const ROOT_URL = 'http://localhost:5000/api/';
 const API_KEY = '';
 
 class Home extends Component {
