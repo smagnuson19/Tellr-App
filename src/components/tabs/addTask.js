@@ -88,7 +88,7 @@ class AddTask extends Component {
                 placeholder="Task Name"
               />
               <DatePicker
-                style={{ width: 270 }}
+                style={{ ...taskDeadlineStyles.style }}
                 date={this.state.taskDeadline}
                 mode="datetime"
                 placeholder="Task Deadline"
@@ -156,13 +156,22 @@ const pickerSelectStyles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingBottom: 10,
     borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 4,
+    borderColor: 'white',
     width: 300,
     marginLeft: 40,
     fontFamily: fonts.secondary,
+    alignSelf: 'flex-start',
   },
 });
 
+const taskDeadlineStyles = StyleSheet.create({
+  style: {
+    width: 340,
+    alignSelf: 'flex-start',
+    paddingBottom: 30,
+    marginLeft: 4,
+    fontFamily: fonts.secondary,
+  },
+});
 
 export default AddTask;
