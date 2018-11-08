@@ -18,7 +18,8 @@ import { colors, fonts } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
 
-// const API_KEY = '';
+const API_KEY_TASKS = '';
+const API_KEY_USERS = '';
 
 class AddTask extends Component {
   constructor(props) {
@@ -26,10 +27,11 @@ class AddTask extends Component {
     this.state = {
       taskName: '',
       taskDeadline: '',
-      child: '',
+      childEmail: '',
       taskDescription: '',
       reward: '',
-      items: [
+      // familyName: '',
+      children: [
         {
           label: 'Child 1',
           value: 'child 1',
@@ -46,6 +48,23 @@ class AddTask extends Component {
     };
   }
 
+  componentDidMount() {
+    this.fetchNames();
+  }
+
+  fetchNames() {
+    return axios.get(`${ROOT_URL}/${API_KEY_USERS}`).then((response) => {
+      const childList = response.data;
+      console.log(childList);
+      Object.keys(childList).forEach((key) => {
+        console.log(key, childList[key]);
+      });
+      // this.setState({ children: childList });
+    }).catch((error) => {
+      console.log('ERROR in Home');
+    });
+  }
+
   submitTask() {
     // So that you are unable to navigate back to login page once logged in.
     const resetAction = StackActions.reset({
@@ -59,12 +78,13 @@ class AddTask extends Component {
     const payLoad = {
       taskName: this.state.taskName,
       taskDeadline: this.state.taskDeadline,
-      child: this.state.child,
+      childEmail: this.state.childEmail,
       taskDescription: this.state.taskDescription,
       reward: this.state.reward,
+      // familyName: this.state.familyName,
     };
 
-    axios.post(`${ROOT_URL}`, { payLoad })
+    axios.post(`${ROOT_URL}/${API_KEY_TASKS}`, { payLoad })
       .then((response) => {
         console.log(response.data);
         this.props.navigation.dispatch(resetAction);
@@ -74,7 +94,7 @@ class AddTask extends Component {
   render() {
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
+        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
             <View style={Style.headerText}>
               <Text style={Style.headerText}>New Task </Text>
@@ -86,6 +106,7 @@ class AddTask extends Component {
                 onChangeText={text => this.setState({ taskName: text })}
                 value={this.state.taskName}
                 placeholder="Task Name"
+                placeholderTextColor={colors.placeholderColor}
               />
               <DatePicker
                 style={{ ...taskDeadlineStyles.style }}
@@ -96,8 +117,28 @@ class AddTask extends Component {
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 customStyles={{
+                  dateText: {
+                    color: 'white',
+                    fontFamily: fonts.secondary,
+                    textAlign: 'left',
+                    fontSize: fonts.md,
+                  },
+                  placeholderText: {
+                    fontFamily: fonts.secondary,
+                    color: colors.placeholderColor,
+                    textAlign: 'left',
+                    fontSize: fonts.md,
+                  },
+                  btnTextConfirm: {
+                    fontFamily: fonts.secondary,
+                    color: colors.secondary,
+                  },
+                  btnTextCancel: {
+                    fontFamily: fonts.secondary,
+                    color: colors.secondary,
+                  },
                   dateInput: {
-                    marginLeft: 36,
+                    textAlign: 'left',
                   },
                 }}
                 iconComponent=<Ionicons name="ios-calendar" size={30} color="white" />
@@ -107,15 +148,16 @@ class AddTask extends Component {
                 placeholder={{
                   label: 'Select Child',
                   value: null,
+                  color: fonts.placeholderColor,
                 }}
-                items={this.state.items}
+                items={this.state.children}
                 onValueChange={(value) => {
                   this.setState({
-                    child: value,
+                    childEmail: value,
                   });
                 }}
                 style={{ ...pickerSelectStyles }}
-                value={this.state.child}
+                value={this.state.childEmail}
               />
               <FormInput
                 containerStyle={Style.fieldContainerSecondary}
@@ -123,6 +165,7 @@ class AddTask extends Component {
                 onChangeText={text => this.setState({ taskDescription: text })}
                 value={this.state.taskDescription}
                 placeholder="Task Description..."
+                placeholderTextColor={colors.placeholderColor}
               />
               <FormInput
                 containerStyle={Style.fieldContainerSecondary}
@@ -130,6 +173,7 @@ class AddTask extends Component {
                 onChangeText={text => this.setState({ reward: text })}
                 value={this.state.reward}
                 placeholder="Reward: $0.00"
+                placeholderTextColor={colors.placeholderColor}
               />
             </View>
             <View style={Style.buttonContainer}>
@@ -152,13 +196,15 @@ class AddTask extends Component {
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: fonts.md,
+    margin: 40,
     paddingTop: 10,
     paddingHorizontal: 10,
     paddingBottom: 10,
     borderWidth: 1,
     borderColor: 'white',
-    width: 300,
+    width: 320,
     marginLeft: 40,
+    marginTop: 15,
     fontFamily: fonts.secondary,
     alignSelf: 'flex-start',
   },
@@ -166,11 +212,13 @@ const pickerSelectStyles = StyleSheet.create({
 
 const taskDeadlineStyles = StyleSheet.create({
   style: {
-    width: 340,
+    width: 345,
+    margin: 40,
     alignSelf: 'flex-start',
     paddingBottom: 30,
-    marginLeft: 4,
+    marginLeft: 40,
     fontFamily: fonts.secondary,
+    textAlign: 'left',
   },
 });
 

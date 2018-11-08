@@ -28,9 +28,10 @@ const Style = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     fontFamily: fonts.secondary,
-    fontSize: fonts.lg,
+    fontSize: fonts.xlg,
     color: colors.primary,
     marginTop: 50,
+    margin: 40,
   },
 
   headerImage: {
@@ -97,7 +98,7 @@ const Style = StyleSheet.create({
   fieldContainerSecondary: {
     borderBottomWidth: 1,
     flex: 0,
-    margin: 25,
+    margin: 40,
     borderColor: 'rgb(176, 176, 176)',
     color: 'white',
     width: '40%',
