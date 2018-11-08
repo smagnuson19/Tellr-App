@@ -97,9 +97,6 @@ class AddTask extends Component {
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 customStyles={{
-                  dateInput: {
-                    marginLeft: 36,
-                  },
                   dateText: {
                     color: 'white',
                     fontFamily: fonts.secondary,
@@ -111,6 +108,17 @@ class AddTask extends Component {
                     color: colors.placeholderColor,
                     textAlign: 'left',
                     fontSize: fonts.md,
+                  },
+                  btnTextConfirm: {
+                    fontFamily: fonts.secondary,
+                    color: colors.secondary,
+                  },
+                  btnTextCancel: {
+                    fontFamily: fonts.secondary,
+                    color: colors.secondary,
+                  },
+                  dateInput: {
+                    textAlign: 'left',
                   },
                 }}
                 iconComponent=<Ionicons name="ios-calendar" size={30} color="white" />
@@ -168,6 +176,7 @@ class AddTask extends Component {
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: fonts.md,
+    margin: 40,
     paddingTop: 10,
     paddingHorizontal: 10,
     paddingBottom: 10,
@@ -175,6 +184,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'white',
     width: 320,
     marginLeft: 40,
+    marginTop: 15,
     fontFamily: fonts.secondary,
     alignSelf: 'flex-start',
   },
@@ -182,10 +192,11 @@ const pickerSelectStyles = StyleSheet.create({
 
 const taskDeadlineStyles = StyleSheet.create({
   style: {
-    width: 380,
+    width: 345,
+    margin: 40,
     alignSelf: 'flex-start',
     paddingBottom: 30,
-    marginLeft: 4,
+    marginLeft: 40,
     fontFamily: fonts.secondary,
     textAlign: 'left',
   },
