@@ -11,6 +11,7 @@ export const colors = {
   // tertiary: '#5DA6A7',
   linearGradientTop: 'rgba(4, 27, 37, 0.9615)',
   linearGradientBottom: 'rgba(1, 6, 3, 0.76)',
+  placeholderColor: 'grey',
 };
 
 export const fonts = {
