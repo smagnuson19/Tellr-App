@@ -145,7 +145,7 @@ class Payments extends Component {
   render() {
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
+        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
 
             <View style={pageStyle.upperContainer}>

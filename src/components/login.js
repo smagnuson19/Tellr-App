@@ -6,6 +6,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 import { FormInput, Button } from 'react-native-elements';
+import { colors } from '../styling/base';
 
 import Style from '../styling/Style';
 
@@ -24,6 +25,16 @@ class Login extends Component {
   // Don't allow going back once logged in
 
   submitEmail() {
+    const loginInfo = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+
+    axios.post(`${ROOT_URL}`, { loginInfo })
+      .then((response) => {
+        console.log(response.data);
+      });
+
     // So that you are unable to navigate back to login page once logged in.
     const resetAction = StackActions.reset({
       index: 0, // <-- currect active route from actions array
@@ -33,19 +44,7 @@ class Login extends Component {
       ],
     });
 
-
-    const loginInfo = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-
-    // take information
-    // /api/<email>/credentials/<password>
-    axios.post(`${ROOT_URL}/${this.state.email}/credentials/${this.state.password}`, { loginInfo })
-      .then((response) => {
-        console.log(response.data);
-        this.props.navigation.dispatch(resetAction);
-      });
+    this.props.navigation.dispatch(resetAction);
   }
 
 
@@ -54,7 +53,7 @@ class Login extends Component {
     return (
       <View style={Style.rootContainer}>
 
-        <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
+        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
             <Image
               style={Style.headerImage}
@@ -81,7 +80,7 @@ class Login extends Component {
                 value={this.state.password}
                 secureTextEntry="true"
                 placeholderTextColor="rgb(232, 232, 232)"
-                spellCheck="true"
+                spellCheck="false"
                 placeholder="Password..."
                 selectionColor="rgba(255,0,255,0.0)"
               />

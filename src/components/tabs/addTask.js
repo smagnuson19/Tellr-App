@@ -29,7 +29,7 @@ class AddTask extends Component {
       child: '',
       taskDescription: '',
       reward: '',
-      items: [
+      children: [
         {
           label: 'Child 1',
           value: 'child 1',
@@ -74,7 +74,7 @@ class AddTask extends Component {
   render() {
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
+        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
             <View style={Style.headerText}>
               <Text style={Style.headerText}>New Task </Text>
@@ -86,6 +86,7 @@ class AddTask extends Component {
                 onChangeText={text => this.setState({ taskName: text })}
                 value={this.state.taskName}
                 placeholder="Task Name"
+                placeholderTextColor={colors.placeholderColor}
               />
               <DatePicker
                 style={{ ...taskDeadlineStyles.style }}
@@ -99,6 +100,18 @@ class AddTask extends Component {
                   dateInput: {
                     marginLeft: 36,
                   },
+                  dateText: {
+                    color: 'white',
+                    fontFamily: fonts.secondary,
+                    textAlign: 'left',
+                    fontSize: fonts.md,
+                  },
+                  placeholderText: {
+                    fontFamily: fonts.secondary,
+                    color: colors.placeholderColor,
+                    textAlign: 'left',
+                    fontSize: fonts.md,
+                  },
                 }}
                 iconComponent=<Ionicons name="ios-calendar" size={30} color="white" />
                 onDateChange={date => this.setState({ taskDeadline: date })}
@@ -107,8 +120,9 @@ class AddTask extends Component {
                 placeholder={{
                   label: 'Select Child',
                   value: null,
+                  color: fonts.placeholderColor,
                 }}
-                items={this.state.items}
+                items={this.state.children}
                 onValueChange={(value) => {
                   this.setState({
                     child: value,
@@ -123,6 +137,7 @@ class AddTask extends Component {
                 onChangeText={text => this.setState({ taskDescription: text })}
                 value={this.state.taskDescription}
                 placeholder="Task Description..."
+                placeholderTextColor={colors.placeholderColor}
               />
               <FormInput
                 containerStyle={Style.fieldContainerSecondary}
@@ -130,6 +145,7 @@ class AddTask extends Component {
                 onChangeText={text => this.setState({ reward: text })}
                 value={this.state.reward}
                 placeholder="Reward: $0.00"
+                placeholderTextColor={colors.placeholderColor}
               />
             </View>
             <View style={Style.buttonContainer}>
@@ -157,7 +173,7 @@ const pickerSelectStyles = StyleSheet.create({
     paddingBottom: 10,
     borderWidth: 1,
     borderColor: 'white',
-    width: 300,
+    width: 320,
     marginLeft: 40,
     fontFamily: fonts.secondary,
     alignSelf: 'flex-start',
@@ -166,11 +182,12 @@ const pickerSelectStyles = StyleSheet.create({
 
 const taskDeadlineStyles = StyleSheet.create({
   style: {
-    width: 340,
+    width: 380,
     alignSelf: 'flex-start',
     paddingBottom: 30,
     marginLeft: 4,
     fontFamily: fonts.secondary,
+    textAlign: 'left',
   },
 });
 
