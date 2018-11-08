@@ -25,17 +25,6 @@ class Login extends Component {
   // Don't allow going back once logged in
 
   submitEmail() {
-    const loginInfo = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-
-    axios.post(`${ROOT_URL}`, { loginInfo })
-      .then((response) => {
-        console.log(response.data);
-        this.props.navigation.dispatch(resetAction);
-      });
-
     // So that you are unable to navigate back to login page once logged in.
     const resetAction = StackActions.reset({
       index: 0, // <-- currect active route from actions array
@@ -44,6 +33,17 @@ class Login extends Component {
         NavigationActions.navigate({ routeName: 'MainTabBar' }),
       ],
     });
+
+    const loginInfo = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+
+    axios.post(`${ROOT_URL}/${this.state.email}/credentials/${this.state.password}`, { loginInfo })
+      .then((response) => {
+        console.log(response.data);
+        this.props.navigation.dispatch(resetAction);
+      });
   }
 
 
