@@ -11,7 +11,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      persons: [],
+
     };
   }
 
@@ -21,32 +21,35 @@ class Home extends Component {
 
   fetchNames() {
     return axios.get(`${ROOT_URL}/${API_KEY}`).then((response) => {
-      console.log('Hello');
       const payload = response.data;
       console.log(payload);
-      this.setState({ persons: payload });
+      // this.setState({ persons: payload });
     }).catch((error) => {
-      console.log('ERROR in ');
+      console.log('ERROR in Home');
     });
   }
 
   render() {
     return (
       <View style={Style.rootContainer}>
-        <View style={Style.displayContainer}>
-          <Text style={Style.displayText}>Home </Text>
-        </View>
-        <View style={Style.inputContainer}>
-          <Text style={styles.welcome}>This will be the beginning of the Tellr scaffold</Text>
-        </View>
-        <View style={Style.inputContainer}>
-          { this.state.persons.map(person => (
-            <Text style={styles.welcome}>
-              {' '}
-              {person.name}
+        <View style={Style.contentWrapper}>
+          <View style={Style.container}>
+            <Text> images of avatars to see family </Text>
+            <View style={pageStyle.avatarRow}>
+              <Text> Avatar images should go here/letters</Text>
+            </View>
+          </View>
+          <View style={Style.container}>
+            <Text> goals that need to be approved </Text>
+
+          </View>
+          <View style={Style.container}>
+            <Text>
+          chores that are due soon that have not been
+          marked complete
               {' '}
             </Text>
-          ))}
+          </View>
         </View>
 
       </View>
@@ -54,23 +57,15 @@ class Home extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+const pageStyle = StyleSheet.create({
+  avatarRow: {
+
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+
+  avatar: {
+
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+
 });
 
 

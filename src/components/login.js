@@ -9,7 +9,7 @@ import { FormInput, Button } from 'react-native-elements';
 
 import Style from '../styling/Style';
 
-const ROOT_URL = 'http://localhost:5000/api/';
+const ROOT_URL = 'http://localhost:5000/api';
 
 class Login extends Component {
   constructor(props) {
@@ -24,6 +24,16 @@ class Login extends Component {
   // Don't allow going back once logged in
 
   submitEmail() {
+    // So that you are unable to navigate back to login page once logged in.
+    const resetAction = StackActions.reset({
+      index: 0, // <-- currect active route from actions array
+      key: null,
+      actions: [
+        NavigationActions.navigate({ routeName: 'MainTabBar' }),
+      ],
+    });
+
+
     const loginInfo = {
       email: this.state.email,
       password: this.state.password,
@@ -34,18 +44,8 @@ class Login extends Component {
     axios.post(`${ROOT_URL}/${this.state.email}/credentials/${this.state.password}`, { loginInfo })
       .then((response) => {
         console.log(response.data);
+        this.props.navigation.dispatch(resetAction);
       });
-
-    // So that you are unable to navigate back to login page once logged in.
-    const resetAction = StackActions.reset({
-      index: 0, // <-- currect active route from actions array
-      key: null,
-      actions: [
-        NavigationActions.navigate({ routeName: 'MainTabBar' }),
-      ],
-    });
-
-    this.props.navigation.dispatch(resetAction);
   }
 
 
@@ -81,7 +81,7 @@ class Login extends Component {
                 value={this.state.password}
                 secureTextEntry="true"
                 placeholderTextColor="rgb(232, 232, 232)"
-                spellCheck="false"
+                spellCheck="true"
                 placeholder="Password..."
                 selectionColor="rgba(255,0,255,0.0)"
               />

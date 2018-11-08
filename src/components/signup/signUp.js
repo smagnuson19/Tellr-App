@@ -12,7 +12,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 
-const ROOT_URL = 'http://localhost:5000/api/users';
+const ROOT_URL = 'http://localhost:5000/api';
 // const API_KEY = '';
 
 class SignUp extends Component {
@@ -47,7 +47,7 @@ class SignUp extends Component {
       accountType: 'Parent',
     };
 
-    axios.post(`${ROOT_URL}`, { payLoad })
+    axios.post(`${ROOT_URL}/users`, { payLoad })
       .then((response) => {
         console.log(response.data);
         this.props.navigation.dispatch(resetAction);
