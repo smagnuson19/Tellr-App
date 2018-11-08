@@ -33,6 +33,7 @@ class Login extends Component {
     axios.post(`${ROOT_URL}`, { loginInfo })
       .then((response) => {
         console.log(response.data);
+        this.props.navigation.dispatch(resetAction);
       });
 
     // So that you are unable to navigate back to login page once logged in.
@@ -43,8 +44,6 @@ class Login extends Component {
         NavigationActions.navigate({ routeName: 'MainTabBar' }),
       ],
     });
-
-    this.props.navigation.dispatch(resetAction);
   }
 
 

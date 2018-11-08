@@ -18,7 +18,8 @@ import { colors, fonts } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
 
-// const API_KEY = '';
+const API_KEY_TASKS = '';
+const API_KEY_USERS = '';
 
 class AddTask extends Component {
   constructor(props) {
@@ -26,9 +27,10 @@ class AddTask extends Component {
     this.state = {
       taskName: '',
       taskDeadline: '',
-      child: '',
+      childEmail: '',
       taskDescription: '',
       reward: '',
+      // familyName: '',
       children: [
         {
           label: 'Child 1',
@@ -46,6 +48,23 @@ class AddTask extends Component {
     };
   }
 
+  componentDidMount() {
+    this.fetchNames();
+  }
+
+  fetchNames() {
+    return axios.get(`${ROOT_URL}/${API_KEY_USERS}`).then((response) => {
+      const childList = response.data;
+      console.log(childList);
+      Object.keys(childList).forEach((key) => {
+        console.log(key, childList[key]);
+      });
+      // this.setState({ children: childList });
+    }).catch((error) => {
+      console.log('ERROR in Home');
+    });
+  }
+
   submitTask() {
     // So that you are unable to navigate back to login page once logged in.
     const resetAction = StackActions.reset({
@@ -59,12 +78,13 @@ class AddTask extends Component {
     const payLoad = {
       taskName: this.state.taskName,
       taskDeadline: this.state.taskDeadline,
-      child: this.state.child,
+      childEmail: this.state.childEmail,
       taskDescription: this.state.taskDescription,
       reward: this.state.reward,
+      // familyName: this.state.familyName,
     };
 
-    axios.post(`${ROOT_URL}`, { payLoad })
+    axios.post(`${ROOT_URL}/${API_KEY_TASKS}`, { payLoad })
       .then((response) => {
         console.log(response.data);
         this.props.navigation.dispatch(resetAction);
@@ -133,11 +153,11 @@ class AddTask extends Component {
                 items={this.state.children}
                 onValueChange={(value) => {
                   this.setState({
-                    child: value,
+                    childEmail: value,
                   });
                 }}
                 style={{ ...pickerSelectStyles }}
-                value={this.state.child}
+                value={this.state.childEmail}
               />
               <FormInput
                 containerStyle={Style.fieldContainerSecondary}
