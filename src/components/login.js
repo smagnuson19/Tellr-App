@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {
-  View, Button,
+  View, Image,
 } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
-import { FormInput } from 'react-native-elements';
+import { FormInput, Button } from 'react-native-elements';
+
 import Style from '../styling/Style';
 
 const ROOT_URL = 'http://localhost:5000/api';
@@ -38,7 +39,9 @@ class Login extends Component {
       password: this.state.password,
     };
 
-    axios.post(`${ROOT_URL}`, { loginInfo })
+    // take information
+    // /api/<email>/credentials/<password>
+    axios.post(`${ROOT_URL}/${this.state.email}/credentials/${this.state.password}`, { loginInfo })
       .then((response) => {
         console.log(response.data);
         this.props.navigation.dispatch(resetAction);
@@ -47,9 +50,29 @@ class Login extends Component {
 
 
   render() {
+    const img = require('../media/Tellr-Logo.gif');
     return (
       <View style={Style.rootContainer}>
+
         <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
+          <View style={Style.contentWrapper}>
+            <Image
+              style={Style.headerImage}
+              source={img}
+            />
+            <View style={Style.inputContainer}>
+              <FormInput
+                containerStyle={Style.fieldContainer}
+                inputStyle={Style.fieldText}
+                onChangeText={text => this.setState({ email: text })}
+                value={this.state.text}
+                placeholder="Email..."
+                placeholderTextColor="rgb(232, 232, 232)"
+                spellCheck="false"
+                keyboardType="email-address"
+                returnKeyType="next"
+                selectionColor="rgba(255,0,255,0.0)"
+
               />
               <FormInput
                 containerStyle={Style.fieldContainer}
@@ -86,6 +109,7 @@ class Login extends Component {
             </View>
           </View>
         </LinearGradient>
+
       </View>
 
     );
