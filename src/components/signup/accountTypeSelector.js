@@ -18,7 +18,7 @@ class SignUpFirstDialouge extends Component {
               <TouchableOpacity
                 style={Style.buttonGradient}
                 onPress={() => this.props.navigation.navigate('SignUp', {
-                  userType: 'parent',
+                  userType: 'Parent',
                 })
             }
               >
@@ -31,7 +31,7 @@ class SignUpFirstDialouge extends Component {
               <TouchableOpacity
                 style={Style.buttonGradient}
                 onPress={() => this.props.navigation.navigate('SignUp', {
-                  userType: 'child',
+                  userType: 'Child',
                 })}
               >
                 <Text style={Style.buttonText}>
