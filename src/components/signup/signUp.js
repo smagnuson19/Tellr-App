@@ -45,7 +45,7 @@ class SignUp extends Component {
       email: this.state.email,
       password: this.state.password,
       familyName: this.state.familyName,
-      accountType: 'Parent',
+      accountType: this.props.navigation.getParam('userType'),
     };
 
     axios.post(`${ROOT_URL}/users`, { payLoad })
