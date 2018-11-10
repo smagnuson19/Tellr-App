@@ -32,20 +32,7 @@ class AddTask extends Component {
       taskDescription: '',
       reward: '',
       // familyName: '',
-      children: [
-        {
-          label: 'Child 1',
-          value: 'child 1',
-        },
-        {
-          label: 'Child 2',
-          value: 'child 2',
-        },
-        {
-          label: 'Child 3',
-          value: 'child 3',
-        },
-      ],
+      children: [],
     };
   }
 
@@ -56,11 +43,13 @@ class AddTask extends Component {
   fetchNames() {
     AsyncStorage.getItem('emailID', (err, result) => {
       const API_KEY_USERS = result;
-
       return axios.get(`${ROOT_URL}/${API_KEY_CHILD}/${API_KEY_USERS}`).then((response) => {
         const childList = response.data;
         console.log(childList);
+        const childrenList = [];
         Object.keys(childList).forEach((key) => {
+          childrenList.push(childList[key].firstName);
+          this.setState({ children: childrenList });
           console.log(key, childList[key]);
         });
       // this.setState({ children: childList });
