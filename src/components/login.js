@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import {
-  View, Image,
+  View, Image, AsyncStorage,
 } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 import { FormInput, Button } from 'react-native-elements';
 import { colors } from '../styling/base';
-
 import Style from '../styling/Style';
 
 const ROOT_URL = 'http://localhost:5000/api';
@@ -44,6 +43,11 @@ class Login extends Component {
         console.log(response.data);
         this.props.navigation.dispatch(resetAction);
       });
+
+    const emailObject = this.state.email;
+
+    AsyncStorage.setItem('emailID', JSON.stringify(emailObject), () => {
+    });
   }
 
 
