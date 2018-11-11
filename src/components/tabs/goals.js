@@ -54,6 +54,23 @@ class Goals extends Component {
     this.props.navigation.dispatch(resetAction);
   }
 
+  displayAdditionalFields(userType) {
+    if (userType !== 'child') {
+      console.log('Not a child');
+      return (<View />);
+    } else {
+      return (
+        <Button
+          onPress={() => {
+            this.props.navigation.navigate('newGoal');
+            console.log('Button Pressed in Goals');
+          }}
+          title="New Goal"
+        />
+      );
+    }
+  }
+
   render() {
     return (
       <View style={Style.rootContainer}>
@@ -92,10 +109,7 @@ class Goals extends Component {
             value={this.state.reward}
             placeholder="Reward: $0.00"
           />
-          <Button
-            onPress={() => NavigationActions.navigate('../newGoal')}
-            title="New Goal"
-          />
+          {this.displayAdditionalFields('child')}
         </LinearGradient>
       </View>
     );
