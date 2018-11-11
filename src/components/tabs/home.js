@@ -11,7 +11,6 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
     };
   }
 
@@ -29,7 +28,7 @@ class Home extends Component {
     });
   }
 
-  render() {
+  renderParentView() {
     return (
       <View style={Style.rootContainer}>
         <View style={Style.contentWrapper}>
@@ -45,8 +44,8 @@ class Home extends Component {
           </View>
           <View style={Style.container}>
             <Text>
-          chores that are due soon that have not been
-          marked complete
+        chores that are due soon that have not been
+        marked complete
               {' '}
             </Text>
           </View>
@@ -54,6 +53,26 @@ class Home extends Component {
 
       </View>
     );
+  }
+
+  renderChildView() {
+
+  }
+
+  render() {
+    if (this.props.type === 'parent') {
+      return (
+        <View>
+          {this.renderParentView()}
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          {this.renderChildView()}
+        </View>
+      );
+    }
   }
 }
 
