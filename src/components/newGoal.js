@@ -3,45 +3,62 @@ import {
   View,
   Text,
   StyleSheet,
+  AsyncStorage,
 } from 'react-native';
 import axios from 'axios';
 import {
   Button, FormInput,
 } from 'react-native-elements';
+// import DatePicker from 'react-native-datepicker';
+import RNPickerSelect from 'react-native-picker-select';
+// import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
-import Style from '../../styling/Style';
+import Style from '../styling/Style';
+import { colors, fonts } from '../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
-// const API_KEY = '';
 
-class SignUp extends Component {
+const API_KEY_GOALS = '';
+const API_KEY_CHILD = 'children';
+
+class NewGoal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      familySize: '',
+      goalName: '',
+      childEmail: '',
+      goalDescription: '',
+      value: '',
+      // familyName: '',
+      children: [],
     };
   }
 
-  createAccount() {
-    const payLoad = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      password: this.state.password,
-      familySize: this.state.familySize,
-      accountType: 'Parent',
-    };
+  componentDidMount() {
+    this.fetchNames();
+  }
 
-    axios.post(`${ROOT_URL}`, { payLoad })
-      .then((response) => {
-        console.log(response.data);
+  fetchNames() {
+    AsyncStorage.getItem('emailID', (err, result) => {
+      const API_KEY_USERS = result;
+      return axios.get(`${ROOT_URL}/${API_KEY_CHILD}/${API_KEY_USERS}`).then((response) => {
+        const childList = response.data;
+        console.log(childList);
+        const childrenList = [];
+        Object.keys(childList).forEach((key) => {
+          childrenList.push(childList[key].firstName);
+          this.setState({ children: childrenList });
+          console.log(key, childList[key]);
+        });
+      // this.setState({ children: childList });
+      }).catch((error) => {
+        console.log('ERROR in NewGoal');
       });
+    });
+  }
 
+  submitGoal() {
     // So that you are unable to navigate back to login page once logged in.
     const resetAction = StackActions.reset({
       index: 0, // <-- currect active route from actions array
@@ -51,121 +68,102 @@ class SignUp extends Component {
       ],
     });
 
-    this.props.navigation.dispatch(resetAction);
-  }
+    const payLoad = {
+      goalName: this.state.goalName,
+      childEmail: this.state.childEmail,
+      goalDescription: this.state.goalDescription,
+      value: this.state.value,
+      // familyName: this.state.familyName,
+    };
 
-  displayAdditionalFields(userType) {
-    if (userType === 'child') {
-      return (<View />);
-    } else {
-      return (
-        <FormInput
-          inputStyle={Style.fieldText}
-          containerStyle={Style.fieldContainer}
-          onChangeText={text => this.setState({ familySize: text })}
-          value={this.state.familySize}
-          placeholder="Family Size"
-          placeholderTextColor="rgb(232, 232, 232)"
-          spellCheck="false"
-          returnKeyType="next"
-          keyboardType="number-pad"
-        />
-      );
-    }
+    axios.post(`${ROOT_URL}/${API_KEY_GOALS}`, { payLoad })
+      .then((response) => {
+        console.log(response.data);
+        this.props.navigation.dispatch(resetAction);
+      });
   }
 
   render() {
-    const { navigation } = this.props;
-    const userType = navigation.getParam('userType');
-
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
+        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
-            <Text style={Style.headerText}>Create Account </Text>
-            <View style={pageStyle.inputContainer}>
-              <FormInput
-                containerStyle={Style.fieldContainer}
-                onChangeText={text => this.setState({ firstName: text })}
-                value={this.state.firstName}
-                placeholder="First Name"
-                inputStyle={Style.fieldText}
-                placeholderTextColor="rgb(232, 232, 232)"
-                spellCheck="false"
-                returnKeyType="next"
-              />
-              <FormInput
-                inputStyle={Style.fieldText}
-                containerStyle={Style.fieldContainer}
-                onChangeText={text => this.setState({ lastName: text })}
-                value={this.state.lastName}
-                placeholder="Last Name"
-                placeholderTextColor="rgb(232, 232, 232)"
-                spellCheck="false"
-                returnKeyType="next"
-              />
-              <FormInput
-                inputStyle={Style.fieldText}
-                containerStyle={Style.fieldContainer}
-                onChangeText={text => this.setState({ email: text })}
-                value={this.state.email}
-                placeholder="Email Address"
-                keyboardType="email-address"
-                placeholderTextColor="rgb(232, 232, 232)"
-                spellCheck="false"
-                returnKeyType="next"
-              />
-              <FormInput
-                inputStyle={Style.fieldText}
-                containerStyle={Style.fieldContainer}
-                onChangeText={text => this.setState({ password: text })}
-                value={this.state.password}
-                placeholder="Set Password"
-                placeholderTextColor="rgb(232, 232, 232)"
-                spellCheck="false"
-                returnKeyType="next"
-              />
-
-              {this.displayAdditionalFields(userType)}
-
+            <View style={Style.headerText}>
+              <Text style={Style.headerText}>New Goal </Text>
             </View>
-            <View style={pageStyle.buttonContainer}>
+            <View style={Style.inputContainer}>
+              <FormInput
+                containerStyle={Style.fieldContainerSecondary}
+                inputStyle={Style.fieldTextSecondary}
+                onChangeText={text => this.setState({ goalName: text })}
+                value={this.state.goalName}
+                placeholder="Goal"
+                placeholderTextColor={colors.placeholderColor}
+              />
+              <RNPickerSelect
+                placeholder={{
+                  label: 'Select Child',
+                  value: null,
+                }}
+                items={this.state.children}
+                onValueChange={(value) => {
+                  this.setState({
+                    childEmail: value,
+                  });
+                }}
+                style={{ ...pickerSelectStyles }}
+                value={this.state.childEmail}
+              />
+              <FormInput
+                containerStyle={Style.fieldContainerSecondary}
+                inputStyle={Style.fieldTextSecondary}
+                onChangeText={text => this.setState({ goalDescription: text })}
+                value={this.state.goalDescription}
+                placeholder="Goal Description..."
+                placeholderTextColor={colors.placeholderColor}
+              />
+              <FormInput
+                containerStyle={Style.fieldContainerSecondary}
+                inputStyle={Style.fieldTextSecondary}
+                onChangeText={text => this.setState({ value: text })}
+                value={this.state.value}
+                placeholder="Value: $0.00"
+                placeholderTextColor={colors.placeholderColor}
+              />
+            </View>
+            <View style={Style.buttonContainer}>
               <Button
-                large
-                raised
+                title="Set Goal!"
                 rounded
-                title="Get Started"
-                backgroundColor="#3de594"
-                onPress={() => this.createAccount()}
+                large
                 style={Style.button}
+                backgroundColor={colors.secondary}
+                onPress={() => this.submitGoal()}
               />
             </View>
           </View>
         </LinearGradient>
-
       </View>
     );
   }
 }
 
-const pageStyle = StyleSheet.create({
-  inputContainer: {
-    flex: 1,
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: fonts.md,
+    margin: 40,
+    paddingTop: 7,
+    paddingHorizontal: 8,
+    paddingBottom: 7,
+    borderWidth: 0.8,
+    borderColor: 'rgb(176, 176, 176)',
+    width: 320,
+    marginLeft: 40,
     marginTop: 15,
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
+    fontFamily: fonts.secondary,
+    alignSelf: 'flex-start',
   },
-  buttonContainer: {
-    flex: 0,
-    margin: 20,
-    width: '80%',
-    flexDirection: 'column',
-    justifyContent: 'center',
-
-  },
-
 });
 
 
-export default SignUp;
+export default NewGoal;
