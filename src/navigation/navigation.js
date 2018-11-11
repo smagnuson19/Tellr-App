@@ -12,6 +12,7 @@ import Payments from '../components/tabs/payments';
 import AddTask from '../components/tabs/addTask';
 import Profile from '../components/tabs/profile';
 import Goals from '../components/tabs/goals';
+import NewGoal from '../components/newGoal';
 import Login from '../components/login';
 import SignUp from '../components/signup/signUp';
 
@@ -92,6 +93,7 @@ const SignUpDialouge = createStackNavigator({
 const RootStack = createStackNavigator(
   {
     SignUp: { screen: SignUpDialouge },
+    newGoal: { screen: NewGoal },
     MainTabBar: {
       screen: MainTabBar,
       navigationOptions: () => ({
