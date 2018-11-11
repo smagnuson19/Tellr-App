@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import axios from 'axios';
+import LinearGradient from 'react-native-linear-gradient';
 // import Login from './login';
 import Style from '../../styling/Style';
 import AvatarImage from './avatarImage';
+import GoalsCard from './goalsCard';
+import { colors } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
 const API_KEY = '';
@@ -50,6 +53,18 @@ class Home extends Component {
 
   }
 
+  renderGoalsToComplete() {
+    return (
+      <View>
+        <GoalsCard title="hello" />
+      </View>
+    );
+  }
+
+  renderTasksToComplete() {
+    // needs to be filled
+  }
+
   renderAvatarRow() {
     console.log('rendering Row');
     console.log(this.state.family);
@@ -69,28 +84,25 @@ class Home extends Component {
   // Render of the parentsView
   renderParentView() {
     return (
-      <View style={Style.rootContainer}>
-        <View style={Style.contentWrapper}>
-          <View style={Style.container}>
-            <View>
-              {this.renderAvatarRow()}
-            </View>
-          </View>
-          <View style={Style.container}>
-            <View>
-              {this.renderGoalsToComplete()}
-            </View>
-
-          </View>
-          <View style={Style.container}>
-            <Text>
-        chores that are due soon that have not been
-        marked complete
-              {' '}
-            </Text>
+      <View>
+        <View style={Style.container}>
+          <View>
+            {this.renderAvatarRow()}
           </View>
         </View>
+        <View style={Style.container}>
+          <View>
+            {this.renderGoalsToComplete()}
+          </View>
 
+        </View>
+        <View style={Style.container}>
+          <Text>
+        chores that are due soon that have not been
+        marked complete
+            {' '}
+          </Text>
+        </View>
       </View>
     );
   }
@@ -104,14 +116,22 @@ class Home extends Component {
     // if (this.props.type === 'parent') {
     if (true) {
       return (
-        <View>
-          {this.renderParentView()}
+        <View style={Style.rootContainer}>
+          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+            <View style={Style.contentWrapper}>
+              {this.renderParentView()}
+            </View>
+          </LinearGradient>
         </View>
       );
     } else {
       return (
-        <View>
-          {this.renderChildView()}
+        <View style={Style.rootContainer}>
+          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+            <View style={Style.contentWrapper}>
+              {this.renderChildView()}
+            </View>
+          </LinearGradient>
         </View>
       );
     }
