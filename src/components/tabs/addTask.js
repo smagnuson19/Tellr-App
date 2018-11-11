@@ -3,6 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
+  AsyncStorage,
 } from 'react-native';
 import axios from 'axios';
 import {
@@ -19,7 +20,7 @@ import { colors, fonts } from '../../styling/base';
 const ROOT_URL = 'http://localhost:5000/api';
 
 const API_KEY_TASKS = '';
-const API_KEY_USERS = '';
+const API_KEY_CHILD = 'children';
 
 class AddTask extends Component {
   constructor(props) {
@@ -31,20 +32,7 @@ class AddTask extends Component {
       taskDescription: '',
       reward: '',
       // familyName: '',
-      children: [
-        {
-          label: 'Child 1',
-          value: 'child 1',
-        },
-        {
-          label: 'Child 2',
-          value: 'child 2',
-        },
-        {
-          label: 'Child 3',
-          value: 'child 3',
-        },
-      ],
+      children: [],
     };
   }
 
@@ -53,15 +41,21 @@ class AddTask extends Component {
   }
 
   fetchNames() {
-    return axios.get(`${ROOT_URL}/${API_KEY_USERS}`).then((response) => {
-      const childList = response.data;
-      console.log(childList);
-      Object.keys(childList).forEach((key) => {
-        console.log(key, childList[key]);
-      });
+    AsyncStorage.getItem('emailID', (err, result) => {
+      const API_KEY_USERS = result;
+      return axios.get(`${ROOT_URL}/${API_KEY_CHILD}/${API_KEY_USERS}`).then((response) => {
+        const childList = response.data;
+        console.log(childList);
+        const childrenList = [];
+        Object.keys(childList).forEach((key) => {
+          childrenList.push(childList[key].firstName);
+          this.setState({ children: childrenList });
+          console.log(key, childList[key]);
+        });
       // this.setState({ children: childList });
-    }).catch((error) => {
-      console.log('ERROR in Home');
+      }).catch((error) => {
+        console.log('ERROR in AddTask');
+      });
     });
   }
 
@@ -120,13 +114,15 @@ class AddTask extends Component {
                   dateText: {
                     color: 'white',
                     fontFamily: fonts.secondary,
-                    textAlign: 'left',
+                    alignSelf: 'flex-start',
+                    marginLeft: 8,
                     fontSize: fonts.md,
                   },
                   placeholderText: {
                     fontFamily: fonts.secondary,
                     color: colors.placeholderColor,
-                    textAlign: 'left',
+                    alignSelf: 'flex-start',
+                    marginLeft: 8,
                     fontSize: fonts.md,
                   },
                   btnTextConfirm: {
@@ -148,7 +144,6 @@ class AddTask extends Component {
                 placeholder={{
                   label: 'Select Child',
                   value: null,
-                  color: fonts.placeholderColor,
                 }}
                 items={this.state.children}
                 onValueChange={(value) => {
@@ -197,11 +192,11 @@ const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: fonts.md,
     margin: 40,
-    paddingTop: 10,
-    paddingHorizontal: 10,
-    paddingBottom: 10,
-    borderWidth: 1,
-    borderColor: 'white',
+    paddingTop: 7,
+    paddingHorizontal: 8,
+    paddingBottom: 7,
+    borderWidth: 0.8,
+    borderColor: 'rgb(176, 176, 176)',
     width: 320,
     marginLeft: 40,
     marginTop: 15,
@@ -218,7 +213,7 @@ const taskDeadlineStyles = StyleSheet.create({
     paddingBottom: 30,
     marginLeft: 40,
     fontFamily: fonts.secondary,
-    textAlign: 'left',
+    borderColor: 'rgb(176, 176, 176)',
   },
 });
 
