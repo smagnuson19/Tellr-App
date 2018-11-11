@@ -44,8 +44,10 @@ class AddTask extends Component {
     AsyncStorage.getItem('emailID', (err, result) => {
       const API_KEY_USERS = result;
       return axios.get(`${ROOT_URL}/${API_KEY_CHILD}/${API_KEY_USERS}`).then((response) => {
+        // make a list of the parent's children
         const childList = response.data;
         const childrenList = [];
+        // loop through each kid and make an object for them with FirstName, Email
         Object.keys(childList).forEach((key) => {
           childrenList.push({ label: childList[key].firstName, value: childList[key].email });
         });
