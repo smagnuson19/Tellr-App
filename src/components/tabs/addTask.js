@@ -36,7 +36,7 @@ class AddTask extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.fetchNames();
   }
 
@@ -45,14 +45,11 @@ class AddTask extends Component {
       const API_KEY_USERS = result;
       return axios.get(`${ROOT_URL}/${API_KEY_CHILD}/${API_KEY_USERS}`).then((response) => {
         const childList = response.data;
-        console.log(childList);
         const childrenList = [];
         Object.keys(childList).forEach((key) => {
-          childrenList.push(childList[key].firstName);
-          this.setState({ children: childrenList });
-          console.log(key, childList[key]);
+          childrenList.push({ label: childList[key].firstName, value: childList[key].email });
         });
-      // this.setState({ children: childList });
+        this.setState({ children: childrenList });
       }).catch((error) => {
         console.log('ERROR in AddTask');
       });
