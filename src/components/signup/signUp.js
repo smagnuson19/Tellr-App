@@ -3,6 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
+  AsyncStorage,
 } from 'react-native';
 import axios from 'axios';
 import {
@@ -44,7 +45,7 @@ class SignUp extends Component {
       email: this.state.email,
       password: this.state.password,
       familyName: this.state.familyName,
-      accountType: 'Parent',
+      accountType: this.props.navigation.getParam('userType'),
     };
 
     axios.post(`${ROOT_URL}/users`, { payLoad })
@@ -52,26 +53,31 @@ class SignUp extends Component {
         console.log(response.data);
         this.props.navigation.dispatch(resetAction);
       });
+
+    const emailObject = this.state.email;
+
+    AsyncStorage.setItem('emailID', JSON.stringify(emailObject), () => {
+    });
   }
 
   displayAdditionalFields(userType) {
-    if (userType === 'child') {
-      return (<View />);
-    } else {
-      return (
-        <FormInput
-          inputStyle={Style.fieldText}
-          containerStyle={Style.fieldContainer}
-          onChangeText={text => this.setState({ familyName: text })}
-          value={this.state.familyName}
-          placeholder="Family Name"
-          placeholderTextColor="rgb(232, 232, 232)"
-          spellCheck="false"
-          returnKeyType="next"
-          keyboardType="number-pad"
-        />
-      );
-    }
+    // if (userType === 'child') {
+    //   return (<View />);
+    // } else {
+    return (
+      <FormInput
+        inputStyle={Style.fieldText}
+        containerStyle={Style.fieldContainer}
+        onChangeText={text => this.setState({ familyName: text })}
+        value={this.state.familyName}
+        placeholder="Family Name"
+        placeholderTextColor="rgb(232, 232, 232)"
+        spellCheck="false"
+        returnKeyType="next"
+        keyboardType="number-pad"
+      />
+    );
+    // }
   }
 
   render() {
