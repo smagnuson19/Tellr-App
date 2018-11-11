@@ -22,7 +22,7 @@ import { colors } from '../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
 
-const API_KEY_GOALS = '';
+const API_KEY_GOALS = 'goals';
 // const API_KEY_CHILD = 'children';
 // More info on all the options is below in the API Reference... just some common use cases shown here
 const options = {
@@ -80,8 +80,9 @@ class NewGoal extends Component {
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
 
         this.setState({
-          image: source,
+          image: source.uri,
         });
+        console.log(`source is: ${source.uri}`);
       }
     });
   }
