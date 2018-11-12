@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, AsyncStorage,
+  View, Text, StyleSheet, AsyncStorage, Alert,
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
@@ -12,7 +12,6 @@ import KeyPad from './keypad';
 import { fonts, colors } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
-// const API_KEY_TASKS = 'tasks';
 const API_KEY_CHILD = 'children';
 
 class Payments extends Component {
@@ -84,11 +83,20 @@ class Payments extends Component {
       senderEmail: this.state.senderEmail,
     };
 
-    axios.post(`${ROOT_URL}/balance`, { payLoad })
-      .then((response) => {
-        console.log(response.data);
-        this.props.navigation.dispatch(resetAction);
-      });
+    // Error checking to make sure child is selected and amount > 0
+    if (this.state.childEmail === '' || this.state.childEmail == null) {
+      Alert.alert('Please select a child for this payment');
+      console.log('ERROR: select child empty');
+    } else if (this.state.amount === '0') {
+      Alert.alert('Payments cannot be zero. Please enter a valid payment');
+      console.log('ERROR: payment amount empty');
+    } else {
+      axios.post(`${ROOT_URL}/balance`, { payLoad })
+        .then((response) => {
+          console.log(response.data);
+          this.props.navigation.dispatch(resetAction);
+        });
+    }
   }
 
   aButtonPress(item) {
