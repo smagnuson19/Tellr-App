@@ -117,6 +117,7 @@ const Style = StyleSheet.create({
     flex: 1,
     width: dimensions.fullWidth,
     justifyContent: 'center',
+    marginBottom: 10,
     // background: linear-gradient(155.26, rgba(4, 27, 37, 0.961547) - 13.61, rgba(0, 6, 3, 0.76) - 146.55),
   },
 
