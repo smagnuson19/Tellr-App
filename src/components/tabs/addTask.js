@@ -33,26 +33,27 @@ class AddTask extends Component {
       reward: '',
       // familyName: '',
       children: [],
+      senderEmail: '',
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.fetchNames();
   }
 
   fetchNames() {
     AsyncStorage.getItem('emailID', (err, result) => {
       const API_KEY_USERS = result;
+      this.setState({ senderEmail: API_KEY_USERS });
       return axios.get(`${ROOT_URL}/${API_KEY_CHILD}/${API_KEY_USERS}`).then((response) => {
+        // make a list of the parent's children
         const childList = response.data;
-        console.log(childList);
         const childrenList = [];
+        // loop through each kid and make an object for them with FirstName, Email
         Object.keys(childList).forEach((key) => {
-          childrenList.push(childList[key].firstName);
-          this.setState({ children: childrenList });
-          console.log(key, childList[key]);
+          childrenList.push({ label: childList[key].firstName, value: childList[key].email });
         });
-      // this.setState({ children: childList });
+        this.setState({ children: childrenList });
       }).catch((error) => {
         console.log('ERROR in AddTask');
       });
@@ -65,16 +66,17 @@ class AddTask extends Component {
       index: 0, // <-- currect active route from actions array
       key: null,
       actions: [
-        NavigationActions.navigate({ routeName: 'MainTabBar' }),
+        NavigationActions.navigate({ routeName: 'ParentTabBar' }),
       ],
     });
 
     const payLoad = {
       taskName: this.state.taskName,
-      taskDeadline: this.state.taskDeadline,
-      childEmail: this.state.childEmail,
-      taskDescription: this.state.taskDescription,
       reward: this.state.reward,
+      taskDeadline: this.state.taskDeadline,
+      taskDescription: this.state.taskDescription,
+      childEmail: this.state.childEmail,
+      senderEmail: this.state.senderEmail,
       // familyName: this.state.familyName,
     };
 
