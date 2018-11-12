@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  AsyncStorage,
 } from 'react-native';
 import axios from 'axios';
+// import {
+//   Button, FormInput,
+// } from 'react-native-elements';
 import {
-  Button, FormInput,
+  Button,
 } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
@@ -20,12 +24,27 @@ class Goals extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      goalsName: '',
-      goalsDeadline: '',
-      child: '',
-      goalsDescription: '',
-      reward: '',
+      email: '',
     };
+  }
+
+  displayGoals() {
+    AsyncStorage.getItem('emailID').then((value) => {
+      this.setState({ email: value });
+    }).done();
+    axios.get(`${ROOT_URL}/goals/${this.state.email}`).then((response) => {
+      // make a list of the parent's children
+      const goalList = response.data;
+      console.log('goalList ${goalList}'');
+    });
+    return (
+      <Button
+        onPress={() => {
+          this.props.navigation.navigate('newGoal');
+          console.log('Button Pressed in Goals');
+        }}
+        title="New Goal"
+      />);
   }
 
   submitgoals() {
@@ -54,48 +73,32 @@ class Goals extends Component {
     this.props.navigation.dispatch(resetAction);
   }
 
+  displayAdditionalFields(userType) {
+    if (userType !== 'child') {
+      console.log('Not a child');
+      return (<View />);
+    } else {
+      return (
+        <Button
+          onPress={() => {
+            this.props.navigation.navigate('newGoal');
+            console.log('Button Pressed in Goals');
+          }}
+          title="New Goal"
+        />
+      );
+    }
+  }
+
   render() {
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
           <View style={Style.displayContainer}>
-            <Text style={Style.displayText}>New goals </Text>
+            <Text style={Style.displayText}>Goals!</Text>
           </View>
-          <FormInput
-            containerStyle={{ width: '60%' }}
-            onChangeText={text => this.setState({ goalsName: text })}
-            value={this.state.goalsName}
-            placeholder="goals Name"
-            style={Style.fieldInput}
-          />
-          <FormInput
-            containerStyle={{ width: '60%' }}
-            onChangeText={text => this.setState({ goalsDeadline: text })}
-            value={this.state.goalsDeadline}
-            placeholder="goals Deadline"
-          />
-          <FormInput
-            containerStyle={{ width: '60%' }}
-            onChangeText={text => this.setState({ child: text })}
-            value={this.state.child}
-            placeholder="Select Child"
-          />
-          <FormInput
-            containerStyle={{ width: '90%' }}
-            onChangeText={text => this.setState({ goalsDescription: text })}
-            value={this.state.goalsDescription}
-            placeholder="goals Description..."
-          />
-          <FormInput
-            containerStyle={{ width: '60%' }}
-            onChangeText={text => this.setState({ reward: text })}
-            value={this.state.reward}
-            placeholder="Reward: $0.00"
-          />
-          <Button
-            onPress={() => NavigationActions.navigate('../newGoal')}
-            title="New Goal"
-          />
+          {this.displayGoals()}
+          {this.displayAdditionalFields('child')}
         </LinearGradient>
       </View>
     );
