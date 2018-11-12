@@ -60,10 +60,7 @@ class GoalsCard extends Component {
             onPress={() => this.buttonPress('true')}
           >
             <View style={pageStyle.buttonView}>
-              <Ionicons name="check"
-                size={20}
-                color="rgb(112, 214, 76)"
-              />
+
               <Text style={pageStyle.text}>
     Dismiss
               </Text>
@@ -111,7 +108,9 @@ class GoalsCard extends Component {
 const pageStyle = StyleSheet.create({
   cardContainer: {
     flexDirection: 'column',
-    padding: 5,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    // width: dimensions.fullWidth,
     borderRadius: 8,
   },
 
@@ -124,19 +123,22 @@ const pageStyle = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    marginLeft: 6,
   },
   divider: {
     backgroundColor: 'rgb(0, 0, 0)',
     height: 2,
     marginTop: 6,
     marginBottom: 6,
+    marginRight: 8,
+    marginLeft: 8,
   },
   priceFiller: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginRight: 6,
+    // marginRight: 6,
   },
 
   titleStyle: {
@@ -151,7 +153,8 @@ const pageStyle = StyleSheet.create({
   },
 
   wrapperStyle: {
-    // paddingTop: 0,
+    padding: 0,
+    margin: 0,
   },
 
   descriptionContainer: {
