@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {
+  View, Text, StyleSheet,
+} from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 // import Login from './login';
@@ -76,7 +78,10 @@ class Home extends Component {
         <Divider style={pageStyle.divider} />
         { goals.map(goal => (
           <View key={goal.id}>
-            <GoalsCard goals={goal} onPress={this.goalAction} />
+            <GoalsCard goals={goal}
+              completed={false}
+              onPress={this.goalAction}
+            />
 
           </View>
         ))}
@@ -85,9 +90,35 @@ class Home extends Component {
     );
   }
 
-  renderTasksToComplete() {
-    // needs to be filled
-    // should pass in email to the avatar component
+  renderGoalsCompletion() {
+    // somethingAbout emails
+  }
+
+  renderGoalsCompleted() {
+    const goals = [{
+      name: 'Name of Goal',
+      value: 45.90,
+      description: 'THis is a long description fo what should go in the container and overwarp protection',
+      id: '2',
+    }];
+    return (
+      <View>
+        <Text style={pageStyle.sectionHeader}>
+      Family Goals
+        </Text>
+        <Divider style={pageStyle.divider} />
+        { goals.map(goal => (
+          <View key={goal.id}>
+            <GoalsCard goals={goal}
+              completed
+              onPress={this.goalAction}
+            />
+
+          </View>
+        ))}
+
+      </View>
+    );
   }
 
   renderAvatarRow() {
@@ -114,17 +145,15 @@ class Home extends Component {
           </View>
         </View>
         <View style={Style.container}>
+
           <View>
             {this.renderGoalsToComplete()}
           </View>
 
+
         </View>
         <View style={Style.container}>
-          <Text>
-        chores that are due soon that have not been
-        marked complete
-            {' '}
-          </Text>
+          {this.renderGoalsCompleted}
         </View>
       </View>
     );
