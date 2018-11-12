@@ -3,10 +3,11 @@ import { View, Text, StyleSheet } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 // import Login from './login';
+import { Divider } from 'react-native-elements';
 import Style from '../../styling/Style';
 import AvatarImage from './avatarImage';
 import GoalsCard from './goalsCard';
-import { colors } from '../../styling/base';
+import { fonts, colors } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
 const API_KEY = '';
@@ -31,6 +32,7 @@ class Home extends Component {
 
     // Bind this instance used in navigationToAccount to this component
     this.navigationToAccount = this.navigationToAccount.bind(this);
+    this.goalAction = this.goalAction.bind(this);
   }
 
   componentDidMount() {
@@ -53,21 +55,42 @@ class Home extends Component {
 
   }
 
+  goalAction(action) {
+    // action is a true fale string saying that a  card has been marked
+    // should post saying marked
+    // and then delete it from view
+  }
+
   renderGoalsToComplete() {
+    const goals = [{
+      name: 'Name of Goal',
+      value: 45.90,
+      description: 'THis is a long description fo what should go in the container and overwarp protection',
+      id: '2',
+    }];
     return (
       <View>
-        <GoalsCard title="hello" />
+        <Text style={pageStyle.sectionHeader}>
+      Family Goals
+        </Text>
+        <Divider style={pageStyle.divider} />
+        { goals.map(goal => (
+          <View key={goal.id}>
+            <GoalsCard goals={goal} onPress={this.goalAction} />
+
+          </View>
+        ))}
+
       </View>
     );
   }
 
   renderTasksToComplete() {
     // needs to be filled
+    // should pass in email to the avatar component
   }
 
   renderAvatarRow() {
-    console.log('rendering Row');
-    console.log(this.state.family);
     return (
       <View style={pageStyle.avatarRow}>
         { this.state.family.map(person => (
@@ -144,6 +167,18 @@ const pageStyle = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 30,
     justifyContent: 'center',
+  },
+  sectionHeader: {
+    fontSize: fonts.md,
+    color: '#fff',
+    fontFamily: fonts.secondary,
+    justifyContent: 'flex-start',
+  },
+  divider: {
+    backgroundColor: '#ffffff',
+    height: 2,
+    marginTop: 6,
+    marginBottom: 6,
   },
 
 
