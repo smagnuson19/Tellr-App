@@ -31,7 +31,7 @@ const Style = StyleSheet.create({
     fontSize: fonts.xlg,
     color: colors.primary,
     marginTop: 50,
-    margin: 40,
+    marginBottom: 30,
   },
 
   headerImage: {
@@ -70,7 +70,6 @@ const Style = StyleSheet.create({
     width: '90%',
     flexDirection: 'column',
     justifyContent: 'center',
-
   },
 
   button: {
@@ -127,6 +126,18 @@ const Style = StyleSheet.create({
     justifyContent: 'space-evenly',
     paddingHorizontal: 30,
     alignItems: 'center',
+  },
+
+  // Container for a Chore object
+  listContainer: {
+    flex: 0,
+    borderColor: colors.secondary,
+    width: 380,
+    borderTopWidth: 3,
+    borderBottomWidth: 3,
+    borderLeftWidth: 3,
+    borderRightWidth: 3,
+    paddingHorizontal: 30,
   },
 
   displayText: {
