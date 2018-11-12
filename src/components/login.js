@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Image, AsyncStorage,
+  View, Image,
 } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import axios from 'axios';
@@ -29,7 +29,7 @@ class Login extends Component {
       index: 0, // <-- currect active route from actions array
       key: null,
       actions: [
-        NavigationActions.navigate({ routeName: 'MainTabBar' }),
+        NavigationActions.navigate({ routeName: 'Loading', params: { emailParam: this.state.email } }),
       ],
     });
 
@@ -44,10 +44,10 @@ class Login extends Component {
         this.props.navigation.dispatch(resetAction);
       });
 
-    const emailObject = this.state.email;
-
-    AsyncStorage.setItem('emailID', JSON.stringify(emailObject), () => {
-    });
+    // const emailObject = this.state.email;
+    //
+    // AsyncStorage.setItem('emailID', JSON.stringify(emailObject), () => {
+    // });
   }
 
 

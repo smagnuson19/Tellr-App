@@ -2,7 +2,6 @@ import React from 'react';
 import {
   createBottomTabNavigator, createStackNavigator,
 } from 'react-navigation';
-// import { View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, fonts } from '../styling/base';
 
@@ -15,29 +14,15 @@ import Goals from '../components/tabs/goals';
 import NewGoal from '../components/newGoal';
 import Login from '../components/login';
 import SignUp from '../components/signup/signUp';
+import Loading from '../components/loading';
+import Chores from '../components/tabs/chores';
 
 import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 
 
-// const PaymentsTab = (props) => {
-//   return <View style={{ flex: 1, justifyContent: 'center' }}><Text>Payments</Text></View>;
-// };
-
-// const AddTaskTab = (props) => {
-//   return <View style={{ flex: 1, justifyContent: 'center' }}><Text>Add Task</Text></View>;
-// };
-
-// const ManageTab = (props) => {
-//   return <View style={{ flex: 1, justifyContent: 'center' }}><Text>Manage</Text></View>;
-// };
-//
-// const ProfileTab = (props) => {
-//   return <View style={{ flex: 1, justifyContent: 'center' }}><Text>Profile</Text></View>;
-// };
-const MainTabBar = createBottomTabNavigator({
+const ParentTabBar = createBottomTabNavigator({
   Home,
   Payments,
-  Goals,
   'Add Task': AddTask,
   Profile,
 },
@@ -54,12 +39,51 @@ const MainTabBar = createBottomTabNavigator({
         iconName = `ios-add-circle${focused ? '' : ''}`;
       } else if (routeName === 'Profile') {
         iconName = `ios-person${focused ? '' : ''}`;
-      } else if (routeName === 'Goals') {
-        iconName = `ios-star${focused ? '' : ''}`;
       }
 
       // You can return any component that you like here! We usually use an
       // icon component from react-native-vector-icons
+      // https://ionicons.com/ ---> link for ionicons names
+      return <Ionicons name={iconName} size={25} color={tintColor} />;
+    },
+  }),
+  tabBarOptions: {
+    activeTintColor: colors.primary,
+    inactiveTintColor: 'white',
+    style: {
+      backgroundColor: colors.linearGradientBottom,
+      fontFamily: fonts.secondary,
+    },
+  },
+},
+{
+  initialRouteName: 'Home',
+});
+
+const ChildTabBar = createBottomTabNavigator({
+  Home,
+  Goals,
+  Chores,
+  Profile,
+},
+{
+  navigationOptions: ({ navigation }) => ({
+    tabBarIcon: ({ focused, horizontal, tintColor }) => {
+      const { routeName } = navigation.state;
+      let iconName;
+      if (routeName === 'Home') {
+        iconName = `ios-home${focused ? '' : ''}`;
+      } else if (routeName === 'Profile') {
+        iconName = `ios-person${focused ? '' : ''}`;
+      } else if (routeName === 'Goals') {
+        iconName = `ios-star${focused ? '' : ''}`;
+      } else if (routeName === 'Chores') {
+        iconName = `ios-hammer${focused ? '' : ''}`;
+      }
+
+      // You can return any component that you like here! We usually use an
+      // icon component from react-native-vector-icons
+      // https://ionicons.com/ ---> link for ionicons names
       return <Ionicons name={iconName} size={25} color={tintColor} />;
     },
   }),
@@ -94,14 +118,26 @@ const RootStack = createStackNavigator(
   {
     SignUp: { screen: SignUpDialouge },
     newGoal: { screen: NewGoal },
-    MainTabBar: {
-      screen: MainTabBar,
+    ParentTabBar: {
+      screen: ParentTabBar,
+      navigationOptions: () => ({
+        gesturesEnabled: false,
+      }),
+    },
+    ChildTabBar: {
+      screen: ChildTabBar,
       navigationOptions: () => ({
         gesturesEnabled: false,
       }),
     },
     Login: {
       screen: Login,
+      navigationOptions: () => ({
+        headerTransparent: 'True',
+      }),
+    },
+    Loading: {
+      screen: Loading,
       navigationOptions: () => ({
         headerTransparent: 'True',
       }),

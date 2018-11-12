@@ -8,11 +8,11 @@ import { colors } from '../../styling/base';
 const ROOT_URL = 'http://localhost:5000/api';
 const API_KEY = '';
 
-class Profile extends Component {
+class Chores extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // persons: [],
+
     };
   }
 
@@ -22,12 +22,11 @@ class Profile extends Component {
 
   fetchNames() {
     return axios.get(`${ROOT_URL}/${API_KEY}`).then((response) => {
-      console.log('Hello');
       const payload = response.data;
       console.log(payload);
       // this.setState({ persons: payload });
     }).catch((error) => {
-      console.log('ERROR in ');
+      console.log('ERROR in Chores');
     });
   }
 
@@ -37,7 +36,7 @@ class Profile extends Component {
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
             <View style={Style.headerText}>
-              <Text style={Style.headerText}>Profile </Text>
+              <Text style={Style.headerText}>Chores </Text>
             </View>
           </View>
         </LinearGradient>
@@ -47,4 +46,4 @@ class Profile extends Component {
 }
 
 
-export default Profile;
+export default Chores;

@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  AsyncStorage,
 } from 'react-native';
 import axios from 'axios';
 import {
@@ -34,7 +33,7 @@ class SignUp extends Component {
       index: 0, // <-- currect active route from actions array
       key: null,
       actions: [
-        NavigationActions.navigate({ routeName: 'MainTabBar' }),
+        NavigationActions.navigate({ routeName: 'Loading', params: { emailParam: this.state.email } }),
       ],
     });
 
@@ -54,10 +53,10 @@ class SignUp extends Component {
         this.props.navigation.dispatch(resetAction);
       });
 
-    const emailObject = this.state.email;
-
-    AsyncStorage.setItem('emailID', JSON.stringify(emailObject), () => {
-    });
+    // const emailObject = this.state.email;
+    //
+    // AsyncStorage.setItem('emailID', JSON.stringify(emailObject), () => {
+    // });
   }
 
   displayAdditionalFields(userType) {
