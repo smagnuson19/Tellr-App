@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet,
+  View, Text, StyleSheet, AsyncStorage,
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
-// import { Button } from 'react-native-elements';
 import { Button } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 import RNPickerSelect from 'react-native-picker-select';
@@ -12,30 +11,19 @@ import Style from '../../styling/Style';
 import KeyPad from './keypad';
 import { fonts, colors } from '../../styling/base';
 
-const ROOT_URL = 'http://localhost:5000/api/';
-const API_KEY = '';
+const ROOT_URL = 'http://localhost:5000/api';
+// const API_KEY_TASKS = 'tasks';
+const API_KEY_CHILD = 'children';
 
 class Payments extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedFamilyMember: [],
       // accountSelected: '',
       amount: '0',
-      familyMembers: [
-        {
-          label: 'Child 1',
-          value: 'child 1',
-        },
-        {
-          label: 'Child 2',
-          value: 'child 2',
-        },
-        {
-          label: 'Child 3',
-          value: 'child 3',
-        },
-      ],
+      familyMembers: [],
+      senderEmail: '',
+      childEmail: '',
     };
     this.aButtonPress = this.aButtonPress.bind(this);
   }
@@ -91,8 +79,9 @@ class Payments extends Component {
 
     // Describing what should be sent
     const payLoad = {
+      email: this.state.childEmail,
       increment: this.state.amount,
-      email: this.state.selectedFamilyMember.email,
+      senderEmail: this.state.senderEmail,
     };
 
     axios.post(`${ROOT_URL}/balance`, { payLoad })
@@ -110,13 +99,22 @@ class Payments extends Component {
   }
 
   fetchNames() {
-    const email = 'fakeEmail';
-    return axios.get(`${ROOT_URL}/${API_KEY}/children/${email}`).then((response) => {
-      const payload = response.data;
-      console.log(payload);
-      // this.setState({ familyMembers: payload });
-    }).catch((error) => {
-      console.log('ERROR');
+    AsyncStorage.getItem('emailID', (err, result) => {
+      const API_KEY_USERS = result;
+      console.log(API_KEY_USERS);
+      this.setState({ senderEmail: API_KEY_USERS });
+      return axios.get(`${ROOT_URL}/${API_KEY_CHILD}/${API_KEY_USERS}`).then((response) => {
+        // make a list of the parent's children
+        const childList = response.data;
+        const childrenList = [];
+        // loop through each kid and make an object for them with FirstName, Email
+        Object.keys(childList).forEach((key) => {
+          childrenList.push({ label: childList[key].firstName, value: childList[key].email });
+        });
+        this.setState({ familyMembers: childrenList });
+      }).catch((error) => {
+        console.log('ERROR in Payments');
+      });
     });
   }
 
@@ -126,17 +124,17 @@ class Payments extends Component {
       <View style={pageStyle.selectorsContainer}>
         <RNPickerSelect
           placeholder={{
-            label: 'Select Family Member',
+            label: 'Select Child',
             value: null,
           }}
           items={this.state.familyMembers}
           onValueChange={(value) => {
             this.setState({
-              selectedFamilyMember: value,
+              childEmail: value,
             });
           }}
           style={{ ...pickerSelectStyles }}
-          value={this.state.selectedFamilyMember}
+          value={this.state.childEmail}
         />
       </View>
     );
