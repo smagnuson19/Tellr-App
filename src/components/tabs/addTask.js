@@ -193,7 +193,7 @@ class AddTask extends Component {
             </View>
             <View style={Style.buttonContainer}>
               <Button
-                title="Publish!"
+                title="Make them do it!"
                 rounded
                 large
                 style={Style.button}
