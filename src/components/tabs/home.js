@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   View, Text, StyleSheet, ScrollView,
+  AsyncStorage,
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
@@ -12,7 +13,7 @@ import GoalsCard from './goalsCard';
 import { fonts, colors, dimensions } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
-const API_KEY = '';
+// const API_KEY = '';
 
 class Home extends Component {
   constructor(props) {
@@ -42,12 +43,30 @@ class Home extends Component {
   }
 
   fetchNames() {
-    return axios.get(`${ROOT_URL}/${API_KEY}`).then((response) => {
-      const payload = response.data;
-      console.log(payload);
-      // this.setState({ persons: payload });
-    }).catch((error) => {
-      console.log('ERROR in Home');
+    console.log('yes');
+    const familyInfo = {};
+    AsyncStorage.multiGet(['emailID', 'familyID'], (err, result) => {
+      for (let i = 0; i < result.length; i++) {
+        const nameExtract = result[i][0];
+        const valExtract = result[i][1].slice(1, -1);
+        familyInfo[nameExtract] = valExtract;
+        console.log(familyInfo);
+      }
+
+
+      // this.setState({ senderEmail: API_KEY_USERS });
+      // return axios.get(`${ROOT_URL}/${API_KEY_CHILD}/${API_KEY_USERS}`).then((response) => {
+      //   // make a list of the parent's children
+      //   const childList = response.data;
+      //   const childrenList = [];
+      //   // loop through each kid and make an object for them with FirstName, Email
+      //   Object.keys(childList).forEach((key) => {
+      //     childrenList.push({ label: childList[key].firstName, value: childList[key].email });
+      //   });
+      //   this.setState({ children: childrenList });
+      // }).catch((error) => {
+      //   console.log('ERROR in AddTask');
+      // });
     });
   }
 
