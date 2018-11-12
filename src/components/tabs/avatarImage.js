@@ -10,12 +10,11 @@ class AvatarImage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // buttonSelected: '',
     };
   }
 
   buttonPress() {
-    this.props.navigationToAccount();
+    this.props.onPress();
   }
 
   render() {
@@ -26,7 +25,7 @@ class AvatarImage extends Component {
       <View style={pageStyle.avatarContainer}>
         <TouchableOpacity
           style={pageStyle.avatarBackground}
-          onPress={() => this.buttonPress}
+          onPress={() => this.buttonPress()}
         >
           <View style={pageStyle.avatarInnerCircle}>
             <Text style={pageStyle.avatarText}>

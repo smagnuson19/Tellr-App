@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet,
+  View, Text, StyleSheet, ScrollView,
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
@@ -9,7 +9,7 @@ import { Divider } from 'react-native-elements';
 import Style from '../../styling/Style';
 import AvatarImage from './avatarImage';
 import GoalsCard from './goalsCard';
-import { fonts, colors } from '../../styling/base';
+import { fonts, colors, dimensions } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
 const API_KEY = '';
@@ -69,9 +69,15 @@ class Home extends Component {
       value: 45.90,
       description: 'THis is a long description fo what should go in the container and overwarp protection',
       id: '2',
+    },
+    {
+      name: 'Name of Goal',
+      value: 45.90,
+      description: 'THis is a long description fo what should go in the container and overwarp protection',
+      id: '3',
     }];
     return (
-      <View>
+      <View style={pageStyle.sectionContainer}>
         <Text style={pageStyle.sectionHeader}>
       Family Goals
         </Text>
@@ -100,11 +106,17 @@ class Home extends Component {
       value: 45.90,
       description: 'THis is a long description fo what should go in the container and overwarp protection',
       id: '2',
+    },
+    {
+      name: 'Name of Goal',
+      value: 45.90,
+      description: 'THis is a long description fo what should go in the container and overwarp protection',
+      id: '3',
     }];
     return (
-      <View>
+      <View style={pageStyle.sectionContainer}>
         <Text style={pageStyle.sectionHeader}>
-      Family Goals
+      Recently Completed Goals
         </Text>
         <Divider style={pageStyle.divider} />
         { goals.map(goal => (
@@ -126,11 +138,10 @@ class Home extends Component {
       <View style={pageStyle.avatarRow}>
         { this.state.family.map(person => (
           <View key={person.username}>
-            <AvatarImage buttonPress={this.navigationToAccount()} individual={person} />
+            <AvatarImage onPress={this.navigationToAccount} individual={person} />
 
           </View>
         ))}
-
       </View>
     );
   }
@@ -138,23 +149,18 @@ class Home extends Component {
   // Render of the parentsView
   renderParentView() {
     return (
-      <View>
-        <View style={Style.container}>
-          <View>
-            {this.renderAvatarRow()}
-          </View>
-        </View>
-        <View style={Style.container}>
+      <View style={pageStyle.homeWrapper}>
+        <View style={pageStyle.topContainer}>
 
-          <View>
-            {this.renderGoalsToComplete()}
-          </View>
+          {this.renderAvatarRow()}
+        </View>
+
+        <ScrollView>
+          {this.renderGoalsToComplete()}
 
 
-        </View>
-        <View style={Style.container}>
-          {this.renderGoalsCompleted}
-        </View>
+          {this.renderGoalsCompleted()}
+        </ScrollView>
       </View>
     );
   }
@@ -191,23 +197,47 @@ class Home extends Component {
 }
 
 const pageStyle = StyleSheet.create({
+  homeWrapper: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    width: dimensions.fullWidth,
+  },
+  topContainer: {
+    width: dimensions.fullWidth,
+    height: 180,
+    backgroundColor: '#fff',
+    marginBottom: 15,
+  },
+
   avatarRow: {
-    flex: 1,
     flexDirection: 'row',
-    marginTop: 30,
+    // width: dimensions.fullWidth,
     justifyContent: 'center',
+    marginTop: 105,
+    marginHorizontal: 20,
+  },
+  sectionContainer: {
+    marginBottom: 15,
+    width: dimensions.fullWidth,
   },
   sectionHeader: {
     fontSize: fonts.md,
     color: '#fff',
     fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
+    paddingVertical: 6,
   },
   divider: {
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.primary,
     height: 2,
     marginTop: 6,
     marginBottom: 6,
+  },
+  topDivider: {
+    backgroundColor: colors.primary,
+    height: 2,
+
+    marginBottom: 15,
   },
 
 
