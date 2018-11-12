@@ -66,7 +66,7 @@ class AddTask extends Component {
       index: 0, // <-- currect active route from actions array
       key: null,
       actions: [
-        NavigationActions.navigate({ routeName: 'MainTabBar' }),
+        NavigationActions.navigate({ routeName: 'ParentTabBar' }),
       ],
     });
 
