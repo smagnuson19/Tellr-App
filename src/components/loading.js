@@ -8,7 +8,6 @@ import { colors } from '../styling/base';
 import Style from '../styling/Style';
 
 const ROOT_URL = 'http://localhost:5000/api';
-const API_KEY = 'users';
 
 class Loading extends Component {
   constructor(props) {
@@ -25,9 +24,12 @@ class Loading extends Component {
   fetchNames() {
     const { navigation } = this.props;
     const email = navigation.getParam('emailParam', 'NO-EMAIL');
-    return axios.get(`${ROOT_URL}/${API_KEY}/${email}`).then((response) => {
+    return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
       const payload = response.data;
+
       this.setState({ accountType: payload.accountType });
+      AsyncStorage.setItem('familyID', JSON.stringify(payload.familyName), () => {
+      });
     }).catch((error) => {
       console.log('ERROR in Loading');
     });
@@ -41,6 +43,7 @@ class Loading extends Component {
     const emailObject = email;
     AsyncStorage.setItem('emailID', JSON.stringify(emailObject), () => {
     });
+
 
     // figure out if Parent or Child user
     let chooseRoute;
