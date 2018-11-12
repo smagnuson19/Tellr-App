@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import axios from 'axios';
+import LinearGradient from 'react-native-linear-gradient';
 import Style from '../../styling/Style';
+import { colors } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
 const API_KEY = '';
@@ -10,7 +12,7 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      persons: [],
+      // persons: [],
     };
   }
 
@@ -23,7 +25,7 @@ class Profile extends Component {
       console.log('Hello');
       const payload = response.data;
       console.log(payload);
-      this.setState({ persons: payload });
+      // this.setState({ persons: payload });
     }).catch((error) => {
       console.log('ERROR in ');
     });
@@ -32,45 +34,17 @@ class Profile extends Component {
   render() {
     return (
       <View style={Style.rootContainer}>
-        <View style={Style.displayContainer}>
-          <Text style={Style.displayText}>Profile </Text>
-        </View>
-        <View style={Style.inputContainer}>
-          <Text style={styles.welcome}>profile tab</Text>
-        </View>
-        <View style={Style.inputContainer}>
-          { this.state.persons.map(person => (
-            <Text style={styles.welcome}>
-              {' '}
-              {person.name}
-              {' '}
-            </Text>
-          ))}
-        </View>
-
+        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+          <View style={Style.contentWrapper}>
+            <View style={Style.headerText}>
+              <Text style={Style.headerText}>Profile </Text>
+            </View>
+          </View>
+        </LinearGradient>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
 
 
 export default Profile;
