@@ -21,6 +21,59 @@ class GoalsCard extends Component {
     this.props.onPress(action);
   }
 
+  displayCorrectItems() {
+    if (this.props.completed === false) {
+      return (
+        <View style={pageStyle.actionBar}>
+          <TouchableOpacity style={pageStyle.checkButton}
+            onPress={() => this.buttonPress('true')}
+          >
+            <View style={pageStyle.buttonView}>
+              <Ionicons name="check"
+                size={20}
+                color="rgb(112, 214, 76)"
+              />
+              <Text style={pageStyle.text}>
+        Accept
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={pageStyle.checkButton}
+            onPress={() => this.buttonPress('false')}
+          >
+            <View style={pageStyle.buttonView}>
+              <Ionicons name="close"
+                size={20}
+                color="rgb(240, 64, 64)"
+              />
+              <Text style={pageStyle.text}>
+        Deny
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return (
+        <View style={pageStyle.actionBar}>
+          <TouchableOpacity style={pageStyle.checkButton}
+            onPress={() => this.buttonPress('true')}
+          >
+            <View style={pageStyle.buttonView}>
+              <Ionicons name="check"
+                size={20}
+                color="rgb(112, 214, 76)"
+              />
+              <Text style={pageStyle.text}>
+    Dismiss
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  }
+
   render() {
     return (
       <Card
@@ -49,34 +102,7 @@ class GoalsCard extends Component {
 
           </Text>
         </View>
-        <View style={pageStyle.actionBar}>
-          <TouchableOpacity style={pageStyle.checkButton}
-            onPress={() => this.buttonPress('true')}
-          >
-            <View style={pageStyle.buttonView}>
-              <Ionicons name="check"
-                size={20}
-                color="rgb(112, 214, 76)"
-              />
-              <Text style={pageStyle.text}>
-          Accept
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={pageStyle.checkButton}
-            onPress={() => this.buttonPress('false')}
-          >
-            <View style={pageStyle.buttonView}>
-              <Ionicons name="close"
-                size={20}
-                color="rgb(240, 64, 64)"
-              />
-              <Text style={pageStyle.text}>
-          Deny
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        {this.displayCorrectItems()}
       </Card>
     );
   }
