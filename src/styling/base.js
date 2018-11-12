@@ -16,6 +16,7 @@ export const colors = {
 
 export const fonts = {
   sm: 11,
+  smmd: 15,
   md: 21,
   lg: 30,
   xlg: 35,

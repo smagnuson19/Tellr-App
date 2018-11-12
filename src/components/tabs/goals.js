@@ -33,9 +33,11 @@ class Goals extends Component {
       this.setState({ email: value });
     }).done();
     axios.get(`${ROOT_URL}/goals/${this.state.email}`).then((response) => {
+
       // make a list of the parent's children
       // const goalList = response.data;
       // console.log('goalList ${goalList}');
+
     });
     return (
       <Button
