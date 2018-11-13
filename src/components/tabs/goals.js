@@ -7,8 +7,11 @@ import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 // import Login from './login';
 import { Badge, Button, Divider } from 'react-native-elements';
+import { StackActions, NavigationActions } from 'react-navigation';
+// import { NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 import GoalsCard from './goalsTabCard';
+
 
 // import AvatarImage from './avatarImage';
 // import GoalsCard from './goalsCard';
@@ -43,6 +46,11 @@ class Goals extends Component {
     }).catch((error) => {
       console.log('ERROR in NewGoal');
     });
+    this.fetchAtLoad();
+  }
+
+  fetchAtLoad() {
+    this.fetchGoals();
   }
 
   fetchGoals() {
@@ -55,13 +63,14 @@ class Goals extends Component {
       // loop through each kid and make an object for them with FirstName, Email
       Object.keys(gList).forEach((key) => {
         console.log('Checking');
-        if (gList[key].approved !== 30 && gList[key].redeemed === false) {
+        if (gList[key].approved === 1 && gList[key].redeemed === false) {
           goalList.push({
             key,
             goalName: gList[key].name,
             goalValue: gList[key].value,
             goalDescription: gList[key].description,
             goalImage: gList[key].image,
+            App: gList[key].approved,
             // goalProgress: (parseFloat(this.state.balance)/parseFloat(gList[key].value));
           });
         } else {
@@ -92,8 +101,31 @@ class Goals extends Component {
     });
   }
 
-  redeemAction(action) {
-    console.log('Button Pressed to redeem');
+  redeemAction(action, gValue, gApproved, gName) {
+    console.log(gValue);
+    console.log(gApproved);
+    console.log(gName);
+
+    const resetAction = StackActions.reset({
+      index: 0, // <-- currect active route from actions array
+      key: null,
+      actions: [
+        NavigationActions.navigate({ routeName: 'ChildTabBar' }),
+      ],
+    });
+    if (this.state.Balance > gValue && gApproved === 1) {
+      // goal is good for redemption
+      const payLoad = {
+        email: this.state.childEmail,
+        goalName: gName,
+      };
+      axios.post(`${ROOT_URL}/redeem`, { payLoad })
+        .then((response) => {
+          this.props.navigation.dispatch(resetAction);
+        });
+    }
+    console.log('Handled redemption');
+    // this.props.navigation.navigate('Home');
   }
 
   renderGoals() {
