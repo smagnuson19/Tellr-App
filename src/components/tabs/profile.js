@@ -124,7 +124,7 @@ class Profile extends Component {
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
-            <View style={Style.headerText}>
+            <View style={Style.headerTextContainter}>
               <Text style={Style.headerText}>Profile </Text>
             </View>
             <View style={pageStyle.sectionContainer}>
