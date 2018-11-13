@@ -7,7 +7,7 @@ import { colors } from '../styling/base';
 // import Login from './login';
 import Style from '../styling/Style';
 
-const ROOT_URL = 'http://localhost:5000/api';
+const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 
 class Loading extends Component {
   constructor(props) {

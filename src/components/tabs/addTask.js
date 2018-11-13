@@ -18,7 +18,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
 
-const ROOT_URL = 'http://localhost:5000/api';
+const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 
 
 class AddTask extends Component {
