@@ -25,14 +25,15 @@ class Child extends Component {
         <View style={pageStyle.topContainer}>
           <View style={pageStyle.nameContainer}>
             <Text style={pageStyle.headerText}>
-            Hey
+              {'Hey '}
               {this.props.firstName}
+              {'!'}
             </Text>
           </View>
         </View>
         <View style={pageStyle.balanceContainer}>
           <Text style={pageStyle.balanceText}>
-        $
+            {'$'}
             {this.props.balance}
           </Text>
         </View>
