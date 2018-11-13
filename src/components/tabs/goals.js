@@ -51,21 +51,16 @@ class Goals extends Component {
 
 
   componentWillMount() {
-    console.log('Getting balance');
-    AsyncStorage.getItem('emailID', (err, result) => {
-      const API_KEY_USERS = result.slice(1, -1);
+    console.log('Fetching info');
+    AsyncStorage.multiGet(['emailID', 'balanceID'], (err, result) => {
+      const API_KEY_USERS = result[0][1].slice(1, -1);
+      const BALANCE = result[1][1];
+      console.log(BALANCE);
+      console.log(API_KEY_USERS);
       this.setState({ senderEmail: API_KEY_USERS });
+      this.setState({ Balance: BALANCE });
     }).catch((error) => {
-      console.log('ERROR in Goals');
-    });
-    return axios.get(`${ROOT_URL}/users/${this.state.senderEmail}`).then((response) => {
-      // make a list of the parent's children
-      const balance = response.data.balance;
-      console.log('Got balance');
-      console.log(this.state.Balance);
-      this.setState({ Balance: balance });
-    }).catch((error) => {
-      console.log('ERROR in Goals');
+      console.log('ERROR in NewGoal');
     });
   }
 
@@ -97,6 +92,8 @@ class Goals extends Component {
   // }
 
   render() {
+    const balanceString0 = 'Current Balance: $';
+    const balanceString = `${balanceString0} ${this.state.Balance}`;
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
@@ -104,12 +101,9 @@ class Goals extends Component {
             <Text style={Style.headerText}>Goals!</Text>
             <Badge containerStyle={{
               backgroundColor: 'white',
-              justifyContent: 'center',
-              alignItems: 'stretch',
             }}
             >
-              <Text>Current Balance:</Text>
-              <Text>{this.state.Balance}</Text>
+              <Text style={Style.headerText}>{balanceString}</Text>
             </Badge>
             <Button
               onPress={() => {
