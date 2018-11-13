@@ -71,7 +71,7 @@ class Goals extends Component {
 
   getGoals() {
     console.log(this.state.senderEmail);
-    return axios.get(`${ROOT_URL}/goals/jed@jed.com`).then((response) => {
+    return axios.get(`${ROOT_URL}/goals/${this.state.senderEmail}`).then((response) => {
       // make a list of the parent's children
       console.log('Dealing With Response');
       const gList = response.data;
@@ -81,9 +81,9 @@ class Goals extends Component {
         if (gList[key].approved !== 30 && gList[key].redeemed === false) {
           goalList.push({
             goalName: gList[key].name,
-            // goalValue: gList[key].value,
-            // goalDescription: gList[key].description,
-            // goalImage: gList[key].image,
+            goalValue: gList[key].value,
+            goalDescription: gList[key].description,
+            goalImage: gList[key].image,
           });
         } else {
           console.log('Not Approved Goal');
