@@ -28,6 +28,7 @@ class Home extends Component {
     // Bind this instance used in navigationToAccount to this component
     this.navigationToAccount = this.navigationToAccount.bind(this);
     this.renderGoalAction = this.renderGoalAction.bind(this);
+    this.renderVerifyAction = this.renderVerifyAction.bind(this);
   }
 
   componentDidMount() {
@@ -121,25 +122,52 @@ class Home extends Component {
   }
 
 
+  // sEmail is the childs and cEmail is the parents or assigners
   renderGoalAction(action, goalName, sEmail, cEmail, priority) {
     let num;
-    if (action === 'true') {
+    console.log(action);
+
+    // Ignore won't ever come in because you cant do that
+    if (action === 'Accept') {
       num = 1;
-    } else if (action === 'false') {
-      num = 0;
-    } else { // here we know that its a dismiss
+    } else if (action === 'Deny') {
+      num = -1;
+    } else if (action === 'Complete') {
+      let payLoad = {
+        email: sEmail,
+        priority,
+      };
+      console.log('WORKING');
+      console.log(payLoad);
+      axios.post(`${ROOT_URL}/tasks/completed`, { payLoad })
+        .then((response) => {
+          console.log(response.data);
+          payLoad = {
+            email: sEmail,
+            priority,
+          };
+          axios.post(`${ROOT_URL}/notifications`, { payLoad })
+            .then((res) => {
+              console.log(res.data);
+              this.fetchAtLoad();
+            });
+        });
+      return ('nothing');
+    } else if (action === 'Dismiss') { // here we know that its a dismiss
       const payLoad = {
         email: sEmail,
         priority,
       };
 
-      axios.post(`${ROOT_URL}/api/notifications`, { payLoad })
+      axios.post(`${ROOT_URL}/notifications`, { payLoad })
         .then((response) => {
           console.log(response.data);
+          this.fetchAtLoad();
         });
       return ('nothing');
     }
-    const payLoad = {
+
+    let payLoad = {
       goalName,
       childEmail: cEmail,
       approved: num,
@@ -151,15 +179,17 @@ class Home extends Component {
     axios.post(`${ROOT_URL}/goals/approve`, { payLoad })
       .then((response) => {
         console.log(response.data);
-        // payLoad = {
-        //   email: sEmail,
-        //   priority,
-        // };
-        // axios.post(`${ROOT_URL}/api/notifications`, { payLoad })
-        //   .then((res) => {
-        //     console.log(res.data);
-        //     this.fetchAtLoad();
-        //   });
+        payLoad = {
+          email: sEmail,
+          priority,
+        };
+        console.log('Its all ending');
+        console.log(payLoad);
+        axios.post(`${ROOT_URL}/notifications`, { payLoad })
+          .then((res) => {
+            console.log(res.data);
+            this.fetchAtLoad();
+          });
       });
     return ('nothing');
   }
@@ -209,12 +239,50 @@ class Home extends Component {
     );
   }
 
-  // not instantiated yet
-  renderChoresCompleted() {
+  // sEmail is the childs and cEmail is the parents
+  renderVerifyAction(action, goalName, sEmail, cEmail, priority) {
+    let num;
+    if (action === 'Accept') {
+      num = true;
+    } else {
+      num = false;
+    }
+    let payLoad = {
+      email: sEmail,
+      priority,
+      verify: num,
+    };
+
+    axios.post(`${ROOT_URL}/goals/verified`, { payLoad })
+      .then((response) => {
+        console.log(response.data);
+        payLoad = {
+          email: sEmail,
+          goalName,
+        };
+        console.log('redeemGoal');
+        console.log(payLoad);
+        axios.post(`${ROOT_URL}/redeem`, { payLoad })
+          .then((res) => {
+            payLoad = {
+              email: cEmail,
+              priority,
+            };
+            axios.post(`${ROOT_URL}/notifications`, { payLoad })
+              .then((result) => {
+                console.log(result.data);
+                this.fetchAtLoad();
+              });
+          });
+      });
+    return ('nothing');
+  }
+
+  renderChoresToVerify() {
     return (
       <View style={pageStyle.sectionContainer}>
         <Text style={pageStyle.sectionHeader}>
-      Recently Completed Chores
+          Verify Chore Completion
         </Text>
         <Divider style={pageStyle.divider} />
         { this.state.displayInfo.map(goal => (
@@ -222,7 +290,7 @@ class Home extends Component {
             <GoalsCard goals={goal}
               notificationTypePassed="taskComplete"
               completed={false}
-              onPress={this.renderGoalAction}
+              onPress={this.renderVerifyAction}
             />
 
           </View>
@@ -259,6 +327,9 @@ class Home extends Component {
           {this.renderGoalsToComplete()}
 
 
+          {this.renderChoresToVerify()}
+
+
           {this.renderGoalsCompleted()}
         </ScrollView>
 
@@ -268,13 +339,9 @@ class Home extends Component {
 
   // render of the childs view
   renderChildView() {
-    console.log('info to render for CHILLD');
-    console.log(this.state.children);
-    console.log(this.state.displayInfo);
-
     if ((this.state.children.length !== 0) && (this.state.children.length !== 0)) {
       return (
-        <Child firstName={this.state.children.firstName} balance={this.state.children.balance} task={this.state.displayInfo} />
+        <Child firstName={this.state.children.firstName} balance={this.state.children.balance} task={this.state.displayInfo} onPress={this.renderGoalAction} />
       );
     } else {
       return (
