@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, AsyncStorage, Button,
+  View, Text, StyleSheet, AsyncStorage,
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
@@ -8,7 +8,7 @@ import { Divider } from 'react-native-elements';
 import Style from '../../styling/Style';
 import { colors, fonts, dimensions } from '../../styling/base';
 
-const ROOT_URL = 'http://localhost:5000/api';
+const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
 class Profile extends Component {

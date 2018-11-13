@@ -9,7 +9,7 @@ import { FormInput, Button } from 'react-native-elements';
 import { colors } from '../styling/base';
 import Style from '../styling/Style';
 
-const ROOT_URL = 'http://localhost:5000/api';
+const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 
 class Login extends Component {
   constructor(props) {
