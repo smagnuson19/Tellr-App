@@ -39,7 +39,7 @@ class Profile extends Component {
       this.setState({ accountName: account });
     });
 
-    sleep(20).then(() => {
+    sleep(30).then(() => {
       if (this.state.accountType === 'Parent') {
         AsyncStorage.getItem('emailID', (err, result) => {
           // get rid of the quotes

@@ -92,7 +92,6 @@ class Payments extends Component {
     } else {
       axios.post(`${ROOT_URL}/balance`, { payLoad })
         .then((response) => {
-          console.log(response.data);
           this.props.navigation.dispatch(resetAction);
         });
     }
