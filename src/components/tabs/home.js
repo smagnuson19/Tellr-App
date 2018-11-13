@@ -118,7 +118,10 @@ class Home extends Component {
 
   // navigate to the correct account for child on a click
   navigationToAccount(childEmail) {
-    this.props.navigation.navigate('ChildPage');
+    console.log('SOMETHING IS WORKKING');
+    this.props.navigation.navigate('ChildPageStack', {
+      email: childEmail,
+    });
   }
 
 
@@ -288,7 +291,7 @@ class Home extends Component {
         { this.state.displayInfo.map(goal => (
           <View key={goal.id}>
             <GoalsCard goals={goal}
-              notificationTypePassed="taskComplete"
+              notificationTypePassed="taskUnverified"
               completed={false}
               onPress={this.renderVerifyAction}
             />
@@ -305,7 +308,7 @@ class Home extends Component {
       <View style={pageStyle.avatarRow}>
         { this.state.children.map(person => (
           <View key={person.email}>
-            <AvatarImage onPress={this.navigationToAccount} individual={person} />
+            <AvatarImage onPressNav={this.navigationToAccount} individual={person} />
 
           </View>
         ))}
@@ -323,7 +326,7 @@ class Home extends Component {
           {this.renderAvatarRow()}
         </View>
 
-        <ScrollView tyle={pageStyle.main}>
+        <ScrollView style={pageStyle.main}>
           {this.renderGoalsToComplete()}
 
 
