@@ -192,15 +192,6 @@ class Profile extends Component {
               <Text style={pageStyle.sectionHeader}> Settings </Text>
               <Divider style={pageStyle.divider} />
 
-              // <View style={pageStyle.buttonContainer}>
-              //   <Button
-              //     title="Delete Account"
-              //     color={colors.secondary}
-              //     style={pageStyle.settingsButton}
-              //     onPress={() => this.deleteAccount()}
-              //   />
-              // </View>
-
               <View style={pageStyle.buttonContainer}>
                 <Button
                   title="Logout"
