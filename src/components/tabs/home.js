@@ -119,6 +119,7 @@ class Home extends Component {
   // navigate to the correct account for child on a click
   navigationToAccount(childEmail) {
     console.log('SOMETHING IS WORKKING');
+    console.log(childEmail);
     this.props.navigation.navigate('ChildPage', {
       email: childEmail,
     });
@@ -231,7 +232,7 @@ class Home extends Component {
           <View key={goal.id}>
             <GoalsCard goals={goal}
               notificationTypePassed="goalComplete"
-              completed={false}
+              nothing
               onPress={this.renderGoalAction}
             />
 

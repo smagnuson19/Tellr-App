@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet,
+  View, Text, StyleSheet, ScrollView,
 } from 'react-native';
 import { fonts, colors, dimensions } from '../../styling/base';
 import GoalsCard from './goalsCard';
@@ -21,8 +21,14 @@ class Child extends Component {
   }
 
   checkEmptyTasks() {
-    const empty = this.props.task.length;
-    if (empty !== 0) {
+    let empty;
+    for (let i = 0; i < this.props.task.length; i++) {
+      if (i.notificationType === 'newTask') {
+        empty = false;
+      }
+    }
+    console.log(this.props.task);
+    if (empty === false) {
       return (
 
         <View>
@@ -67,17 +73,16 @@ class Child extends Component {
           </View>
 
         </View>
-        <View style={pageStyle.main}>
+        <ScrollView style={pageStyle.main}>
 
           <View style={pageStyle.sectionContainer}>
             <Text style={pageStyle.sectionHeader}>
         Complete The Tasks
             </Text>
-
             {this.checkEmptyTasks()}
 
           </View>
-        </View>
+        </ScrollView>
       </View>
     );
   }
