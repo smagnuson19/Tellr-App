@@ -51,11 +51,11 @@ class SignUp extends Component {
     axios.post(`${ROOT_URL}/users`, { payLoad })
       .then((response) => {
         console.log(response.data[0].Success);
-        if (response.data[0].Success === true) {
-          this.props.navigation.dispatch(resetAction);
-        } else {
+        if (response.data[0].Success === false) {
           Alert.alert('This email is already associated with an account.');
           console.log('ERROR: email already has account');
+        } else {
+          this.props.navigation.dispatch(resetAction);
         }
       });
   }
