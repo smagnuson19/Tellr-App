@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet,
+  View, Text, StyleSheet, ScrollView,
 } from 'react-native';
 import { fonts, colors, dimensions } from '../../styling/base';
 import GoalsCard from './goalsCard';
@@ -75,6 +75,7 @@ class Child extends Component {
             </Text>
 
             {this.checkEmptyTasks()}
+
           </View>
         </View>
       </View>
