@@ -23,7 +23,14 @@ import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 
 const HomeStack = createStackNavigator({
   Home: { screen: Home },
-  ChildPage: { screen: ParentViewOfChild },
+  ChildPage: {
+    screen: ParentViewOfChild,
+    headerMode: 'none',
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+
+  },
 },
 {
   initialRouteName: 'Home',

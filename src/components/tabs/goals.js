@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   // View, Text, StyleSheet, AsyncStorage,
-  View, Text, AsyncStorage, ScrollView,
+  View, Text, AsyncStorage, ScrollView, Alert,
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
@@ -114,7 +114,7 @@ class Goals extends Component {
         NavigationActions.navigate({ routeName: 'ChildTabBar' }),
       ],
     });
-    if (this.state.Balance > gValue && gApproved === 1) {
+    if (this.state.Balance >= gValue && gApproved === 1) {
       // goal is good for redemption
       const payLoad = {
         email: this.state.childEmail,
@@ -124,6 +124,11 @@ class Goals extends Component {
         .then((response) => {
           this.props.navigation.dispatch(resetAction);
         });
+      AsyncStorage.setItem('balanceID', JSON.stringify(parseFloat(this.state.Balance) - parseFloat(gValue)), () => {
+      });
+    } else if (this.state.Balance < gValue) {
+      Alert.alert('You don\'t have the money! Complete a task to make more');
+      console.log('ERROR: reward money greater than balance money');
     }
     console.log('Handled redemption');
     // this.props.navigation.navigate('Home');
@@ -158,7 +163,7 @@ class Goals extends Component {
       return (
         <View style={Style.rootContainer}>
           <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
-            <View style={Style.displayContainer}>
+            <View style={Style.contentWrapper}>
               <Text style={Style.headerText}>No Goals to Show</Text>
             </View>
           </LinearGradient>
@@ -173,7 +178,7 @@ class Goals extends Component {
       return (
         <View style={Style.rootContainer}>
           <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
-            <View style={Style.displayContainer}>
+            <View style={Style.contentWrapper}>
               <Text style={Style.headerText}>Goals!</Text>
               <ScrollView>
                 <Badge containerStyle={{
