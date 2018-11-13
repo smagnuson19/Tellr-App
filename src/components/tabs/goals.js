@@ -124,6 +124,8 @@ class Goals extends Component {
         .then((response) => {
           this.props.navigation.dispatch(resetAction);
         });
+      AsyncStorage.setItem('balanceID', JSON.stringify(parseFloat(this.state.Balance) - parseFloat(gValue)), () => {
+      });
     }
     console.log('Handled redemption');
     // this.props.navigation.navigate('Home');
