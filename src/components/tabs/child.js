@@ -21,13 +21,14 @@ class Child extends Component {
   }
 
   checkEmptyTasks() {
-    let empty;
+    let empty = true;
     for (let i = 0; i < this.props.task.length; i++) {
-      if (i.notificationType === 'newTask') {
+      console.log(this.props.task[i].notificationType);
+      if (this.props.task[i].notificationType === 'newTask') {
         empty = false;
       }
     }
-    console.log(this.props.task);
+    console.log(empty);
     if (empty === false) {
       return (
 
