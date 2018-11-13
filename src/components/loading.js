@@ -4,7 +4,6 @@ import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { colors } from '../styling/base';
-// import Login from './login';
 import Style from '../styling/Style';
 
 const ROOT_URL = 'http://localhost:5000/api';
