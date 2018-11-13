@@ -46,7 +46,7 @@ class Goals extends Component {
 
   fetchGoals() {
     console.log(this.state.senderEmail);
-    return axios.get(`${ROOT_URL}/goals/jed@jed.com`).then((response) => {
+    return axios.get(`${ROOT_URL}/goals/${this.state.senderEmail}`).then((response) => {
       // make a list of the parent's children
       console.log('Dealing With Response');
       const gList = response.data;
