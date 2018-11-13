@@ -19,7 +19,7 @@ import { colors, fonts } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
 
-const API_KEY_TASKS = '';
+const API_KEY_TASKS = 'tasks';
 const API_KEY_CHILD = 'children';
 
 class AddTask extends Component {
