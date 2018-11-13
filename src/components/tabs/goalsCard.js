@@ -27,12 +27,41 @@ class GoalsCard extends Component {
     );
   }
 
+  displaySecond(item) {
+    if (item === 'Deny') {
+      return (
+        <TouchableOpacity style={pageStyle.checkButton}
+          onPress={() => this.buttonPress(item)}
+        >
+          <View style={pageStyle.buttonView}>
+            <Ionicons name="close"
+              size={20}
+              color="rgb(240, 64, 64)"
+            />
+            <Text style={pageStyle.text}>
+              {item}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      );
+    } else {
+      return (null);// we dont want to display anything
+    }
+  }
+
   displayCorrectItems() {
+    let names = [];
+
+    if (this.props.typeChore) {
+      names = ['Complete', 'Ignore'];
+    } else {
+      names = ['Accept', 'Deny'];
+    }
     if (this.props.completed === false) {
       return (
         <View style={pageStyle.actionBar}>
           <TouchableOpacity style={pageStyle.checkButton}
-            onPress={() => this.buttonPress(true)}
+            onPress={() => this.buttonPress(names[0])}
           >
             <View style={pageStyle.buttonView}>
               <Ionicons name="check"
@@ -40,30 +69,18 @@ class GoalsCard extends Component {
                 color="rgb(112, 214, 76)"
               />
               <Text style={pageStyle.text}>
-          Accept
+                {names[0]}
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={pageStyle.checkButton}
-            onPress={() => this.buttonPress(false)}
-          >
-            <View style={pageStyle.buttonView}>
-              <Ionicons name="close"
-                size={20}
-                color="rgb(240, 64, 64)"
-              />
-              <Text style={pageStyle.text}>
-          Deny
-              </Text>
-            </View>
-          </TouchableOpacity>
+          {this.displaySecond(names[1])}
         </View>
       );
     } else {
       return (
         <View style={pageStyle.actionBar}>
           <TouchableOpacity style={pageStyle.checkButton}
-            onPress={() => this.buttonPress(false)}
+            onPress={() => this.buttonPress('Dismiss')}
           >
             <View style={pageStyle.buttonView}>
 
@@ -75,6 +92,11 @@ class GoalsCard extends Component {
         </View>
       );
     }
+  }
+
+  // Need to implement
+  displayDueDate() {
+    return (null);
   }
 
   render() {
@@ -102,6 +124,7 @@ class GoalsCard extends Component {
           <Divider style={pageStyle.divider} />
           <View style={pageStyle.descriptionContainer}>
             <Text style={pageStyle.descriptionText}>
+              {this.displayDueDate()}
               {this.props.goals.description}
 
             </Text>
@@ -111,9 +134,7 @@ class GoalsCard extends Component {
       );
     } else {
       return (
-        <View style={pageStyle.noGoals}>
-          <Text style={pageStyle.noGoalsText}> No goals yet!</Text>
-        </View>
+        null
       );
     }
   }

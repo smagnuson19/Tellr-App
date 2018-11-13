@@ -13,8 +13,8 @@ class AvatarImage extends Component {
     };
   }
 
-  buttonPress() {
-    this.props.onPress(this.props.email);
+  bPress() {
+    this.props.onPressNav(this.props.email);
   }
 
   render() {
@@ -25,7 +25,7 @@ class AvatarImage extends Component {
       <View style={pageStyle.avatarContainer}>
         <TouchableOpacity
           style={pageStyle.avatarBackground}
-          onPress={() => this.buttonPress()}
+          onPress={() => this.bPress()}
         >
           <View style={pageStyle.avatarInnerCircle}>
             <Text style={pageStyle.avatarText}>
