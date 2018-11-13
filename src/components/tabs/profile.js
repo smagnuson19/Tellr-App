@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {
+  View, Text, StyleSheet, AsyncStorage,
+} from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 import { Divider } from 'react-native-elements';
@@ -13,7 +15,8 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // persons: [],
+      children: [],
+      accountType: '',
     };
   }
 
@@ -22,14 +25,54 @@ class Profile extends Component {
   }
 
   fetchNames() {
-    return axios.get(`${ROOT_URL}/${API_KEY}`).then((response) => {
-      console.log('Hello');
-      const payload = response.data;
-      console.log(payload);
-      // this.setState({ persons: payload });
-    }).catch((error) => {
-      console.log('ERROR in ');
+    AsyncStorage.getItem('emailID', (err, result) => {
+      // get rid of the quotes
+      const API_KEY_USERS = result.slice(1, -1);
+      console.log(API_KEY_USERS);
+      // this.setState({ senderEmail: API_KEY_USERS });
+      return axios.get(`${ROOT_URL}/children/${API_KEY_USERS}`).then((response) => {
+        // make a list of the parent's children
+        const childList = response.data;
+        const childrenList = [];
+        // loop through each kid and make an object for them with FirstName, Email
+        Object.keys(childList).forEach((key) => {
+          childrenList.push({ label: childList[key].firstName, value: childList[key] });
+        });
+        this.setState({ children: childrenList });
+        console.log(this.state.children, 'children');
+      }).catch((error) => {
+        console.log('ERROR in Profile');
+      });
     });
+    AsyncStorage.getItem('accountTypeID', (err, result) => {
+      const account = result.slice(1, -1);
+      this.setState({ accountType: account });
+    });
+  }
+
+  displayChildren() {
+    const kidsList = [];
+    for (let i = 0; i < this.state.children.length; i++) {
+      kidsList.push({
+        name: this.state.children[i].value.firstName,
+        balance: this.state.children[i].value.balance,
+      });
+    }
+    console.log(kidsList, 'kids');
+    return (
+      <View style={pageStyle.sectionContainer}>
+        <Text style={pageStyle.sectionText}> Children: </Text>
+        { kidsList.map(person => (
+          <Text style={pageStyle.subSectionText}>
+            {''}
+            {person.name}
+            {',  Balance: $'}
+            {person.balance}
+            {' '}
+          </Text>
+        ))}
+      </View>
+    );
   }
 
   render() {
@@ -43,13 +86,22 @@ class Profile extends Component {
             <View style={pageStyle.sectionContainer}>
               <Text style={pageStyle.sectionHeader}> Account </Text>
               <Divider style={pageStyle.divider} />
-              <Text style={pageStyle.sectionText}> Account Type: </Text>
-              <Text style={pageStyle.sectionText}> Children: </Text>
-              <Text style={pageStyle.sectionText}> Other Family members: </Text>
+
+              <View style={pageStyle.sectionContainer}>
+                <Text style={pageStyle.sectionText}> Account Type: </Text>
+                <Text style={pageStyle.subSectionText}>
+                  {' '}
+                  {this.state.accountType}
+                  {' '}
+                </Text>
+              </View>
+
+              {this.displayChildren()}
             </View>
             <View style={pageStyle.sectionContainer}>
               <Text style={pageStyle.sectionHeader}> Settings </Text>
               <Divider style={pageStyle.divider} />
+
               <Text style={pageStyle.sectionText}> Change Password </Text>
               <Text style={pageStyle.sectionText}> Delete Account </Text>
               <Text style={pageStyle.sectionText}> Logout </Text>
@@ -72,19 +124,37 @@ const pageStyle = StyleSheet.create({
     fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
     paddingVertical: 6,
+    marginLeft: 5,
   },
   sectionText: {
+    fontSize: fonts.smmd,
+    fontWeight: 'bold',
+    color: colors.primary,
+    fontFamily: fonts.secondary,
+    justifyContent: 'flex-start',
+    paddingVertical: 6,
+    marginLeft: 5,
+  },
+  subSectionText: {
     fontSize: fonts.sm,
     color: '#fff',
     fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
     paddingVertical: 6,
+    marginLeft: 10,
   },
   divider: {
     backgroundColor: colors.secondary,
     height: 2,
     marginTop: 6,
     marginBottom: 6,
+  },
+  avatarRow: {
+    flexDirection: 'row',
+    // width: dimensions.fullWidth,
+    justifyContent: 'center',
+    marginTop: 105,
+    marginHorizontal: 20,
   },
 
 });
