@@ -27,6 +27,20 @@ class GoalsCard extends Component {
     );
   }
 
+  displaySenderName() {
+    if (this.props.goals.senderName !== '' || this.props.goals.senderName !== null) {
+      return (
+        <View style={pageStyle.pageFiller}>
+          <Text>
+            {this.props.goals.senderName}
+          </Text>
+        </View>
+      );
+    } else {
+      return ('');
+    }
+  }
+
   displaySecond(item) {
     if (item === 'Deny') {
       return (
@@ -107,7 +121,7 @@ class GoalsCard extends Component {
           wrapperStyle={pageStyle.wrapperStyle}
         >
           <View style={pageStyle.headerView}>
-            <View style={pageStyle.pageFiller} />
+            {this.displaySenderName()}
             <View style={pageStyle.titleFiller}>
               <Text style={pageStyle.titleStyle}>
                 {this.props.goals.notificationName}
