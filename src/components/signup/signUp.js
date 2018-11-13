@@ -3,6 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import axios from 'axios';
 import {
@@ -49,14 +50,14 @@ class SignUp extends Component {
 
     axios.post(`${ROOT_URL}/users`, { payLoad })
       .then((response) => {
-        console.log(response.data);
-        this.props.navigation.dispatch(resetAction);
+        console.log(response.data[0].Success);
+        if (response.data[0].Success === true) {
+          this.props.navigation.dispatch(resetAction);
+        } else {
+          Alert.alert('This email is already associated with an account.');
+          console.log('ERROR: email already has account');
+        }
       });
-
-    // const emailObject = this.state.email;
-    //
-    // AsyncStorage.setItem('emailID', JSON.stringify(emailObject), () => {
-    // });
   }
 
   displayAdditionalFields(userType) {
