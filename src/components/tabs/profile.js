@@ -132,6 +132,32 @@ class Profile extends Component {
     this.props.navigation.dispatch(resetAction);
   }
 
+  // deleteAccount() {
+  //   // move to login page after you delete the account
+  //   const resetAction = StackActions.reset({
+  //     index: 0, // <-- currect active route from actions array
+  //     key: null,
+  //     actions: [
+  //       NavigationActions.navigate({ routeName: 'Login' }),
+  //     ],
+  //   });
+  //
+  //   const payLoad = {
+  //     taskName: this.state.taskName,
+  //     reward: this.state.reward,
+  //     taskDeadline: this.state.taskDeadline,
+  //     taskDescription: this.state.taskDescription,
+  //     childEmail: this.state.childEmail,
+  //     senderEmail: this.state.senderEmail,
+  //   };
+  //
+  //   axios.post(`${ROOT_URL}/tasks`, { payLoad })
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       this.props.navigation.dispatch(resetAction);
+  //     });
+  // }
+
   render() {
     return (
       <View style={Style.rootContainer}>
@@ -168,15 +194,22 @@ class Profile extends Component {
               <Text style={pageStyle.sectionHeader}> Settings </Text>
               <Divider style={pageStyle.divider} />
 
-              <Text style={pageStyle.sectionText}> Change Password </Text>
-              <Text style={pageStyle.sectionText}> Delete Account </Text>
-              <View style={pageStyle.settingsButton}>
+              <View style={pageStyle.sectionContainer}>
+                <Text style={pageStyle.sectionText}> Change Password </Text>
+              </View>
+
+              <View style={pageStyle.sectionContainer}>
+                <Text style={pageStyle.sectionText}> Delete Account </Text>
+              </View>
+
+              <View style={pageStyle.buttonContainer}>
                 <Button
                   title="Logout"
                   style={pageStyle.settingsButton}
                   onPress={() => this.logout()}
                 />
               </View>
+
             </View>
           </View>
         </LinearGradient>
@@ -226,9 +259,12 @@ const pageStyle = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.secondary,
     fontFamily: fonts.secondary,
-    justifyContent: 'flex-start',
-    paddingVertical: 6,
-    marginLeft: 5,
+  },
+  buttonContainer: {
+    flex: 0,
+    flexDirection: 'column',
+    alignSelf: 'flex-start',
+    marginLeft: 3,
   },
 });
 
