@@ -163,7 +163,7 @@ class Goals extends Component {
       return (
         <View style={Style.rootContainer}>
           <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
-            <View style={Style.displayContainer}>
+            <View style={Style.contentWrapper}>
               <Text style={Style.headerText}>No Goals to Show</Text>
             </View>
           </LinearGradient>
@@ -178,7 +178,7 @@ class Goals extends Component {
       return (
         <View style={Style.rootContainer}>
           <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
-            <View style={Style.displayContainer}>
+            <View style={Style.contentWrapper}>
               <Text style={Style.headerText}>Goals!</Text>
               <ScrollView>
                 <Badge containerStyle={{
