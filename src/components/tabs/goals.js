@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   // View, Text, StyleSheet, AsyncStorage,
-  View, Text, AsyncStorage, ScrollView,
+  View, Text, AsyncStorage, ScrollView, Alert,
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
@@ -113,7 +113,7 @@ class Goals extends Component {
         NavigationActions.navigate({ routeName: 'ChildTabBar' }),
       ],
     });
-    if (this.state.Balance > gValue && gApproved === 1) {
+    if (this.state.Balance >= gValue && gApproved === 1) {
       // goal is good for redemption
       const payLoad = {
         email: this.state.senderEmail,
@@ -126,6 +126,9 @@ class Goals extends Component {
         });
       AsyncStorage.setItem('balanceID', JSON.stringify(parseFloat(this.state.Balance) - parseFloat(gValue)), () => {
       });
+    } else if (this.state.Balance < gValue) {
+      Alert.alert('You don\'t have the money! Complete a task to make more');
+      console.log('ERROR: reward money greater than balance money');
     }
     console.log('Handled redemption');
     // this.props.navigation.navigate('Home');
