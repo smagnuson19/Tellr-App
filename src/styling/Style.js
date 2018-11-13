@@ -34,6 +34,11 @@ const Style = StyleSheet.create({
     marginBottom: 30,
   },
 
+  headerTextContainter: {
+    alignItems: 'flex-start',
+    marginTop: -205,
+  },
+
   headerImage: {
     marginTop: 80,
     marginBottom: 100,
