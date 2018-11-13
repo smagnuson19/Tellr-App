@@ -64,6 +64,9 @@ class Goals extends Component {
             // goalProgress: (parseFloat(this.state.balance)/parseFloat(gList[key].value));
           });
         } else {
+          console.log('Not Approved Goal');
+        }// end if
+        if (this.state.Goals.length > 0) {
           goalList.push({
             goalName: 'This Is the Goal Tab',
             goalDescription: 'Add Goals Below or Redeem Completed Goals',
@@ -71,8 +74,7 @@ class Goals extends Component {
             goalValue: 1,
           });
           console.log('Default Goal');
-          console.log('Not Approved Goal');
-        }// end if
+        }
       });// end for each
       // if (typeof this.state.Goals !== 'undefined' && this.state.Goals.length === 0) {
       //   goalList.push({
