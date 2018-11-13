@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   // View, Text, StyleSheet, AsyncStorage,
-  View, Text, AsyncStorage, ScrollView,
+  View, Text, AsyncStorage, ScrollView, Alert,
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
@@ -63,11 +63,10 @@ class Goals extends Component {
       // loop through each kid and make an object for them with FirstName, Email
       Object.keys(gList).forEach((key) => {
         console.log('Checking');
-        if (gList[key].approved === 1) {
+        if (gList[key].approved === 1 && gList[key].redeemed === false) {
           goalList.push({
             key,
             goalName: gList[key].name,
-            redeemed: gList[key].redeemed,
             goalValue: gList[key].value,
             goalDescription: gList[key].description,
             goalImage: gList[key].image,
@@ -84,8 +83,6 @@ class Goals extends Component {
           goalDescription: 'Add Goals Below or Redeem Completed Goals',
           goalImage: 'http://chittagongit.com//images/goal-icon/goal-icon-4.jpg',
           goalValue: 1,
-          App: 1,
-          redeemed: true,
         });
         console.log('Default Goal');
       }
@@ -116,8 +113,7 @@ class Goals extends Component {
         NavigationActions.navigate({ routeName: 'ChildTabBar' }),
       ],
     });
-    if (this.state.Balance > gValue && gApproved === 1) {
-      console.log('Good to redeem');
+    if (this.state.Balance >= gValue && gApproved === 1) {
       // goal is good for redemption
       const payLoad = {
         email: this.state.senderEmail,
@@ -128,6 +124,11 @@ class Goals extends Component {
         .then((response) => {
           this.props.navigation.dispatch(resetAction);
         });
+      AsyncStorage.setItem('balanceID', JSON.stringify(parseFloat(this.state.Balance) - parseFloat(gValue)), () => {
+      });
+    } else if (this.state.Balance < gValue) {
+      Alert.alert('You don\'t have the money! Complete a task to make more');
+      console.log('ERROR: reward money greater than balance money');
     }
     console.log('Handled redemption');
     // this.props.navigation.navigate('Home');
@@ -177,7 +178,7 @@ class Goals extends Component {
       return (
         <View style={Style.rootContainer}>
           <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
-            <View style={Style.displayContainer}>
+            <View style={Style.contentWrapper}>
               <Text style={Style.headerText}>Goals!</Text>
               <ScrollView>
                 <Badge containerStyle={{
