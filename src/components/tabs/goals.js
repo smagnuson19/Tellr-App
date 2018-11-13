@@ -63,10 +63,11 @@ class Goals extends Component {
       // loop through each kid and make an object for them with FirstName, Email
       Object.keys(gList).forEach((key) => {
         console.log('Checking');
-        if (gList[key].approved === 1 && gList[key].redeemed === false) {
+        if (gList[key].approved === 1) {
           goalList.push({
             key,
             goalName: gList[key].name,
+            redeemed: gList[key].redeemed,
             goalValue: gList[key].value,
             goalDescription: gList[key].description,
             goalImage: gList[key].image,
@@ -116,10 +117,9 @@ class Goals extends Component {
     if (this.state.Balance > gValue && gApproved === 1) {
       // goal is good for redemption
       const payLoad = {
-        email: this.state.senderEmail,
+        email: this.state.childEmail,
         goalName: gName,
       };
-      console.log(payLoad);
       axios.post(`${ROOT_URL}/redeem`, { payLoad })
         .then((response) => {
           this.props.navigation.dispatch(resetAction);

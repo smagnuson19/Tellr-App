@@ -49,9 +49,13 @@ class GoalsCard extends Component {
     const progress0 = parseFloat(this.props.balance) / parseFloat(this.props.goals.goalValue);
     const progress = Math.trunc(Math.min(progress0 * 100, 100));
     const progressString = `${progString0} ${progress} ${progString1}`;
+    let style = pageStyle.cardContainer;
+    if (this.props.goals.redeemed === true) {
+      style = pageStyle.redeemedContainer;
+    }
     return (
       <Card
-        containerStyle={pageStyle.cardContainer}
+        containerStyle={style}
         wrapperStyle={pageStyle.wrapperStyle}
       >
         <View style={pageStyle.headerView}>
@@ -95,6 +99,14 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderRadius: 8,
+  },
+
+  redeemedContainer: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    borderRadius: 8,
+    backgroundColor: 'rgb(0, 100, 0)',
   },
 
   headerView: {
