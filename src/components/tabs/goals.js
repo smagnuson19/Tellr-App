@@ -6,7 +6,7 @@ import {
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 // import Login from './login';
-import { Badge, Button } from 'react-native-elements';
+import { Badge, Button, Divider } from 'react-native-elements';
 import Style from '../../styling/Style';
 // import AvatarImage from './avatarImage';
 // import GoalsCard from './goalsCard';
@@ -22,7 +22,7 @@ class Goals extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // Goals: '',
+      Goals: '',
       Balance: '',
       senderEmail: '',
     };
@@ -47,7 +47,6 @@ class Goals extends Component {
   //       console.log('ERROR in AddTask');
   //     });
   //   });
-  // }
 
 
   componentWillMount() {
@@ -55,12 +54,45 @@ class Goals extends Component {
     AsyncStorage.multiGet(['emailID', 'balanceID'], (err, result) => {
       const API_KEY_USERS = result[0][1].slice(1, -1);
       const BALANCE = result[1][1];
-      console.log(BALANCE);
-      console.log(API_KEY_USERS);
       this.setState({ senderEmail: API_KEY_USERS });
       this.setState({ Balance: BALANCE });
     }).catch((error) => {
       console.log('ERROR in NewGoal');
+    });
+    function sleep(time) {
+      return new Promise(resolve => setTimeout(resolve, time));
+    }
+    sleep(500).then(() => {
+    // Do something after the sleep!
+      console.log('Getting Goals after sleep');
+      this.getGoals();
+    });
+  }
+
+  getGoals() {
+    console.log(this.state.senderEmail);
+    return axios.get(`${ROOT_URL}/goals/jed@jed.com`).then((response) => {
+      // make a list of the parent's children
+      console.log('Dealing With Response');
+      const gList = response.data;
+      const goalList = [];
+      // loop through each kid and make an object for them with FirstName, Email
+      Object.keys(gList).forEach((key) => {
+        if (gList[key].approved !== 30 && gList[key].redeemed === false) {
+          goalList.push({
+            goalName: gList[key].name,
+            // goalValue: gList[key].value,
+            // goalDescription: gList[key].description,
+            // goalImage: gList[key].image,
+          });
+        } else {
+          console.log('Not Approved Goal');
+        }// end if
+      });// end for each
+      this.setState({ Goals: goalList });
+      console.log('Got Goals');
+    }).catch((error) => {
+      console.log('ERROR in getGoals');
     });
   }
 
@@ -92,7 +124,7 @@ class Goals extends Component {
   // }
 
   render() {
-    const balanceString0 = 'Current Balance: $';
+    const balanceString0 = 'Your Balance: $';
     const balanceString = `${balanceString0} ${this.state.Balance}`;
     return (
       <View style={Style.rootContainer}>
@@ -101,10 +133,12 @@ class Goals extends Component {
             <Text style={Style.headerText}>Goals!</Text>
             <Badge containerStyle={{
               backgroundColor: 'white',
+              width: 375,
             }}
             >
               <Text style={Style.headerText}>{balanceString}</Text>
             </Badge>
+            <Divider style={{ backgroundColor: 'rgba(0, 0, 0, 0)', height: 35 }} />
             <Button
               onPress={() => {
                 this.props.navigation.navigate('newGoal');
