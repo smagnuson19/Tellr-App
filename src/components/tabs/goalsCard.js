@@ -81,7 +81,7 @@ class GoalsCard extends Component {
           <View style={pageStyle.pageFiller} />
           <View style={pageStyle.titleFiller}>
             <Text style={pageStyle.titleStyle}>
-              {this.props.goals.name}
+              {this.props.goals.notificationName}
             </Text>
           </View>
           <View style={pageStyle.priceFiller}>
@@ -108,9 +108,8 @@ class GoalsCard extends Component {
 const pageStyle = StyleSheet.create({
   cardContainer: {
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    // width: dimensions.fullWidth,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     borderRadius: 8,
   },
 
@@ -130,20 +129,20 @@ const pageStyle = StyleSheet.create({
     height: 2,
     marginTop: 6,
     marginBottom: 6,
-    marginRight: 8,
-    marginLeft: 8,
+
   },
   priceFiller: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    // marginRight: 6,
+    marginRight: 6,
   },
 
   titleStyle: {
     color: colors.primary,
     // padding: 1,
+    textAlign: 'center',
     fontSize: fonts.md,
     // textAlign: 'center',
 
@@ -155,6 +154,7 @@ const pageStyle = StyleSheet.create({
   wrapperStyle: {
     padding: 0,
     margin: 0,
+    width: '100%',
   },
 
   descriptionContainer: {
