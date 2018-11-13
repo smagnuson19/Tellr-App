@@ -12,7 +12,6 @@ import KeyPad from './keypad';
 import { fonts, colors } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
-const API_KEY_CHILD = 'children';
 
 class Payments extends Component {
   constructor(props) {
@@ -111,7 +110,7 @@ class Payments extends Component {
       const API_KEY_USERS = result;
       console.log(API_KEY_USERS);
       this.setState({ senderEmail: API_KEY_USERS });
-      return axios.get(`${ROOT_URL}/${API_KEY_CHILD}/${API_KEY_USERS}`).then((response) => {
+      return axios.get(`${ROOT_URL}/children/${API_KEY_USERS}`).then((response) => {
         // make a list of the parent's children
         const childList = response.data;
         const childrenList = [];
