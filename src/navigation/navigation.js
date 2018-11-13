@@ -16,6 +16,7 @@ import Login from '../components/login';
 import SignUp from '../components/signup/signUp';
 import Loading from '../components/loading';
 import Chores from '../components/tabs/chores';
+import Child from '../components/tabs/child';
 
 import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 
@@ -100,6 +101,19 @@ const ChildTabBar = createBottomTabNavigator({
   initialRouteName: 'Home',
 });
 
+const ChildPageStack = createStackNavigator({
+  ChildPage: { screen: Child },
+
+},
+{
+  initialRouteName: 'ChildPage',
+  headerBackTitleVisible: 'True',
+  navigationOptions: () => ({
+    headerTransparent: 'True',
+  }),
+});
+
+
 const SignUpDialouge = createStackNavigator({
   SignUpFirstDialouge: { screen: SignUpFirstDialouge },
   SignUp: { screen: SignUp },
@@ -117,6 +131,7 @@ const SignUpDialouge = createStackNavigator({
 const RootStack = createStackNavigator(
   {
     SignUp: { screen: SignUpDialouge },
+    childPage: { screen: ChildPageStack },
     newGoal: { screen: NewGoal },
     ParentTabBar: {
       screen: ParentTabBar,
