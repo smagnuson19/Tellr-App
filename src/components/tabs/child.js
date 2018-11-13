@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView,
+  View, Text, StyleSheet,
 } from 'react-native';
 import { fonts, colors, dimensions } from '../../styling/base';
 import GoalsCard from './goalsCard';

@@ -41,6 +41,7 @@ const ParentTabBar = createBottomTabNavigator({
 },
 {
   navigationOptions: ({ navigation }) => ({
+
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
       const { routeName } = navigation.state;
       let iconName;
@@ -79,7 +80,9 @@ const ChildTabBar = createBottomTabNavigator({
   Profile,
 },
 {
+  headerMode: 'none',
   navigationOptions: ({ navigation }) => ({
+
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
       const { routeName } = navigation.state;
       let iconName;
