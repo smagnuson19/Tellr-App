@@ -3,7 +3,7 @@ import {
   View, Text, StyleSheet, Button,
 } from 'react-native';
 import { fonts, colors, dimensions } from '../../styling/base';
-import GoalsCard from './goalsCard';
+// import GoalsCard from './goalsCard';
 
 // import Style from '../../styling/Style';
 
@@ -15,6 +15,7 @@ class ParentViewOfChild extends Component {
     this.state = {
       email: emailItem,
     };
+    console.log(emailItem);
     this.buttonPress = this.buttonPress.bind(this);
   }
 
