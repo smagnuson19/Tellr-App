@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Divider,
+  View, Text, StyleSheet,
 } from 'react-native';
 import { fonts, colors, dimensions } from '../../styling/base';
 import GoalsCard from './goalsCard';
@@ -13,10 +13,40 @@ class Child extends Component {
     this.state = {
       // buttonSelected: '',
     };
+    this.buttonPress = this.buttonPress.bind(this);
   }
 
-  buttonPress(item) {
-    // this.props.onPress(item);
+  buttonPress(action, goalName, sEmail, cEmail, priority) {
+    this.props.onPress(action, goalName, sEmail, cEmail, priority);
+  }
+
+  checkEmptyTasks() {
+    const empty = this.props.task.length;
+    if (empty !== 0) {
+      return (
+
+        <View>
+
+          { this.props.task.map(component => (
+            <View key={component.notificationName}>
+              <GoalsCard goals={component}
+                notificationTypePassed="newTask"
+                completed={false}
+                typeChore
+                onPress={this.buttonPress}
+              />
+
+            </View>
+          ))}
+        </View>
+      );
+    } else {
+      return (
+        <View style={pageStyle.noGoals}>
+          <Text style={pageStyle.noGoalsText}> Chores are fun! Ask for more! :) </Text>
+        </View>
+      );
+    }
   }
 
   render() {
@@ -29,28 +59,22 @@ class Child extends Component {
             {this.props.firstName}
             {'!'}
           </Text>
-
-        </View>
-        <View style={pageStyle.main}>
           <View style={pageStyle.balanceContainer}>
             <Text style={pageStyle.balanceText}>
               {'$'}
               {this.props.balance}
             </Text>
           </View>
+
+        </View>
+        <View style={pageStyle.main}>
+
           <View style={pageStyle.sectionContainer}>
             <Text style={pageStyle.sectionHeader}>
         Complete The Tasks
             </Text>
 
-            { this.props.task.map(component => (
-              <View key={component.notificationName}>
-                <GoalsCard goals={component}
-                  completed={false}
-                />
-
-              </View>
-            ))}
+            {this.checkEmptyTasks()}
           </View>
         </View>
       </View>
@@ -72,7 +96,7 @@ const pageStyle = StyleSheet.create({
     marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginHorizontal: 15,
+
     marginTop: 0,
   },
 
@@ -81,7 +105,9 @@ const pageStyle = StyleSheet.create({
   },
 
   headerText: {
-    paddingTop: 40,
+    paddingTop: 80,
+    marginLeft: 15,
+    alignContent: 'center',
     fontSize: fonts.lg,
     color: 'rgb(0, 0, 0)',
   },
@@ -91,6 +117,9 @@ const pageStyle = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 100,
+    marginTop: 40,
+    marginBottom: 8,
+    marginRight: 8,
     justifyContent: 'center',
   },
   balanceText: {
@@ -116,6 +145,18 @@ const pageStyle = StyleSheet.create({
     height: 2,
     marginTop: 6,
     marginBottom: 6,
+  },
+  noGoals: {
+    alignItems: 'center',
+    justifyContent: 'center',
+
+
+  },
+
+  noGoalsText: {
+    fontSize: fonts.md,
+    color: '#fff',
+    fontFamily: fonts.primary,
   },
 });
 
