@@ -9,6 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Badge, Button, Divider } from 'react-native-elements';
 import Style from '../../styling/Style';
 import GoalsCard from './goalsTabCard';
+
 // import AvatarImage from './avatarImage';
 // import GoalsCard from './goalsCard';
 // import { fonts, colors, dimensions } from '../../styling/base';
@@ -65,17 +66,17 @@ class Goals extends Component {
           });
         } else {
           console.log('Not Approved Goal');
-        }// end if
-        if (this.state.Goals.length > 0) {
-          goalList.push({
-            goalName: 'This Is the Goal Tab',
-            goalDescription: 'Add Goals Below or Redeem Completed Goals',
-            goalImage: '../media/Tellr-Logo.gif',
-            goalValue: 1,
-          });
-          console.log('Default Goal');
-        }
+        }// end else
       });// end for each
+      if (this.state.Goals.length === 0) {
+        goalList.push({
+          goalName: 'This Is the Goal Tab',
+          goalDescription: 'Add Goals Below or Redeem Completed Goals',
+          goalImage: 'http://chittagongit.com//images/goal-icon/goal-icon-4.jpg',
+          goalValue: 1,
+        });
+        console.log('Default Goal');
+      }
       // if (typeof this.state.Goals !== 'undefined' && this.state.Goals.length === 0) {
       //   goalList.push({
       //     goalName: 'This Is the Goal Tab',
