@@ -7,13 +7,23 @@ import GoalsCard from './goalsCard';
 
 // import Style from '../../styling/Style';
 
-class Child extends Component {
+class ParentViewOfChild extends Component {
   constructor(props) {
     super(props);
+    const { navigation } = this.props;
+    const emailItem = navigation.getParam('email');
     this.state = {
-      // buttonSelected: '',
+      email: emailItem,
     };
     this.buttonPress = this.buttonPress.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetchAccountinfo();
+  }
+
+  fetchAccountinfo() {
+    console.log(this.state.email);
   }
 
   buttonPress(action, goalName, sEmail, cEmail, priority) {
@@ -21,32 +31,32 @@ class Child extends Component {
   }
 
   checkEmptyTasks() {
-    const empty = this.props.task.length;
-    if (empty !== 0) {
-      return (
-
-        <View>
-
-          { this.props.task.map(component => (
-            <View key={component.notificationName}>
-              <GoalsCard goals={component}
-                notificationTypePassed="newTask"
-                completed={false}
-                typeChore
-                onPress={this.buttonPress}
-              />
-
-            </View>
-          ))}
-        </View>
-      );
-    } else {
-      return (
-        <View style={pageStyle.noGoals}>
-          <Text style={pageStyle.noGoalsText}> Chores are fun! Ask for more! :) </Text>
-        </View>
-      );
-    }
+    // const empty = this.props.task.length;
+    // if (empty !== 0) {
+    //   return (
+    //
+    //     <View>
+    //
+    //       { this.props.task.map(component => (
+    //         <View key={component.notificationName}>
+    //           <GoalsCard goals={component}
+    //             notificationTypePassed="newTask"
+    //             completed={false}
+    //             typeChore
+    //             onPress={this.buttonPress}
+    //           />
+    //
+    //         </View>
+    //       ))}
+    //     </View>
+    //   );
+    // } else {
+    //   return (
+    //     <View style={pageStyle.noGoals}>
+    //       <Text style={pageStyle.noGoalsText}> Chores are fun! Ask for more! :) </Text>
+    //     </View>
+    //   );
+    // }
   }
 
   render() {
@@ -56,13 +66,13 @@ class Child extends Component {
 
           <Text style={pageStyle.headerText}>
             {'Hey '}
-            {this.props.firstName}
+            {'name'}
             {'!'}
           </Text>
           <View style={pageStyle.balanceContainer}>
             <Text style={pageStyle.balanceText}>
               {'$'}
-              {this.props.balance}
+              {'balance'}
             </Text>
           </View>
 
@@ -161,4 +171,4 @@ const pageStyle = StyleSheet.create({
 });
 
 
-export default Child;
+export default ParentViewOfChild;
