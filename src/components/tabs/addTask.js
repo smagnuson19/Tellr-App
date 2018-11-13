@@ -20,9 +20,6 @@ import { colors, fonts } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
 
-const API_KEY_TASKS = 'tasks';
-const API_KEY_CHILD = 'children';
-
 class AddTask extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +43,7 @@ class AddTask extends Component {
     AsyncStorage.getItem('emailID', (err, result) => {
       const API_KEY_USERS = result;
       this.setState({ senderEmail: API_KEY_USERS });
-      return axios.get(`${ROOT_URL}/${API_KEY_CHILD}/${API_KEY_USERS}`).then((response) => {
+      return axios.get(`${ROOT_URL}/children/${API_KEY_USERS}`).then((response) => {
         // make a list of the parent's children
         const childList = response.data;
         const childrenList = [];
@@ -97,7 +94,7 @@ class AddTask extends Component {
       Alert.alert('Please enter a Reward');
       console.log('ERROR: reward empty');
     } else {
-      axios.post(`${ROOT_URL}/${API_KEY_TASKS}`, { payLoad })
+      axios.post(`${ROOT_URL}/tasks`, { payLoad })
         .then((response) => {
           console.log(response.data);
           this.props.navigation.dispatch(resetAction);
