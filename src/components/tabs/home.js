@@ -10,6 +10,7 @@ import { Divider } from 'react-native-elements';
 import Style from '../../styling/Style';
 import AvatarImage from './avatarImage';
 import GoalsCard from './goalsCard';
+import Child from './child';
 import { fonts, colors, dimensions } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
@@ -21,6 +22,7 @@ class Home extends Component {
     this.state = {
       accountType: '',
       children: [],
+      displayInfo: [],
     };
 
     // Bind this instance used in navigationToAccount to this component
@@ -32,47 +34,61 @@ class Home extends Component {
     this.fetchAtLoad();
   }
 
-  fetchChildInfo(childEmail) {
-    this.fetchInfo(childEmail, 'goals').then((childGoals) => {
+  fetchUserInfo(childEmail) {
+    return axios.get(`${ROOT_URL}/users/${childEmail}`).then((response) => {
+      const payload = response.data;
 
+      return (payload);
+    }).catch((error) => {
+      console.log('ERROR in fetching user info');
+    });
+  }
+
+  fetchChildInfo(childEmail) {
+  // fetch notification info for the child
+    this.fetchNotificationInfo(childEmail).then((displayChildInfo) => {
+      this.setState({ displayInfo: displayChildInfo });
+
+      // go and fetch the actual user info for the child
+      this.fetchUserInfo(childEmail).then((childContact) => {
+        // update the state children which now holds infor pertaining to child user
+        this.setState({ children: childContact });
+      });
     });
   }
 
   fetchParentInfo(familyInfo) {
     return axios.get(`${ROOT_URL}/children/${familyInfo.emailID}`).then((response) => {
       // make a list of the parent's children
-      const childList = response.data;
-      const childrenList = [];
-      // loop through each kid and make an object for them with FirstName, Email
-      Object.keys(childList).forEach((key) => {
-        this.fetchInfo(childList[key].email, 'goals').then((childGoals) => {
-          this.fetchInfo(childList[key].email, 'childtasks').then((childTasks) => {
-            childrenList.push({
-              first: childList[key].firstName,
-              last: childList[key].lastName,
-              email: childList[key].email,
-              balance: childList[key].balance,
-              tasks: childTasks,
-              goals: childGoals,
-            });
-            console.log(childrenList);
-            this.setState((prevState, props) => {
-              return ({ children: prevState.concat(childrenList) });
-            });
-          });
-        });
+      const payload = response.data;
+      const childList = [];
+      Object.keys(payload).forEach((key) => {
+        childList.push(payload[key]);
+      });
+
+      this.setState({ children: childList });
+
+      this.fetchNotificationInfo(familyInfo.emailID).then((notificationInfo) => {
+        // make a list of the parent's children
+        console.log('Parent Notifcations grab below');
+        console.log(notificationInfo);
+        this.setState({ displayInfo: notificationInfo });
       });
     }).catch((error) => {
       console.log('ERROR in fetchParentInfo');
     });
   }
 
-  fetchInfo(childEmail, url) {
-    return axios.get(`${ROOT_URL}/${url}/${childEmail}`).then((response) => {
+  fetchNotificationInfo(email) {
+    return axios.get(`${ROOT_URL}/notifications/${email}`).then((response) => {
       const payload = response.data;
-      return payload;
+      const itemList = [];
+      Object.keys(payload).forEach((key) => {
+        itemList.push(payload[key]);
+      });
+      return (itemList);
     }).catch((error) => {
-      console.log('ERROR in fetichingChildEmail');
+      console.log('ERROR in fetching Notifications');
     });
   }
 
@@ -81,7 +97,7 @@ class Home extends Component {
     AsyncStorage.multiGet(['emailID', 'familyID', 'accountType'], (err, result) => {
       for (let i = 0; i < result.length; i++) {
         const nameExtract = result[i][0];
-        console.log(result[i][1]);
+
         const valExtract = result[i][1].slice(1, -1);
         familyInfo[nameExtract] = valExtract;
       }
@@ -101,8 +117,7 @@ class Home extends Component {
 
   // navigate to the correct account for child on a click
   navigationToAccount(childEmail) {
-    // Needs to be filled
-
+    this.props.navigation.navigate('ChildPage');
   }
 
   goalAction(action) {
@@ -124,6 +139,7 @@ class Home extends Component {
       description: 'THis is a long description fo what should go in the container and overwarp protection',
       id: '3',
     }];
+    // console.log(this.state.displayInfo);
     return (
       <View style={pageStyle.sectionContainer}>
         <Text style={pageStyle.sectionHeader}>
@@ -215,7 +231,21 @@ class Home extends Component {
 
   // render of the childs view
   renderChildView() {
+    console.log('info to render for CHILLD');
+    console.log(this.state.children);
+    console.log(this.state.displayInfo);
 
+    if ((this.state.children.length !== 0) && (this.state.children.length !== 0)) {
+      return (
+        <Child firstName={this.state.children.firstName} balance={this.state.children.balance} task={this.state.displayInfo} />
+      );
+    } else {
+      return (
+        <Text>
+        Loading...
+        </Text>
+      );
+    }
   }
 
   render() {

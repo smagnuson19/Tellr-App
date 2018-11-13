@@ -18,8 +18,8 @@ class AvatarImage extends Component {
   }
 
   render() {
-    const firstLetter = this.props.individual.first.slice(0, 1).toUpperCase();
-    const secondLetter = this.props.individual.last.slice(0, 1).toUpperCase();
+    const firstLetter = this.props.individual.firstName.slice(0, 1).toUpperCase();
+    const secondLetter = this.props.individual.lastName.slice(0, 1).toUpperCase();
     const avatarLetters = firstLetter + secondLetter;
     return (
       <View style={pageStyle.avatarContainer}>
