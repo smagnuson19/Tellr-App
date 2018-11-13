@@ -4,7 +4,6 @@ import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { colors } from '../styling/base';
-// import Login from './login';
 import Style from '../styling/Style';
 
 const ROOT_URL = 'http://localhost:5000/api';
@@ -14,6 +13,7 @@ class Loading extends Component {
     super(props);
     this.state = {
       accountType: '',
+
     };
   }
 
@@ -26,10 +26,11 @@ class Loading extends Component {
     const email = navigation.getParam('emailParam', 'NO-EMAIL');
     return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
       const payload = response.data;
-
       this.setState({ accountType: payload.accountType });
+
       AsyncStorage.setItem('familyID', JSON.stringify(payload.familyName), () => {
       });
+
       AsyncStorage.setItem('accountTypeID', JSON.stringify(payload.accountType), () => {
       });
       AsyncStorage.setItem('accountNameID', JSON.stringify(`${payload.firstName} ${payload.lastName}`), () => {
