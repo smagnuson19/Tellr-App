@@ -13,8 +13,6 @@ Organize and streamline task assignment and chores in your household while teach
 
 ## Architecture
 
-TODO:  overall descriptions of code organization and tools and libraries used
-
 #### Tech Stack
 We are using React Native for our frontend mobile app and flask / python for our backend
 
@@ -36,14 +34,15 @@ We followed [these](https://medium.com/@randerson112358/setup-react-native-envir
 
 #### Setup of React Native dependencies
 
-1. yarn add react-native-image-picker
-2. yarn add react-native-elements
-3. yarn add react-native-linear-gradient
-4. yarn add react-native-datepicker
-5. yarn add react-native-picker-select
-6. yarn add react-native-vector-icons/Ionicons
+1. `yarn add react-native-image-picker`
+2. `yarn add react-native-elements`
+3. `yarn add react-native-linear-gradient`
+4. `yarn add react-native-datepicker`
+5. `yarn add react-native-picker-select`
+6. `yarn add react-native-vector-icons/Ionicons`
 
-7. react-native link
+
+7. `react-native link`
 
 ## Deployment
 To run:
