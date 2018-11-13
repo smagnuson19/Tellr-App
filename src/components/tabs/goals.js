@@ -116,9 +116,10 @@ class Goals extends Component {
     if (this.state.Balance > gValue && gApproved === 1) {
       // goal is good for redemption
       const payLoad = {
-        email: this.state.childEmail,
+        email: this.state.senderEmail,
         goalName: gName,
       };
+      console.log(payLoad);
       axios.post(`${ROOT_URL}/redeem`, { payLoad })
         .then((response) => {
           this.props.navigation.dispatch(resetAction);
