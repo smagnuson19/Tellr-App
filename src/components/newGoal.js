@@ -160,7 +160,7 @@ class NewGoal extends Component {
               />
               <Image
                 style={{
-                  width: 150, height: 200, justifyContent: 'center', alignItems: 'center',
+                  width: 150, height: 200, justifyContent: 'center', alignItems: 'center', flex: 1,
                 }}
                 source={{ uri: this.state.image }}
               />
