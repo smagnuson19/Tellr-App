@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, AsyncStorage,
+  View, Text, StyleSheet, AsyncStorage, Button,
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
@@ -39,7 +39,7 @@ class Profile extends Component {
       this.setState({ accountName: account });
     });
 
-    sleep(50).then(() => {
+    sleep(20).then(() => {
       if (this.state.accountType === 'Parent') {
         AsyncStorage.getItem('emailID', (err, result) => {
           // get rid of the quotes
@@ -82,11 +82,11 @@ class Profile extends Component {
         <Text style={pageStyle.sectionText}> Children: </Text>
         { kidsList.map(person => (
           <Text style={pageStyle.subSectionText}>
-            {''}
+            {' '}
             {person.name}
             {',  Balance: $'}
             {person.balance}
-            {' '}
+            {''}
           </Text>
         ))}
       </View>
@@ -99,7 +99,7 @@ class Profile extends Component {
       <View style={pageStyle.sectionContainer}>
         <Text style={pageStyle.sectionText}> Balance: </Text>
         <Text style={pageStyle.subSectionText}>
-          {' $'}
+          {'  $'}
           {this.state.balance}
           {' '}
         </Text>
@@ -202,14 +202,15 @@ const pageStyle = StyleSheet.create({
     marginTop: 6,
     marginBottom: 6,
   },
-  avatarRow: {
-    flexDirection: 'row',
-    // width: dimensions.fullWidth,
-    justifyContent: 'center',
-    marginTop: 105,
-    marginHorizontal: 20,
-  },
-
+  // settingsButton: {
+  //   fontSize: fonts.smmd,
+  //   fontWeight: 'bold',
+  //   color: colors.secondary,
+  //   fontFamily: fonts.secondary,
+  //   justifyContent: 'flex-start',
+  //   paddingVertical: 6,
+  //   marginLeft: 5,
+  // },
 });
 
 
