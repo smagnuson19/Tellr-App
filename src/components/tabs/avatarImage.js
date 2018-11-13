@@ -45,7 +45,7 @@ const pageStyle = StyleSheet.create({
   avatarContainer: {
     margin: 8,
     // controlls how far from top view they render
-    paddingTop: 70,
+    paddingTop: 40,
     paddingBottom: 8,
   },
   avatarBackground: {

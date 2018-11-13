@@ -23,34 +23,35 @@ class Child extends Component {
     return (
       <View style={pageStyle.homeWrapper}>
         <View style={pageStyle.topContainer}>
-          <View style={pageStyle.nameContainer}>
-            <Text style={pageStyle.headerText}>
-              {'Hey '}
-              {this.props.firstName}
-              {'!'}
+
+          <Text style={pageStyle.headerText}>
+            {'Hey '}
+            {this.props.firstName}
+            {'!'}
+          </Text>
+
+        </View>
+        <View style={pageStyle.main}>
+          <View style={pageStyle.balanceContainer}>
+            <Text style={pageStyle.balanceText}>
+              {'$'}
+              {this.props.balance}
             </Text>
           </View>
-        </View>
-        <View style={pageStyle.balanceContainer}>
-          <Text style={pageStyle.balanceText}>
-            {'$'}
-            {this.props.balance}
-          </Text>
-        </View>
-        <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <View style={pageStyle.sectionContainer}>
+            <Text style={pageStyle.sectionHeader}>
         Complete The Tasks
-          </Text>
+            </Text>
 
-          { this.props.task.map(component => (
-            <View key={component.notificationName}>
-              <GoalsCard goals={component}
-                completed={false}
+            { this.props.task.map(component => (
+              <View key={component.notificationName}>
+                <GoalsCard goals={component}
+                  completed={false}
+                />
 
-              />
-
-            </View>
-          ))}
+              </View>
+            ))}
+          </View>
         </View>
       </View>
     );
@@ -62,18 +63,25 @@ const pageStyle = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     width: dimensions.fullWidth,
+    height: dimensions.fullHeight,
   },
+
   topContainer: {
     width: dimensions.fullWidth,
-    height: 300,
     backgroundColor: '#fff',
     marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: 15,
+    marginTop: 0,
+  },
+
+  main: {
+    flex: 1,
   },
 
   headerText: {
+    paddingTop: 40,
     fontSize: fonts.lg,
     color: 'rgb(0, 0, 0)',
   },
