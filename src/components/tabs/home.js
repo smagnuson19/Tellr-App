@@ -13,7 +13,7 @@ import GoalsCard from './goalsCard';
 import Child from './child';
 import { fonts, colors, dimensions } from '../../styling/base';
 
-const ROOT_URL = 'http://localhost:5000/api';
+const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
 class Home extends Component {
