@@ -126,7 +126,7 @@ class Home extends Component {
 
 
   // sEmail is the childs and cEmail is the parents or assigners
-  renderGoalAction(action, goalName, sEmail, cEmail, priority) {
+  renderGoalAction(action, taskName, sEmail, cEmail, priority) {
     let num;
     console.log(action);
 
@@ -138,7 +138,7 @@ class Home extends Component {
     } else if (action === 'Complete') {
       let payLoad = {
         email: sEmail,
-        goalName,
+        taskName,
       };
       console.log('WORKING');
       console.log(payLoad);
@@ -171,7 +171,7 @@ class Home extends Component {
     }
 
     let payLoad = {
-      goalName,
+      goalName: taskName,
       childEmail: cEmail,
       approved: num,
       senderEmail: sEmail,
@@ -251,32 +251,30 @@ class Home extends Component {
       num = false;
     }
     let payLoad = {
-      email: sEmail,
-      priority,
+      email: cEmail,
+      taskName: goalName,
       verify: num,
     };
+    console.log(payLoad);
 
-    axios.post(`${ROOT_URL}/goals/verified`, { payLoad })
+    axios.post(`${ROOT_URL}/tasks/verified`, { payLoad })
       .then((response) => {
         console.log(response.data);
+
+        console.log('redeemGoal');
+        // console.log(payLoad);
+        // axios.post(`${ROOT_URL}/redeem`, { payLoad })
+        //   .then((res) => {
         payLoad = {
           email: sEmail,
-          goalName,
+          priority,
         };
-        console.log('redeemGoal');
-        console.log(payLoad);
-        axios.post(`${ROOT_URL}/redeem`, { payLoad })
-          .then((res) => {
-            payLoad = {
-              email: cEmail,
-              priority,
-            };
-            axios.post(`${ROOT_URL}/notifications`, { payLoad })
-              .then((result) => {
-                console.log(result.data);
-                this.fetchAtLoad();
-              });
+        axios.post(`${ROOT_URL}/notifications`, { payLoad })
+          .then((result) => {
+            console.log(result.data);
+            this.fetchAtLoad();
           });
+        // });
       });
     return ('nothing');
   }
@@ -291,7 +289,7 @@ class Home extends Component {
         { this.state.displayInfo.map(goal => (
           <View key={goal.id}>
             <GoalsCard goals={goal}
-              notificationTypePassed="taskUnverified"
+              notificationTypePassed="taskComplete"
               completed={false}
               onPress={this.renderVerifyAction}
             />
@@ -344,6 +342,7 @@ class Home extends Component {
   renderChildView() {
     if ((this.state.children.length !== 0) && (this.state.children.length !== 0)) {
       return (
+
         <Child firstName={this.state.children.firstName} balance={this.state.children.balance} task={this.state.displayInfo} onPress={this.renderGoalAction} />
       );
     } else {
