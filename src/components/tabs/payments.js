@@ -193,7 +193,7 @@ const pageStyle = StyleSheet.create({
   },
   selectorsContainer: {
     flex: 1,
-    padding: 20,
+    padding: 10,
     justifyContent: 'center',
 
   },

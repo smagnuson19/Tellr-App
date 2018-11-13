@@ -14,6 +14,7 @@ class AvatarImage extends Component {
   }
 
   bPress() {
+    console.log('BUTON PRESSED');
     this.props.onPressNav(this.props.email);
   }
 
@@ -45,7 +46,7 @@ const pageStyle = StyleSheet.create({
   avatarContainer: {
     margin: 8,
     // controlls how far from top view they render
-    paddingTop: 40,
+    paddingTop: 80,
     paddingBottom: 8,
   },
   avatarBackground: {
