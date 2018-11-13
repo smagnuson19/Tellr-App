@@ -48,16 +48,33 @@ class SignUp extends Component {
       accountType: this.props.navigation.getParam('userType'),
     };
 
-    axios.post(`${ROOT_URL}/users`, { payLoad })
-      .then((response) => {
-        console.log(response.data[0].Success);
-        if (response.data[0].Success === true) {
-          this.props.navigation.dispatch(resetAction);
-        } else {
-          Alert.alert('This email is already associated with an account.');
-          console.log('ERROR: email already has account');
-        }
-      });
+    if (this.state.firstName === '') {
+      Alert.alert('First Name cannot be empty');
+      console.log('ERROR: first name empty');
+    } else if (this.state.lastName === '') {
+      Alert.alert('Last Name cannot be empty');
+      console.log('ERROR: last name empty');
+    } else if (this.state.email === '') {
+      Alert.alert('Email cannot be empty');
+      console.log('ERROR: email empty');
+    } else if (this.state.password === '') {
+      Alert.alert('Password cannot be empty');
+      console.log('ERROR: password empty');
+    } else if (this.state.familyName === '') {
+      Alert.alert('Family Name cannot be empty');
+      console.log('ERROR: family name empty');
+    } else {
+      axios.post(`${ROOT_URL}/users`, { payLoad })
+        .then((response) => {
+          console.log(response.data[0].Success);
+          if (response.data[0].Success === false) {
+            Alert.alert('This email is already associated with an account.');
+            console.log('ERROR: email already has account');
+          } else {
+            this.props.navigation.dispatch(resetAction);
+          }
+        });
+    }
   }
 
   displayAdditionalFields(userType) {
