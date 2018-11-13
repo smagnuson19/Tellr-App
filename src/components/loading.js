@@ -30,6 +30,9 @@ class Loading extends Component {
       this.setState({ accountType: payload.accountType });
       AsyncStorage.setItem('familyID', JSON.stringify(payload.familyName), () => {
       });
+      AsyncStorage.setItem('accountTypeID', JSON.stringify(payload.accountType), () => {
+      });
+      console.log(payload.accountType);
     }).catch((error) => {
       console.log('ERROR in Loading');
     });
