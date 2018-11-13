@@ -134,7 +134,7 @@ class Profile extends Component {
 
     this.props.navigation.dispatch(resetAction);
   }
-
+  //
   // deleteAccount() {
   //   // move to login page after you delete the account
   //   const resetAction = StackActions.reset({
@@ -146,16 +146,11 @@ class Profile extends Component {
   //   });
   //
   //   const payLoad = {
-  //     taskName: this.state.taskName,
-  //     reward: this.state.reward,
-  //     taskDeadline: this.state.taskDeadline,
-  //     taskDescription: this.state.taskDescription,
-  //     childEmail: this.state.childEmail,
-  //     senderEmail: this.state.senderEmail,
+  //     email: this.state.myEmail,
   //   };
-  //
-  //   axios.post(`${ROOT_URL}/tasks`, { payLoad })
+  //   axios.post(`${ROOT_URL}/delete`, { payLoad })
   //     .then((response) => {
+  //       console.log('deleting 222');
   //       console.log(response.data);
   //       this.props.navigation.dispatch(resetAction);
   //     });
@@ -197,18 +192,14 @@ class Profile extends Component {
               <Text style={pageStyle.sectionHeader}> Settings </Text>
               <Divider style={pageStyle.divider} />
 
-              <View style={pageStyle.sectionContainer}>
-                <Text style={pageStyle.sectionText}> Change Password </Text>
-              </View>
-
-              <View style={pageStyle.buttonContainer}>
-                <Button
-                  title="Delete Account"
-                  color={colors.secondary}
-                  style={pageStyle.settingsButton}
-                  onPress={() => this.deleteAccount}
-                />
-              </View>
+              // <View style={pageStyle.buttonContainer}>
+              //   <Button
+              //     title="Delete Account"
+              //     color={colors.secondary}
+              //     style={pageStyle.settingsButton}
+              //     onPress={() => this.deleteAccount()}
+              //   />
+              // </View>
 
               <View style={pageStyle.buttonContainer}>
                 <Button
