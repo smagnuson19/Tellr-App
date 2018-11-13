@@ -127,18 +127,6 @@ class Home extends Component {
   }
 
   renderGoalsToComplete() {
-    const goals = [{
-      name: 'Name of Goal',
-      value: 45.90,
-      description: 'THis is a long description fo what should go in the container and overwarp protection',
-      id: '2',
-    },
-    {
-      name: 'Name of Goal',
-      value: 45.90,
-      description: 'THis is a long description fo what should go in the container and overwarp protection',
-      id: '3',
-    }];
     // console.log(this.state.displayInfo);
     return (
       <View style={pageStyle.sectionContainer}>
@@ -146,8 +134,8 @@ class Home extends Component {
       Family Goals
         </Text>
         <Divider style={pageStyle.divider} />
-        { goals.map(goal => (
-          <View key={goal.id}>
+        { this.state.displayInfo.map(goal => (
+          <View key={goal.priority}>
             <GoalsCard goals={goal}
               completed={false}
               onPress={this.goalAction}
@@ -206,6 +194,7 @@ class Home extends Component {
 
           </View>
         ))}
+
       </View>
     );
   }
@@ -281,8 +270,10 @@ const pageStyle = StyleSheet.create({
     width: dimensions.fullWidth,
   },
   topContainer: {
+    marginTop: 0,
+    justifyContent: 'flex-start',
     width: dimensions.fullWidth,
-    height: 180,
+
     backgroundColor: '#fff',
     marginBottom: 15,
   },
@@ -291,7 +282,7 @@ const pageStyle = StyleSheet.create({
     flexDirection: 'row',
     // width: dimensions.fullWidth,
     justifyContent: 'center',
-    marginTop: 105,
+    marginTop: 100,
     marginHorizontal: 20,
   },
   sectionContainer: {
