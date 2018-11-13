@@ -18,7 +18,13 @@ class GoalsCard extends Component {
 
   // action is boolean deny or accept
   buttonPress(action) {
-    this.props.onPress(action);
+    this.props.onPress(
+      action,
+      this.props.goals.notificationName,
+      this.props.goals.email,
+      this.props.goals.senderEmail,
+      this.props.goals.priority,
+    );
   }
 
   displayCorrectItems() {
@@ -26,7 +32,7 @@ class GoalsCard extends Component {
       return (
         <View style={pageStyle.actionBar}>
           <TouchableOpacity style={pageStyle.checkButton}
-            onPress={() => this.buttonPress('true')}
+            onPress={() => this.buttonPress(true)}
           >
             <View style={pageStyle.buttonView}>
               <Ionicons name="check"
@@ -34,12 +40,12 @@ class GoalsCard extends Component {
                 color="rgb(112, 214, 76)"
               />
               <Text style={pageStyle.text}>
-        Accept
+          Accept
               </Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={pageStyle.checkButton}
-            onPress={() => this.buttonPress('false')}
+            onPress={() => this.buttonPress(false)}
           >
             <View style={pageStyle.buttonView}>
               <Ionicons name="close"
@@ -47,7 +53,7 @@ class GoalsCard extends Component {
                 color="rgb(240, 64, 64)"
               />
               <Text style={pageStyle.text}>
-        Deny
+          Deny
               </Text>
             </View>
           </TouchableOpacity>
@@ -57,12 +63,12 @@ class GoalsCard extends Component {
       return (
         <View style={pageStyle.actionBar}>
           <TouchableOpacity style={pageStyle.checkButton}
-            onPress={() => this.buttonPress('true')}
+            onPress={() => this.buttonPress(false)}
           >
             <View style={pageStyle.buttonView}>
 
               <Text style={pageStyle.text}>
-    Dismiss
+      Dismiss
               </Text>
             </View>
           </TouchableOpacity>
@@ -72,36 +78,44 @@ class GoalsCard extends Component {
   }
 
   render() {
-    return (
-      <Card
-        containerStyle={pageStyle.cardContainer}
-        wrapperStyle={pageStyle.wrapperStyle}
-      >
-        <View style={pageStyle.headerView}>
-          <View style={pageStyle.pageFiller} />
-          <View style={pageStyle.titleFiller}>
-            <Text style={pageStyle.titleStyle}>
-              {this.props.goals.notificationName}
-            </Text>
-          </View>
-          <View style={pageStyle.priceFiller}>
-            <Text style={pageStyle.price}>
+    if (this.props.goals.notificationType === this.props.notificationTypePassed) {
+      return (
+        <Card
+          containerStyle={pageStyle.cardContainer}
+          wrapperStyle={pageStyle.wrapperStyle}
+        >
+          <View style={pageStyle.headerView}>
+            <View style={pageStyle.pageFiller} />
+            <View style={pageStyle.titleFiller}>
+              <Text style={pageStyle.titleStyle}>
+                {this.props.goals.notificationName}
+              </Text>
+            </View>
+            <View style={pageStyle.priceFiller}>
+              <Text style={pageStyle.price}>
           $
-              {this.props.goals.value}
+                {this.props.goals.value}
+
+              </Text>
+            </View>
+          </View>
+          <Divider style={pageStyle.divider} />
+          <View style={pageStyle.descriptionContainer}>
+            <Text style={pageStyle.descriptionText}>
+              {this.props.goals.description}
 
             </Text>
           </View>
+          {this.displayCorrectItems()}
+        </Card>
+      );
+    } else {
+      return (
+        <View style={pageStyle.noGoals}>
+          <Text style={pageStyle.noGoalsText}> No goals yet!</Text>
         </View>
-        <Divider style={pageStyle.divider} />
-        <View style={pageStyle.descriptionContainer}>
-          <Text style={pageStyle.descriptionText}>
-            {this.props.goals.description}
-
-          </Text>
-        </View>
-        {this.displayCorrectItems()}
-      </Card>
-    );
+      );
+    }
   }
 }
 
@@ -186,6 +200,16 @@ const pageStyle = StyleSheet.create({
     width: 70,
     margin: 10,
     textAlign: 'center',
+  },
+
+  noGoals: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  noGoalsText: {
+    fontSize: fonts.md,
+    color: '#fff',
   },
 
   buttonView: {

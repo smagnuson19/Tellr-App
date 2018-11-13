@@ -27,7 +27,7 @@ class Home extends Component {
 
     // Bind this instance used in navigationToAccount to this component
     this.navigationToAccount = this.navigationToAccount.bind(this);
-    this.goalAction = this.goalAction.bind(this);
+    this.renderGoalAction = this.renderGoalAction.bind(this);
   }
 
   componentDidMount() {
@@ -120,14 +120,52 @@ class Home extends Component {
     this.props.navigation.navigate('ChildPage');
   }
 
-  goalAction(action) {
-    // action is a true fale string saying that a  card has been marked
-    // should post saying marked
-    // and then delete it from view
+
+  renderGoalAction(action, goalName, sEmail, cEmail, priority) {
+    let num;
+    if (action === 'true') {
+      num = 1;
+    } else if (action === 'false') {
+      num = 0;
+    } else { // here we know that its a dismiss
+      const payLoad = {
+        email: sEmail,
+        priority,
+      };
+
+      axios.post(`${ROOT_URL}/api/notifications`, { payLoad })
+        .then((response) => {
+          console.log(response.data);
+        });
+      return ('nothing');
+    }
+    const payLoad = {
+      goalName,
+      childEmail: cEmail,
+      approved: num,
+      senderEmail: sEmail,
+    };
+    console.log('IN GOAL ACTION');
+    console.log(payLoad);
+
+    axios.post(`${ROOT_URL}/goals/approve`, { payLoad })
+      .then((response) => {
+        console.log(response.data);
+        // payLoad = {
+        //   email: sEmail,
+        //   priority,
+        // };
+        // axios.post(`${ROOT_URL}/api/notifications`, { payLoad })
+        //   .then((res) => {
+        //     console.log(res.data);
+        //     this.fetchAtLoad();
+        //   });
+      });
+    return ('nothing');
   }
 
+  // For goals that have not been approved yet
   renderGoalsToComplete() {
-    // console.log(this.state.displayInfo);
     return (
       <View style={pageStyle.sectionContainer}>
         <Text style={pageStyle.sectionHeader}>
@@ -137,8 +175,9 @@ class Home extends Component {
         { this.state.displayInfo.map(goal => (
           <View key={goal.priority}>
             <GoalsCard goals={goal}
+              notificationTypePassed="newGoal"
               completed={false}
-              onPress={this.goalAction}
+              onPress={this.renderGoalAction}
             />
 
           </View>
@@ -148,34 +187,42 @@ class Home extends Component {
     );
   }
 
-  renderGoalsCompletion() {
-    // somethingAbout emails
-  }
-
   renderGoalsCompleted() {
-    const goals = [{
-      name: 'Name of Goal',
-      value: 45.90,
-      description: 'THis is a long description fo what should go in the container and overwarp protection',
-      id: '2',
-    },
-    {
-      name: 'Name of Goal',
-      value: 45.90,
-      description: 'THis is a long description fo what should go in the container and overwarp protection',
-      id: '3',
-    }];
     return (
       <View style={pageStyle.sectionContainer}>
         <Text style={pageStyle.sectionHeader}>
       Recently Completed Goals
         </Text>
         <Divider style={pageStyle.divider} />
-        { goals.map(goal => (
+        { this.state.displayInfo.map(goal => (
           <View key={goal.id}>
             <GoalsCard goals={goal}
-              completed
-              onPress={this.goalAction}
+              notificationTypePassed="goalComplete"
+              completed={false}
+              onPress={this.renderGoalAction}
+            />
+
+          </View>
+        ))}
+
+      </View>
+    );
+  }
+
+  // not instantiated yet
+  renderChoresCompleted() {
+    return (
+      <View style={pageStyle.sectionContainer}>
+        <Text style={pageStyle.sectionHeader}>
+      Recently Completed Chores
+        </Text>
+        <Divider style={pageStyle.divider} />
+        { this.state.displayInfo.map(goal => (
+          <View key={goal.id}>
+            <GoalsCard goals={goal}
+              notificationTypePassed="taskComplete"
+              completed={false}
+              onPress={this.renderGoalAction}
             />
 
           </View>
@@ -208,12 +255,13 @@ class Home extends Component {
           {this.renderAvatarRow()}
         </View>
 
-        <ScrollView>
+        <ScrollView tyle={pageStyle.main}>
           {this.renderGoalsToComplete()}
 
 
           {this.renderGoalsCompleted()}
         </ScrollView>
+
       </View>
     );
   }
@@ -268,6 +316,10 @@ const pageStyle = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     width: dimensions.fullWidth,
+    height: dimensions.fullHeight,
+  },
+  main: {
+    flex: 1,
   },
   topContainer: {
     marginTop: 0,
@@ -282,7 +334,6 @@ const pageStyle = StyleSheet.create({
     flexDirection: 'row',
     // width: dimensions.fullWidth,
     justifyContent: 'center',
-    marginTop: 100,
     marginHorizontal: 20,
   },
   sectionContainer: {
