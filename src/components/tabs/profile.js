@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, AsyncStorage,
+  View, Text, StyleSheet, AsyncStorage, Button,
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 import { Divider } from 'react-native-elements';
+import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 import { colors, fonts, dimensions } from '../../styling/base';
 
@@ -19,6 +20,7 @@ class Profile extends Component {
       accountType: '',
       accountName: '',
       balance: '',
+      myEmail: '',
     };
   }
 
@@ -38,14 +40,16 @@ class Profile extends Component {
       const account = result.slice(1, -1);
       this.setState({ accountName: account });
     });
+    AsyncStorage.getItem('emailID', (err, result) => {
+      // get rid of the quotes
+      const email = result.slice(1, -1);
+      this.setState({ myEmail: email });
+    });
 
     sleep(30).then(() => {
       if (this.state.accountType === 'Parent') {
         AsyncStorage.getItem('emailID', (err, result) => {
-          // get rid of the quotes
-          const API_KEY_USERS = result.slice(1, -1);
-          console.log(API_KEY_USERS);
-          return axios.get(`${ROOT_URL}/children/${API_KEY_USERS}`).then((response) => {
+          return axios.get(`${ROOT_URL}/children/${this.state.myEmail}`).then((response) => {
             // make a list of the parent's children
             const childList = response.data;
             const childrenList = [];
@@ -76,7 +80,6 @@ class Profile extends Component {
         balance: this.state.children[i].value.balance,
       });
     }
-    console.log(kidsList, 'kids');
     return (
       <View style={pageStyle.sectionContainer}>
         <Text style={pageStyle.sectionText}> Children: </Text>
@@ -119,6 +122,40 @@ class Profile extends Component {
     }
   }
 
+  logout() {
+    // move to login page after you logout
+    const resetAction = StackActions.reset({
+      index: 0, // <-- currect active route from actions array
+      key: null,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Login' }),
+      ],
+    });
+
+    this.props.navigation.dispatch(resetAction);
+  }
+  //
+  // deleteAccount() {
+  //   // move to login page after you delete the account
+  //   const resetAction = StackActions.reset({
+  //     index: 0, // <-- currect active route from actions array
+  //     key: null,
+  //     actions: [
+  //       NavigationActions.navigate({ routeName: 'Login' }),
+  //     ],
+  //   });
+  //
+  //   const payLoad = {
+  //     email: this.state.myEmail,
+  //   };
+  //   axios.post(`${ROOT_URL}/delete`, { payLoad })
+  //     .then((response) => {
+  //       console.log('deleting 222');
+  //       console.log(response.data);
+  //       this.props.navigation.dispatch(resetAction);
+  //     });
+  // }
+
   render() {
     return (
       <View style={Style.rootContainer}>
@@ -155,9 +192,15 @@ class Profile extends Component {
               <Text style={pageStyle.sectionHeader}> Settings </Text>
               <Divider style={pageStyle.divider} />
 
-              <Text style={pageStyle.sectionText}> Change Password </Text>
-              <Text style={pageStyle.sectionText}> Delete Account </Text>
-              <Text style={pageStyle.sectionText}> Logout </Text>
+              <View style={pageStyle.buttonContainer}>
+                <Button
+                  title="Logout"
+                  color={colors.secondary}
+                  style={pageStyle.settingsButton}
+                  onPress={() => this.logout()}
+                />
+              </View>
+
             </View>
           </View>
         </LinearGradient>
@@ -202,15 +245,18 @@ const pageStyle = StyleSheet.create({
     marginTop: 6,
     marginBottom: 6,
   },
-  // settingsButton: {
-  //   fontSize: fonts.smmd,
-  //   fontWeight: 'bold',
-  //   color: colors.secondary,
-  //   fontFamily: fonts.secondary,
-  //   justifyContent: 'flex-start',
-  //   paddingVertical: 6,
-  //   marginLeft: 5,
-  // },
+  settingsButton: {
+    fontSize: fonts.smmd,
+    fontWeight: 'bold',
+    color: colors.secondary,
+    fontFamily: fonts.secondary,
+  },
+  buttonContainer: {
+    flex: 0,
+    flexDirection: 'column',
+    alignSelf: 'flex-start',
+    marginLeft: 3,
+  },
 });
 
 
