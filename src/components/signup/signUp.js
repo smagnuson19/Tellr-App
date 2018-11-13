@@ -129,6 +129,7 @@ class SignUp extends Component {
                 placeholderTextColor="rgb(232, 232, 232)"
                 spellCheck="false"
                 returnKeyType="next"
+                secureTextEntry="true"
               />
 
               {this.displayAdditionalFields(userType)}
