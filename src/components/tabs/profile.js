@@ -20,6 +20,7 @@ class Profile extends Component {
       accountType: '',
       accountName: '',
       balance: '',
+      myEmail: '',
     };
   }
 
@@ -39,14 +40,16 @@ class Profile extends Component {
       const account = result.slice(1, -1);
       this.setState({ accountName: account });
     });
+    AsyncStorage.getItem('emailID', (err, result) => {
+      // get rid of the quotes
+      const email = result.slice(1, -1);
+      this.setState({ myEmail: email });
+    });
 
     sleep(30).then(() => {
       if (this.state.accountType === 'Parent') {
         AsyncStorage.getItem('emailID', (err, result) => {
-          // get rid of the quotes
-          const API_KEY_USERS = result.slice(1, -1);
-          console.log(API_KEY_USERS);
-          return axios.get(`${ROOT_URL}/children/${API_KEY_USERS}`).then((response) => {
+          return axios.get(`${ROOT_URL}/children/${this.state.myEmail}`).then((response) => {
             // make a list of the parent's children
             const childList = response.data;
             const childrenList = [];
@@ -198,13 +201,19 @@ class Profile extends Component {
                 <Text style={pageStyle.sectionText}> Change Password </Text>
               </View>
 
-              <View style={pageStyle.sectionContainer}>
-                <Text style={pageStyle.sectionText}> Delete Account </Text>
+              <View style={pageStyle.buttonContainer}>
+                <Button
+                  title="Delete Account"
+                  color={colors.secondary}
+                  style={pageStyle.settingsButton}
+                  onPress={() => this.deleteAccount}
+                />
               </View>
 
               <View style={pageStyle.buttonContainer}>
                 <Button
                   title="Logout"
+                  color={colors.secondary}
                   style={pageStyle.settingsButton}
                   onPress={() => this.logout()}
                 />
