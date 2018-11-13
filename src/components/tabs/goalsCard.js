@@ -65,7 +65,9 @@ class GoalsCard extends Component {
 
   displayCorrectItems() {
     let names = [];
-
+    if (this.props.nothing) {
+      return (null);
+    }
     if (this.props.typeChore) {
       names = ['Complete', 'Ignore'];
     } else {
@@ -125,6 +127,7 @@ class GoalsCard extends Component {
             <View style={pageStyle.titleFiller}>
               <Text style={pageStyle.titleStyle}>
                 {this.props.goals.notificationName}
+                {this.props.goals.name}
               </Text>
             </View>
             <View style={pageStyle.priceFiller}>

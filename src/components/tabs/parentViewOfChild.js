@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Button,
+  View, Text, StyleSheet, ScrollView,
 } from 'react-native';
+import axios from 'axios';
+import LinearGradient from 'react-native-linear-gradient';
 import { fonts, colors, dimensions } from '../../styling/base';
-// import GoalsCard from './goalsCard';
+import GoalsCard from './goalsCard';
 
-// import Style from '../../styling/Style';
+import Style from '../../styling/Style';
+
+const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+// const API_KEY = '';
 
 class ParentViewOfChild extends Component {
   constructor(props) {
@@ -14,84 +19,139 @@ class ParentViewOfChild extends Component {
     const emailItem = navigation.getParam('email');
     this.state = {
       email: emailItem,
+      bioInfo: {},
+      goals: [],
+      tasks: [],
     };
     console.log(emailItem);
     this.buttonPress = this.buttonPress.bind(this);
   }
 
   componentDidMount() {
-    this.fetchAccountinfo();
+    this.fetchAccountInfo();
+    this.fetchGoalsInfo();
+    this.fetchTaskInfo();
   }
 
-  fetchAccountinfo() {
-    console.log(this.state.email);
+  fetchAccountInfo() {
+    return axios.get(`${ROOT_URL}/users/${this.state.email}`).then((response) => {
+      // make a list of the parent's children
+      const payload = response.data;
+      console.log(payload);
+      this.setState({ bioInfo: payload });
+    });
+  }
+
+  fetchGoalsInfo() {
+    return axios.get(`${ROOT_URL}/goals/${this.state.email}`).then((response) => {
+      // make a list of the parent's children
+      const payload = response.data;
+      const list = [];
+      Object.keys(payload).forEach((key) => {
+        list.push(payload[key]);
+      });
+      this.setState({ goals: list });
+    });
+  }
+
+  fetchTaskInfo() {
+    return axios.get(`${ROOT_URL}/childtasks/${this.state.email}`).then((response) => {
+      // make a list of the parent's children
+      const payload = response.data;
+      const list = [];
+      Object.keys(payload).forEach((key) => {
+        list.push({
+          name: payload[key].taskName,
+          value: payload[key].reward,
+          description: payload[key].taskDescription,
+        });
+      });
+      this.setState({ tasks: list });
+    });
   }
 
   buttonPress(action, goalName, sEmail, cEmail, priority) {
     this.props.onPress(action, goalName, sEmail, cEmail, priority);
   }
 
-  checkEmptyTasks() {
-    // const empty = this.props.task.length;
-    // if (empty !== 0) {
-    //   return (
-    //
-    //     <View>
-    //
-    //       { this.props.task.map(component => (
-    //         <View key={component.notificationName}>
-    //           <GoalsCard goals={component}
-    //             notificationTypePassed="newTask"
-    //             completed={false}
-    //             typeChore
-    //             onPress={this.buttonPress}
-    //           />
-    //
-    //         </View>
-    //       ))}
-    //     </View>
-    //   );
-    // } else {
-    //   return (
-    //     <View style={pageStyle.noGoals}>
-    //       <Text style={pageStyle.noGoalsText}> Chores are fun! Ask for more! :) </Text>
-    //     </View>
-    //   );
-    // }
+
+  renderGoalsToComplete() {
+    if (this.state.goals.length > 0) {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionHeader}>
+          Child Goals
+          </Text>
+
+          { this.state.goals.map(goal => (
+            <View key={goal.name}>
+              <GoalsCard goals={goal}
+                completed
+                nothing
+              />
+
+            </View>
+          ))}
+
+        </View>
+      );
+    } else {
+      console.log('badd');
+      return (null);
+    }
+  }
+
+  renderChores() {
+    return (
+      <View style={pageStyle.sectionContainer}>
+        <Text style={pageStyle.sectionHeader}>
+          Chores
+        </Text>
+        { this.state.tasks.map(goal => (
+          <View key={goal.name}>
+            <GoalsCard goals={goal}
+              completed
+              nothing
+
+            />
+
+          </View>
+        ))}
+
+      </View>
+    );
   }
 
   render() {
     return (
-      <View style={pageStyle.homeWrapper}>
-        <View style={pageStyle.topContainer}>
-          <Button
-            title="Go back"
-            onPress={() => this.props.navigation.goBack()}
-          />
+      <View style={Style.rootContainer}>
+        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+          <View style={pageStyle.homeWrapper}>
+            <View style={pageStyle.topContainer}>
 
-          <Text style={pageStyle.headerText}>
-            {'Hey '}
-            {'name'}
-            {'!'}
-          </Text>
-          <View style={pageStyle.balanceContainer}>
-            <Text style={pageStyle.balanceText}>
-              {'$'}
-              {'balance'}
-            </Text>
+              <Text style={pageStyle.headerText}>
+                {this.state.bioInfo.firstName}
+                {'\'s Page' }
+              </Text>
+              <View style={pageStyle.balanceContainer}>
+                <Text style={pageStyle.balanceText}>
+                  {'$'}
+                  {this.state.bioInfo.balance}
+                </Text>
+              </View>
+
+            </View>
+            <ScrollView style={pageStyle.main}>
+
+
+              {this.renderGoalsToComplete()}
+
+
+              {this.renderChores()}
+
+            </ScrollView>
           </View>
-
-        </View>
-        <View style={pageStyle.main}>
-
-          <View style={pageStyle.sectionContainer}>
-            <Text style={pageStyle.sectionHeader}>
-        Complete The Tasks
-            </Text>
-
-            {this.checkEmptyTasks()}
-          </View>
-        </View>
+        </LinearGradient>
       </View>
     );
   }
@@ -117,6 +177,7 @@ const pageStyle = StyleSheet.create({
 
   main: {
     flex: 1,
+    marginBottom: 90,
   },
 
   headerText: {
