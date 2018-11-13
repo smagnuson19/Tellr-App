@@ -19,14 +19,18 @@ class GoalsCard extends Component {
 
   // action is boolean deny or accept
   buttonPress(action) {
-    this.props.onPress(action);
+    this.props.onPress(action,
+      this.props.goals.goalValue,
+      this.props.goals.App,
+      this.props.goals.goalName);
+    // action is boolean deny or accept
   }
 
   displayCorrectItems() {
     return (
       <View style={pageStyle.actionBar}>
         <TouchableOpacity style={pageStyle.checkButton}
-          onPress={() => this.buttonPress('true')}
+          onPress={() => this.buttonPress()}
         >
           <View style={pageStyle.buttonView}>
 
