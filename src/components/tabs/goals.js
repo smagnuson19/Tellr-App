@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   // View, Text, StyleSheet, AsyncStorage,
-  View, Text, AsyncStorage, ScrollView, Alert,
+  View, Text, AsyncStorage, ScrollView,
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
@@ -84,6 +84,8 @@ class Goals extends Component {
           goalDescription: 'Add Goals Below or Redeem Completed Goals',
           goalImage: 'http://chittagongit.com//images/goal-icon/goal-icon-4.jpg',
           goalValue: 1,
+          App: 1,
+          redeemed: true,
         });
         console.log('Default Goal');
       }
@@ -114,21 +116,18 @@ class Goals extends Component {
         NavigationActions.navigate({ routeName: 'ChildTabBar' }),
       ],
     });
-    if (this.state.Balance >= gValue && gApproved === 1) {
+    if (this.state.Balance > gValue && gApproved === 1) {
+      console.log('Good to redeem');
       // goal is good for redemption
       const payLoad = {
-        email: this.state.childEmail,
+        email: this.state.senderEmail,
         goalName: gName,
       };
+      console.log(payLoad);
       axios.post(`${ROOT_URL}/redeem`, { payLoad })
         .then((response) => {
           this.props.navigation.dispatch(resetAction);
         });
-      AsyncStorage.setItem('balanceID', JSON.stringify(parseFloat(this.state.Balance) - parseFloat(gValue)), () => {
-      });
-    } else if (this.state.Balance < gValue) {
-      Alert.alert('You don\'t have the money! Complete a task to make more');
-      console.log('ERROR: reward money greater than balance money');
     }
     console.log('Handled redemption');
     // this.props.navigation.navigate('Home');
@@ -163,7 +162,7 @@ class Goals extends Component {
       return (
         <View style={Style.rootContainer}>
           <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
-            <View style={Style.contentWrapper}>
+            <View style={Style.displayContainer}>
               <Text style={Style.headerText}>No Goals to Show</Text>
             </View>
           </LinearGradient>
@@ -178,7 +177,7 @@ class Goals extends Component {
       return (
         <View style={Style.rootContainer}>
           <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
-            <View style={Style.contentWrapper}>
+            <View style={Style.displayContainer}>
               <Text style={Style.headerText}>Goals!</Text>
               <ScrollView>
                 <Badge containerStyle={{
