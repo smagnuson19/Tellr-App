@@ -15,8 +15,10 @@ import NewGoal from '../components/newGoal';
 import Login from '../components/login';
 import SignUp from '../components/signup/signUp';
 import Loading from '../components/loading';
+
 import Chores from '../components/tabs/chores';
 import Child from '../components/tabs/child';
+
 
 import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 
@@ -64,7 +66,6 @@ const ParentTabBar = createBottomTabNavigator({
 const ChildTabBar = createBottomTabNavigator({
   Home,
   Goals,
-  Chores,
   Profile,
 },
 {
@@ -78,8 +79,6 @@ const ChildTabBar = createBottomTabNavigator({
         iconName = `ios-person${focused ? '' : ''}`;
       } else if (routeName === 'Goals') {
         iconName = `ios-star${focused ? '' : ''}`;
-      } else if (routeName === 'Chores') {
-        iconName = `ios-hammer${focused ? '' : ''}`;
       }
 
       // You can return any component that you like here! We usually use an

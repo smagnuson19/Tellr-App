@@ -4,6 +4,7 @@ import ImagePicker from 'react-native-image-picker';
 import {
   View,
   Text,
+  Image,
   // StyleSheet,
   AsyncStorage,
 } from 'react-native';
@@ -20,7 +21,7 @@ import Style from '../styling/Style';
 // import { colors, fonts } from '../styling/base';
 import { colors } from '../styling/base';
 
-const ROOT_URL = 'http://localhost:5000/api';
+const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 
 const API_KEY_GOALS = 'goals';
 // const API_KEY_CHILD = 'children';
@@ -39,30 +40,20 @@ class NewGoal extends Component {
     super(props);
     this.state = {
       goalName: '',
-      childEmail: '',
       goalDescription: '',
       value: '',
       image: '',
-      // familyName: '',
-      // children: [],
-      // images: [{
-      //   uri: '../media/Tellr-Logo.gif',
-      //   title: 'After Rain (Jeshu John - designerspics.com)',
-      //   thumbnail: 'https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_n.jpg',
-      //   index: 0,
-      // },
-      // {
-      //   uri: '../media/Tellr-Logo.gif',
-      //   thumbnail: '../media/Tellr-Logo.gif',
-      //   title: 'After Rain (Jeshu John - designerspics.com)',
-      //   index: 1,
-      // },
-      // ],
+      senderEmail: '',
     };
   }
 
-  componentDidMount() {
-    // this.fetchNames();
+  componentWillMount() {
+    AsyncStorage.getItem('emailID', (err, result) => {
+      const API_KEY_USERS = result.slice(1, -1);
+      this.setState({ senderEmail: API_KEY_USERS });
+    }).catch((error) => {
+      console.log('ERROR in NewGoal');
+    });
   }
 
   choosePhoto() {
@@ -87,46 +78,27 @@ class NewGoal extends Component {
     });
   }
 
-  // fetchNames() {
-  //   AsyncStorage.getItem('emailID', (err, result) => {
-  //     const API_KEY_USERS = result;
-  //     return axios.get(`${ROOT_URL}/${API_KEY_CHILD}/${API_KEY_USERS}`).then((response) => {
-  //       const childList = response.data;
-  //       console.log(childList);
-  //       const childrenList = [];
-  //       Object.keys(childList).forEach((key) => {
-  //         childrenList.push(childList[key].firstName);
-  //         this.setState({ children: childrenList });
-  //         console.log(key, childList[key]);
-  //       });
-  //     // this.setState({ children: childList });
-  //     }).catch((error) => {
-  //       console.log('ERROR in NewGoal');
-  //     });
-  //   });
-  // }
 
   submitGoal() {
+    console.log('Trying to submit goal');
     // So that you are unable to navigate back to login page once logged in.
-    AsyncStorage.getItem('emailID').then((value) => {
-      this.setState({ childEmail: value });
-    }).done();
     const resetAction = StackActions.reset({
       index: 0, // <-- currect active route from actions array
       key: null,
       actions: [
-        NavigationActions.navigate({ routeName: 'MainTabBar' }),
+        NavigationActions.navigate({ routeName: 'ChildTabBar' }),
       ],
     });
 
     const payLoad = {
-      goalName: this.state.goalName,
-      childEmail: this.state.childEmail,
-      goalDescription: this.state.goalDescription,
+      name: this.state.goalName,
+      email: this.state.senderEmail,
+      description: this.state.goalDescription,
       value: this.state.value,
       image: this.state.image,
       // familyName: this.state.familyName,
     };
+    console.log(payLoad);
 
     axios.post(`${ROOT_URL}/${API_KEY_GOALS}`, { payLoad })
       .then((response) => {
@@ -136,14 +108,6 @@ class NewGoal extends Component {
   }
 
   render() {
-    // const imageURLs: Array<Object> = this.state.images.map(
-    //   (img: Object) => ({
-    //     URI: img.uri,
-    //     id: String(img.index),
-    //     title: img.title,
-    //     thumbnail: img.thumbnail,
-    //   }),
-    // );
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
@@ -193,6 +157,12 @@ class NewGoal extends Component {
                 style={Style.button}
                 backgroundColor={colors.secondary}
                 onPress={() => this.submitGoal()}
+              />
+              <Image
+                style={{
+                  width: 150, height: 200, justifyContent: 'center', alignItems: 'center',
+                }}
+                source={{ uri: this.state.image }}
               />
             </View>
           </View>

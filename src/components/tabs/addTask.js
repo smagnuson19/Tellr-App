@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   AsyncStorage,
+  Alert,
 } from 'react-native';
 import axios from 'axios';
 import {
@@ -19,8 +20,6 @@ import { colors, fonts } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
 
-const API_KEY_TASKS = 'tasks';
-const API_KEY_CHILD = 'children';
 
 class AddTask extends Component {
   constructor(props) {
@@ -43,9 +42,11 @@ class AddTask extends Component {
 
   fetchNames() {
     AsyncStorage.getItem('emailID', (err, result) => {
-      const API_KEY_USERS = result;
+      // get rid of the quotes
+      const API_KEY_USERS = result.slice(1, -1);
+      console.log(API_KEY_USERS);
       this.setState({ senderEmail: API_KEY_USERS });
-      return axios.get(`${ROOT_URL}/${API_KEY_CHILD}/${API_KEY_USERS}`).then((response) => {
+      return axios.get(`${ROOT_URL}/children/${API_KEY_USERS}`).then((response) => {
         // make a list of the parent's children
         const childList = response.data;
         const childrenList = [];
@@ -61,7 +62,7 @@ class AddTask extends Component {
   }
 
   submitTask() {
-    // So that you are unable to navigate back to login page once logged in.
+    // move to home page after you submit a task
     const resetAction = StackActions.reset({
       index: 0, // <-- currect active route from actions array
       key: null,
@@ -77,14 +78,31 @@ class AddTask extends Component {
       taskDescription: this.state.taskDescription,
       childEmail: this.state.childEmail,
       senderEmail: this.state.senderEmail,
-      // familyName: this.state.familyName,
     };
 
-    axios.post(`${ROOT_URL}/${API_KEY_TASKS}`, { payLoad })
-      .then((response) => {
-        console.log(response.data);
-        this.props.navigation.dispatch(resetAction);
-      });
+    // Error checking: make sure all of the fields are filled in
+    if (this.state.taskName === '') {
+      Alert.alert('Please enter a Task Name');
+      console.log('ERROR: task name empty');
+    } else if (this.state.taskDeadline === '') {
+      Alert.alert('Please enter a Task Deadline');
+      console.log('ERROR: task deadline empty');
+    } else if (this.state.childEmail === '' || this.state.childEmail == null) {
+      Alert.alert('Please select a child for this task');
+      console.log('ERROR: select child empty');
+    } else if (this.state.taskDescription === '') {
+      Alert.alert('Please enter a Task Description');
+      console.log('ERROR: task description empty');
+    } else if (this.state.reward === '') {
+      Alert.alert('Please enter a Reward');
+      console.log('ERROR: reward empty');
+    } else {
+      axios.post(`${ROOT_URL}/tasks`, { payLoad })
+        .then((response) => {
+          console.log(response.data);
+          this.props.navigation.dispatch(resetAction);
+        });
+    }
   }
 
   render() {
@@ -175,7 +193,7 @@ class AddTask extends Component {
             </View>
             <View style={Style.buttonContainer}>
               <Button
-                title="Publish!"
+                title="Make them do it!"
                 rounded
                 large
                 style={Style.button}
