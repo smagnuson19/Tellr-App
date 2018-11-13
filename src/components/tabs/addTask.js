@@ -41,7 +41,9 @@ class AddTask extends Component {
 
   fetchNames() {
     AsyncStorage.getItem('emailID', (err, result) => {
-      const API_KEY_USERS = result;
+      // get rid of the quotes
+      const API_KEY_USERS = result.slice(1, -1);
+      console.log(API_KEY_USERS);
       this.setState({ senderEmail: API_KEY_USERS });
       return axios.get(`${ROOT_URL}/children/${API_KEY_USERS}`).then((response) => {
         // make a list of the parent's children
@@ -59,7 +61,7 @@ class AddTask extends Component {
   }
 
   submitTask() {
-    // So that you are unable to navigate back to login page once logged in.
+    // move to home page after you submit a task
     const resetAction = StackActions.reset({
       index: 0, // <-- currect active route from actions array
       key: null,
