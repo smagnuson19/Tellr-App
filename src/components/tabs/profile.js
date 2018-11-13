@@ -9,7 +9,7 @@ import Style from '../../styling/Style';
 import { colors, fonts, dimensions } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
-const API_KEY = '';
+// const API_KEY = '';
 
 class Profile extends Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class Profile extends Component {
       children: [],
       accountType: '',
       accountName: '',
+      balance: '',
     };
   }
 
@@ -26,24 +27,9 @@ class Profile extends Component {
   }
 
   fetchNames() {
-    AsyncStorage.getItem('emailID', (err, result) => {
-      // get rid of the quotes
-      const API_KEY_USERS = result.slice(1, -1);
-      console.log(API_KEY_USERS);
-      return axios.get(`${ROOT_URL}/children/${API_KEY_USERS}`).then((response) => {
-        // make a list of the parent's children
-        const childList = response.data;
-        const childrenList = [];
-        // loop through each kid and make an object for them with FirstName, Email
-        Object.keys(childList).forEach((key) => {
-          childrenList.push({ label: childList[key].firstName, value: childList[key] });
-        });
-        this.setState({ children: childrenList });
-        console.log(this.state.children, 'children');
-      }).catch((error) => {
-        console.log('ERROR in Profile');
-      });
-    });
+    function sleep(time) {
+      return new Promise(resolve => setTimeout(resolve, time));
+    }
     AsyncStorage.getItem('accountTypeID', (err, result) => {
       const account = result.slice(1, -1);
       this.setState({ accountType: account });
@@ -52,8 +38,36 @@ class Profile extends Component {
       const account = result.slice(1, -1);
       this.setState({ accountName: account });
     });
+
+    sleep(50).then(() => {
+      if (this.state.accountType === 'Parent') {
+        AsyncStorage.getItem('emailID', (err, result) => {
+          // get rid of the quotes
+          const API_KEY_USERS = result.slice(1, -1);
+          console.log(API_KEY_USERS);
+          return axios.get(`${ROOT_URL}/children/${API_KEY_USERS}`).then((response) => {
+            // make a list of the parent's children
+            const childList = response.data;
+            const childrenList = [];
+            // loop through each kid and make an object for them with FirstName, Email
+            Object.keys(childList).forEach((key) => {
+              childrenList.push({ label: childList[key].firstName, value: childList[key] });
+            });
+            this.setState({ children: childrenList });
+            console.log(this.state.children, 'children');
+          }).catch((error) => {
+            console.log('ERROR in Profile');
+          });
+        });
+      } else if (this.state.accountType === 'Child') {
+        AsyncStorage.getItem('balanceID', (err, result) => {
+          this.setState({ balance: result });
+        });
+      }
+    });
   }
 
+  // display children name and balance for Parent view
   displayChildren() {
     const kidsList = [];
     for (let i = 0; i < this.state.children.length; i++) {
@@ -77,6 +91,32 @@ class Profile extends Component {
         ))}
       </View>
     );
+  }
+
+  // display kid's current balance for Child view
+  displayBalance() {
+    return (
+      <View style={pageStyle.sectionContainer}>
+        <Text style={pageStyle.sectionText}> Balance: </Text>
+        <Text style={pageStyle.subSectionText}>
+          {' $'}
+          {this.state.balance}
+          {' '}
+        </Text>
+      </View>
+    );
+  }
+
+  determineDisplay() {
+    // display children for parents, balance for kids
+    if (this.state.accountType === 'Parent') {
+      return (this.displayChildren());
+    } else if (this.state.accountType === 'Child') {
+      return (this.displayBalance());
+    } else {
+      console.log('ERROR: accountType not loaded or selected proprely');
+      return null;
+    }
   }
 
   render() {
@@ -109,7 +149,7 @@ class Profile extends Component {
                 </Text>
               </View>
 
-              {this.displayChildren()}
+              {this.determineDisplay()}
             </View>
             <View style={pageStyle.sectionContainer}>
               <Text style={pageStyle.sectionHeader}> Settings </Text>
