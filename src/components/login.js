@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Image,
+  View, Image, Alert,
 } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import axios from 'axios';
@@ -40,14 +40,14 @@ class Login extends Component {
 
     axios.post(`${ROOT_URL}/${this.state.email}/credentials/${this.state.password}`, { loginInfo })
       .then((response) => {
-        console.log(response.data);
-        this.props.navigation.dispatch(resetAction);
+        console.log(response.data[0].Success);
+        if (response.data[0].Success === true) {
+          this.props.navigation.dispatch(resetAction);
+        } else {
+          Alert.alert('Email and Password combination does not exist. Please try again.');
+          console.log('ERROR: emaild and password wrong');
+        }
       });
-
-    // const emailObject = this.state.email;
-    //
-    // AsyncStorage.setItem('emailID', JSON.stringify(emailObject), () => {
-    // });
   }
 
 
