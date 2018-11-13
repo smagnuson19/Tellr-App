@@ -10,6 +10,7 @@ import { Divider } from 'react-native-elements';
 import Style from '../../styling/Style';
 import AvatarImage from './avatarImage';
 import GoalsCard from './goalsCard';
+import Child from './child';
 import { fonts, colors, dimensions } from '../../styling/base';
 
 const ROOT_URL = 'http://localhost:5000/api';
@@ -19,18 +20,9 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      family: [
-        {
-          firstName: 'Patrick',
-          lastName: 'Holland',
-          userName: '23',
-        },
-        {
-          firstName: 'Jordan',
-          lastName: 'Siegal',
-          userName: '35',
-        },
-      ],
+      accountType: '',
+      children: [],
+      displayInfo: [],
     };
 
     // Bind this instance used in navigationToAccount to this component
@@ -39,41 +31,93 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.fetchNames();
+    this.fetchAtLoad();
   }
 
-  fetchNames() {
-    console.log('yes');
+  fetchUserInfo(childEmail) {
+    return axios.get(`${ROOT_URL}/users/${childEmail}`).then((response) => {
+      const payload = response.data;
+
+      return (payload);
+    }).catch((error) => {
+      console.log('ERROR in fetching user info');
+    });
+  }
+
+  fetchChildInfo(childEmail) {
+  // fetch notification info for the child
+    this.fetchNotificationInfo(childEmail).then((displayChildInfo) => {
+      this.setState({ displayInfo: displayChildInfo });
+
+      // go and fetch the actual user info for the child
+      this.fetchUserInfo(childEmail).then((childContact) => {
+        // update the state children which now holds infor pertaining to child user
+        this.setState({ children: childContact });
+      });
+    });
+  }
+
+  fetchParentInfo(familyInfo) {
+    return axios.get(`${ROOT_URL}/children/${familyInfo.emailID}`).then((response) => {
+      // make a list of the parent's children
+      const payload = response.data;
+      const childList = [];
+      Object.keys(payload).forEach((key) => {
+        childList.push(payload[key]);
+      });
+
+      this.setState({ children: childList });
+
+      this.fetchNotificationInfo(familyInfo.emailID).then((notificationInfo) => {
+        // make a list of the parent's children
+        console.log('Parent Notifcations grab below');
+        console.log(notificationInfo);
+        this.setState({ displayInfo: notificationInfo });
+      });
+    }).catch((error) => {
+      console.log('ERROR in fetchParentInfo');
+    });
+  }
+
+  fetchNotificationInfo(email) {
+    return axios.get(`${ROOT_URL}/notifications/${email}`).then((response) => {
+      const payload = response.data;
+      const itemList = [];
+      Object.keys(payload).forEach((key) => {
+        itemList.push(payload[key]);
+      });
+      return (itemList);
+    }).catch((error) => {
+      console.log('ERROR in fetching Notifications');
+    });
+  }
+
+  fetchAtLoad() {
     const familyInfo = {};
-    AsyncStorage.multiGet(['emailID', 'familyID'], (err, result) => {
+    AsyncStorage.multiGet(['emailID', 'familyID', 'accountTypeID'], (err, result) => {
       for (let i = 0; i < result.length; i++) {
         const nameExtract = result[i][0];
+
         const valExtract = result[i][1].slice(1, -1);
         familyInfo[nameExtract] = valExtract;
-        console.log(familyInfo);
       }
 
-
+      this.setState({ accountType: familyInfo.accountTypeID });
+      // different avenues to retrive data
+      if (familyInfo.accountTypeID === 'Child') {
+        this.fetchChildInfo(familyInfo.emailID);
+      } else if (familyInfo.accountTypeID === 'Parent') {
+        this.fetchParentInfo(familyInfo);
+      } else {
+        console.log('missing accountTypeID');
+      }
       // this.setState({ senderEmail: API_KEY_USERS });
-      // return axios.get(`${ROOT_URL}/${API_KEY_CHILD}/${API_KEY_USERS}`).then((response) => {
-      //   // make a list of the parent's children
-      //   const childList = response.data;
-      //   const childrenList = [];
-      //   // loop through each kid and make an object for them with FirstName, Email
-      //   Object.keys(childList).forEach((key) => {
-      //     childrenList.push({ label: childList[key].firstName, value: childList[key].email });
-      //   });
-      //   this.setState({ children: childrenList });
-      // }).catch((error) => {
-      //   console.log('ERROR in AddTask');
-      // });
     });
   }
 
   // navigate to the correct account for child on a click
-  navigationToAccount() {
-    // Needs to be filled
-
+  navigationToAccount(childEmail) {
+    this.props.navigation.navigate('ChildPage');
   }
 
   goalAction(action) {
@@ -95,6 +139,7 @@ class Home extends Component {
       description: 'THis is a long description fo what should go in the container and overwarp protection',
       id: '3',
     }];
+    // console.log(this.state.displayInfo);
     return (
       <View style={pageStyle.sectionContainer}>
         <Text style={pageStyle.sectionHeader}>
@@ -155,8 +200,8 @@ class Home extends Component {
   renderAvatarRow() {
     return (
       <View style={pageStyle.avatarRow}>
-        { this.state.family.map(person => (
-          <View key={person.username}>
+        { this.state.children.map(person => (
+          <View key={person.email}>
             <AvatarImage onPress={this.navigationToAccount} individual={person} />
 
           </View>
@@ -186,12 +231,26 @@ class Home extends Component {
 
   // render of the childs view
   renderChildView() {
+    console.log('info to render for CHILLD');
+    console.log(this.state.children);
+    console.log(this.state.displayInfo);
 
+    if ((this.state.children.length !== 0) && (this.state.children.length !== 0)) {
+      return (
+        <Child firstName={this.state.children.firstName} balance={this.state.children.balance} task={this.state.displayInfo} />
+      );
+    } else {
+      return (
+        <Text>
+        Loading...
+        </Text>
+      );
+    }
   }
 
   render() {
     // if (this.props.type === 'parent') {
-    if (true) {
+    if (this.state.accountType === 'Parent') {
       return (
         <View style={Style.rootContainer}>
           <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
