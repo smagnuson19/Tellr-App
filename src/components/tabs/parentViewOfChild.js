@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet,
+  View, Text, StyleSheet, Button,
 } from 'react-native';
 import { fonts, colors, dimensions } from '../../styling/base';
 import GoalsCard from './goalsCard';
@@ -63,6 +63,10 @@ class ParentViewOfChild extends Component {
     return (
       <View style={pageStyle.homeWrapper}>
         <View style={pageStyle.topContainer}>
+          <Button
+            title="Go back"
+            onPress={() => this.props.navigation.goBack()}
+          />
 
           <Text style={pageStyle.headerText}>
             {'Hey '}
