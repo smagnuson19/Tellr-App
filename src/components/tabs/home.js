@@ -94,7 +94,7 @@ class Home extends Component {
 
   fetchAtLoad() {
     const familyInfo = {};
-    AsyncStorage.multiGet(['emailID', 'familyID', 'accountType'], (err, result) => {
+    AsyncStorage.multiGet(['emailID', 'familyID', 'accountTypeID'], (err, result) => {
       for (let i = 0; i < result.length; i++) {
         const nameExtract = result[i][0];
 
@@ -102,14 +102,14 @@ class Home extends Component {
         familyInfo[nameExtract] = valExtract;
       }
 
-      this.setState({ accountType: familyInfo.accountType });
+      this.setState({ accountType: familyInfo.accountTypeID });
       // different avenues to retrive data
-      if (familyInfo.accountType === 'Child') {
+      if (familyInfo.accountTypeID === 'Child') {
         this.fetchChildInfo(familyInfo.emailID);
-      } else if (familyInfo.accountType === 'Parent') {
+      } else if (familyInfo.accountTypeID === 'Parent') {
         this.fetchParentInfo(familyInfo);
       } else {
-        console.log('missing accountType');
+        console.log('missing accountTypeID');
       }
       // this.setState({ senderEmail: API_KEY_USERS });
     });
