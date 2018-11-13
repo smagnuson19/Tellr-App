@@ -24,7 +24,7 @@ class Goals extends Component {
     super(props);
     this.state = {
       // loading: true,
-      Goals: '',
+      Goals: [],
       Balance: '',
       senderEmail: '',
     };
@@ -38,27 +38,22 @@ class Goals extends Component {
       const BALANCE = result[1][1];
       this.setState({ senderEmail: API_KEY_USERS });
       this.setState({ Balance: BALANCE });
+      this.fetchGoals();
     }).catch((error) => {
       console.log('ERROR in NewGoal');
     });
-    // function sleep(time) {
-    //   return new Promise(resolve => setTimeout(resolve, time));
-    // }
-    // sleep(800).then(() => {
-    // // Do something after the sleep!
-    //   console.log('Getting Goals after sleep');
-    // });
   }
 
   fetchGoals() {
     console.log(this.state.senderEmail);
-    return axios.get(`${ROOT_URL}/goals/${this.state.senderEmail}`).then((response) => {
+    return axios.get(`${ROOT_URL}/goals/jed@jed.com`).then((response) => {
       // make a list of the parent's children
       console.log('Dealing With Response');
       const gList = response.data;
       const goalList = [];
       // loop through each kid and make an object for them with FirstName, Email
       Object.keys(gList).forEach((key) => {
+        console.log('Checking');
         if (gList[key].approved !== 30 && gList[key].redeemed === false) {
           goalList.push({
             key,
@@ -69,11 +64,26 @@ class Goals extends Component {
             // goalProgress: (parseFloat(this.state.balance)/parseFloat(gList[key].value));
           });
         } else {
+          goalList.push({
+            goalName: 'This Is the Goal Tab',
+            goalDescription: 'Add Goals Below or Redeem Completed Goals',
+            goalImage: '../media/Tellr-Logo.gif',
+            goalValue: 1,
+          });
+          console.log('Default Goal');
           console.log('Not Approved Goal');
         }// end if
       });// end for each
+      // if (typeof this.state.Goals !== 'undefined' && this.state.Goals.length === 0) {
+      //   goalList.push({
+      //     goalName: 'This Is the Goal Tab',
+      //     goalDescription: 'Add Goals Below or Redeem Completed Goals',
+      //     goalImage: '../media/Tellr-Logo.gif',
+      //     goalValue: 1,
+      //   });
+      //   console.log('Default Goal');
+      // }
       this.setState({ Goals: goalList });
-      console.log('Got Goals');
     }).catch((error) => {
       console.log('ERROR in getGoals');
     });
@@ -83,23 +93,47 @@ class Goals extends Component {
     console.log('Button Pressed to redeem');
   }
 
+  renderGoals() {
+    console.log('Rendering Goals');
+    if (typeof this.state.Goals !== 'undefined' && this.state.Goals.length > 0) {
+      console.log('Rendering these Goals');
+      return (
+        this.state.Goals.map(goal => (
+          <View key={goal.id}>
+            <GoalsCard goals={goal}
+              // completed
+              balance={this.state.Balance}
+              onPress={this.redeemAction}
+            />
+          </View>
+        ))
+      );
+    }
+    return (<Text style={Style.headerText}>No Goals Yet</Text>);
+  }
+
   render() {
+    function sleep(time) {
+      return new Promise(resolve => setTimeout(resolve, time));
+    }
     const balanceString0 = 'Your Balance: $';
     const balanceString = `${balanceString0} ${this.state.Balance}`;
-    if (typeof this.state.Goals === 'undefined' || this.state.Goals.length === 0) {
-      console.log('No');
-      this.fetchGoals();
+    if (this.state.Goals.length === 0) {
       return (
         <View style={Style.rootContainer}>
           <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
             <View style={Style.displayContainer}>
-              <Text style={Style.headerText}>Loading, Please wait for goals</Text>
+              <Text style={Style.headerText}>No Goals to Show</Text>
             </View>
           </LinearGradient>
         </View>
       );
     } else {
       console.log('Yes');
+      sleep(500).then(() => {
+      // Do something after the sleep!
+        console.log('Getting Goals after sleep');
+      });
       return (
         <View style={Style.rootContainer}>
           <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
@@ -109,21 +143,13 @@ class Goals extends Component {
                 <Badge containerStyle={{
                   backgroundColor: 'white',
                   width: 375,
+                  flex: 2,
                 }}
                 >
                   <Text style={Style.headerText}>{balanceString}</Text>
                 </Badge>
                 <Divider style={{ backgroundColor: 'rgba(0, 0, 0, 0)', height: 35 }} />
-                { this.state.Goals.map(goal => (
-                  <View key={goal.id}>
-                    <GoalsCard goals={goal}
-                      // completed
-                      balance={this.state.Balance}
-                      onPress={this.redeemAction}
-                    />
-
-                  </View>
-                ))}
+                {this.renderGoals()}
                 <Divider style={{ backgroundColor: 'rgba(0, 0, 0, 0)', height: 35 }} />
                 <Button
                   onPress={() => {
