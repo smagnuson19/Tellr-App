@@ -26,8 +26,8 @@ class Loading extends Component {
     const email = navigation.getParam('emailParam', 'NO-EMAIL');
     return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
       const payload = response.data;
-
       this.setState({ accountType: payload.accountType });
+
       AsyncStorage.setItem('familyID', JSON.stringify(payload.familyName), () => {
       });
 
@@ -39,7 +39,6 @@ class Loading extends Component {
         AsyncStorage.setItem('balanceID', JSON.stringify(payload.balance), () => {
         });
       }
-
     }).catch((error) => {
       console.log('ERROR in Loading');
     });
