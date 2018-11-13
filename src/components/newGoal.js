@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {
-  Button, FormInput,
+  Button, FormInput, Divider,
 } from 'react-native-elements';
 // import DatePicker from 'react-native-datepicker';
 // import RNPickerSelect from 'react-native-picker-select';
@@ -150,6 +150,7 @@ class NewGoal extends Component {
               />
             </View>
             <View style={Style.buttonContainer}>
+              <Divider style={{ backgroundColor: 'rgb(0, 0, 0, 0)', height: 35 }} />
               <Button
                 title="Set Goal!"
                 rounded
@@ -160,7 +161,7 @@ class NewGoal extends Component {
               />
               <Image
                 style={{
-                  width: 150, height: 200, justifyContent: 'center', alignItems: 'center', flex: 1,
+                  width: 150, height: 200, alignSelf: 'center',
                 }}
                 source={{ uri: this.state.image }}
               />
