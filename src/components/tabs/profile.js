@@ -17,6 +17,7 @@ class Profile extends Component {
     this.state = {
       children: [],
       accountType: '',
+      accountName: '',
     };
   }
 
@@ -29,7 +30,6 @@ class Profile extends Component {
       // get rid of the quotes
       const API_KEY_USERS = result.slice(1, -1);
       console.log(API_KEY_USERS);
-      // this.setState({ senderEmail: API_KEY_USERS });
       return axios.get(`${ROOT_URL}/children/${API_KEY_USERS}`).then((response) => {
         // make a list of the parent's children
         const childList = response.data;
@@ -47,6 +47,10 @@ class Profile extends Component {
     AsyncStorage.getItem('accountTypeID', (err, result) => {
       const account = result.slice(1, -1);
       this.setState({ accountType: account });
+    });
+    AsyncStorage.getItem('accountNameID', (err, result) => {
+      const account = result.slice(1, -1);
+      this.setState({ accountName: account });
     });
   }
 
@@ -86,6 +90,15 @@ class Profile extends Component {
             <View style={pageStyle.sectionContainer}>
               <Text style={pageStyle.sectionHeader}> Account </Text>
               <Divider style={pageStyle.divider} />
+
+              <View style={pageStyle.sectionContainer}>
+                <Text style={pageStyle.sectionText}> Name: </Text>
+                <Text style={pageStyle.subSectionText}>
+                  {' '}
+                  {this.state.accountName}
+                  {' '}
+                </Text>
+              </View>
 
               <View style={pageStyle.sectionContainer}>
                 <Text style={pageStyle.sectionText}> Account Type: </Text>
@@ -129,7 +142,7 @@ const pageStyle = StyleSheet.create({
   sectionText: {
     fontSize: fonts.smmd,
     fontWeight: 'bold',
-    color: colors.primary,
+    color: colors.secondary,
     fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
     paddingVertical: 6,
@@ -144,7 +157,7 @@ const pageStyle = StyleSheet.create({
     marginLeft: 10,
   },
   divider: {
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.primary,
     height: 2,
     marginTop: 6,
     marginBottom: 6,
