@@ -19,18 +19,8 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      family: [
-        {
-          firstName: 'Patrick',
-          lastName: 'Holland',
-          userName: '23',
-        },
-        {
-          firstName: 'Jordan',
-          lastName: 'Siegal',
-          userName: '35',
-        },
-      ],
+      accountType: '',
+      children: [],
     };
 
     // Bind this instance used in navigationToAccount to this component
@@ -39,39 +29,78 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.fetchNames();
+    this.fetchAtLoad();
   }
 
-  fetchNames() {
-    console.log('yes');
+  fetchChildInfo(childEmail) {
+    this.fetchInfo(childEmail, 'goals').then((childGoals) => {
+
+    });
+  }
+
+  fetchParentInfo(familyInfo) {
+    return axios.get(`${ROOT_URL}/children/${familyInfo.emailID}`).then((response) => {
+      // make a list of the parent's children
+      const childList = response.data;
+      const childrenList = [];
+      // loop through each kid and make an object for them with FirstName, Email
+      Object.keys(childList).forEach((key) => {
+        this.fetchInfo(childList[key].email, 'goals').then((childGoals) => {
+          this.fetchInfo(childList[key].email, 'childtasks').then((childTasks) => {
+            childrenList.push({
+              first: childList[key].firstName,
+              last: childList[key].lastName,
+              email: childList[key].email,
+              balance: childList[key].balance,
+              tasks: childTasks,
+              goals: childGoals,
+            });
+            console.log(childrenList);
+            this.setState((prevState, props) => {
+              return ({ children: prevState.concat(childrenList) });
+            });
+          });
+        });
+      });
+    }).catch((error) => {
+      console.log('ERROR in fetchParentInfo');
+    });
+  }
+
+  fetchInfo(childEmail, url) {
+    return axios.get(`${ROOT_URL}/${url}/${childEmail}`).then((response) => {
+      const payload = response.data;
+      return payload;
+    }).catch((error) => {
+      console.log('ERROR in fetichingChildEmail');
+    });
+  }
+
+  fetchAtLoad() {
     const familyInfo = {};
-    AsyncStorage.multiGet(['emailID', 'familyID'], (err, result) => {
+    AsyncStorage.multiGet(['emailID', 'familyID', 'accountType'], (err, result) => {
       for (let i = 0; i < result.length; i++) {
         const nameExtract = result[i][0];
+        console.log(result[i][1]);
         const valExtract = result[i][1].slice(1, -1);
         familyInfo[nameExtract] = valExtract;
-        console.log(familyInfo);
       }
 
-
+      this.setState({ accountType: familyInfo.accountType });
+      // different avenues to retrive data
+      if (familyInfo.accountType === 'Child') {
+        this.fetchChildInfo(familyInfo.emailID);
+      } else if (familyInfo.accountType === 'Parent') {
+        this.fetchParentInfo(familyInfo);
+      } else {
+        console.log('missing accountType');
+      }
       // this.setState({ senderEmail: API_KEY_USERS });
-      // return axios.get(`${ROOT_URL}/${API_KEY_CHILD}/${API_KEY_USERS}`).then((response) => {
-      //   // make a list of the parent's children
-      //   const childList = response.data;
-      //   const childrenList = [];
-      //   // loop through each kid and make an object for them with FirstName, Email
-      //   Object.keys(childList).forEach((key) => {
-      //     childrenList.push({ label: childList[key].firstName, value: childList[key].email });
-      //   });
-      //   this.setState({ children: childrenList });
-      // }).catch((error) => {
-      //   console.log('ERROR in AddTask');
-      // });
     });
   }
 
   // navigate to the correct account for child on a click
-  navigationToAccount() {
+  navigationToAccount(childEmail) {
     // Needs to be filled
 
   }
@@ -155,8 +184,8 @@ class Home extends Component {
   renderAvatarRow() {
     return (
       <View style={pageStyle.avatarRow}>
-        { this.state.family.map(person => (
-          <View key={person.username}>
+        { this.state.children.map(person => (
+          <View key={person.email}>
             <AvatarImage onPress={this.navigationToAccount} individual={person} />
 
           </View>
@@ -191,7 +220,7 @@ class Home extends Component {
 
   render() {
     // if (this.props.type === 'parent') {
-    if (true) {
+    if (this.state.accountType === 'Parent') {
       return (
         <View style={Style.rootContainer}>
           <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
