@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, AsyncStorage,
+  View, Text, StyleSheet, AsyncStorage, Button,
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 import { Divider } from 'react-native-elements';
+import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 import { colors, fonts, dimensions } from '../../styling/base';
 
@@ -76,7 +77,6 @@ class Profile extends Component {
         balance: this.state.children[i].value.balance,
       });
     }
-    console.log(kidsList, 'kids');
     return (
       <View style={pageStyle.sectionContainer}>
         <Text style={pageStyle.sectionText}> Children: </Text>
@@ -119,6 +119,19 @@ class Profile extends Component {
     }
   }
 
+  logout() {
+    // move to login page after you logout
+    const resetAction = StackActions.reset({
+      index: 0, // <-- currect active route from actions array
+      key: null,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Login' }),
+      ],
+    });
+
+    this.props.navigation.dispatch(resetAction);
+  }
+
   render() {
     return (
       <View style={Style.rootContainer}>
@@ -157,7 +170,13 @@ class Profile extends Component {
 
               <Text style={pageStyle.sectionText}> Change Password </Text>
               <Text style={pageStyle.sectionText}> Delete Account </Text>
-              <Text style={pageStyle.sectionText}> Logout </Text>
+              <View style={pageStyle.settingsButton}>
+                <Button
+                  title="Logout"
+                  style={pageStyle.settingsButton}
+                  onPress={() => this.logout()}
+                />
+              </View>
             </View>
           </View>
         </LinearGradient>
@@ -202,15 +221,15 @@ const pageStyle = StyleSheet.create({
     marginTop: 6,
     marginBottom: 6,
   },
-  // settingsButton: {
-  //   fontSize: fonts.smmd,
-  //   fontWeight: 'bold',
-  //   color: colors.secondary,
-  //   fontFamily: fonts.secondary,
-  //   justifyContent: 'flex-start',
-  //   paddingVertical: 6,
-  //   marginLeft: 5,
-  // },
+  settingsButton: {
+    fontSize: fonts.smmd,
+    fontWeight: 'bold',
+    color: colors.secondary,
+    fontFamily: fonts.secondary,
+    justifyContent: 'flex-start',
+    paddingVertical: 6,
+    marginLeft: 5,
+  },
 });
 
 
