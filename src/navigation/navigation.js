@@ -16,7 +16,6 @@ import Login from '../components/login';
 import SignUp from '../components/signup/signUp';
 import Loading from '../components/loading';
 
-import Chores from '../components/tabs/chores';
 import Child from '../components/tabs/child';
 
 
