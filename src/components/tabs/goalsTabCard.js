@@ -72,7 +72,7 @@ class GoalsCard extends Component {
           <Text style={Style.headerText}>{progressString}</Text>
           <Image
             style={{
-              width: 150, height: 200, alignSelf: 'center', opacity: progress,
+              width: 150, height: 200, alignSelf: 'center', opacity: Math.min(progress + 0.1, 1),
             }}
             source={{ uri: this.props.goals.goalImage }}
           />
