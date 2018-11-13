@@ -25,15 +25,16 @@ const HomeStack = createStackNavigator({
   Home: { screen: Home },
   ChildPage: {
     screen: ParentViewOfChild,
+    headerMode: 'none',
     navigationOptions: () => ({
       headerTransparent: 'True',
-      headerBackTitleVisible: 'False',
     }),
+
   },
 },
 {
   initialRouteName: 'Home',
-  headerBackTitleVisible: 'False',
+  headerBackTitleVisible: 'True',
   navigationOptions: () => ({
     headerTransparent: 'True',
   }),
