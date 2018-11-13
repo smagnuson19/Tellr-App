@@ -40,9 +40,11 @@ class GoalsCard extends Component {
   }
 
   render() {
-    const progString0 = 'Progress: %';
-    const progress = parseFloat(this.props.balance) / parseFloat(this.props.goals.goalValue);
-    const progressString = `${progString0} ${progress}`;
+    const progString0 = 'Progress: ';
+    const progString1 = '%';
+    const progress0 = parseFloat(this.props.balance) / parseFloat(this.props.goals.goalValue);
+    const progress = Math.trunc(Math.min(progress0 * 100, 100));
+    const progressString = `${progString0} ${progress} ${progString1}`;
     return (
       <Card
         containerStyle={pageStyle.cardContainer}
@@ -72,7 +74,7 @@ class GoalsCard extends Component {
           <Text style={Style.headerText}>{progressString}</Text>
           <Image
             style={{
-              width: 150, height: 200, alignSelf: 'center', opacity: Math.min(progress + 0.1, 1),
+              width: 150, height: 200, alignSelf: 'center', opacity: Math.min(progress0 + 0.2, 1),
             }}
             source={{ uri: this.props.goals.goalImage }}
           />
