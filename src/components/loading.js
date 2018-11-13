@@ -14,6 +14,7 @@ class Loading extends Component {
     super(props);
     this.state = {
       accountType: '',
+
     };
   }
 
