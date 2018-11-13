@@ -172,7 +172,7 @@ class Payments extends Component {
                 large
                 raised
                 onPress={() => this.sendMoney()}
-                title="Send"
+                title="Give them money!"
                 backgroundColor="#424242"
                 accessibilityLabel="enter email"
                 color="white"
