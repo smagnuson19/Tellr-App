@@ -36,7 +36,7 @@ const Style = StyleSheet.create({
 
   headerTextContainter: {
     alignItems: 'flex-start',
-    marginTop: -205,
+    marginTop: -200,
   },
 
   headerImage: {
