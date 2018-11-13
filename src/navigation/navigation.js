@@ -16,14 +16,25 @@ import Login from '../components/login';
 import SignUp from '../components/signup/signUp';
 import Loading from '../components/loading';
 
-import Child from '../components/tabs/child';
+import ParentViewOfChild from '../components/tabs/parentViewOfChild';
 
 
 import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 
+const HomeStack = createStackNavigator({
+  Home: { screen: Home },
+  childPageStack: { screen: ParentViewOfChild },
+},
+{
+  initialRouteName: 'Home',
+  headerBackTitleVisible: 'True',
+  navigationOptions: () => ({
+    headerTransparent: 'True',
+  }),
+});
 
 const ParentTabBar = createBottomTabNavigator({
-  Home,
+  Home: HomeStack,
   Payments,
   'Add Task': AddTask,
   Profile,
@@ -59,7 +70,7 @@ const ParentTabBar = createBottomTabNavigator({
   },
 },
 {
-  initialRouteName: 'Home',
+  initialRouteName: 'homeStack',
 });
 
 const ChildTabBar = createBottomTabNavigator({
@@ -99,18 +110,6 @@ const ChildTabBar = createBottomTabNavigator({
   initialRouteName: 'Home',
 });
 
-const ChildPageStack = createStackNavigator({
-  ChildPage: { screen: Child },
-
-},
-{
-  initialRouteName: 'ChildPage',
-  headerBackTitleVisible: 'True',
-  navigationOptions: () => ({
-    headerTransparent: 'True',
-  }),
-});
-
 
 const SignUpDialouge = createStackNavigator({
   SignUpFirstDialouge: { screen: SignUpFirstDialouge },
@@ -129,7 +128,6 @@ const SignUpDialouge = createStackNavigator({
 const RootStack = createStackNavigator(
   {
     SignUp: { screen: SignUpDialouge },
-    childPage: { screen: ChildPageStack },
     newGoal: { screen: NewGoal },
     ParentTabBar: {
       screen: ParentTabBar,
