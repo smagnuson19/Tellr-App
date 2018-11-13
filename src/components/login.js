@@ -37,17 +37,24 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password,
     };
-
-    axios.post(`${ROOT_URL}/${this.state.email}/credentials/${this.state.password}`, { loginInfo })
-      .then((response) => {
-        console.log(response.data[0].Success);
-        if (response.data[0].Success === true) {
-          this.props.navigation.dispatch(resetAction);
-        } else {
-          Alert.alert('Email and Password combination does not exist. Please try again.');
-          console.log('ERROR: emaild and password wrong');
-        }
-      });
+    if (this.state.email === '') {
+      Alert.alert('Please enter an email address');
+      console.log('ERROR: no email login');
+    } else if (this.state.password === '') {
+      Alert.alert('Please enter a password');
+      console.log('ERROR: empty password login');
+    } else {
+      axios.post(`${ROOT_URL}/${this.state.email}/credentials/${this.state.password}`, { loginInfo })
+        .then((response) => {
+          console.log(response.data[0].Success);
+          if (response.data[0].Success === true) {
+            this.props.navigation.dispatch(resetAction);
+          } else {
+            Alert.alert('Email and Password combination does not exist. Please try again.');
+            console.log('ERROR: emaild and password wrong');
+          }
+        });
+    }
   }
 
 
