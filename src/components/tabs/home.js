@@ -119,7 +119,7 @@ class Home extends Component {
   // navigate to the correct account for child on a click
   navigationToAccount(childEmail) {
     console.log('SOMETHING IS WORKKING');
-    this.props.navigation.navigate('ChildPageStack', {
+    this.props.navigation.navigate('ChildPage', {
       email: childEmail,
     });
   }
@@ -138,7 +138,7 @@ class Home extends Component {
     } else if (action === 'Complete') {
       let payLoad = {
         email: sEmail,
-        priority,
+        goalName,
       };
       console.log('WORKING');
       console.log(payLoad);
