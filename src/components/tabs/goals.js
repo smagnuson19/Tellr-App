@@ -63,7 +63,7 @@ class Goals extends Component {
       // loop through each kid and make an object for them with FirstName, Email
       Object.keys(gList).forEach((key) => {
         console.log('Checking');
-        if (gList[key].approved === 1 && gList[key].redeemed === false) {
+        if (gList[key].approved === 1) {
           goalList.push({
             key,
             goalName: gList[key].name,
@@ -71,6 +71,7 @@ class Goals extends Component {
             goalDescription: gList[key].description,
             goalImage: gList[key].image,
             App: gList[key].approved,
+            redeemed: gList[key].redeemed,
             // goalProgress: (parseFloat(this.state.balance)/parseFloat(gList[key].value));
           });
         } else {
@@ -82,7 +83,9 @@ class Goals extends Component {
           goalName: 'This Is the Goal Tab',
           goalDescription: 'Add Goals Below or Redeem Completed Goals',
           goalImage: 'http://chittagongit.com//images/goal-icon/goal-icon-4.jpg',
-          goalValue: 1,
+          goalValue: 0,
+          App: 1,
+          redeemed: true,
         });
         console.log('Default Goal');
       }
@@ -101,7 +104,7 @@ class Goals extends Component {
     });
   }
 
-  redeemAction(action, gValue, gApproved, gName) {
+  redeemAction(action, gValue, gApproved, gName, gRedeemed) {
     console.log(gValue);
     console.log(gApproved);
     console.log(gName);
@@ -113,7 +116,7 @@ class Goals extends Component {
         NavigationActions.navigate({ routeName: 'ChildTabBar' }),
       ],
     });
-    if (this.state.Balance >= gValue && gApproved === 1) {
+    if (this.state.Balance >= gValue && gApproved === 1 && gRedeemed === false) {
       // goal is good for redemption
       const payLoad = {
         email: this.state.senderEmail,
@@ -163,8 +166,8 @@ class Goals extends Component {
       return (
         <View style={Style.rootContainer}>
           <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
-            <View style={Style.displayContainer}>
-              <Text style={Style.headerText}>No Goals to Show</Text>
+            <View style={Style.contentWrapper}>
+              <Text style={Style.headerText}>Loading Goals</Text>
             </View>
           </LinearGradient>
         </View>
