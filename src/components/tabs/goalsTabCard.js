@@ -22,7 +22,8 @@ class GoalsCard extends Component {
     this.props.onPress(action,
       this.props.goals.goalValue,
       this.props.goals.App,
-      this.props.goals.goalName);
+      this.props.goals.goalName,
+      this.props.goals.redeemed);
     // action is boolean deny or accept
   }
 
