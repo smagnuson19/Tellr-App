@@ -10,6 +10,7 @@
 Organize and streamline task assignment and chores in your household while teaching your kids the value of money! (testing branches and merging)
 
 ![alt text](https://github.com/dartmouth-cs98/18f-tellr-frontend/blob/master/Data%20Model%20and%20Sketches/Tellr-18F-Child.png)
+![alt text](https://github.com/dartmouth-cs98/18f-tellr-frontend/blob/master/Data%20Model%20and%20Sketches/18F-Tellr-Main.png)
 
 ## Architecture
 
