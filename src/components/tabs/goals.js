@@ -64,7 +64,7 @@ class Goals extends Component {
       Object.keys(gList).forEach((key) => {
         console.log('Checking');
         if (gList[key].approved === 1) {
-          goalList.push({
+          goalList.unshift({
             key,
             goalName: gList[key].name,
             goalValue: gList[key].value,
@@ -193,8 +193,6 @@ class Goals extends Component {
                   <Text style={Style.headerText}>{balanceString}</Text>
                 </Badge>
                 <Divider style={{ backgroundColor: 'rgba(0, 0, 0, 0)', height: 35 }} />
-                {this.renderGoals()}
-                <Divider style={{ backgroundColor: 'rgba(0, 0, 0, 0)', height: 35 }} />
                 <Button
                   onPress={() => {
                     this.props.navigation.navigate('newGoal');
@@ -211,6 +209,8 @@ class Goals extends Component {
                   }}
                   title="New Goal"
                 />
+                <Divider style={{ backgroundColor: 'rgba(0, 0, 0, 0)', height: 35 }} />
+                {this.renderGoals()}
                 <Divider style={{ backgroundColor: 'rgba(0, 0, 0, 0)', height: 105 }} />
               </ScrollView>
             </View>
