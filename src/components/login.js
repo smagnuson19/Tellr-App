@@ -10,7 +10,6 @@ import { colors } from '../styling/base';
 import Style from '../styling/Style';
 
 const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
-
 class Login extends Component {
   constructor(props) {
     super(props);

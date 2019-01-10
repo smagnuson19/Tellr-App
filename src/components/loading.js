@@ -26,6 +26,7 @@ class Loading extends Component {
     const email = navigation.getParam('emailParam', 'NO-EMAIL');
     return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
       const payload = response.data;
+      console.log(payload);
       this.setState({ accountType: payload.accountType });
 
       AsyncStorage.setItem('familyID', JSON.stringify(payload.familyName), () => {
