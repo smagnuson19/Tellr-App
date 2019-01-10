@@ -17,6 +17,7 @@ export const colors = {
   white: 'rgb(255,255,255)',
   red: 'rgb(255,0,0)',
   money: 'rgb(0, 100, 0)',
+  clear: 'rgba(0,0,0,0)',
 };
 
 export const fonts = {

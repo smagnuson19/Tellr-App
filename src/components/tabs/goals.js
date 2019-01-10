@@ -20,6 +20,11 @@ import { colors } from '../../styling/base';
 // const API_KEY = '';
 
 const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+// Import the react-native-sound module
+const Sound = require('react-native-sound');
+
+let unlock;
+
 
 // const API_KEY = '';
 
@@ -45,6 +50,16 @@ class Goals extends Component {
       this.fetchGoals();
     }).catch((error) => {
       console.log('ERROR in NewGoal');
+    });
+    // Enable playback in silence mode
+    Sound.setCategory('Playback');
+    unlock = new Sound('unlock-achievement.wav', Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      console.log('Loaded sound');
+      // loaded successfully
     });
     this.fetchAtLoad();
   }
@@ -129,6 +144,18 @@ class Goals extends Component {
         });
       AsyncStorage.setItem('balanceID', JSON.stringify(parseFloat(this.state.Balance) - parseFloat(gValue)), () => {
       });
+      //  play redepton sound
+      // Play the sound with an onEnd callback
+      unlock.play((success) => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+          // reset the player to its uninitialized state (android only)
+          // this is the only option to recover after an error occured and use the player again
+          unlock.reset();
+        }
+      });
     } else if (this.state.Balance < gValue) {
       Alert.alert('You don\'t have the money! Complete a task to make more');
       console.log('ERROR: reward money greater than balance money');
@@ -192,14 +219,14 @@ class Goals extends Component {
                 >
                   <Text style={Style.headerText}>{balanceString}</Text>
                 </Badge>
-                <Divider style={{ backgroundColor: colors.white, height: 35 }} />
+                <Divider style={{ backgroundColor: colors.clear, height: 35 }} />
                 <Button
                   onPress={() => {
                     this.props.navigation.navigate('newGoal');
                     console.log('Button Pressed in Goals');
                   }}
                   buttonStyle={{
-                    backgroundColor: colors.white,
+                    backgroundColor: colors.red,
                     width: 300,
                     height: 45,
                     alignSelf: 'center',
@@ -209,9 +236,9 @@ class Goals extends Component {
                   }}
                   title="New Goal"
                 />
-                <Divider style={{ backgroundColor: colors.white, height: 35 }} />
+                <Divider style={{ backgroundColor: colors.clear, height: 35 }} />
                 {this.renderGoals()}
-                <Divider style={{ backgroundColor: colors.white, height: 105 }} />
+                <Divider style={{ backgroundColor: colors.clear, height: 105 }} />
               </ScrollView>
             </View>
           </LinearGradient>
