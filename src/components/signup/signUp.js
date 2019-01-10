@@ -13,6 +13,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 
+
 const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
@@ -48,6 +49,7 @@ class SignUp extends Component {
       accountType: this.props.navigation.getParam('userType'),
     };
 
+    // checking for errors and notifying user
     if (this.state.firstName === '') {
       Alert.alert('First Name cannot be empty');
       console.log('ERROR: first name empty');
@@ -64,13 +66,17 @@ class SignUp extends Component {
       Alert.alert('Family Name cannot be empty');
       console.log('ERROR: family name empty');
     } else {
+      // do a post if there are no errors in the fields
       axios.post(`${ROOT_URL}/users`, { payLoad })
         .then((response) => {
           console.log(response.data[0].Success);
+          // maybe backend returns a specific error so we can know for sure this
+          // is the issue
           if (response.data[0].Success === false) {
             Alert.alert('This email is already associated with an account.');
             console.log('ERROR: email already has account');
           } else {
+            // post and then head over to loading and bring in users info.
             this.props.navigation.dispatch(resetAction);
           }
         });
@@ -175,14 +181,15 @@ class SignUp extends Component {
 const pageStyle = StyleSheet.create({
   inputContainer: {
     flex: 1,
-    marginTop: 15,
+    marginTop: '5%',
+    marginBottom: '3%',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'center',
   },
   buttonContainer: {
     flex: 0,
-    margin: 20,
+    margin: '10%',
     width: '80%',
     flexDirection: 'column',
     justifyContent: 'center',
