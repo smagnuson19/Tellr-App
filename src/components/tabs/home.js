@@ -268,10 +268,6 @@ class Home extends Component {
 
   // sEmail is the childs and cEmail is the parents
   renderVerifyAction(action, goalName, sEmail, cEmail, priority, taskReward, description) {
-    console.log('HELLO');
-    console.log(goalName);
-    console.log(taskReward);
-    console.log(description);
     let num;
     if (action === 'Accept') {
       num = true;
@@ -284,12 +280,9 @@ class Home extends Component {
       verify: num,
     };
     console.log(payLoad);
-    console.log('approving or denying chore');
     axios.post(`${ROOT_URL}/tasks/verified`, { payLoad })
       .then((response) => {
-        console.log('chore was approved or DENIED');
         console.log(response.data);
-
         console.log('redeemGoal');
         // console.log(payLoad);
         // axios.post(`${ROOT_URL}/redeem`, { payLoad })
@@ -302,28 +295,27 @@ class Home extends Component {
           .then((result) => {
             console.log(result.data);
             this.fetchAtLoad();
+
+            //  add the task back if it was denied by the parent
+            payLoad = {
+              taskName: goalName,
+              reward: taskReward,
+              taskDeadline: 'holder',
+              taskDescription: description,
+              childEmail: sEmail,
+              senderEmail: cEmail,
+            };
+            if (num === false) {
+              axios.post(`${ROOT_URL}/tasks`, { payLoad })
+                .then((denyResponse) => {
+                  console.log('working 0000000');
+                  console.log(denyResponse.data);
+                  this.fetchAtLoad();
+                });
+            }
           });
         // });
-
-        //  add the task back if it was denied by the parent
-        if (num === false) {
-          console.log('chore was denied');
-        // axios.post(`${ROOT_URL}/tasks`, { payLoad })
-        //   .then((denyResponse) => {
-        //     console.log(denyResponse.data);
-        //     this.fetchAtLoad();
-        //   });
-        }
       });
-
-    // const payLoad = {
-    //   taskName: this.state.taskName,
-    //   reward: this.state.reward,
-    //   taskDeadline: this.state.taskDeadline,
-    //   taskDescription: this.state.taskDescription,
-    //   childEmail: this.state.childEmail,
-    //   senderEmail: this.state.senderEmail,
-    // };
 
     return ('nothing');
   }
