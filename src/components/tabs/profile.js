@@ -161,9 +161,7 @@ class Profile extends Component {
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
-            <View style={Style.headerTextContainter}>
-              <Text style={Style.headerText}>Profile </Text>
-            </View>
+            <Text style={Style.headerText}>Profile </Text>
             <View style={pageStyle.sectionContainer}>
               <Text style={pageStyle.sectionHeader}> Account </Text>
               <Divider style={pageStyle.divider} />
@@ -210,8 +208,12 @@ class Profile extends Component {
 }
 
 const pageStyle = StyleSheet.create({
+  // headerContainer: {
+  //   top: 0,
+  //   width: dimensions.fullWidth,
+  // },
   sectionContainer: {
-    marginBottom: 15,
+    marginBottom: '5%',
     width: dimensions.fullWidth,
   },
   sectionHeader: {
