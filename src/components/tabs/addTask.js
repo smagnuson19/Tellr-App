@@ -110,9 +110,7 @@ class AddTask extends Component {
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
-            <View style={Style.headerText}>
-              <Text style={Style.headerText}>New Task </Text>
-            </View>
+            <Text style={Style.headerText}>New Task </Text>
             <View style={Style.inputContainer}>
               <FormInput
                 containerStyle={Style.fieldContainerSecondary}
