@@ -12,6 +12,11 @@ export const colors = {
   linearGradientTop: 'rgba(4, 27, 37, 0.9615)',
   linearGradientBottom: 'rgba(1, 6, 3, 0.76)',
   placeholderColor: 'grey',
+  lightGrey: 'rgb(176, 176, 176)',
+  black: 'rgb(0,0,0)',
+  white: 'rgb(255,255,255)',
+  red: 'rgb(255,0,0)',
+  money: 'rgb(0, 100, 0)',
 };
 
 export const fonts = {
