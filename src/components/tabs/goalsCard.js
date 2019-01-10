@@ -24,6 +24,8 @@ class GoalsCard extends Component {
       this.props.goals.email,
       this.props.goals.senderEmail,
       this.props.goals.priority,
+      this.props.goals.value,
+      this.props.goals.description,
       this.props.goals.redeemed,
     );
   }
