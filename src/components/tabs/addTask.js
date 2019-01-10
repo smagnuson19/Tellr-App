@@ -216,7 +216,7 @@ const pickerSelectStyles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingBottom: 7,
     borderWidth: 0.8,
-    borderColor: 'rgb(176, 176, 176)',
+    borderColor: colors.lightGrey,
     width: 320,
     marginLeft: 40,
     marginTop: 15,
@@ -233,7 +233,7 @@ const taskDeadlineStyles = StyleSheet.create({
     paddingBottom: 30,
     marginLeft: 40,
     fontFamily: fonts.secondary,
-    borderColor: 'rgb(176, 176, 176)',
+    borderColor: colors.lightGrey,
   },
 });
 

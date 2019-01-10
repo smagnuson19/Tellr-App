@@ -116,7 +116,7 @@ const pageStyle = StyleSheet.create({
     marginLeft: 15,
     alignContent: 'center',
     fontSize: fonts.lg,
-    color: 'rgb(0, 0, 0)',
+    color: colors.black,
   },
 
   balanceContainer: {

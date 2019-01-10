@@ -15,7 +15,7 @@ import GoalsCard from './goalsTabCard';
 
 // import AvatarImage from './avatarImage';
 // import GoalsCard from './goalsCard';
-// import { fonts, colors, dimensions } from '../../styling/base';
+import { colors } from '../../styling/base';
 
 // const API_KEY = '';
 
@@ -165,7 +165,7 @@ class Goals extends Component {
     if (this.state.Goals.length === 0) {
       return (
         <View style={Style.rootContainer}>
-          <LinearGradient colors={['colors.linearGradientTop', 'colors.linearGradientBottom']} style={Style.gradient}>
+          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
               <Text style={Style.headerText}>Loading Goals</Text>
             </View>
@@ -180,7 +180,7 @@ class Goals extends Component {
       });
       return (
         <View style={Style.rootContainer}>
-          <LinearGradient colors={['colors.linearGradientTop', 'colors.linearGradientBottom']} style={Style.gradient}>
+          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
               <Text style={Style.headerText}>Goals!</Text>
               <ScrollView>
@@ -192,14 +192,14 @@ class Goals extends Component {
                 >
                   <Text style={Style.headerText}>{balanceString}</Text>
                 </Badge>
-                <Divider style={{ backgroundColor: 'rgba(0, 0, 0, 0)', height: 35 }} />
+                <Divider style={{ backgroundColor: colors.white, height: 35 }} />
                 <Button
                   onPress={() => {
                     this.props.navigation.navigate('newGoal');
                     console.log('Button Pressed in Goals');
                   }}
                   buttonStyle={{
-                    backgroundColor: 'rgba(92, 99,216, 1)',
+                    backgroundColor: colors.white,
                     width: 300,
                     height: 45,
                     alignSelf: 'center',
@@ -209,9 +209,9 @@ class Goals extends Component {
                   }}
                   title="New Goal"
                 />
-                <Divider style={{ backgroundColor: 'rgba(0, 0, 0, 0)', height: 35 }} />
+                <Divider style={{ backgroundColor: colors.white, height: 35 }} />
                 {this.renderGoals()}
-                <Divider style={{ backgroundColor: 'rgba(0, 0, 0, 0)', height: 105 }} />
+                <Divider style={{ backgroundColor: colors.white, height: 105 }} />
               </ScrollView>
             </View>
           </LinearGradient>
