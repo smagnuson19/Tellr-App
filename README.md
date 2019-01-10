@@ -16,6 +16,7 @@ Organize and streamline task assignment and chores in your household while teach
 ## Architecture
 
 #### Tech Stack
+
 We are using React Native for our frontend mobile app and flask / python for our backend.
 
 #### Data Objects

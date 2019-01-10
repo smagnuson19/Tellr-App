@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView,
+  View, Text, StyleSheet, ScrollView, RefreshControl,
   AsyncStorage,
 } from 'react-native';
 import axios from 'axios';
@@ -20,7 +20,9 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isFetching: false,
       accountType: '',
+      email: '',
       children: [],
       displayInfo: [],
     };
@@ -33,6 +35,19 @@ class Home extends Component {
 
   componentDidMount() {
     this.fetchAtLoad();
+  }
+
+
+  // A pull down has been initiated
+  onRefresh() {
+    this.setState({ isFetching: true }, function () { this.reloadApiData(); });
+  }
+
+  // Pulls in new data for the pull Down Refresh
+  reloadApiData() {
+    this.fetchUserInformation(this.state.accountType, this.state.email);
+    // No longer fetching
+    this.setState({ isFetching: false });
   }
 
   fetchUserInfo(childEmail) {
@@ -58,8 +73,8 @@ class Home extends Component {
     });
   }
 
-  fetchParentInfo(familyInfo) {
-    return axios.get(`${ROOT_URL}/children/${familyInfo.emailID}`).then((response) => {
+  fetchParentInfo(parentEmail) {
+    return axios.get(`${ROOT_URL}/children/${parentEmail}`).then((response) => {
       // make a list of the parent's children
       const payload = response.data;
       const childList = [];
@@ -69,7 +84,7 @@ class Home extends Component {
 
       this.setState({ children: childList });
 
-      this.fetchNotificationInfo(familyInfo.emailID).then((notificationInfo) => {
+      this.fetchNotificationInfo(parentEmail).then((notificationInfo) => {
         // make a list of the parent's children
         console.log('Parent Notifcations grab below');
         console.log(notificationInfo);
@@ -93,6 +108,16 @@ class Home extends Component {
     });
   }
 
+  fetchUserInformation(accountType, email) {
+    if (accountType === 'Child') {
+      this.fetchChildInfo(email);
+    } else if (accountType === 'Parent') {
+      this.fetchParentInfo(email);
+    } else {
+      console.log('missing accountTypeID');
+    }
+  }
+
   fetchAtLoad() {
     const familyInfo = {};
     AsyncStorage.multiGet(['emailID', 'familyID', 'accountTypeID'], (err, result) => {
@@ -103,18 +128,16 @@ class Home extends Component {
         familyInfo[nameExtract] = valExtract;
       }
 
-      this.setState({ accountType: familyInfo.accountTypeID });
+      this.setState({
+        accountType: familyInfo.accountTypeID,
+        email: familyInfo.emailID,
+      });
       // different avenues to retrive data
-      if (familyInfo.accountTypeID === 'Child') {
-        this.fetchChildInfo(familyInfo.emailID);
-      } else if (familyInfo.accountTypeID === 'Parent') {
-        this.fetchParentInfo(familyInfo);
-      } else {
-        console.log('missing accountTypeID');
-      }
+      this.fetchUserInformation(familyInfo.accountTypeID, familyInfo.emailID);
       // this.setState({ senderEmail: API_KEY_USERS });
     });
   }
+
 
   // navigate to the correct account for child on a click
   navigationToAccount(childEmail) {
@@ -316,6 +339,7 @@ class Home extends Component {
     );
   }
 
+
   // Render of the parentsView
   renderParentView() {
     return (
@@ -325,7 +349,17 @@ class Home extends Component {
           {this.renderAvatarRow()}
         </View>
 
-        <ScrollView style={pageStyle.main}>
+        <ScrollView style={pageStyle.main}
+          refreshControl={(
+            <RefreshControl
+              onRefresh={() => this.onRefresh()}
+              refreshing={this.state.isFetching}
+              tintColor="#fff"
+            />
+)}
+
+        >
+
           {this.renderGoalsToComplete()}
 
 

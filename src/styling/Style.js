@@ -30,8 +30,10 @@ const Style = StyleSheet.create({
     fontFamily: fonts.secondary,
     fontSize: fonts.xlg,
     color: colors.primary,
-    marginTop: 50,
-    marginBottom: 30,
+    // marginTop: 50,
+    // marginBottom: 30,
+    marginTop: '20%',
+    marginBottom: '10%',
   },
 
   headerTextContainter: {
@@ -40,8 +42,10 @@ const Style = StyleSheet.create({
   },
 
   headerImage: {
-    marginTop: 80,
-    marginBottom: 100,
+    // marginTop: 80,
+    // marginBottom: 100,
+    marginTop: '30 %',
+    marginBottom: '15 %',
     alignItems: 'center',
   },
 
@@ -58,7 +62,7 @@ const Style = StyleSheet.create({
     height: dimensions.fullHeight / 4,
     backgroundColor: '#3de594',
     alignItems: 'center',
-    marginBottom: 50,
+    marginBottom: '15%',
   },
 
   // associated with buttonGradient and Touchable Opacity object
@@ -71,7 +75,7 @@ const Style = StyleSheet.create({
 
   buttonContainer: {
     flex: 1,
-    margin: 1,
+    paddingTop: '20%',
     width: '90%',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -79,14 +83,14 @@ const Style = StyleSheet.create({
 
   button: {
     fontFamily: fonts.primary,
-    marginBottom: 70,
+    marginBottom: '15%',
   },
 
   // The FormInput object, wrapps a single fieldText
   fieldContainer: {
     borderBottomWidth: 1,
     flex: 0,
-    margin: 25,
+    margin: '5 %',
     borderColor: 'rgb(176, 176, 176)',
     color: 'rgb(255, 255, 255)',
   },
@@ -127,10 +131,11 @@ const Style = StyleSheet.create({
 
   // Wrapper for multiple FormInput Objects
   inputContainer: {
-    flex: 0.6,
+    flex: 1,
+    marginTop: '5%',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
-    paddingHorizontal: 30,
+    // paddingHorizontal: 30,
     alignItems: 'center',
   },
 
