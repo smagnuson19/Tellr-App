@@ -298,17 +298,16 @@ class Home extends Component {
 
             //  add the task back if it was denied by the parent
             payLoad = {
-              taskName: goalName,
+              taskName: `DENIED, REDO: ${goalName}`,
               reward: taskReward,
               taskDeadline: 'holder',
               taskDescription: description,
-              childEmail: sEmail,
-              senderEmail: cEmail,
+              childEmail: cEmail,
+              senderEmail: sEmail,
             };
             if (num === false) {
               axios.post(`${ROOT_URL}/tasks`, { payLoad })
                 .then((denyResponse) => {
-                  console.log('working 0000000');
                   console.log(denyResponse.data);
                   this.fetchAtLoad();
                 });
