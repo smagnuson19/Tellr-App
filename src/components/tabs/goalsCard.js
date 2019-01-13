@@ -119,7 +119,6 @@ class GoalsCard extends Component {
   }
 
   render() {
-    console.log(this.props);
     if (this.props.goals.notificationType === this.props.notificationTypePassed) {
       return (
         <Card

@@ -297,6 +297,7 @@ class Home extends Component {
             this.fetchAtLoad();
 
             //  add the task back if it was denied by the parent
+            // TODO: get taskDeadline here somehow
             payLoad = {
               taskName: `DENIED, REDO: ${goalName}`,
               reward: taskReward,
