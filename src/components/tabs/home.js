@@ -150,7 +150,7 @@ class Home extends Component {
 
 
   // sEmail is the childs and cEmail is the parents or assigners
-  renderGoalAction(action, taskName, sEmail, cEmail, priority) {
+  renderGoalAction(action, taskName, sEmail, cEmail, priority, taskReward, description) {
     let num;
     console.log(action);
 
@@ -267,7 +267,7 @@ class Home extends Component {
   }
 
   // sEmail is the childs and cEmail is the parents
-  renderVerifyAction(action, goalName, sEmail, cEmail, priority) {
+  renderVerifyAction(action, goalName, sEmail, cEmail, priority, taskReward, description) {
     let num;
     if (action === 'Accept') {
       num = true;
@@ -280,11 +280,9 @@ class Home extends Component {
       verify: num,
     };
     console.log(payLoad);
-
     axios.post(`${ROOT_URL}/tasks/verified`, { payLoad })
       .then((response) => {
         console.log(response.data);
-
         console.log('redeemGoal');
         // console.log(payLoad);
         // axios.post(`${ROOT_URL}/redeem`, { payLoad })
@@ -297,9 +295,28 @@ class Home extends Component {
           .then((result) => {
             console.log(result.data);
             this.fetchAtLoad();
+
+            //  add the task back if it was denied by the parent
+            // TODO: get taskDeadline here somehow
+            payLoad = {
+              taskName: `DENIED, REDO: ${goalName}`,
+              reward: taskReward,
+              taskDeadline: 'holder',
+              taskDescription: description,
+              childEmail: cEmail,
+              senderEmail: sEmail,
+            };
+            if (num === false) {
+              axios.post(`${ROOT_URL}/tasks`, { payLoad })
+                .then((denyResponse) => {
+                  console.log(denyResponse.data);
+                  this.fetchAtLoad();
+                });
+            }
           });
         // });
       });
+
     return ('nothing');
   }
 

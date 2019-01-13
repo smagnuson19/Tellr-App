@@ -16,8 +16,8 @@ class Child extends Component {
     this.buttonPress = this.buttonPress.bind(this);
   }
 
-  buttonPress(action, goalName, sEmail, cEmail, priority) {
-    this.props.onPress(action, goalName, sEmail, cEmail, priority);
+  buttonPress(action, goalName, sEmail, cEmail, priority, taskReward, description) {
+    this.props.onPress(action, goalName, sEmail, cEmail, priority, taskReward, description);
   }
 
   checkEmptyTasks() {
