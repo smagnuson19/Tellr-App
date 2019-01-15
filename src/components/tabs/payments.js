@@ -90,6 +90,18 @@ class Payments extends Component {
       Alert.alert('Payments cannot be zero. Please enter a valid payment');
       console.log('ERROR: payment amount empty');
     } else {
+      // Confirmation alert
+      // TODO: Add actualy payment and child's name
+      // TODO: don't let it go through without press ok OnPress...
+      Alert.alert(
+        'Transfer Money to Child Account',
+        'Are you sure you want to complete this action?',
+        [
+          { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false },
+      );
       axios.post(`${ROOT_URL}/balance`, { payLoad })
         .then((response) => {
           this.props.navigation.dispatch(resetAction);
