@@ -57,6 +57,8 @@ export function loginUser(email, password, resetAction) {
 }
 
 
+export function
+
 // export function fetchUserInfo() {
 //   const familyInfo = {};
 //   AsyncStorage.multiGet(['emailID', 'familyID', 'accountTypeID'], (err, result) => {
