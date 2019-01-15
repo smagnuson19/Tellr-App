@@ -3,6 +3,7 @@ import {
   View, Text, StyleSheet, ScrollView, RefreshControl,
   AsyncStorage,
 } from 'react-native';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 // import Login from './login';
@@ -11,6 +12,7 @@ import Style from '../../styling/Style';
 import AvatarImage from './avatarImage';
 import GoalsCard from './goalsCard';
 import Child from './child';
+import { fetchUserInfo } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
 
 const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
@@ -484,5 +486,11 @@ const pageStyle = StyleSheet.create({
 
 });
 
+const mapStateToProps = state => (
+  {
+    //  call in global prop variables here
+    // user: state.user
+  });
 
-export default Home;
+
+export default connect(mapStateToProps, { fetchUserInfo })(Home);
