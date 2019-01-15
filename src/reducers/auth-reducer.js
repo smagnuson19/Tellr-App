@@ -17,6 +17,7 @@ const AuthReducer = (
     case ActionTypes.AUTH_ERROR:
       return {
         authenticated: false,
+        error: action.message,
       };
     default:
       return state;
