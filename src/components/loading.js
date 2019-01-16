@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, AsyncStorage } from 'react-native';
-import axios from 'axios';
+import { View, Text } from 'react-native';
+import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { colors } from '../styling/base';
+import { fetchUserInfo } from '../actions/index';
 import Style from '../styling/Style';
-
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 
 class Loading extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accountType: '',
 
     };
   }
@@ -22,27 +20,11 @@ class Loading extends Component {
   }
 
   fetchNames() {
+    console.log(this.props);
     const { navigation } = this.props;
     const email = navigation.getParam('emailParam', 'NO-EMAIL');
-    return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
-      const payload = response.data;
-      console.log(payload);
-      this.setState({ accountType: payload.accountType });
-
-      AsyncStorage.setItem('familyID', JSON.stringify(payload.familyName), () => {
-      });
-
-      AsyncStorage.setItem('accountTypeID', JSON.stringify(payload.accountType), () => {
-      });
-      AsyncStorage.setItem('accountNameID', JSON.stringify(`${payload.firstName} ${payload.lastName}`), () => {
-      });
-      if (this.state.accountType === 'Child') {
-        AsyncStorage.setItem('balanceID', JSON.stringify(payload.balance), () => {
-        });
-      }
-    }).catch((error) => {
-      console.log('ERROR in Loading');
-    });
+    console.log(email);
+    this.props.fetchUserInfo(email);
   }
 
   loading(email) {
@@ -50,19 +32,19 @@ class Loading extends Component {
       return new Promise(resolve => setTimeout(resolve, time));
     }
 
-    const emailObject = email;
-    AsyncStorage.setItem('emailID', JSON.stringify(emailObject), () => {
-    });
+    // const emailObject = email;
+    // AsyncStorage.setItem('emailID', JSON.stringify(emailObject), () => {
+    // });
 
 
     // figure out if Parent or Child user
     let chooseRoute;
-    if (this.state.accountType === 'Child') {
+    if (this.props.accountType === 'Child') {
       chooseRoute = 'ChildTabBar';
-    } else if (this.state.accountType === 'Parent') {
+    } else if (this.props.accountType === 'Parent') {
       chooseRoute = 'ParentTabBar';
     } else {
-      console.log('Error in Loading', this.state.accountType);
+      console.log('Error in Loading', this.props.accountType);
     }
     //  So that you are unable to navigate back to login page once logged in.
     if (chooseRoute != null) {
@@ -103,4 +85,10 @@ class Loading extends Component {
 }
 
 
-export default Loading;
+const mapStateToProps = state => (
+  {
+    accountType: state.user.info.accountType,
+  });
+
+
+export default connect(mapStateToProps, { fetchUserInfo })(Loading);

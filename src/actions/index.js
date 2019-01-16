@@ -57,7 +57,43 @@ export function loginUser(email, password, resetAction) {
 }
 
 
-export function
+// fetchNames() {
+//   const { navigation } = this.props;
+//   const email = navigation.getParam('emailParam', 'NO-EMAIL');
+//   return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
+//     const payload = response.data;
+//     console.log(payload);
+//     this.setState({ accountType: payload.accountType });
+//
+//     AsyncStorage.setItem('familyID', JSON.stringify(payload.familyName), () => {
+//     });
+//
+//     AsyncStorage.setItem('accountTypeID', JSON.stringify(payload.accountType), () => {
+//     });
+//     AsyncStorage.setItem('accountNameID', JSON.stringify(`${payload.firstName} ${payload.lastName}`), () => {
+//     });
+//     if (this.state.accountType === 'Child') {
+//       AsyncStorage.setItem('balanceID', JSON.stringify(payload.balance), () => {
+//       });
+//     }
+//   }).catch((error) => {
+//     console.log('ERROR in Loading');
+//   });
+// }
+
+export function fetchUserInfo(email) {
+  return (dispatch) => {
+    return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
+      console.log(response.data);
+      dispatch({
+        type: ActionTypes.FETCH_USER,
+        payload: response.data,
+      });
+    }).catch((error) => {
+      console.log('ERROR in Loading');
+    });
+  };
+}
 
 // export function fetchUserInfo() {
 //   const familyInfo = {};
