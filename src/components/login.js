@@ -3,13 +3,13 @@ import {
   View, Image, Alert,
 } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { FormInput, Button } from 'react-native-elements';
 import { colors } from '../styling/base';
 import Style from '../styling/Style';
+import { loginUser } from '../actions/index';
 
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -32,10 +32,11 @@ class Login extends Component {
       ],
     });
 
-    const loginInfo = {
-      email: this.state.email,
-      password: this.state.password,
-    };
+    // const loginInfo = {
+    //   email: this.state.email,
+    //   password: this.state.password,
+    // };
+
     if (this.state.email === '') {
       Alert.alert('Please enter an email address');
       console.log('ERROR: no email login');
@@ -43,16 +44,27 @@ class Login extends Component {
       Alert.alert('Please enter a password');
       console.log('ERROR: empty password login');
     } else {
-      axios.post(`${ROOT_URL}/${this.state.email}/credentials/${this.state.password}`, { loginInfo })
-        .then((response) => {
-          console.log(response.data[0].Success);
-          if (response.data[0].Success === true) {
-            this.props.navigation.dispatch(resetAction);
-          } else {
-            Alert.alert('Email and Password combination does not exist. Please try again.');
-            console.log('ERROR: emaild and password wrong');
-          }
-        });
+      this.props.loginUser(this.state.email, this.state.password, resetAction).then((something) => {
+        console.log(this.props.authenticated);
+        if (this.props.authenticated) {
+          console.log('AUTHED');
+          this.props.navigation.dispatch(resetAction);
+        } else if (this.props.errorMessage) {
+          Alert.alert(this.props.errorMessage);
+        }
+      });
+
+
+      // axios.post(`${ROOT_URL}/${this.state.email}/credentials/${this.state.password}`, { loginInfo })
+      //   .then((response) => {
+      //     console.log(response.data[0].Success);
+      //     if (response.data[0].Success === true) {
+      //       this.props.navigation.dispatch(resetAction);
+      //     } else {
+      //       Alert.alert('Email and Password combination does not exist. Please try again.');
+      //       console.log('ERROR: emaild and password wrong');
+      //     }
+      //   });
     }
   }
 
@@ -124,4 +136,11 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => (
+  {
+    errorMessage: state.auth.error,
+    authenticated: state.auth.authenticated,
+  });
+
+
+export default connect(mapStateToProps, { loginUser })(Login);
