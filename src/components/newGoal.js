@@ -150,7 +150,7 @@ class NewGoal extends Component {
               />
             </View>
             <View style={Style.buttonContainer}>
-              <Divider style={{ backgroundColor: colors.white, height: 35 }} />
+              <Divider style={{ backgroundColor: colors.clear, height: 35 }} />
               <Button
                 title="Set Goal!"
                 rounded

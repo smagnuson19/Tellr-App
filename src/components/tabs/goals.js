@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   // View, Text, StyleSheet, AsyncStorage,
-  View, Text, AsyncStorage, ScrollView, Alert,
+  View, Text, AsyncStorage, ScrollView, Alert, Animated,
 } from 'react-native';
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
@@ -235,6 +235,23 @@ class Goals extends Component {
                     borderRadius: 5,
                   }}
                   title="New Goal"
+                />
+                <Divider style={{ backgroundColor: colors.clear, height: 35 }} />
+                <Button
+                  onPress={() => {
+                    this.props.navigation.navigate('redeemMoney');
+                    console.log('Nativigating to RedeemMoney');
+                  }}
+                  buttonStyle={{
+                    backgroundColor: colors.money,
+                    width: 300,
+                    height: 45,
+                    alignSelf: 'center',
+                    borderColor: 'transparent',
+                    borderWidth: 0,
+                    borderRadius: 5,
+                  }}
+                  title="Redeem Money!"
                 />
                 <Divider style={{ backgroundColor: colors.clear, height: 35 }} />
                 {this.renderGoals()}

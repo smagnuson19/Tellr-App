@@ -9,6 +9,7 @@ import { colors, fonts } from '../styling/base';
 import Home from '../components/tabs/home';
 import Payments from '../components/tabs/payments';
 import AddTask from '../components/tabs/addTask';
+import redeemMoney from '../components/tabs/redeemMoney';
 import Profile from '../components/tabs/profile';
 import Goals from '../components/tabs/goals';
 import NewGoal from '../components/newGoal';
@@ -139,6 +140,7 @@ const RootStack = createStackNavigator(
   {
     SignUp: { screen: SignUpDialouge },
     newGoal: { screen: NewGoal },
+    redeemMoney: { screen: redeemMoney },
     ParentTabBar: {
       screen: ParentTabBar,
       navigationOptions: () => ({
