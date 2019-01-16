@@ -39,6 +39,8 @@ class Loading extends Component {
 
     // figure out if Parent or Child user
     let chooseRoute;
+    console.log(this.props);
+    console.log(this.props.accountType);
     if (this.props.accountType === 'Child') {
       chooseRoute = 'ChildTabBar';
     } else if (this.props.accountType === 'Parent') {

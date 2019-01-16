@@ -7,6 +7,7 @@ const UserReducer = (
 ) => {
   switch (action.type) {
     case ActionTypes.FETCH_USER:
+      console.log('THIS IS WORKING');
       return {
         info: action.payload,
       };

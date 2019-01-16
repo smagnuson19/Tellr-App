@@ -11,8 +11,9 @@ export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
-  RETRIVE_USER: 'RETRIVE_USER',
-  RETRIVE_FAMILY: 'RETRIVE_FAMILY',
+  FETCH_USER: 'FETCH_USER',
+  FETCH_FAMILY: 'FETCH_FAMILY',
+  FETCH_NOTIFICATIONS: 'FETCH_NOTIFICATIONS',
 };
 
 // export function fetchPosts() {
@@ -83,8 +84,9 @@ export function loginUser(email, password, resetAction) {
 
 export function fetchUserInfo(email) {
   return (dispatch) => {
-    return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
+    axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
       console.log(response.data);
+      console.log('index is working');
       dispatch({
         type: ActionTypes.FETCH_USER,
         payload: response.data,
@@ -94,6 +96,38 @@ export function fetchUserInfo(email) {
     });
   };
 }
+
+export function fetchParentInfo(email) {
+  return (dispatch) => {
+    // retriving kids data
+    return axios.get(`${ROOT_URL}/children/${email}`).then((response) => {
+      // make a list of the parent's children
+
+      const payload = response.data;
+      console.log('WHAT KIDS RETURNS');
+      console.log(payload);
+      const childList = [];
+      dispatch({
+        type: ActionTypes.FETCH_CHILDREN,
+        payload: childList,
+      });
+      Object.keys(payload).forEach((key) => {
+        childList.push(payload[key]);
+      });
+
+
+      this.fetchNotificationInfo(email).then((notificationInfo) => {
+        // make a list of the parent's children
+        console.log('Parent Notifcations grab below');
+        console.log(notificationInfo);
+        this.setState({ displayInfo: notificationInfo });
+      });
+    }).catch((error) => {
+      console.log('ERROR in fetchParentInfo');
+    });
+  };
+}
+
 
 // export function fetchUserInfo() {
 //   const familyInfo = {};
