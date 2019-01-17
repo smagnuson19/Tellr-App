@@ -66,22 +66,6 @@ class Payments extends Component {
   }
 
   sendMoney() {
-    // move to home page after you send a payment
-    const resetAction = StackActions.reset({
-      index: 0, // <-- currect active route from actions array
-      key: null,
-      actions: [
-        NavigationActions.navigate({ routeName: 'ParentTabBar' }),
-      ],
-    });
-
-    // Describing what should be sent
-    const payLoad = {
-      email: this.state.childEmail,
-      increment: this.state.amount,
-      senderEmail: this.state.senderEmail,
-    };
-
     // Error checking to make sure child is selected and amount > 0
     if (this.state.childEmail === '' || this.state.childEmail == null) {
       Alert.alert('Please select a child for this payment');
@@ -92,21 +76,38 @@ class Payments extends Component {
     } else {
       // Confirmation alert
       // TODO: Add actualy payment and child's name
-      // TODO: don't let it go through without press ok OnPress...
       Alert.alert(
         'Transfer Money to Child Account',
         'Are you sure you want to complete this action?',
         [
           { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
+          { text: 'OK', onPress: () => this.postBalance() },
         ],
         { cancelable: false },
       );
-      axios.post(`${ROOT_URL}/balance`, { payLoad })
-        .then((response) => {
-          this.props.navigation.dispatch(resetAction);
-        });
     }
+  }
+
+  postBalance() {
+    // move to home page after you send a payment
+    const resetAction = StackActions.reset({
+      index: 0, // <-- currect active route from actions array
+      key: null,
+      actions: [
+        NavigationActions.navigate({ routeName: 'ParentTabBar' }),
+      ],
+    });
+    // Describing what should be sent
+    const payLoad = {
+      email: this.state.childEmail,
+      increment: this.state.amount,
+      senderEmail: this.state.senderEmail,
+    };
+
+    axios.post(`${ROOT_URL}/balance`, { payLoad })
+      .then((response) => {
+        this.props.navigation.dispatch(resetAction);
+      });
   }
 
   aButtonPress(item) {
