@@ -75,13 +75,13 @@ class Payments extends Component {
       console.log('ERROR: payment amount empty');
     } else {
       // Confirmation alert
-      // TODO: Add actualy payment and child's name
+      // TODO: Add child's name
       Alert.alert(
-        'Transfer Money to Child Account',
+        `Transfer $${this.state.amount} to Child Account`,
         'Are you sure you want to complete this action?',
         [
           { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-          { text: 'OK', onPress: () => this.postBalance() },
+          { text: 'Yes', onPress: () => this.postBalance() },
         ],
         { cancelable: false },
       );
