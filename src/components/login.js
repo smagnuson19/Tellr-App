@@ -87,11 +87,11 @@ class Login extends Component {
                 onChangeText={text => this.setState({ email: text })}
                 value={this.state.text}
                 placeholder="Email..."
-                placeholderTextColor="rgb(232, 232, 232)"
+                placeholderTextColor={colors.grey}
                 spellCheck="false"
                 keyboardType="email-address"
                 returnKeyType="next"
-                selectionColor="rgba(255,0,255,0.0)"
+                selectionColor={colors.grey}
 
               />
               <FormInput
@@ -100,10 +100,10 @@ class Login extends Component {
                 onChangeText={text => this.setState({ password: text })}
                 value={this.state.password}
                 secureTextEntry="true"
-                placeholderTextColor="rgb(232, 232, 232)"
+                placeholderTextColor={colors.grey}
                 spellCheck="false"
                 placeholder="Password..."
-                selectionColor="rgba(255,0,255,0.0)"
+                selectionColor={colors.grey}
               />
             </View>
             <View style={Style.buttonContainer}>
@@ -113,7 +113,7 @@ class Login extends Component {
                 rounded
                 onPress={() => this.submitEmail()}
                 title="LOG IN"
-                backgroundColor="#3de594"
+                backgroundColor={colors.logoGreen}
                 accessibilityLabel="enter email"
                 style={Style.button}
               />
@@ -122,7 +122,7 @@ class Login extends Component {
                 raised
                 rounded
                 title="CREATE ACCOUNT"
-                backgroundColor="#3de594"
+                backgroundColor={colors.logoGreen}
                 onPress={() => this.props.navigation.navigate('SignUpFirstDialouge')}
                 style={Style.button}
               />

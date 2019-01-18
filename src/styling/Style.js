@@ -29,7 +29,7 @@ const Style = StyleSheet.create({
     textAlign: 'center',
     fontFamily: fonts.secondary,
     fontSize: fonts.xlg,
-    color: colors.primary,
+    color: colors.black,
     // marginTop: 50,
     // marginBottom: 30,
     marginTop: '20%',
@@ -97,7 +97,7 @@ const Style = StyleSheet.create({
 
   // Style for a FormInput
   fieldText: {
-    color: colors.white,
+    color: colors.black,
     fontFamily: fonts.secondary,
     textAlign: 'center',
     fontSize: fonts.md,

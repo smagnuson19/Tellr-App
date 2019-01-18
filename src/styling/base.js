@@ -6,13 +6,14 @@ export const dimensions = {
 };
 
 export const colors = {
-  primary: '#3de594',
+  // primary: '#3de594',
+  primary: 'rgb(0, 0, 0)',
   secondary: '#15BFD6',
   grey: '#424242',
   // linearGradientTop: 'rgba(4, 27, 37, 0.9615)',
   // linearGradientBottom: 'rgba(1, 6, 3, 0.76)',
   linearGradientTop: 'rgba(250, 27, 3, 0.29615)',
-  linearGradientBottom: 'rgba(1, 246, 3, 0.376)',
+  linearGradientBottom: 'rgba(1, 2, 243, 0.376)',
   placeholderColor: 'grey',
   lightGrey: 'rgb(176, 176, 176)',
   black: 'rgb(0,0,0)',

@@ -12,6 +12,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
+import { colors } from '../../styling/base';
 
 
 const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
@@ -94,7 +95,7 @@ class SignUp extends Component {
         onChangeText={text => this.setState({ familyName: text })}
         value={this.state.familyName}
         placeholder="Family Name"
-        placeholderTextColor="rgb(232, 232, 232)"
+        placeholderTextColor={colors.grey}
         spellCheck="false"
         returnKeyType="next"
         keyboardType="number-pad"
@@ -109,7 +110,7 @@ class SignUp extends Component {
 
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={['rgba(4, 27, 37, 0.9615)', 'rgba(1, 6, 3, 0.76)']} style={Style.gradient}>
+        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
             <Text style={Style.headerText}>Create Account </Text>
             <View style={pageStyle.inputContainer}>
@@ -119,7 +120,7 @@ class SignUp extends Component {
                 value={this.state.firstName}
                 placeholder="First Name"
                 inputStyle={Style.fieldText}
-                placeholderTextColor="rgb(232, 232, 232)"
+                placeholderTextColor={colors.grey}
                 spellCheck="false"
                 returnKeyType="next"
               />
@@ -129,7 +130,7 @@ class SignUp extends Component {
                 onChangeText={text => this.setState({ lastName: text })}
                 value={this.state.lastName}
                 placeholder="Last Name"
-                placeholderTextColor="rgb(232, 232, 232)"
+                placeholderTextColor={colors.grey}
                 spellCheck="false"
                 returnKeyType="next"
               />
@@ -140,7 +141,7 @@ class SignUp extends Component {
                 value={this.state.email}
                 placeholder="Email Address"
                 keyboardType="email-address"
-                placeholderTextColor="rgb(232, 232, 232)"
+                placeholderTextColor={colors.grey}
                 spellCheck="false"
                 returnKeyType="next"
               />
@@ -150,7 +151,7 @@ class SignUp extends Component {
                 onChangeText={text => this.setState({ password: text })}
                 value={this.state.password}
                 placeholder="Set Password"
-                placeholderTextColor="rgb(232, 232, 232)"
+                placeholderTextColor={colors.grey}
                 spellCheck="false"
                 returnKeyType="next"
                 secureTextEntry="true"
