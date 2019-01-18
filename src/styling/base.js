@@ -20,6 +20,8 @@ export const colors = {
   red: 'rgb(255,0,0)',
   money: 'rgb(0, 100, 0)',
   clear: 'rgba(0,0,0,0)',
+  button: 'rgba(250,0,0,.5)',
+  logoGreen: 'rgb(61, 229, 148)',
 };
 
 export const fonts = {
