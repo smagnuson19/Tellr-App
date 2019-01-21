@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, AsyncStorage } from 'react-native';
-import axios from 'axios';
+import { View, Text, ActivityIndicator } from 'react-native';
+import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { colors } from '../styling/base';
+import { fetchUserInfo, fetchNotificationInfo, fetchParentInfo } from '../actions/index';
 import Style from '../styling/Style';
-
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 
 class Loading extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accountType: '',
 
     };
   }
@@ -21,28 +19,21 @@ class Loading extends Component {
     this.fetchNames();
   }
 
+  fetchAtLoad(email) {
+    if (this.props.accountInfo.accountType === 'Child' || this.props.accountInfo.accountType === 'Parent') {
+      this.props.fetchNotificationInfo(email).then(() => { console.log('Notifications updated'); });
+      if (this.props.accountInfo.accountType === 'Parent') {
+        this.props.fetchParentInfo(email).then(() => { console.log('Parent Data pulled in'); });
+      }
+    } else {
+      console.log('missing accountTypeID');
+    }
+  }
+
   fetchNames() {
     const { navigation } = this.props;
     const email = navigation.getParam('emailParam', 'NO-EMAIL');
-    return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
-      const payload = response.data;
-      console.log(payload);
-      this.setState({ accountType: payload.accountType });
-
-      AsyncStorage.setItem('familyID', JSON.stringify(payload.familyName), () => {
-      });
-
-      AsyncStorage.setItem('accountTypeID', JSON.stringify(payload.accountType), () => {
-      });
-      AsyncStorage.setItem('accountNameID', JSON.stringify(`${payload.firstName} ${payload.lastName}`), () => {
-      });
-      if (this.state.accountType === 'Child') {
-        AsyncStorage.setItem('balanceID', JSON.stringify(payload.balance), () => {
-        });
-      }
-    }).catch((error) => {
-      console.log('ERROR in Loading');
-    });
+    this.props.fetchUserInfo(email).then(() => { this.fetchAtLoad(email); });
   }
 
   loading(email) {
@@ -50,35 +41,37 @@ class Loading extends Component {
       return new Promise(resolve => setTimeout(resolve, time));
     }
 
-    const emailObject = email;
-    AsyncStorage.setItem('emailID', JSON.stringify(emailObject), () => {
-    });
+    // const emailObject = email;
+    // AsyncStorage.setItem('emailID', JSON.stringify(emailObject), () => {
+    // });
 
 
     // figure out if Parent or Child user
     let chooseRoute;
-    if (this.state.accountType === 'Child') {
-      chooseRoute = 'ChildTabBar';
-    } else if (this.state.accountType === 'Parent') {
-      chooseRoute = 'ParentTabBar';
-    } else {
-      console.log('Error in Loading', this.state.accountType);
-    }
-    //  So that you are unable to navigate back to login page once logged in.
-    if (chooseRoute != null) {
-      const resetAction = StackActions.reset({
-        index: 0, // <-- currect active route from actions array
-        key: null,
-        actions: [
-          NavigationActions.navigate({ routeName: chooseRoute }),
-        ],
-      });
+    if (this.props.accountInfo !== null) {
+      if (this.props.accountInfo.accountType === 'Child') {
+        chooseRoute = 'ChildTabBar';
+      } else if (this.props.accountInfo.accountType === 'Parent') {
+        chooseRoute = 'ParentTabBar';
+      } else {
+        console.log('Error in Loading', this.props.accountInfo.accountType);
+      }
+      //  So that you are unable to navigate back to login page once logged in.
+      if (chooseRoute != null) {
+        const resetAction = StackActions.reset({
+          index: 0, // <-- currect active route from actions array
+          key: null,
+          actions: [
+            NavigationActions.navigate({ routeName: chooseRoute }),
+          ],
+        });
 
-      // Usage!
-      sleep(500).then(() => {
-      // Do something after the sleep!
-        this.props.navigation.dispatch(resetAction);
-      });
+        // Usage!
+        sleep(500).then(() => {
+        // Do something after the sleep!
+          this.props.navigation.dispatch(resetAction);
+        });
+      }
     }
   }
 
@@ -93,6 +86,7 @@ class Loading extends Component {
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
             <View style={Style.headerText}>
+              <ActivityIndicator size="large" color={Style.primary} />
               <Text style={Style.headerText}>Loading... </Text>
             </View>
           </View>
@@ -103,4 +97,10 @@ class Loading extends Component {
 }
 
 
-export default Loading;
+const mapStateToProps = state => (
+  {
+    accountInfo: state.user.info,
+  });
+
+
+export default connect(mapStateToProps, { fetchUserInfo, fetchNotificationInfo, fetchParentInfo })(Loading);

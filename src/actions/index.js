@@ -11,8 +11,9 @@ export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
-  RETRIVE_USER: 'RETRIVE_USER',
-  RETRIVE_FAMILY: 'RETRIVE_FAMILY',
+  FETCH_USER: 'FETCH_USER',
+  FETCH_FAMILY: 'FETCH_FAMILY',
+  FETCH_NOTIFICATIONS: 'FETCH_NOTIFICATIONS',
 };
 
 // export function fetchPosts() {
@@ -34,6 +35,17 @@ export function authError(error) {
   };
 }
 
+export function postTask(payload) {
+  return (dispatch) => {
+    return axios.post(`${ROOT_URL}/tasks`, { payload })
+      .then((response) => {
+        console.log(response.data);
+      }).catch((error) => {
+        console.log(`PostError: ${error.response.data[0].Error}`);
+      });
+  };
+}
+
 // use the below when auth is fully implemented - go to login and comment out {email, password}
 // export function loginUser({ email, password }, resetAction) {
 //   return (dispatch) => {
@@ -49,9 +61,93 @@ export function loginUser(email, password, resetAction) {
 
       // console.log(response.data[0].Success);
     }).catch((error) => {
-      console.log(error.response.data[0].Error);
+      console.log(`LoginError: ${error.response.data[0].Error}`);
       // bug in error on backend
       dispatch(authError(`${error.response.data[0].Error}`));
+    });
+  };
+}
+
+
+// fetchNames() {
+//   const { navigation } = this.props;
+//   const email = navigation.getParam('emailParam', 'NO-EMAIL');
+//   return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
+//     const payload = response.data;
+//     console.log(payload);
+//     this.setState({ accountType: payload.accountType });
+//
+//     AsyncStorage.setItem('familyID', JSON.stringify(payload.familyName), () => {
+//     });
+//
+//     AsyncStorage.setItem('accountTypeID', JSON.stringify(payload.accountType), () => {
+//     });
+//     AsyncStorage.setItem('accountNameID', JSON.stringify(`${payload.firstName} ${payload.lastName}`), () => {
+//     });
+//     if (this.state.accountType === 'Child') {
+//       AsyncStorage.setItem('balanceID', JSON.stringify(payload.balance), () => {
+//       });
+//     }
+//   }).catch((error) => {
+//     console.log('ERROR in Loading');
+//   });
+// }
+
+export function fetchUserInfo(email) {
+  return (dispatch) => {
+    return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
+      console.log(response.data);
+      console.log('index is working');
+      dispatch({
+        type: ActionTypes.FETCH_USER,
+        payload: response.data,
+      });
+    }).catch((error) => {
+      console.log(`${error.response.data[0].Error}`);
+    });
+  };
+}
+
+// Fetch notification information with email
+export function fetchNotificationInfo(email) {
+  return (dispatch) => {
+    return axios.get(`${ROOT_URL}/notifications/${email}`).then((response) => {
+      const payload = response.data;
+      const itemList = [];
+
+      Object.keys(payload).forEach((key) => {
+        itemList.push(payload[key]);
+      });
+      console.log(`NotificationList: ${payload}`);
+      dispatch({
+        type: ActionTypes.FETCH_NOTIFICATIONS,
+        notifications: itemList,
+      });
+    }).catch((error) => {
+      console.log(`Notifications Grab Error: ${error.response.data[0].Error}`);
+    });
+  };
+}
+
+// Fetch Parent Information
+export function fetchParentInfo(email) {
+  return (dispatch) => {
+    // retriving kids data
+    return axios.get(`${ROOT_URL}/children/${email}`).then((response) => {
+      // make a list of the parent's children
+
+      const payload = response.data;
+      const childList = [];
+      Object.keys(payload).forEach((key) => {
+        childList.push(payload[key]);
+      });
+      console.log(`Fetched Parent Info ${payload}`);
+      dispatch({
+        type: ActionTypes.FETCH_FAMILY,
+        payload: childList,
+      });
+    }).catch((error) => {
+      console.log(`${error.response.data[0].Error}`);
     });
   };
 }

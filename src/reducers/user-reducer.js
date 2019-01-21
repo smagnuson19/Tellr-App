@@ -2,21 +2,31 @@ import { ActionTypes } from '../actions';
 
 const UserReducer = (
   state =
-  { name: '' },
+  {
+    info: null,
+    family: null,
+    notifications: null,
+  },
   action,
 ) => {
   switch (action.type) {
-    case ActionTypes.AUTH_USER:
+    case ActionTypes.FETCH_USER:
       return {
-        authenticated: true,
+        info: action.payload,
+        family: state.family,
+        notifications: state.notifications,
       };
-    case ActionTypes.DEAUTH_USER:
+    case ActionTypes.FETCH_FAMILY:
       return {
-        authenticated: false,
+        info: state.info,
+        family: action.payload,
+        notifications: state.notifications,
       };
-    case ActionTypes.AUTH_ERROR:
+    case ActionTypes.FETCH_NOTIFICATIONS:
       return {
-        authenticated: false,
+        info: state.info,
+        family: state.family,
+        notifications: action.payload,
       };
     default:
       return state;

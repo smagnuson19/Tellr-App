@@ -45,9 +45,8 @@ class Login extends Component {
       console.log('ERROR: empty password login');
     } else {
       this.props.loginUser(this.state.email, this.state.password, resetAction).then((something) => {
-        console.log(this.props.authenticated);
         if (this.props.authenticated) {
-          console.log('AUTHED');
+          console.log('User is logged in');
           this.props.navigation.dispatch(resetAction);
         } else if (this.props.errorMessage) {
           Alert.alert(this.props.errorMessage);
