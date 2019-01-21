@@ -112,15 +112,19 @@ export function fetchNotificationInfo(email) {
   return (dispatch) => {
     return axios.get(`${ROOT_URL}/notifications/${email}`).then((response) => {
       const payload = response.data;
-      const itemList = [];
+      let itemList = [];
+      if (Object.keys(payload).length > 0) {
+        Object.keys(payload).forEach((key) => {
+          itemList.push(payload[key]);
+        });
+      } else {
+        itemList = null;
+      }
+      console.log(`NotificationList: ${itemList}`);
 
-      Object.keys(payload).forEach((key) => {
-        itemList.push(payload[key]);
-      });
-      console.log(`NotificationList: ${payload}`);
       dispatch({
         type: ActionTypes.FETCH_NOTIFICATIONS,
-        notifications: itemList,
+        payload: itemList,
       });
     }).catch((error) => {
       console.log(`Notifications Grab Error: ${error.response.data[0].Error}`);
@@ -135,11 +139,16 @@ export function fetchParentInfo(email) {
       // make a list of the parent's children
 
       const payload = response.data;
-      const childList = [];
-      Object.keys(payload).forEach((key) => {
-        childList.push(payload[key]);
-      });
-      console.log(`Fetched Parent Info ${payload}`);
+      let childList = [];
+      console.log(payload);
+      if ((Object.keys(payload).length > 0)) {
+        Object.keys(payload).forEach((key) => {
+          childList.push(payload[key]);
+        });
+      } else {
+        childList = null;
+      }
+      console.log(`Fetched Parent Info ${childList}`);
       dispatch({
         type: ActionTypes.FETCH_FAMILY,
         payload: childList,
@@ -149,24 +158,3 @@ export function fetchParentInfo(email) {
     });
   };
 }
-
-
-// export function fetchUserInfo() {
-//   const familyInfo = {};
-//   AsyncStorage.multiGet(['emailID', 'familyID', 'accountTypeID'], (err, result) => {
-//     for (let i = 0; i < result.length; i++) {
-//       const nameExtract = result[i][0];
-//
-//       const valExtract = result[i][1].slice(1, -1);
-//       familyInfo[nameExtract] = valExtract;
-//     }
-//
-//     this.setState({
-//       accountType: familyInfo.accountTypeID,
-//       email: familyInfo.emailID,
-//     });
-//     // different avenues to retrive data
-//     this.fetchUserInformation(familyInfo.accountTypeID, familyInfo.emailID);
-//     // this.setState({ senderEmail: API_KEY_USERS });
-//   });
-// }
