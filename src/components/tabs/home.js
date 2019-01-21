@@ -9,9 +9,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Divider } from 'react-native-elements';
 import Style from '../../styling/Style';
 import AvatarImage from './avatarImage';
-import GoalsCard from './goalsCard';
+import NotificationCard from './notificationCard';
 import Child from './child';
-import { fetchNotificationInfo, fetchParentInfo, fetchUserInfo } from '../../actions/index';
+import {
+  fetchNotificationInfo, fetchParentInfo, fetchUserInfo, postTaskCompleted, postTask, postNotifications, postGoalApprove,
+} from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
 
 const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
@@ -55,75 +57,50 @@ class Home extends Component {
 
 
   // sEmail is the childs and cEmail is the parents or assigners
+  //
   renderGoalAction(action, taskName, sEmail, cEmail, priority, taskReward, description) {
-    let num;
-    console.log(action);
-
-    // Ignore won't ever come in because you cant do that
-    if (action === 'Accept') {
-      num = 1;
-    } else if (action === 'Deny') {
-      num = -1;
-    } else if (action === 'Complete') {
-      let payLoad = {
+    // child marked task complete
+    if (action === 'Complete') {
+      const payLoad = {
         email: sEmail,
         taskName,
       };
-      console.log('WORKING');
-      console.log(payLoad);
-      axios.post(`${ROOT_URL}/tasks/completed`, { payLoad })
-        .then((response) => {
-          console.log(response.data);
-          payLoad = {
-            email: sEmail,
-            priority,
-          };
-          axios.post(`${ROOT_URL}/notifications`, { payLoad })
-            .then((res) => {
-              console.log(res.data);
-              this.fetchAtLoad();
-            });
-        });
+
+      this.props.postTaskCompleted(payLoad, priority);
       return ('nothing');
-    } else if (action === 'Dismiss') { // here we know that its a dismiss
+
+      // Child dismissed the task or read
+    } else if (action === 'Dismiss') {
       const payLoad = {
         email: sEmail,
         priority,
       };
+      this.props.postNotifications(payLoad);
+      return ('nothing');
 
-      axios.post(`${ROOT_URL}/notifications`, { payLoad })
-        .then((response) => {
-          console.log(response.data);
-          this.fetchAtLoad();
-        });
+      // The parent can approve or Deny Goals here
+    } else if (action === 'Accept' || action === 'Deny') {
+      // map actions
+      const actionMap = {
+        Accept: 1,
+        Deny: -1,
+      };
+      // create the payload to send to goals
+      const payLoad = {
+        goalName: taskName,
+        childEmail: cEmail,
+        approved: actionMap.action,
+        senderEmail: sEmail,
+
+      };
+
+      this.props.postGoalApprove(payLoad, priority);
+
+      return ('nothing');
+    } else {
+      console.log('Error: no action assinged to NotifcationCard');
       return ('nothing');
     }
-
-    let payLoad = {
-      goalName: taskName,
-      childEmail: cEmail,
-      approved: num,
-      senderEmail: sEmail,
-    };
-    console.log('IN GOAL ACTION');
-    console.log(payLoad);
-
-    axios.post(`${ROOT_URL}/goals/approve`, { payLoad })
-      .then((response) => {
-        console.log(response.data);
-        payLoad = {
-          email: sEmail,
-          priority,
-        };
-        console.log('Its all ending');
-        console.log(payLoad);
-        axios.post(`${ROOT_URL}/notifications`, { payLoad })
-          .then((res) => {
-            console.log(res.data);
-            this.fetchAtLoad();
-          });
-      });
-    return ('nothing');
   }
 
   // For goals that have not been approved yet
@@ -154,7 +131,7 @@ class Home extends Component {
 
           { this.props.notifications.map(goals => (
             <View key={goals.priority}>
-              <GoalsCard goals={goals}
+              <NotificationCard entry={goals}
                 notificationTypePassed="newGoal"
                 completed={false}
                 onPress={this.renderGoalAction}
@@ -166,12 +143,9 @@ class Home extends Component {
         </View>
       );
     }
-
-    //
   }
 
   renderGoalsCompleted() {
-    console.log(this.props);
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
@@ -188,7 +162,6 @@ class Home extends Component {
         </View>
       );
     } else {
-      console.log(`PROPS ON RENDER FOALS ${this.props.notifications}`);
       return (
         <View style={pageStyle.sectionContainer}>
           <Text style={pageStyle.sectionHeader}>
@@ -196,14 +169,16 @@ class Home extends Component {
           </Text>
           <Divider style={pageStyle.divider} />
           { this.props.notifications.map(goal => (
-            <View key={goal.id}>
-              <GoalsCard goals={goal}
-                notificationTypePassed="goalComplete"
-                nothing
-                onPress={this.renderGoalAction}
-              />
 
-            </View>
+            <NotificationCard
+              key={goal.id}
+              entry={goal}
+              notificationTypePassed="goalComplete"
+              nothing
+              onPress={this.renderGoalAction}
+            />
+
+
           ))}
 
         </View>
@@ -224,7 +199,7 @@ class Home extends Component {
       taskName: goalName,
       verify: num,
     };
-    console.log(payLoad);
+
     axios.post(`${ROOT_URL}/tasks/verified`, { payLoad })
       .then((response) => {
         console.log(response.data);
@@ -294,7 +269,7 @@ No Chores To Verify, Add some more!
 
           { this.props.notifications.map(goal => (
             <View key={goal.id}>
-              <GoalsCard goals={goal}
+              <NotificationCard entry={goal}
                 notificationTypePassed="taskComplete"
                 completed={false}
                 onPress={this.renderVerifyAction}
@@ -483,4 +458,6 @@ const mapStateToProps = state => (
   });
 
 
-export default connect(mapStateToProps, { fetchParentInfo, fetchNotificationInfo, fetchUserInfo })(Home);
+export default connect(mapStateToProps, {
+  fetchParentInfo, fetchNotificationInfo, fetchUserInfo, postTaskCompleted, postTask, postNotifications, postGoalApprove,
+})(Home);

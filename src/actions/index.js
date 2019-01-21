@@ -35,13 +35,66 @@ export function authError(error) {
   };
 }
 
+export function postGoalApprove(payLoad, priority) {
+  return (dispatch) => {
+    return axios.post(`${ROOT_URL}/goals/approve`, { payLoad })
+      .then((response) => {
+        console.log(`postGoalApprove post response ${response.data}`);
+        const postData = {
+          email: payLoad.senderEemail,
+          priority,
+        };
+        this.postNotifications(postData);
+      }).catch((error) => {
+        console.log(`postNotifications Post Error: ${error.response.data[0].Error}`);
+      });
+  };
+}
+
+export function postNotifications(payLoad) {
+  return (dispatch) => {
+    return axios.post(`${ROOT_URL}/notifications`, { payLoad })
+      .then((result) => {
+        console.log(`postNotifications post response ${result.data}`);
+        // want to reload notification info and we currently do not
+        // get a return of new notifications
+        this.fetchNotificationInfo(payLoad.email);
+      }).catch((error) => {
+        console.log(`postNotifications Post Error: ${error.response.data[0].Error}`);
+      });
+  };
+}
+
+// export function postTaskVerified(payLoad) {
+//   return (dispatch) => {
+//
+//   }
+// }
+
+export function postTaskCompleted(payLoad, priority) {
+  return (dispatch) => {
+    return axios.post(`${ROOT_URL}/tasks/completed`, { payLoad })
+      .then((response) => {
+        console.log(`postTaskCompleted post response: ${response.data}`);
+        const postData = {
+          email: payLoad.email,
+          priority,
+        };
+        // need to alert the backend that some
+        return this.postNotificationInfo(postData);
+      }).catch((error) => {
+        console.log(`postTaskCompletion Post Error: ${error.response.data[0].Error}`);
+      });
+  };
+}
+
 export function postTask(payLoad) {
   return (dispatch) => {
     return axios.post(`${ROOT_URL}/tasks`, { payLoad })
       .then((response) => {
         console.log(`Task Created: ${response.data}`);
       }).catch((error) => {
-        console.log(`PostError: ${error.response.data[0].Error}`);
+        console.log(`postTask post Error: ${error.response.data[0].Error}`);
       });
   };
 }
@@ -82,6 +135,7 @@ export function fetchUserInfo(email) {
     });
   };
 }
+
 
 // Fetch notification information with email
 export function fetchNotificationInfo(email) {

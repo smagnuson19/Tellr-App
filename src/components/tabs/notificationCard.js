@@ -8,11 +8,15 @@ import { Card, Divider } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/AntDesign';
 import { fonts, colors } from '../../styling/base';
 
-class GoalsCard extends Component {
+
+// can take entry(listOfNotificaitons)
+// notificationTypePassed - what type of notificaiton you want to display
+// based on what is given in entry
+
+class NotificationCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
     };
   }
 
@@ -20,22 +24,22 @@ class GoalsCard extends Component {
   buttonPress(action) {
     this.props.onPress(
       action,
-      this.props.goals.notificationName,
-      this.props.goals.email,
-      this.props.goals.senderEmail,
-      this.props.goals.priority,
-      this.props.goals.value,
-      this.props.goals.description,
-      this.props.goals.redeemed,
+      this.props.entry.notificationName,
+      this.props.entry.email,
+      this.props.entry.senderEmail,
+      this.props.entry.priority,
+      this.props.entry.value,
+      this.props.entry.description,
+      this.props.entry.redeemed,
     );
   }
 
   displaySenderName() {
-    if (this.props.goals.senderName !== '' || this.props.goals.senderName !== null) {
+    if (this.props.entry.senderName !== '' || this.props.entry.senderName !== null) {
       return (
         <View style={pageStyle.pageFiller}>
           <Text>
-            {this.props.goals.senderName}
+            {this.props.entry.senderName}
           </Text>
         </View>
       );
@@ -68,6 +72,7 @@ class GoalsCard extends Component {
 
   displayCorrectItems() {
     let names = [];
+    // the goal is complete so we want to return nothing
     if (this.props.nothing) {
       return (null);
     }
@@ -114,12 +119,14 @@ class GoalsCard extends Component {
   }
 
   // Need to implement
+  // return null if its a goal other wise return date for task
   displayDueDate() {
     return (null);
   }
 
   render() {
-    if (this.props.goals.notificationType === this.props.notificationTypePassed) {
+    // grabbing only the notifcations we want
+    if (this.props.entry.notificationType === this.props.notificationTypePassed) {
       return (
         <Card
           containerStyle={pageStyle.cardContainer}
@@ -129,14 +136,14 @@ class GoalsCard extends Component {
             {this.displaySenderName()}
             <View style={pageStyle.titleFiller}>
               <Text style={pageStyle.titleStyle}>
-                {this.props.goals.notificationName}
-                {this.props.goals.name}
+                {this.props.entry.notificationName}
+                {this.props.entry.name}
               </Text>
             </View>
             <View style={pageStyle.priceFiller}>
               <Text style={pageStyle.price}>
           $
-                {this.props.goals.value}
+                {this.props.entry.value}
 
               </Text>
             </View>
@@ -145,7 +152,7 @@ class GoalsCard extends Component {
           <View style={pageStyle.descriptionContainer}>
             <Text style={pageStyle.descriptionText}>
               {this.displayDueDate()}
-              {this.props.goals.description}
+              {this.props.entry.description}
 
             </Text>
           </View>
@@ -262,4 +269,4 @@ const pageStyle = StyleSheet.create({
 
 });
 
-export default GoalsCard;
+export default NotificationCard;
