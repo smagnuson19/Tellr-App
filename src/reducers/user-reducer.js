@@ -24,7 +24,6 @@ const UserReducer = (
         notifications: state.notifications,
       };
     case ActionTypes.FETCH_NOTIFICATIONS:
-      console.log(`NOTIFICATIONS FROM REDUCER ${action.payload}`);
       return {
         info: state.info,
         family: state.family,

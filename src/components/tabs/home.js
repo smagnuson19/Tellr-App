@@ -370,7 +370,8 @@ No Chores To Verify, Add some more!
       if (this.props.notifications === null) {
         notifications = [];
       } else {
-        notifications = this.props.notificaitons;
+        notifications = this.props.notifications;
+        console.log(notifications);
       }
 
       return (

@@ -1,8 +1,8 @@
 import axios from 'axios';
 // import AsyncStorage from 'react';
 
-// const ROOT_URL = 'http://127.0.0.1:5000/api';
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+const ROOT_URL = 'http://127.0.0.1:5000/api';
+// const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
 
@@ -35,11 +35,11 @@ export function authError(error) {
   };
 }
 
-export function postTask(payload) {
+export function postTask(payLoad) {
   return (dispatch) => {
-    return axios.post(`${ROOT_URL}/tasks`, { payload })
+    return axios.post(`${ROOT_URL}/tasks`, { payLoad })
       .then((response) => {
-        console.log(response.data);
+        console.log(`Task Created: ${response.data}`);
       }).catch((error) => {
         console.log(`PostError: ${error.response.data[0].Error}`);
       });
@@ -68,30 +68,6 @@ export function loginUser(email, password, resetAction) {
   };
 }
 
-
-// fetchNames() {
-//   const { navigation } = this.props;
-//   const email = navigation.getParam('emailParam', 'NO-EMAIL');
-//   return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
-//     const payload = response.data;
-//     console.log(payload);
-//     this.setState({ accountType: payload.accountType });
-//
-//     AsyncStorage.setItem('familyID', JSON.stringify(payload.familyName), () => {
-//     });
-//
-//     AsyncStorage.setItem('accountTypeID', JSON.stringify(payload.accountType), () => {
-//     });
-//     AsyncStorage.setItem('accountNameID', JSON.stringify(`${payload.firstName} ${payload.lastName}`), () => {
-//     });
-//     if (this.state.accountType === 'Child') {
-//       AsyncStorage.setItem('balanceID', JSON.stringify(payload.balance), () => {
-//       });
-//     }
-//   }).catch((error) => {
-//     console.log('ERROR in Loading');
-//   });
-// }
 
 export function fetchUserInfo(email) {
   return (dispatch) => {

@@ -3,10 +3,8 @@ import {
   View,
   Text,
   StyleSheet,
-  AsyncStorage,
   Alert,
 } from 'react-native';
-import axios from 'axios';
 import {
   Button, FormInput,
 } from 'react-native-elements';
@@ -20,8 +18,6 @@ import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
 import { postTask } from '../../actions/index';
 
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
-
 
 class AddTask extends Component {
   constructor(props) {
@@ -34,7 +30,6 @@ class AddTask extends Component {
       reward: '',
       // familyName: '',
       children: [],
-      senderEmail: '',
     };
   }
 
@@ -43,24 +38,16 @@ class AddTask extends Component {
   }
 
   fetchNames() {
-    AsyncStorage.getItem('emailID', (err, result) => {
-      // get rid of the quotes
-      const API_KEY_USERS = result.slice(1, -1);
-      console.log(API_KEY_USERS);
-      this.setState({ senderEmail: API_KEY_USERS });
-      return axios.get(`${ROOT_URL}/children/${API_KEY_USERS}`).then((response) => {
-        // make a list of the parent's children
-        const childList = response.data;
-        const childrenList = [];
-        // loop through each kid and make an object for them with FirstName, Email
-        Object.keys(childList).forEach((key) => {
-          childrenList.push({ label: childList[key].firstName, value: childList[key].email });
-        });
-        this.setState({ children: childrenList });
-      }).catch((error) => {
-        console.log('ERROR in AddTask');
-      });
+    const childrenList = [];
+    let familyList = {};
+    if (this.props.family !== null) {
+      familyList = this.props.family;
+    }
+    // loop through each kid and make an object for them with FirstName, Email
+    Object.keys(familyList).forEach((key) => {
+      childrenList.push({ label: familyList[key].firstName, value: familyList[key].email });
     });
+    this.setState({ children: childrenList });
   }
 
   submitTask() {
@@ -79,7 +66,7 @@ class AddTask extends Component {
       taskDeadline: this.state.taskDeadline,
       taskDescription: this.state.taskDescription,
       childEmail: this.state.childEmail,
-      senderEmail: this.state.senderEmail,
+      senderEmail: this.props.account.email,
     };
 
     // Error checking: make sure all of the fields are filled in
@@ -99,11 +86,8 @@ class AddTask extends Component {
       Alert.alert('Please enter a Reward');
       console.log('ERROR: reward empty');
     } else {
-      axios.post(`${ROOT_URL}/tasks`, { payLoad })
-        .then((response) => {
-          console.log(response.data);
-          this.props.navigation.dispatch(resetAction);
-        });
+      console.log(payLoad);
+      this.props.postTask(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
     }
   }
 
@@ -241,7 +225,8 @@ const taskDeadlineStyles = StyleSheet.create({
 
 const mapStateToProps = state => (
   {
-    // To be filled out
+    family: state.user.family,
+    account: state.user.info,
   });
 
 export default connect(mapStateToProps, { postTask })(AddTask);
