@@ -18,7 +18,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
-import { taskPost } from '../../actions/index';
+import { postTask } from '../../actions/index';
 
 const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 
@@ -236,5 +236,11 @@ const taskDeadlineStyles = StyleSheet.create({
     borderColor: colors.lightGrey,
   },
 });
+
+
+const mapStateToProps = state => (
+  {
+    // To be filled out
+  });
 
 export default connect(mapStateToProps, { postTask })(AddTask);

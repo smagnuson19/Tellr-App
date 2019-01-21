@@ -43,8 +43,8 @@ class Home extends Component {
   // Pulls in new data for the pull Down Refresh
   reloadApiData() {
     // Do we want to update children info as well?
-    this.props.fetchNotificationInfo(this.props.email);
-    this.props.fetchUserInfo(this.props.email);
+    this.props.fetchNotificationInfo(this.props.account.email);
+    this.props.fetchUserInfo(this.props.account.email);
     // No longer fetching
     this.setState({ isFetching: false });
   }
@@ -354,21 +354,14 @@ No Chores To Verify, Add some more!
       </View>
 
     );
-    //
-    //
-    // s
-    //
-    //
-    //
-    //
   }
 
   // render of the childs view
   renderChildView() {
-    if ((this.props.children.length !== 0) && (this.props.children.length !== 0)) {
+    if ((this.props.family !== null)) {
       return (
 
-        <Child firstName={this.props.children.firstName} balance={this.props.children.balance} task={this.props.notifications} onPress={this.renderGoalAction} />
+        <Child firstName={this.props.account.firstName} balance={this.props.account.balance} task={this.props.notifications} onPress={this.renderGoalAction} />
       );
     } else {
       return (
@@ -380,7 +373,7 @@ No Chores To Verify, Add some more!
   }
 
   render() {
-    if (this.props.accountType === 'Parent') {
+    if (this.props.account.accountType === 'Parent') {
       return (
         <View style={Style.rootContainer}>
           <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
@@ -458,8 +451,7 @@ const pageStyle = StyleSheet.create({
 
 const mapStateToProps = state => (
   {
-    email: state.user.info.email,
-    accountType: state.user.info.accountType,
+    account: state.user.info,
     notifications: state.user.notifications,
     family: state.user.family,
   });
