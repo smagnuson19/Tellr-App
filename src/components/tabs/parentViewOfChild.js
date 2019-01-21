@@ -5,7 +5,7 @@ import {
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 import { fonts, colors, dimensions } from '../../styling/base';
-import NotificationCard from './NotificationCard';
+import NotificationCard from './notificationCard';
 
 import Style from '../../styling/Style';
 
@@ -80,7 +80,7 @@ class ParentViewOfChild extends Component {
       return (
         <View style={pageStyle.sectionContainer}>
           <Text style={pageStyle.sectionHeader}>
-          Child Goals
+          Child Goals WORKINSHBDJFHLKDNafsdfs
           </Text>
 
           { this.state.goals.map(goal => (

@@ -3,7 +3,7 @@ import {
   View, Text, StyleSheet, ScrollView,
 } from 'react-native';
 import { fonts, colors, dimensions } from '../../styling/base';
-import GoalsCard from './goalsCard';
+import NotificationCard from './notificationCard';
 
 // import Style from '../../styling/Style';
 
@@ -35,7 +35,7 @@ class Child extends Component {
 
           { this.props.task.map(component => (
             <View key={component.notificationName}>
-              <GoalsCard goals={component}
+              <NotificationCard entry={component}
                 notificationTypePassed="newTask"
                 completed={false}
                 typeChore
