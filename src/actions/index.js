@@ -97,7 +97,6 @@ export function fetchUserInfo(email) {
   return (dispatch) => {
     return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
       console.log(response.data);
-      console.log('index is working');
       dispatch({
         type: ActionTypes.FETCH_USER,
         payload: response.data,
@@ -132,7 +131,6 @@ export function fetchNotificationInfo(email) {
 // Fetch Parent Information
 export function fetchParentInfo(email) {
   return (dispatch) => {
-    // retriving kids data
     return axios.get(`${ROOT_URL}/children/${email}`).then((response) => {
       // make a list of the parent's children
 

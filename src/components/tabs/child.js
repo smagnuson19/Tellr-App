@@ -28,7 +28,6 @@ class Child extends Component {
         empty = false;
       }
     }
-    console.log(empty);
     if (empty === false) {
       return (
 

@@ -358,10 +358,18 @@ No Chores To Verify, Add some more!
 
   // render of the childs view
   renderChildView() {
-    if ((this.props.family !== null)) {
+    if ((this.props.account !== null)) {
+      // Checking incase notifcations is null
+      let notifications;
+      if (this.props.notifications === null) {
+        notifications = [];
+      } else {
+        notifications = this.props.notificaitons;
+      }
+
       return (
 
-        <Child firstName={this.props.account.firstName} balance={this.props.account.balance} task={this.props.notifications} onPress={this.renderGoalAction} />
+        <Child firstName={this.props.account.firstName} balance={this.props.account.balance} task={notifications} onPress={this.renderGoalAction} />
       );
     } else {
       return (
