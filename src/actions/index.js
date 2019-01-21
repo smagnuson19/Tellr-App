@@ -35,6 +35,19 @@ export function authError(error) {
   };
 }
 
+export function postTask(payload){
+  return (dispatch) => {
+    return axios.post(`${ROOT_URL}/tasks`, { payload })
+      .then((response) => {
+      console.log(response.data);
+      this.props.navigation.dispatch(resetAction);
+    }).catch((error) => {
+        console.log(`PostError: ${error.response.data[0].Error}`);
+
+    });
+}
+}
+
 // use the below when auth is fully implemented - go to login and comment out {email, password}
 // export function loginUser({ email, password }, resetAction) {
 //   return (dispatch) => {
@@ -50,7 +63,7 @@ export function loginUser(email, password, resetAction) {
 
       // console.log(response.data[0].Success);
     }).catch((error) => {
-      console.log(error.response.data[0].Error);
+      console.log(LoginError: error.response.data[0].Error);
       // bug in error on backend
       dispatch(authError(`${error.response.data[0].Error}`));
     });

@@ -11,12 +11,14 @@ import {
   Button, FormInput,
 } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
+import { connect } from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
+import { taskPost } from '../../actions/index';
 
 const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 
@@ -235,4 +237,4 @@ const taskDeadlineStyles = StyleSheet.create({
   },
 });
 
-export default AddTask;
+export default connect(mapStateToProps, { postTask })(AddTask);
