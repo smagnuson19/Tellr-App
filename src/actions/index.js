@@ -1,8 +1,8 @@
 import axios from 'axios';
 // import AsyncStorage from 'react';
 
-const ROOT_URL = 'http://127.0.0.1:5000/api';
-// const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+// const ROOT_URL = 'http://127.0.0.1:5000/api';
+const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
 
@@ -105,9 +105,12 @@ export function postTask(payLoad) {
 //     axios.post(`${ROOT_URL}/credentials`, { email, password }).then((response) => {
 export function loginUser(email, password, resetAction) {
   return (dispatch) => {
+    console.log('IN actunfsdfks');
     return axios.post(`${ROOT_URL}/${email}/credentials/${password}`).then((response) => {
+      console.log('IN actunfsdfks');
       dispatch({ type: ActionTypes.AUTH_USER });
 
+      console.log(response.data);
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
       }

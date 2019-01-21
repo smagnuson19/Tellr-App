@@ -32,11 +32,6 @@ class Login extends Component {
       ],
     });
 
-    // const loginInfo = {
-    //   email: this.state.email,
-    //   password: this.state.password,
-    // };
-
     if (this.state.email === '') {
       Alert.alert('Please enter an email address');
       console.log('ERROR: no email login');
@@ -44,7 +39,7 @@ class Login extends Component {
       Alert.alert('Please enter a password');
       console.log('ERROR: empty password login');
     } else {
-      this.props.loginUser(this.state.email, this.state.password, resetAction).then((something) => {
+      this.props.loginUser(this.state.email, this.state.password, resetAction).then(() => {
         if (this.props.authenticated) {
           console.log('User is logged in');
           this.props.navigation.dispatch(resetAction);
@@ -52,18 +47,6 @@ class Login extends Component {
           Alert.alert(this.props.errorMessage);
         }
       });
-
-
-      // axios.post(`${ROOT_URL}/${this.state.email}/credentials/${this.state.password}`, { loginInfo })
-      //   .then((response) => {
-      //     console.log(response.data[0].Success);
-      //     if (response.data[0].Success === true) {
-      //       this.props.navigation.dispatch(resetAction);
-      //     } else {
-      //       Alert.alert('Email and Password combination does not exist. Please try again.');
-      //       console.log('ERROR: emaild and password wrong');
-      //     }
-      //   });
     }
   }
 
