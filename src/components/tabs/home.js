@@ -30,10 +30,6 @@ class Home extends Component {
     this.renderVerifyAction = this.renderVerifyAction.bind(this);
   }
 
-  componentDidMount() {
-    // this.fetchAtLoad();
-  }
-
 
   // A pull down has been initiated
   onRefresh() {
@@ -132,7 +128,7 @@ class Home extends Component {
 
   // For goals that have not been approved yet
   renderGoalsToComplete() {
-    console.log(this.props.notificaitons);
+    console.log(this.props);
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
@@ -175,6 +171,7 @@ class Home extends Component {
   }
 
   renderGoalsCompleted() {
+    console.log(this.props);
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
@@ -191,6 +188,7 @@ class Home extends Component {
         </View>
       );
     } else {
+      console.log(`PROPS ON RENDER FOALS ${this.props.notifications}`);
       return (
         <View style={pageStyle.sectionContainer}>
           <Text style={pageStyle.sectionHeader}>
@@ -286,13 +284,14 @@ No Chores To Verify, Add some more!
         </View>
       );
     } else {
+      console.log(this.props.notifications);
       return (
         <View style={pageStyle.sectionContainer}>
           <Text style={pageStyle.sectionHeader}>
             Verify Chore Completion
           </Text>
           <Divider style={pageStyle.divider} />
-          console.log(this.props.displayInfo);
+
           { this.props.notifications.map(goal => (
             <View key={goal.id}>
               <GoalsCard goals={goal}
@@ -310,17 +309,27 @@ No Chores To Verify, Add some more!
   }
 
   renderAvatarRow() {
-    return (
-      <View style={pageStyle.avatarRow}>
-        { this.props.family.map(person => (
-          <View key={person.email}>
-            <AvatarImage onPressNav={this.navigationToAccount} individual={person} />
+    if (this.props.family === null) {
+      return (
 
-          </View>
-        ))}
+        <View style={pageStyle.avatarRowNOICONS}>
+          <Text style={pageStyle.avatarRowNOICONSTEXT}> Please ask family members to sign up! </Text>
+        </View>
+      );
+    } else {
+      console.log('rendering avatars');
+      return (
+        <View style={pageStyle.avatarRow}>
+          { this.props.family.map(person => (
+            <View key={person.email}>
+              <AvatarImage onPressNav={this.navigationToAccount} individual={person} />
 
-      </View>
-    );
+            </View>
+          ))}
+
+        </View>
+      );
+    }
   }
 
 
@@ -342,12 +351,9 @@ No Chores To Verify, Add some more!
             />
 )}
         >
-
-          {this.renderGoalsToComplete()}
-
-          {this.renderChoresToVerify()}
-
           {this.renderGoalsCompleted()}
+          {this.renderGoalsToComplete()}
+          {this.renderChoresToVerify()}
 
         </ScrollView>
 
@@ -364,7 +370,8 @@ No Chores To Verify, Add some more!
       if (this.props.notifications === null) {
         notifications = [];
       } else {
-        notifications = this.props.notificaitons;
+        notifications = this.props.notifications;
+        console.log(notifications);
       }
 
       return (
@@ -453,6 +460,17 @@ const pageStyle = StyleSheet.create({
 
     marginBottom: 15,
   },
+  avatarRowNOICONS: {
+  },
+
+  avatarRowNOICONSTEXT: {
+    fontSize: fonts.md,
+    textAlign: 'center',
+    alignItems: 'center',
+    paddingTop: '12%',
+    paddingBottom: '5%',
+
+  },
 
 
 });
@@ -460,8 +478,8 @@ const pageStyle = StyleSheet.create({
 const mapStateToProps = state => (
   {
     account: state.user.info,
-    notifications: state.user.notifications,
     family: state.user.family,
+    notifications: state.user.notifications,
   });
 
 

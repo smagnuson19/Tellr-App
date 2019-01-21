@@ -4,8 +4,9 @@ const UserReducer = (
   state =
   {
     info: null,
-    family: null,
     notifications: null,
+    family: null,
+
   },
   action,
 ) => {
