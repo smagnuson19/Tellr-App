@@ -5,7 +5,7 @@ import {
 import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
 import { fonts, colors, dimensions } from '../../styling/base';
-import GoalsCard from './goalsCard';
+import NotificationCard from './NotificationCard';
 
 import Style from '../../styling/Style';
 
@@ -85,7 +85,7 @@ class ParentViewOfChild extends Component {
 
           { this.state.goals.map(goal => (
             <View key={goal.name}>
-              <GoalsCard goals={goal}
+              <NotificationCard entry={goal}
                 completed
                 nothing
               />
@@ -109,7 +109,7 @@ class ParentViewOfChild extends Component {
         </Text>
         { this.state.tasks.map(goal => (
           <View key={goal.name}>
-            <GoalsCard goals={goal}
+            <NotificationCard entry={goal}
               completed
               nothing
 
