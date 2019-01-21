@@ -127,7 +127,7 @@ class AddTask extends Component {
                 date={this.state.taskDeadline}
                 mode="datetime"
                 placeholder="Task Deadline"
-                format="MMMM Do YYYY, h:mma"
+                format="MMMM Do, h:mma"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 customStyles={{
@@ -159,6 +159,7 @@ class AddTask extends Component {
                 }}
                 iconComponent=<Ionicons name="ios-calendar" size={30} color="white" />
                 onDateChange={date => this.setState({ taskDeadline: date })}
+                minuteInterval={30}
               />
               <RNPickerSelect
                 placeholder={{
