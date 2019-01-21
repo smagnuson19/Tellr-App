@@ -9,7 +9,7 @@ import Leaderboard from 'react-native-leaderboard';
 // const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
-class Social extends Component {
+class Friends extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,4 +31,4 @@ class Social extends Component {
   }
 }
 
-export default Social;
+export default Friends;
