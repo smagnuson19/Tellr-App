@@ -84,7 +84,7 @@ export function loginUser(email, password, resetAction) {
 
 export function fetchUserInfo(email) {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
+    return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
       console.log(response.data);
       console.log('index is working');
       dispatch({
@@ -92,11 +92,33 @@ export function fetchUserInfo(email) {
         payload: response.data,
       });
     }).catch((error) => {
-      console.log('ERROR in Loading');
+      console.log(`${error.response.data[0].Error}`);
     });
   };
 }
 
+// Fetch notification information with email
+export function fetchNotificationInfo(email) {
+  return (dispatch) => {
+    return axios.get(`${ROOT_URL}/notifications/${email}`).then((response) => {
+      const payload = response.data;
+      const itemList = [];
+
+      Object.keys(payload).forEach((key) => {
+        itemList.push(payload[key]);
+      });
+      console.log(`NotificationList: ${payload}`);
+      dispatch({
+        type: ActionTypes.FETCH_NOTIFICATIONS,
+        notifications: itemList,
+      });
+    }).catch((error) => {
+      console.log(`Notifications Grab Error: ${error.response.data[0].Error}`);
+    });
+  };
+}
+
+// Fetch Parent Information
 export function fetchParentInfo(email) {
   return (dispatch) => {
     // retriving kids data
@@ -104,26 +126,17 @@ export function fetchParentInfo(email) {
       // make a list of the parent's children
 
       const payload = response.data;
-      console.log('WHAT KIDS RETURNS');
-      console.log(payload);
       const childList = [];
-      dispatch({
-        type: ActionTypes.FETCH_CHILDREN,
-        payload: childList,
-      });
       Object.keys(payload).forEach((key) => {
         childList.push(payload[key]);
       });
-
-
-      this.fetchNotificationInfo(email).then((notificationInfo) => {
-        // make a list of the parent's children
-        console.log('Parent Notifcations grab below');
-        console.log(notificationInfo);
-        this.setState({ displayInfo: notificationInfo });
+      console.log(`Fetched Parent Info ${payload}`);
+      dispatch({
+        type: ActionTypes.FETCH_FAMILY,
+        payload: childList,
       });
     }).catch((error) => {
-      console.log('ERROR in fetchParentInfo');
+      console.log(`${error.response.data[0].Error}`);
     });
   };
 }

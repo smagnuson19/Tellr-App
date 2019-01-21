@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, RefreshControl,
-  AsyncStorage,
 } from 'react-native';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -12,7 +11,7 @@ import Style from '../../styling/Style';
 import AvatarImage from './avatarImage';
 import GoalsCard from './goalsCard';
 import Child from './child';
-import { fetchUserInfo } from '../../actions/index';
+import { fetchNotificationInfo, fetchParentInfo, fetchUserInfo } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
 
 const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
@@ -23,10 +22,6 @@ class Home extends Component {
     super(props);
     this.state = {
       isFetching: false,
-      accountType: '',
-      email: '',
-      children: [],
-      displayInfo: [],
     };
 
     // Bind this instance used in navigationToAccount to this component
@@ -36,7 +31,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.fetchAtLoad();
+    // this.fetchAtLoad();
   }
 
 
@@ -47,104 +42,16 @@ class Home extends Component {
 
   // Pulls in new data for the pull Down Refresh
   reloadApiData() {
-    this.fetchUserInformation(this.state.accountType, this.state.email);
+    // Do we want to update children info as well?
+    this.props.fetchNotificationInfo(this.props.email);
+    this.props.fetchUserInfo(this.props.email);
     // No longer fetching
     this.setState({ isFetching: false });
-  }
-
-  fetchUserInfo(childEmail) {
-    return axios.get(`${ROOT_URL}/users/${childEmail}`).then((response) => {
-      const payload = response.data;
-
-      return (payload);
-    }).catch((error) => {
-      console.log('ERROR in fetching user info');
-    });
-  }
-
-  fetchChildInfo(childEmail) {
-  // fetch notification info for the child
-    this.fetchNotificationInfo(childEmail).then((displayChildInfo) => {
-      this.setState({ displayInfo: displayChildInfo });
-
-      // go and fetch the actual user info for the child
-      this.fetchUserInfo(childEmail).then((childContact) => {
-        // update the state children which now holds infor pertaining to child user
-        this.setState({ children: childContact });
-      });
-    });
-  }
-
-  fetchParentInfo(parentEmail) {
-    return axios.get(`${ROOT_URL}/children/${parentEmail}`).then((response) => {
-      // make a list of the parent's children
-      const payload = response.data;
-      const childList = [];
-      Object.keys(payload).forEach((key) => {
-        childList.push(payload[key]);
-      });
-
-      this.setState({ children: childList });
-
-      this.fetchNotificationInfo(parentEmail).then((notificationInfo) => {
-        // make a list of the parent's children
-        console.log('Parent Notifcations grab below');
-        console.log(notificationInfo);
-        this.setState({ displayInfo: notificationInfo });
-      });
-    }).catch((error) => {
-      console.log('ERROR in fetchParentInfo');
-    });
-  }
-
-  fetchNotificationInfo(email) {
-    return axios.get(`${ROOT_URL}/notifications/${email}`).then((response) => {
-      const payload = response.data;
-      const itemList = [];
-      Object.keys(payload).forEach((key) => {
-        itemList.push(payload[key]);
-      });
-      return (itemList);
-    }).catch((error) => {
-      console.log('ERROR in fetching Notifications');
-    });
-  }
-
-  fetchUserInformation(accountType, email) {
-    if (accountType === 'Child') {
-      this.fetchChildInfo(email);
-    } else if (accountType === 'Parent') {
-      this.fetchParentInfo(email);
-    } else {
-      console.log('missing accountTypeID');
-    }
-  }
-
-  fetchAtLoad() {
-    const familyInfo = {};
-    AsyncStorage.multiGet(['emailID', 'familyID', 'accountTypeID'], (err, result) => {
-      for (let i = 0; i < result.length; i++) {
-        const nameExtract = result[i][0];
-
-        const valExtract = result[i][1].slice(1, -1);
-        familyInfo[nameExtract] = valExtract;
-      }
-
-      this.setState({
-        accountType: familyInfo.accountTypeID,
-        email: familyInfo.emailID,
-      });
-      // different avenues to retrive data
-      this.fetchUserInformation(familyInfo.accountTypeID, familyInfo.emailID);
-      // this.setState({ senderEmail: API_KEY_USERS });
-    });
   }
 
 
   // navigate to the correct account for child on a click
   navigationToAccount(childEmail) {
-    console.log('SOMETHING IS WORKKING');
-    console.log(childEmail);
     this.props.navigation.navigate('ChildPage', {
       email: childEmail,
     });
@@ -225,47 +132,85 @@ class Home extends Component {
 
   // For goals that have not been approved yet
   renderGoalsToComplete() {
-    return (
-      <View style={pageStyle.sectionContainer}>
-        <Text style={pageStyle.sectionHeader}>
-      Family Goals
-        </Text>
-        <Divider style={pageStyle.divider} />
-        { this.state.displayInfo.map(goal => (
-          <View key={goal.priority}>
-            <GoalsCard goals={goal}
-              notificationTypePassed="newGoal"
-              completed={false}
-              onPress={this.renderGoalAction}
-            />
+    console.log(this.props.notificaitons);
+    if (this.props.notifications === null) {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionHeader}>
+          Verify Goals
+          </Text>
+          <Divider style={pageStyle.divider} />
 
+          <View>
+            <Text> No Goals To Verify, have your child add more! </Text>
           </View>
-        ))}
 
-      </View>
-    );
+
+        </View>
+      );
+    } else {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionHeader}>
+        Verify Goals
+          </Text>
+          <Divider style={pageStyle.divider} />
+
+          { this.props.notifications.map(goals => (
+            <View key={goals.priority}>
+              <GoalsCard goals={goals}
+                notificationTypePassed="newGoal"
+                completed={false}
+                onPress={this.renderGoalAction}
+              />
+            </View>
+          ))}
+
+
+        </View>
+      );
+    }
+
+    //
   }
 
   renderGoalsCompleted() {
-    return (
-      <View style={pageStyle.sectionContainer}>
-        <Text style={pageStyle.sectionHeader}>
-      Recently Completed Goals
-        </Text>
-        <Divider style={pageStyle.divider} />
-        { this.state.displayInfo.map(goal => (
-          <View key={goal.id}>
-            <GoalsCard goals={goal}
-              notificationTypePassed="goalComplete"
-              nothing
-              onPress={this.renderGoalAction}
-            />
+    if (this.props.notifications === null) {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionHeader}>
+          Recently Completed Goals
+          </Text>
+          <Divider style={pageStyle.divider} />
 
+          <View>
+            <Text> No Goals To Confirm, remind your child! </Text>
           </View>
-        ))}
 
-      </View>
-    );
+
+        </View>
+      );
+    } else {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionHeader}>
+      Recently Completed Goals
+          </Text>
+          <Divider style={pageStyle.divider} />
+          { this.props.notifications.map(goal => (
+            <View key={goal.id}>
+              <GoalsCard goals={goal}
+                notificationTypePassed="goalComplete"
+                nothing
+                onPress={this.renderGoalAction}
+              />
+
+            </View>
+          ))}
+
+        </View>
+      );
+    }
   }
 
   // sEmail is the childs and cEmail is the parents
@@ -323,31 +268,51 @@ class Home extends Component {
   }
 
   renderChoresToVerify() {
-    return (
-      <View style={pageStyle.sectionContainer}>
-        <Text style={pageStyle.sectionHeader}>
+    if (this.props.notifications === null) {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionHeader}>
           Verify Chore Completion
-        </Text>
-        <Divider style={pageStyle.divider} />
-        { this.state.displayInfo.map(goal => (
-          <View key={goal.id}>
-            <GoalsCard goals={goal}
-              notificationTypePassed="taskComplete"
-              completed={false}
-              onPress={this.renderVerifyAction}
-            />
-
+          </Text>
+          <Divider style={pageStyle.divider} />
+          <View>
+            <Text>
+              {' '}
+No Chores To Verify, Add some more!
+            </Text>
           </View>
-        ))}
 
-      </View>
-    );
+
+        </View>
+      );
+    } else {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionHeader}>
+            Verify Chore Completion
+          </Text>
+          <Divider style={pageStyle.divider} />
+          console.log(this.props.displayInfo);
+          { this.props.notifications.map(goal => (
+            <View key={goal.id}>
+              <GoalsCard goals={goal}
+                notificationTypePassed="taskComplete"
+                completed={false}
+                onPress={this.renderVerifyAction}
+              />
+
+            </View>
+          ))}
+
+        </View>
+      );
+    }
   }
 
   renderAvatarRow() {
     return (
       <View style={pageStyle.avatarRow}>
-        { this.state.children.map(person => (
+        { this.props.family.map(person => (
           <View key={person.email}>
             <AvatarImage onPressNav={this.navigationToAccount} individual={person} />
 
@@ -376,28 +341,34 @@ class Home extends Component {
               tintColor="#fff"
             />
 )}
-
         >
 
           {this.renderGoalsToComplete()}
 
-
           {this.renderChoresToVerify()}
 
-
           {this.renderGoalsCompleted()}
+
         </ScrollView>
 
       </View>
+
     );
+    //
+    //
+    // s
+    //
+    //
+    //
+    //
   }
 
   // render of the childs view
   renderChildView() {
-    if ((this.state.children.length !== 0) && (this.state.children.length !== 0)) {
+    if ((this.props.children.length !== 0) && (this.props.children.length !== 0)) {
       return (
 
-        <Child firstName={this.state.children.firstName} balance={this.state.children.balance} task={this.state.displayInfo} onPress={this.renderGoalAction} />
+        <Child firstName={this.props.children.firstName} balance={this.props.children.balance} task={this.props.notifications} onPress={this.renderGoalAction} />
       );
     } else {
       return (
@@ -409,8 +380,7 @@ class Home extends Component {
   }
 
   render() {
-    // if (this.props.type === 'parent') {
-    if (this.state.accountType === 'Parent') {
+    if (this.props.accountType === 'Parent') {
       return (
         <View style={Style.rootContainer}>
           <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
@@ -488,9 +458,11 @@ const pageStyle = StyleSheet.create({
 
 const mapStateToProps = state => (
   {
-    //  call in global prop variables here
-    // user: state.user
+    email: state.user.info.email,
+    accountType: state.user.info.accountType,
+    notifications: state.user.notifications,
+    family: state.user.family,
   });
 
 
-export default connect(mapStateToProps, { fetchUserInfo })(Home);
+export default connect(mapStateToProps, { fetchParentInfo, fetchNotificationInfo, fetchUserInfo })(Home);
