@@ -87,7 +87,6 @@ class Loading extends Component {
           <View style={Style.contentWrapper}>
             <View style={Style.headerText}>
               <ActivityIndicator size="large" color={Style.primary} />
-              <Text style={Style.headerText}>Loading... </Text>
             </View>
           </View>
         </LinearGradient>
