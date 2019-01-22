@@ -189,6 +189,8 @@ export function fetchNotificationInfo(email) {
 
 export function fetchGoals(email) {
   return (dispatch) => {
+    console.log('INSIDDE FETCH GOALS');
+    console.log(email);
     return axios.get(`${ROOT_URL}/goals/${email}`).then((response) => {
       console.log(`fetchGoals: ${response.data}`);
       // make a list of the parent's children
@@ -227,8 +229,6 @@ export function fetchGoals(email) {
       dispatch({
         type: ActionTypes.FETCH_GOALS,
         payload: goalList,
-
-
       });
     }).catch((error) => {
       console.log(`Error in fetchGoals fetch ${error.response.data[0].Error}`);
@@ -253,8 +253,13 @@ export function postGoalRedeem(payLoad) {
     return axios.post(`${ROOT_URL}/redeem`, { payLoad })
       .then((response) => {
         console.log(`postGoalRedeem: ${response.data}`);
-        return this.fetchGoals(payLoad.email).then((reponse) => {
-          return this.fetchUserInfo(payLoad.email);
+
+        return axios.get(`${ROOT_URL}/users/${payLoad.email}`).then((res) => {
+          console.log(res.data);
+          dispatch({
+            type: ActionTypes.FETCH_USER,
+            payload: res.data,
+          });
         });
       }).catch((error) => {
         console.log(`Error in postGoalsRedeem post ${error.response.data[0].Error}`);
