@@ -1,8 +1,8 @@
 import axios from 'axios';
 // import AsyncStorage from 'react';
 
-// const ROOT_URL = 'http://127.0.0.1:5000/api';
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+const ROOT_URL = 'http://127.0.0.1:5000/api';
+// const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
 
@@ -35,6 +35,23 @@ export function authError(error) {
   };
 }
 
+export function postTaskVerified(payLoad, userEmail, priority) {
+  return (dispatch) => {
+    return axios.post(`${ROOT_URL}/tasks/verified`, { payLoad })
+      .then((response) => {
+        console.log(`postTaskVerified post response ${response.data}`);
+        const postData = {
+          email: userEmail,
+          priority,
+        };
+        return this.postNotifications(postData);
+      }).catch((error) => {
+        console.log(`postTaskVerfied Post Error: ${error.response.data[0].Error}`);
+      });
+  };
+}
+
+
 export function postGoalApprove(payLoad, priority) {
   return (dispatch) => {
     return axios.post(`${ROOT_URL}/goals/approve`, { payLoad })
@@ -44,7 +61,7 @@ export function postGoalApprove(payLoad, priority) {
           email: payLoad.senderEemail,
           priority,
         };
-        this.postNotifications(postData);
+        return this.postNotifications(postData);
       }).catch((error) => {
         console.log(`postNotifications Post Error: ${error.response.data[0].Error}`);
       });
@@ -52,24 +69,20 @@ export function postGoalApprove(payLoad, priority) {
 }
 
 export function postNotifications(payLoad) {
+  console.log('Hello');
   return (dispatch) => {
     return axios.post(`${ROOT_URL}/notifications`, { payLoad })
       .then((result) => {
         console.log(`postNotifications post response ${result.data}`);
         // want to reload notification info and we currently do not
         // get a return of new notifications
-        this.fetchNotificationInfo(payLoad.email);
+        return this.fetchNotificationInfo(payLoad.email);
       }).catch((error) => {
         console.log(`postNotifications Post Error: ${error.response.data[0].Error}`);
       });
   };
 }
 
-// export function postTaskVerified(payLoad) {
-//   return (dispatch) => {
-//
-//   }
-// }
 
 export function postTaskCompleted(payLoad, priority) {
   return (dispatch) => {
@@ -80,8 +93,9 @@ export function postTaskCompleted(payLoad, priority) {
           email: payLoad.email,
           priority,
         };
+        console.log(postData);
         // need to alert the backend that some
-        return this.postNotificationInfo(postData);
+        return this.postNotifications(postData);
       }).catch((error) => {
         console.log(`postTaskCompletion Post Error: ${error.response.data[0].Error}`);
       });
@@ -105,12 +119,8 @@ export function postTask(payLoad) {
 //     axios.post(`${ROOT_URL}/credentials`, { email, password }).then((response) => {
 export function loginUser(email, password, resetAction) {
   return (dispatch) => {
-    console.log('IN actunfsdfks');
     return axios.post(`${ROOT_URL}/${email}/credentials/${password}`).then((response) => {
-      console.log('IN actunfsdfks');
       dispatch({ type: ActionTypes.AUTH_USER });
-
-      console.log(response.data);
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
       }
@@ -140,12 +150,24 @@ export function fetchUserInfo(email) {
 }
 
 
-// Fetch notification information with email
+// function addToList(dictionary, item) {
+//   let dictionary = dict
+//   const type = item.notificationType;
+//   if (Object.prototype.hasOwnProperty.call(dict, type)) {
+//     dict.type.push(item);
+//   }
+//   else {
+//     dict.type = [item]
+//
+//   }
+//   return dict;
+
 export function fetchNotificationInfo(email) {
   return (dispatch) => {
     return axios.get(`${ROOT_URL}/notifications/${email}`).then((response) => {
       const payload = response.data;
       let itemList = [];
+      console.log(response);
       if (Object.keys(payload).length > 0) {
         Object.keys(payload).forEach((key) => {
           itemList.push(payload[key]);
