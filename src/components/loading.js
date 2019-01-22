@@ -4,27 +4,31 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { colors } from '../styling/base';
-import { fetchUserInfo, fetchNotificationInfo, fetchParentInfo } from '../actions/index';
+import {
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals,
+} from '../actions/index';
 import Style from '../styling/Style';
 
 class Loading extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
     };
   }
+
 
   componentDidMount() {
     this.fetchNames();
   }
 
+
   fetchAtLoad(email) {
-    if (this.props.accountInfo.accountType === 'Child' || this.props.accountInfo.accountType === 'Parent') {
-      this.props.fetchNotificationInfo(email).then(() => { console.log('Notifications updated'); });
-      if (this.props.accountInfo.accountType === 'Parent') {
-        this.props.fetchParentInfo(email).then(() => { console.log('Parent Data pulled in'); });
-      }
+    if (this.props.accountInfo.accountType === 'Child') {
+      this.props.fetchNotificationInfo(email).then(() => { console.log('Notifications pulled in'); });
+      this.props.fetchGoals(email).then(() => { console.log('Goals pulled in'); });
+    } else if (this.props.accountInfo.accountType === 'Parent') {
+      this.props.fetchNotificationInfo(email).then(() => { console.log('Notifications pulled in'); });
+      this.props.fetchParentInfo(email).then(() => { console.log('User Info pulled in'); });
     } else {
       console.log('missing accountTypeID');
     }
@@ -102,4 +106,6 @@ const mapStateToProps = state => (
   });
 
 
-export default connect(mapStateToProps, { fetchUserInfo, fetchNotificationInfo, fetchParentInfo })(Loading);
+export default connect(mapStateToProps, {
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals,
+})(Loading);
