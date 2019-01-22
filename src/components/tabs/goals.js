@@ -11,7 +11,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 // import { NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 import GoalsCard from './goalsTabCard';
-import { postUpdateBalance, postGoalRedeem } from '../../actions';
+import { postUpdateBalance, postGoalRedeem, fetchGoals } from '../../actions';
 
 
 // import AvatarImage from './avatarImage';
@@ -68,9 +68,12 @@ class Goals extends Component {
         goalName: gName,
       };
 
-      this.props.postGoalRedeem(payLoad).then(() => {
+      this.props.postGoalRedeem(payLoad).then((res) => {
+        console.log(`THIS IS THE EMAIL ${this.props}`);
         this.props.navigation.dispatch(resetAction);
+        return this.props.fetchGoals(this.props.user.email);
       });
+      // this.props.fetchGoals(this.props.user.email);
 
 
       //  play redepton sound
@@ -204,4 +207,4 @@ const mapStateToProps = state => (
     user: state.user.info,
   });
 
-export default connect(mapStateToProps, { postUpdateBalance, postGoalRedeem })(Goals);
+export default connect(mapStateToProps, { postUpdateBalance, fetchGoals, postGoalRedeem })(Goals);
