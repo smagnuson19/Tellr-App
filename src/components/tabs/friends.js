@@ -6,11 +6,13 @@ import React, { Component } from 'react';
 import {
   View, Image, Text,
 } from 'react-native';
-import { ButtonGroup } from 'react-native-elements';
+import { ButtonGroup, Button } from 'react-native-elements';
 import Leaderboard from 'react-native-leaderboard';
 import LinearGradient from 'react-native-linear-gradient';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
+
+// TODO: Add friends button - where on the screen?
 
 class Friends extends Component {
     state = {
@@ -18,12 +20,12 @@ class Friends extends Component {
         { username: 'We Tu Lo', score: null, iconUrl: 'https://st2.depositphotos.com/1006318/5909/v/950/depositphotos_59094043-stock-illustration-profile-icon-male-avatar.jpg' },
         { username: 'Adam Savage', score: 12, iconUrl: 'https://www.shareicon.net/data/128x128/2016/09/15/829473_man_512x512.png' },
         { username: 'Jimmy John', score: 20, iconUrl: 'https://static.witei.com/static/img/profile_pics/avatar4.png' },
-        { username: 'Joe Roddy', score: 69, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' },
+        { username: 'Joe Roddy', score: 50, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' },
         { username: 'Ericka Johannesburg', score: 101, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShPis8NLdplTV1AJx40z-KS8zdgaSPaCfNINLtQ-ENdPvrtMWz' },
         { username: 'Tim Thomas', score: 41, iconUrl: 'http://conserveindia.org/wp-content/uploads/2017/07/teamMember4.png' },
       ],
       monthlyData: [
-        { username: 'Joe Roddy', score: 69, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' },
+        { username: 'Joe Roddy', score: 50, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' },
         { username: 'Ericka Johannesburg', score: 101, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShPis8NLdplTV1AJx40z-KS8zdgaSPaCfNINLtQ-ENdPvrtMWz' },
         { username: 'Tim Thomas', score: 41, iconUrl: 'http://conserveindia.org/wp-content/uploads/2017/07/teamMember4.png' },
       ],
@@ -31,7 +33,7 @@ class Friends extends Component {
       userRank: 1,
       user: {
         username: 'Joe Roddy',
-        score: 69,
+        score: 50,
       },
     }
 
@@ -116,6 +118,24 @@ pts
         </View>
       );
     }
+
+    // Add friends button ?
+    // renderFooter() {
+    //   return (
+    //     <View
+    //       style={{
+    //         padding: 15, paddingTop: 45, alignItems: 'center',
+    //       }}
+    //     >
+    //       <Text style={{
+    //         fontSize: fonts.lg, color: 'white', fontFamily: fonts.secondary, textAlign: 'center',
+    //       }}
+    //       >
+    //         {'Add Friends!'}
+    //       </Text>
+    //     </View>
+    //   );
+    // }
 
     render() {
       const props = {
