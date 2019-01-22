@@ -14,6 +14,7 @@ export const ActionTypes = {
   FETCH_USER: 'FETCH_USER',
   FETCH_FAMILY: 'FETCH_FAMILY',
   FETCH_NOTIFICATIONS: 'FETCH_NOTIFICATIONS',
+  FETCH_GOALS: 'FETCH_GOALS',
 };
 
 // export function fetchPosts() {
@@ -58,7 +59,7 @@ export function postGoalApprove(payLoad, priority) {
       .then((response) => {
         console.log(`postGoalApprove post response ${response.data}`);
         const postData = {
-          email: payLoad.senderEemail,
+          email: payLoad.senderEmail,
           priority,
         };
         return this.postNotifications(postData);
@@ -69,7 +70,6 @@ export function postGoalApprove(payLoad, priority) {
 }
 
 export function postNotifications(payLoad) {
-  console.log('Hello');
   return (dispatch) => {
     return axios.post(`${ROOT_URL}/notifications`, { payLoad })
       .then((result) => {
@@ -187,6 +187,93 @@ export function fetchNotificationInfo(email) {
   };
 }
 
+export function fetchGoals(email) {
+  return (dispatch) => {
+    return axios.get(`${ROOT_URL}/goals/${email}`).then((response) => {
+      console.log(`fetchGoals: ${response.data}`);
+      // make a list of the parent's children
+      const gList = response.data;
+      const goalList = [];
+      // loop through each kid and make an object for them with FirstName, Email
+      Object.keys(gList).forEach((key) => {
+        if (gList[key].approved === 1) {
+          goalList.unshift({
+            key,
+            goalName: gList[key].name,
+            goalValue: gList[key].value,
+            goalDescription: gList[key].description,
+            goalImage: gList[key].image,
+            App: gList[key].approved,
+            redeemed: gList[key].redeemed,
+            // goalProgress: (parseFloat(this.state.balance)/parseFloat(gList[key].value));
+          });
+        } else {
+          console.log(`Goal ${gList[key.name]} not approved`);
+        }// end else
+      });// end for each
+
+      const defaultGoal = {
+        goalName: 'This Is the Goal Tab',
+        goalDescription: 'Add Goals Below or Redeem Completed Goals',
+        goalImage: 'http://chittagongit.com//images/goal-icon/goal-icon-4.jpg',
+        goalValue: 0,
+        App: 1,
+        redeemed: true,
+      };
+
+      if (goalList.length === 0) {
+        goalList.push(defaultGoal);
+      }
+      dispatch({
+        type: ActionTypes.FETCH_GOALS,
+        payload: goalList,
+
+
+      });
+    }).catch((error) => {
+      console.log(`Error in fetchGoals fetch ${error.response.data[0].Error}`);
+    });
+  };
+}
+
+export function postUpdateBalance(payLoad, email) {
+  return (dispatch) => {
+    return axios.post(`${ROOT_URL}/balance`, { payLoad })
+      .then((response) => {
+        console.log(`updateBalance: ${payLoad.data}`);
+        return this.fetchUserInfo(email);
+      }).catch((error) => {
+        console.log(`Error in postUpdateBalance post ${error.response.data[0].Error}`);
+      });
+  };
+}
+
+export function postGoalRedeem(payLoad) {
+  return (dispatch) => {
+    return axios.post(`${ROOT_URL}/redeem`, { payLoad })
+      .then((response) => {
+        console.log(`postGoalRedeem: ${response.data}`);
+        return this.fetchGoals(payLoad.email).then((reponse) => {
+          return this.fetchUserInfo(payLoad.email);
+        });
+      }).catch((error) => {
+        console.log(`Error in postGoalsRedeem post ${error.response.data[0].Error}`);
+      });
+  };
+}
+
+export function postGoal(payLoad) {
+  return (dispatch) => {
+    return axios.post(`${ROOT_URL}/goals`, { payLoad })
+      .then((response) => {
+        console.log(`postGoal: ${response.data[0]}`);
+        // return this.fetchGoals(payLoad.email);
+      }).catch((error) => {
+        console.log(`Error in postGoal post ${error.response.data[0].Error}`);
+      });
+  };
+}
+
 // Fetch Parent Information
 export function fetchParentInfo(email) {
   return (dispatch) => {
@@ -209,7 +296,7 @@ export function fetchParentInfo(email) {
         payload: childList,
       });
     }).catch((error) => {
-      console.log(`${error.response.data[0].Error}`);
+      console.log(`Error in fetchParentInfo fetch ${error.response.data[0].Error}`);
     });
   };
 }

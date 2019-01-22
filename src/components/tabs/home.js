@@ -55,11 +55,56 @@ class Home extends Component {
     });
   }
 
-  // sEmail is the childs and cEmail is the parents or assigners
-  //
+
   renderAction(action, taskName, sEmail, cEmail, priority, taskReward, description, redeemed, notificationType) {
     // child marked task complete now Verify
     if (notificationType === 'newGoal') {
+      const actionMap = {
+        Accept: 1,
+        Deny: -1,
+      };
+      // create the payload to send to goals
+      const payLoad = {
+        goalName: taskName,
+        childEmail: cEmail,
+        approved: actionMap[action],
+        senderEmail: sEmail,
+
+      };
+      console.log(payLoad);
+
+      this.props.postGoalApprove(payLoad, priority);
+    }
+
+
+    // New Task for the Child to see
+    if (notificationType === 'newTask') {
+      // We do not give them the option to ignore right now.
+      // Could easily add in notifcaitonCard
+      if (action === 'Complete') {
+        const payLoad = {
+          email: sEmail,
+          taskName,
+        };
+        this.props.postTaskCompleted(payLoad, priority);
+      }
+
+
+      // Parent dismissed the goal child has completed
+    } else if (notificationType === 'goalComplete') {
+      if (action === 'Dismiss') {
+        const payLoad = {
+          email: sEmail,
+          priority,
+        };
+        this.props.postNotifications(payLoad);
+      } else {
+        console.log('Error: something incorrectly selected');
+      }
+
+
+      // Parent Verify Task Completed
+    } else if (notificationType === 'taskComplete') {
       let bool;
       if (action === 'Accept') { bool = true; } else { bool = false; }
       let payLoad = {
@@ -82,52 +127,6 @@ class Home extends Component {
       if (bool === false) {
         this.props.postTask(payLoad).then(() => { this.props.fetchNotificationInfo(sEmail); });
       }
-    }
-
-
-    // New Task for the Child to see
-    if (notificationType === 'newTask') {
-      // We do not give them the option to ignore right now.
-      // Could easily add in notifcaitonCard
-      if (action === 'Complete') {
-        const payLoad = {
-          email: sEmail,
-          taskName,
-        };
-        console.log('YESSSSSS');
-        this.props.postTaskCompleted(payLoad, priority);
-      }
-
-
-      // Parent dismissed the goal child has completed
-    } else if (notificationType === 'goalComplete') {
-      if (action === 'Dismiss') {
-        const payLoad = {
-          email: sEmail,
-          priority,
-        };
-        this.props.postNotifications(payLoad);
-      } else {
-        console.log('Error: something incorrectly selected');
-      }
-
-
-      // Parent Verify Task Completed
-    } else if (notificationType === 'taskComplete') {
-      const actionMap = {
-        Accept: 1,
-        Deny: -1,
-      };
-      // create the payload to send to goals
-      const payLoad = {
-        goalName: taskName,
-        childEmail: cEmail,
-        approved: actionMap.action,
-        senderEmail: sEmail,
-
-      };
-
-      this.props.postGoalApprove(payLoad, priority);
     } else {
       console.log(`Error in renderActions: ${notificationType}`);
     }
@@ -272,6 +271,7 @@ No Chores To Verify, Add some more!
       );
     } else {
       console.log('rendering avatars');
+      console.log(this.props.family);
       return (
         <View style={pageStyle.avatarRow}>
           { this.props.family.map(person => (
