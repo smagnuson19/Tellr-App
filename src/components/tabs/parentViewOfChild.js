@@ -80,14 +80,15 @@ class ParentViewOfChild extends Component {
       return (
         <View style={pageStyle.sectionContainer}>
           <Text style={pageStyle.sectionHeader}>
-          Child Goals WORKINSHBDJFHLKDNafsdfs
+          Child Goals
           </Text>
-
+          {this.render}
           { this.state.goals.map(goal => (
             <View key={goal.name}>
-              <NotificationCard entry={goal}
-                completed
-                nothing
+              <NotificationCard
+                entry={goal}
+                displayButtons={false}
+
               />
 
             </View>
@@ -96,7 +97,6 @@ class ParentViewOfChild extends Component {
         </View>
       );
     } else {
-      console.log('badd');
       return (null);
     }
   }
@@ -108,14 +108,14 @@ class ParentViewOfChild extends Component {
           Chores
         </Text>
         { this.state.tasks.map(goal => (
-          <View key={goal.name}>
-            <NotificationCard entry={goal}
-              completed
-              nothing
 
-            />
+          <NotificationCard
+            key={goal.name}
+            entry={goal}
+            displayButtons={false}
+          />
 
-          </View>
+
         ))}
 
       </View>

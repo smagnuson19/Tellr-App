@@ -6,26 +6,20 @@ import {
   Text,
   Image,
   // StyleSheet,
-  AsyncStorage,
+
 } from 'react-native';
-import axios from 'axios';
 import {
   Button, FormInput, Divider,
 } from 'react-native-elements';
-// import DatePicker from 'react-native-datepicker';
-// import RNPickerSelect from 'react-native-picker-select';
-// import Ionicons from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
+import { postGoal } from '../actions';
 import Style from '../styling/Style';
 // import { colors, fonts } from '../styling/base';
 import { colors } from '../styling/base';
 
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 
-const API_KEY_GOALS = 'goals';
-// const API_KEY_CHILD = 'children';
-// More info on all the options is below in the API Reference... just some common use cases shown here
 const options = {
   title: 'What Do You Want?',
   // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
@@ -43,18 +37,9 @@ class NewGoal extends Component {
       goalDescription: '',
       value: '',
       image: '',
-      senderEmail: '',
     };
   }
 
-  componentWillMount() {
-    AsyncStorage.getItem('emailID', (err, result) => {
-      const API_KEY_USERS = result.slice(1, -1);
-      this.setState({ senderEmail: API_KEY_USERS });
-    }).catch((error) => {
-      console.log('ERROR in NewGoal');
-    });
-  }
 
   choosePhoto() {
     console.log('Choosing Photo');
@@ -92,7 +77,7 @@ class NewGoal extends Component {
 
     const payLoad = {
       name: this.state.goalName,
-      email: this.state.senderEmail,
+      email: this.props.user.email,
       description: this.state.goalDescription,
       value: this.state.value,
       image: this.state.image,
@@ -100,11 +85,7 @@ class NewGoal extends Component {
     };
     console.log(payLoad);
 
-    axios.post(`${ROOT_URL}/${API_KEY_GOALS}`, { payLoad })
-      .then((response) => {
-        console.log(response.data);
-        this.props.navigation.dispatch(resetAction);
-      });
+    this.props.postGoal(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
   }
 
   render() {
@@ -191,4 +172,9 @@ class NewGoal extends Component {
 // });
 
 
-export default NewGoal;
+const mapStateToProps = state => (
+  {
+    user: state.user.info,
+  });
+
+export default connect(mapStateToProps, { postGoal })(NewGoal);
