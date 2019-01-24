@@ -17,6 +17,7 @@ export const colors = {
   placeholderColor: 'grey',
   lightGrey: 'rgb(176, 176, 176)',
   black: 'rgb(0,0,0)',
+  lightRed: 'rgb(200,0,0)',
   white: 'rgb(255,255,255)',
   red: 'rgb(255,0,0)',
   money: 'rgb(0, 100, 0)',

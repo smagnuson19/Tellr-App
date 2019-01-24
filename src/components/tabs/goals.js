@@ -146,48 +146,61 @@ class Goals extends Component {
               <View style={Style.contentWrapper}>
                 <Text style={Style.headerText}>Goals!</Text>
                 <ScrollView>
-                  <Badge containerStyle={{
-                    backgroundColor: 'white',
-                    width: 375,
-                    flex: 2,
-                  }}
-                  >
-                    <Text style={Style.headerText}>{balanceString}</Text>
-                  </Badge>
-                  <Divider style={{ backgroundColor: colors.clear, height: 35 }} />
-                  <Button
-                    onPress={() => {
-                      this.props.navigation.navigate('newGoal');
-                      console.log('Button Pressed in Goals');
-                    }}
-                    buttonStyle={{
-                      backgroundColor: colors.red,
-                      width: 300,
-                      height: 45,
-                      alignSelf: 'center',
-                      borderColor: 'transparent',
-                      borderWidth: 0,
-                      borderRadius: 5,
-                    }}
-                    title="New Goal"
-                  />
-                  <Divider style={{ backgroundColor: colors.clear, height: 35 }} />
-                  <Button
-                    onPress={() => {
-                      this.props.navigation.navigate('redeemMoney');
-                      console.log('Nativigating to RedeemMoney');
-                    }}
-                    buttonStyle={{
-                      backgroundColor: colors.money,
-                      width: 300,
-                      height: 45,
-                      alignSelf: 'center',
-                      borderColor: 'transparent',
-                      borderWidth: 0,
-                      borderRadius: 5,
-                    }}
-                    title="Redeem Money!"
-                  />
+                  <Card title={balanceString}>
+                    <Text style={{ marginBottom: 10 }}>
+               Either spend your balance on the goals below or redeem it instantly by pressing the button
+                    </Text>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Button
+                        color="purple"
+                        buttonStyle={{
+                          backgroundColor: colors.red,
+                          width: 120,
+                          height: 45,
+                          alignSelf: 'center',
+                          borderColor: 'transparent',
+                          borderWidth: 0,
+                          borderRadius: 5,
+                        }}
+                        icon={(
+                          <Icon
+                            name="arrow-right"
+                            color="white"
+                          />
+                          )}
+                        title="New Goal"
+                      // icon={<Icon name="money-bill-wave" color={colors.logoGreen} />}
+                        onPress={() => {
+                          this.props.navigation.navigate('newGoal');
+                          console.log('Button Pressed in Goals');
+                        }}
+                      />
+                      <Button
+                        color="purple"
+                        buttonStyle={{
+                          backgroundColor: colors.logoGreen,
+                          width: 120,
+                          height: 45,
+                          alignSelf: 'center',
+                          borderColor: 'transparent',
+                          borderWidth: 0,
+                          borderRadius: 5,
+                        }}
+                        icon={(
+                          <Icon
+                            name="arrow-right"
+                            color="white"
+                          />
+                          )}
+                        title="Redeem!"
+                        // icon={<Icon name="money-bill-wave" color={colors.logoGreen} />}
+                        onPress={() => {
+                          this.props.navigation.navigate('redeemMoney');
+                          console.log('Nativigating to RedeemMoney');
+                        }}
+                      />
+                    </View>
+                  </Card>
                   <Divider style={{ backgroundColor: colors.clear, height: 35 }} />
                   {this.renderGoals()}
                   <Divider style={{ backgroundColor: colors.clear, height: 105 }} />

@@ -94,7 +94,7 @@ class RedeemMoney extends Component {
     } else if (this.state.amount === '0') {
       Alert.alert('Redemption cannot be zero. Please enter a valid payment');
       console.log('ERROR: payment amount empty');
-    } else if (this.state.amount > this.state.Balance) {
+    } else if (this.state.amount > parseFloat(this.state.Balance)) {
       Alert.alert('You do not have enough money to request this Much');
       console.log(this.state.amount);
       console.log(this.state.Balance);
