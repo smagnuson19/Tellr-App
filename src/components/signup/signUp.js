@@ -65,18 +65,22 @@ class SignUp extends Component {
       Alert.alert('Family Name cannot be empty');
       console.log('ERROR: family name empty');
     } else {
+      console.log('attempting to log in');
       // do a post if there are no errors in the fields
       this.props.postNewUser(payLoad)
         .then((response) => {
           // maybe backend returns a specific error so we can know for sure this
           // is the issue
-          if (response.data[0].Success === false) {
-            Alert.alert('This email is already associated with an account.');
-            console.log('ERROR: email already has account');
-          } else {
-            // post and then head over to loading and bring in users info.
-            this.props.navigation.dispatch(resetAction);
-          }
+          console.log(response);
+          console.log('somethinng');
+
+          // if (response.data[0].Success === false) {
+          //   Alert.alert('This email is already associated with an account.');
+          //   console.log('ERROR: email already has account');
+          // } else {
+          // post and then head over to loading and bring in users info.
+          this.props.navigation.dispatch(resetAction);
+          // }
         });
     }
   }

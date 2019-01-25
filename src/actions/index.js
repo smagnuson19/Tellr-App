@@ -37,10 +37,11 @@ export function authError(error) {
 }
 
 export function postNewUser(payLoad) {
+  console.log(payLoad);
   return (dispatch) => {
     return axios.post(`${ROOT_URL}/users`, { payLoad })
       .then((response) => {
-        console.log(`postNewUser post response ${response.data[0]}`);
+        console.log(`postNewUser post response ${response}`);
       }).catch((error) => {
         console.log(`postNewUser Post Error: ${error.response.data[0].Error}`);
       });
@@ -335,3 +336,7 @@ export function fetchParentInfo(email) {
     });
   };
 }
+
+// deleteAccount()
+
+//
