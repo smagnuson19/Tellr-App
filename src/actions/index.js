@@ -36,6 +36,17 @@ export function authError(error) {
   };
 }
 
+export function postNewUser(payLoad) {
+  return (dispatch) => {
+    return axios.post(`${ROOT_URL}/users`, { payLoad })
+      .then((response) => {
+        console.log(`postNewUser post response ${response.data[0]}`);
+      }).catch((error) => {
+        console.log(`postNewUser Post Error: ${error.response.data[0].Error}`);
+      });
+  };
+}
+
 export function postTaskVerified(payLoad, userEmail, priority) {
   return (dispatch) => {
     return axios.post(`${ROOT_URL}/tasks/verified`, { payLoad })
@@ -248,6 +259,24 @@ export function postUpdateBalance(payLoad, email) {
   };
 }
 
+export function postRedeemMoney(payLoad) {
+  return (dispatch) => {
+    return axios.post(`${ROOT_URL}/redeemmoney`, { payLoad })
+      .then((response) => {
+        console.log(`postRedeemMoney: ${response.data}`);
+        return axios.get(`${ROOT_URL}/users/${payLoad.email}`).then((res) => {
+          console.log(res.data);
+          dispatch({
+            type: ActionTypes.FETCH_USER,
+            payload: res.data,
+          });
+        });
+      }).catch((error) => {
+        console.log(`Error in postRedeemMoney post ${error.response.data[0].Error}`);
+      });
+  };
+}
+
 export function postGoalRedeem(payLoad) {
   return (dispatch) => {
     return axios.post(`${ROOT_URL}/redeem`, { payLoad })
@@ -278,6 +307,7 @@ export function postGoal(payLoad) {
       });
   };
 }
+
 
 // Fetch Parent Information
 export function fetchParentInfo(email) {

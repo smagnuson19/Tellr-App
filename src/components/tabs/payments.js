@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, AsyncStorage, Alert,
+  View, Text, StyleSheet, Alert,
 } from 'react-native';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { Button } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 import RNPickerSelect from 'react-native-picker-select';
+import { postUpdateBalance } from '../../actions';
 import Style from '../../styling/Style';
 import KeyPad from './keypad';
 import { fonts, colors } from '../../styling/base';
-
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 
 class Payments extends Component {
   constructor(props) {
@@ -19,16 +18,9 @@ class Payments extends Component {
     this.state = {
       // accountSelected: '',
       amount: '0',
-      familyMembers: [],
-      senderEmail: '',
       childEmail: '',
     };
     this.aButtonPress = this.aButtonPress.bind(this);
-  }
-
-  componentDidMount() {
-    // want to get the names for family member selector
-    this.fetchNames();
   }
 
   updateAmount(item, prevState, props) {
@@ -101,10 +93,10 @@ class Payments extends Component {
     const payLoad = {
       email: this.state.childEmail,
       increment: this.state.amount,
-      senderEmail: this.state.senderEmail,
+      senderEmail: this.props.user.email,
     };
 
-    axios.post(`${ROOT_URL}/balance`, { payLoad })
+    this.props.postUpdateBalance(payLoad)
       .then((response) => {
         this.props.navigation.dispatch(resetAction);
       });
@@ -117,26 +109,6 @@ class Payments extends Component {
     });
   }
 
-  fetchNames() {
-    AsyncStorage.getItem('emailID', (err, result) => {
-      // get rid of the quotes
-      const API_KEY_USERS = result.slice(1, -1);
-      console.log(API_KEY_USERS);
-      this.setState({ senderEmail: API_KEY_USERS });
-      return axios.get(`${ROOT_URL}/children/${API_KEY_USERS}`).then((response) => {
-        // make a list of the parent's children
-        const childList = response.data;
-        const childrenList = [];
-        // loop through each kid and make an object for them with FirstName, Email
-        Object.keys(childList).forEach((key) => {
-          childrenList.push({ label: childList[key].firstName, value: childList[key].email });
-        });
-        this.setState({ familyMembers: childrenList });
-      }).catch((error) => {
-        console.log('ERROR in Payments');
-      });
-    });
-  }
 
   selectorsContainer() {
     return (
@@ -147,7 +119,7 @@ class Payments extends Component {
             label: 'Select Child',
             value: null,
           }}
-          items={this.state.familyMembers}
+          items={this.props.family}
           onValueChange={(value) => {
             this.setState({
               childEmail: value,
@@ -254,4 +226,13 @@ const pickerSelectStyles = StyleSheet.create({
 });
 
 
-export default Payments;
+const mapStateToProps = state => (
+  {
+    user: state.user.info,
+    family: state.user.family,
+  });
+
+
+export default connect(mapStateToProps, {
+  postUpdateBalance,
+})(Payments);

@@ -5,18 +5,16 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import {
   Button, FormInput,
 } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
+import { postNewUser } from '../../actions';
 import Style from '../../styling/Style';
 import { colors } from '../../styling/base';
 
-
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
-// const API_KEY = '';
 
 class SignUp extends Component {
   constructor(props) {
@@ -68,9 +66,8 @@ class SignUp extends Component {
       console.log('ERROR: family name empty');
     } else {
       // do a post if there are no errors in the fields
-      axios.post(`${ROOT_URL}/users`, { payLoad })
+      this.props.postNewUser(payLoad)
         .then((response) => {
-          console.log(response.data[0].Success);
           // maybe backend returns a specific error so we can know for sure this
           // is the issue
           if (response.data[0].Success === false) {
@@ -200,4 +197,14 @@ const pageStyle = StyleSheet.create({
 });
 
 
-export default SignUp;
+const mapStateToProps = state => (
+  {
+    account: state.user.info,
+    family: state.user.family,
+    notifications: state.user.notifications,
+  });
+
+
+export default connect(mapStateToProps, {
+  postNewUser,
+})(SignUp);
