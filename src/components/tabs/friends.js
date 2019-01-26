@@ -12,7 +12,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
 
-// TODO: Add friends button - where on the screen?
+// TODO: Add friends button - where on the screen? - maybe change
+// TODO: Change avatars
 
 class Friends extends Component {
     state = {
@@ -48,6 +49,48 @@ class Friends extends Component {
       return sorted;
     }
 
+    // add friends button functionality
+    // submitFriends() {
+    // move to home page after you submit a friend to AddTask
+    //   const resetAction = StackActions.reset({
+    //     index: 0, // <-- currect active route from actions array
+    //     key: null,
+    //     actions: [
+    //       NavigationActions.navigate({ routeName: 'ParentTabBar' }),
+    //     ],
+    //   });
+    //
+    //   const payLoad = {
+    //     taskName: this.state.taskName,
+    //     reward: this.state.reward,
+    //     taskDeadline: this.state.taskDeadline,
+    //     taskDescription: this.state.taskDescription,
+    //     childEmail: this.state.childEmail,
+    //     senderEmail: this.props.account.email,
+    //   };
+    //
+    //   // Error checking: make sure all of the fields are filled in
+    //   if (this.state.taskName === '') {
+    //     Alert.alert('Please enter a Task Name');
+    //     console.log('ERROR: task name empty');
+    //   } else if (this.state.taskDeadline === '') {
+    //     Alert.alert('Please enter a Task Deadline');
+    //     console.log('ERROR: task deadline empty');
+    //   } else if (this.state.childEmail === '' || this.state.childEmail == null) {
+    //     Alert.alert('Please select a child for this task');
+    //     console.log('ERROR: select child empty');
+    //   } else if (this.state.taskDescription === '') {
+    //     Alert.alert('Please enter a Task Description');
+    //     console.log('ERROR: task description empty');
+    //   } else if (this.state.reward === '') {
+    //     Alert.alert('Please enter a Reward');
+    //     console.log('ERROR: reward empty');
+    //   } else {
+    //     console.log(payLoad);
+    //     this.props.postTask(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
+    //   }
+    // }
+
     renderHeader() {
       return (
         <View
@@ -75,10 +118,13 @@ class Friends extends Component {
             >
               {ordinalSuffixOf(this.state.userRank)}
             </Text>
-            <Image style={{
-              flex: 0.66, height: 60, width: 60, borderRadius: 60 / 2,
-            }}
-              source={{ uri: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' }}
+            <Button
+              title="Add Friends!"
+              rounded
+              small
+              style={Style.button}
+              backgroundColor={colors.secondary}
+              // onPress={() => this.submitFriends()}
             />
             <Text style={{
               color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
