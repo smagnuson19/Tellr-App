@@ -9,6 +9,7 @@ import {
 import { ButtonGroup, Button } from 'react-native-elements';
 import Leaderboard from 'react-native-leaderboard';
 import LinearGradient from 'react-native-linear-gradient';
+import Prompt from 'react-native-prompt';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
 
@@ -38,6 +39,8 @@ class Friends extends Component {
         username: 'Joe Roddy',
         score: 50,
       },
+      promptVisible: false,
+      message: '',
     }
 
     sort = (data) => {
@@ -120,22 +123,27 @@ class Friends extends Component {
             >
               {ordinalSuffixOf(this.state.userRank)}
             </Text>
-            <Button
-              title="Add Friends!"
-              rounded
-              small
-              style={Style.button}
-              backgroundColor={colors.secondary}
-              // onPress={() => this.submitFriends()}
+            <View style={{ flex: 1, justifyContent: 'center' }}>
+              <Text style={{ fontSize: 20 }}>
+                {this.state.message}
+              </Text>
+            </View>
+            <Prompt
+              title="Say something"
+              placeholder="Start typing"
+              defaultValue="Hello"
+              visible={this.state.promptVisible}
+              onCancel={() => this.setState({ promptVisible: false, message: 'You cancelled' })}
+              onSubmit={value => this.setState({ promptVisible: false, message: `You said "${value}"` })}
             />
-            <Text style={{
-              color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
-            }}
-            >
-              {this.state.user.score}
-pts
-            </Text>
           </View>
+          <Text style={{
+            color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
+          }}
+          >
+            {this.state.user.score}
+pts
+          </Text>
           <ButtonGroup
             onPress={(x) => { this.setState({ filter: x }); }}
             selectedIndex={this.state.filter}
