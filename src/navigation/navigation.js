@@ -5,7 +5,6 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, fonts } from '../styling/base';
 
-// import Ionicons from 'react-native-vector-icons/FontAwesome';
 import Home from '../components/tabs/home';
 import Payments from '../components/tabs/payments';
 import AddTask from '../components/tabs/addTask';
@@ -16,6 +15,7 @@ import NewGoal from '../components/newGoal';
 import Login from '../components/login';
 import SignUp from '../components/signup/signUp';
 import Loading from '../components/loading';
+import Friends from '../components/tabs/friends';
 
 import ParentViewOfChild from '../components/tabs/parentViewOfChild';
 
@@ -85,6 +85,7 @@ const ParentTabBar = createBottomTabNavigator({
 const ChildTabBar = createBottomTabNavigator({
   Home,
   Goals,
+  Friends,
   Profile,
 },
 {
@@ -100,6 +101,8 @@ const ChildTabBar = createBottomTabNavigator({
         iconName = `ios-person${focused ? '' : ''}`;
       } else if (routeName === 'Goals') {
         iconName = `ios-star${focused ? '' : ''}`;
+      } else if (routeName === 'Friends') {
+        iconName = `ios-contacts${focused ? '' : ''}`;
       }
 
       // You can return any component that you like here! We usually use an
