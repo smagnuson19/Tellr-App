@@ -4,7 +4,7 @@ Starter code layout taken from: https://github.com/JoeRoddy/react-native-leaderb
 
 import React, { Component } from 'react';
 import {
-  View, Image, Text,
+  View, Text,
 } from 'react-native';
 import { ButtonGroup, Button } from 'react-native-elements';
 import Leaderboard from 'react-native-leaderboard';
@@ -13,7 +13,9 @@ import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
 
 // TODO: Add friends button - where on the screen? - maybe change
-// TODO: Change avatars
+// make add friends go to a different page
+// connect with backend
+// change avatars
 
 class Friends extends Component {
     state = {
@@ -49,7 +51,7 @@ class Friends extends Component {
       return sorted;
     }
 
-    // add friends button functionality
+    // add friends button functionality - enter email address when clicked
     // submitFriends() {
     // move to home page after you submit a friend to AddTask
     //   const resetAction = StackActions.reset({
