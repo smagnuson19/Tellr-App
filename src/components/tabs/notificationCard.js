@@ -174,7 +174,6 @@ class NotificationCard extends Component {
         </Card>
       );
     } else {
-      console.log(`ERROR in notificationCard.js: ${this.props.entry.notificationType} is not mapped to`);
       return (
         null
       );
