@@ -1,4 +1,5 @@
 import axios from 'axios';
+import AsyncStorage from 'React';
 // import AsyncStorage from 'react';
 
 const ROOT_URL = 'http://127.0.0.1:5000/api';
@@ -36,14 +37,16 @@ export function authError(error) {
   };
 }
 
+// auth user to
+// give them a new token
 export function postNewUser(payLoad) {
-  console.log(payLoad);
   return (dispatch) => {
     return axios.post(`${ROOT_URL}/users`, { payLoad })
       .then((response) => {
-        console.log(`postNewUser post response ${response}`);
+        dispatch({ type: ActionTypes.AUTH_USER });
+        console.log(`postNewUser post response ${response.data[0]}`);
       }).catch((error) => {
-        console.log(`postNewUser Post Error: ${error.response.data[0].Error}`);
+        console.log(`postNewUser Post Error: ${error.response.data[0]}`);
       });
   };
 }
@@ -134,7 +137,7 @@ export function loginUser(email, password, resetAction) {
     return axios.post(`${ROOT_URL}/${email}/credentials/${password}`).then((response) => {
       dispatch({ type: ActionTypes.AUTH_USER });
       if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('ACCESS_TOKEN', response.data.token);
       }
 
       // console.log(response.data[0].Success);
@@ -143,6 +146,21 @@ export function loginUser(email, password, resetAction) {
       // bug in error on backend
       dispatch(authError(`${error.response.data[0].Error}`));
     });
+  };
+}
+
+export async function deleteToken() {
+  try {
+    await AsyncStorage.removeItem('ACCESS_TOKEN');
+  } catch (err) {
+    console.log(`The error is: ${err}`);
+  }
+}
+
+export function logoutUser() {
+  return (dispatch) => {
+    deleteToken();
+    dispatch({ type: ActionTypes.DEAUTH_USER });
   };
 }
 
@@ -253,7 +271,7 @@ export function postUpdateBalance(payLoad, email) {
     return axios.post(`${ROOT_URL}/balance`, { payLoad })
       .then((response) => {
         console.log(`updateBalance: ${payLoad.data}`);
-        return this.fetchUserInfo(email);
+        return fetchUserInfo(email);
       }).catch((error) => {
         console.log(`Error in postUpdateBalance post ${error.response.data[0].Error}`);
       });

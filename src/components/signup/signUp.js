@@ -74,13 +74,11 @@ class SignUp extends Component {
           console.log(response);
           console.log('somethinng');
 
-          // if (response.data[0].Success === false) {
-          //   Alert.alert('This email is already associated with an account.');
-          //   console.log('ERROR: email already has account');
-          // } else {
-          // post and then head over to loading and bring in users info.
-          this.props.navigation.dispatch(resetAction);
-          // }
+          if (this.props.authenticated) {
+            this.props.navigation.dispatch(resetAction);
+          } else {
+            Alert.alert(this.props.errorMessage);
+          }
         });
     }
   }
@@ -205,7 +203,7 @@ const mapStateToProps = state => (
   {
     account: state.user.info,
     family: state.user.family,
-    notifications: state.user.notifications,
+    authenticated: state.auth.authenticated,
   });
 
 

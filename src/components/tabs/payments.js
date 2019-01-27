@@ -98,6 +98,8 @@ class Payments extends Component {
 
     this.props.postUpdateBalance(payLoad)
       .then((response) => {
+        console.log('this');
+
         this.props.navigation.dispatch(resetAction);
       });
   }
@@ -111,25 +113,37 @@ class Payments extends Component {
 
 
   selectorsContainer() {
-    return (
+    // gotta put family into an array and label the dict values and stuff
 
-      <View style={pageStyle.selectorsContainer}>
-        <RNPickerSelect
-          placeholder={{
-            label: 'Select Child',
-            value: null,
-          }}
-          items={this.props.family}
-          onValueChange={(value) => {
-            this.setState({
-              childEmail: value,
-            });
-          }}
-          style={{ ...pickerSelectStyles }}
-          value={this.state.childEmail}
-        />
-      </View>
-    );
+    if (this.props.family != null) {
+      console.log(this.props.family);
+      const itemList = [];
+      Object.keys(this.props.family).forEach((key) => {
+        itemList.push({ label: this.props.family[key].firstName, value: this.props.family[key].email });
+      });
+
+      return (
+
+        <View style={pageStyle.selectorsContainer}>
+          <RNPickerSelect
+            placeholder={{
+              label: 'Select Child',
+              value: null,
+            }}
+            items={itemList}
+            onValueChange={(value) => {
+              this.setState({
+                childEmail: value,
+              });
+            }}
+            style={{ ...pickerSelectStyles }}
+            value={this.state.childEmail}
+          />
+        </View>
+      );
+    } else {
+      return null;
+    }
   }
 
   render() {
