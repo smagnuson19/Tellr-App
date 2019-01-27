@@ -10,7 +10,6 @@ import { logoutUser } from '../../actions';
 import Style from '../../styling/Style';
 import { colors, fonts, dimensions } from '../../styling/base';
 
-// const API_KEY = '';
 
 class Profile extends Component {
   constructor(props) {
