@@ -14,7 +14,7 @@ class AvatarImage extends Component {
   }
 
   bPress() {
-    this.props.onPressNav(this.props.individual.email);
+    this.props.onPressNav(this.props.individual);
   }
 
   render() {

@@ -21,27 +21,32 @@ class Profile extends Component {
 
   // display children name and balance for Parent view
   displayChildren() {
-    const kidsList = [];
-    for (let i = 0; i < this.props.family.length; i++) {
-      kidsList.push({
-        name: this.props.family[i].firstName,
-        balance: this.props.family[i].balance,
-      });
+    if (this.props.family !== null) {
+      const kidsList = [];
+      for (let i = 0; i < this.props.family.length; i++) {
+        kidsList.push({
+          name: this.props.family[i].firstName,
+          balance: this.props.family[i].balance,
+        });
+      }
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionText}> Children: </Text>
+          { kidsList.map(person => (
+            <Text style={pageStyle.subSectionText}>
+              {' '}
+              {person.name}
+              {',  Balance: $'}
+              {person.balance}
+              {''}
+            </Text>
+          ))}
+        </View>
+      );
+      // no kids so don't display anything about kids
+    } else {
+      return (null);
     }
-    return (
-      <View style={pageStyle.sectionContainer}>
-        <Text style={pageStyle.sectionText}> Children: </Text>
-        { kidsList.map(person => (
-          <Text style={pageStyle.subSectionText}>
-            {' '}
-            {person.name}
-            {',  Balance: $'}
-            {person.balance}
-            {''}
-          </Text>
-        ))}
-      </View>
-    );
   }
 
   // display kid's current balance for Child view

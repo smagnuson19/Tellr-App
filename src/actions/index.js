@@ -327,18 +327,63 @@ export function postGoal(payLoad) {
   };
 }
 
+export function fetchKidGoals(email) {
+  return axios.get(`${ROOT_URL}/goals/${email}`).then((response) => {
+    // make a list of the parent's children
+    const payload = response.data;
+    const list = [];
+    Object.keys(payload).forEach((key) => {
+      list.push(payload[key]);
+    });
+    return list;
+  });
+}
 
-// Fetch Parent Information
+export function fetchKidTasks(email) {
+  console.log('HEY');
+  return axios.get(`${ROOT_URL}/childtasks/${email}`).then((response) => {
+    // make a list of the parent's children
+    const payload = response.data;
+    const list = [];
+    Object.keys(payload).forEach((key) => {
+      list.push({
+        name: payload[key].taskName,
+        value: payload[key].reward,
+        description: payload[key].taskDescription,
+      });
+    });
+    console.log(list);
+    return list;
+  });
+}
+
+// Fetch Parent Information -> fetch all child Info as well
 export function fetchParentInfo(email) {
   return (dispatch) => {
     return axios.get(`${ROOT_URL}/children/${email}`).then((response) => {
       // make a list of the parent's children
-
       const payload = response.data;
+      // Want to do this for every Kid
+
       let childList = [];
-      console.log(payload);
+      // console.log(`fetchParentPay :${payload[0]}`);
       if ((Object.keys(payload).length > 0)) {
         Object.keys(payload).forEach((key) => {
+          axios.all([fetchKidGoals(payload[key].email), fetchKidTasks(payload[key].email)])
+            .then(axios.spread((goals, tasks) => {
+              console.log(payload[key]);
+
+              payload[key].goals = goals;
+              payload[key].tasks = tasks;
+            }));
+          // adding goals and tasks Json objects to payLoad
+          // fetchKidGoals(payload[key].email).then((kidsGoals) => {
+          //   console.log(kidsGoals);
+          //
+          // });
+          //
+          // payload[key].put('tasks', fetchKidTasks(payload[key].email));
+          console.log(payload[key]);
           childList.push(payload[key]);
         });
       } else {
