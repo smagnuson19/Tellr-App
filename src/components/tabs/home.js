@@ -49,9 +49,9 @@ class Home extends Component {
 
 
   // navigate to the correct account for child on a click
-  navigationToAccount(childEmail) {
+  navigationToAccount(child) {
     this.props.navigation.navigate('ChildPage', {
-      email: childEmail,
+      childInfo: child,
     });
   }
 
