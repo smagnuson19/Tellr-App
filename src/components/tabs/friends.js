@@ -9,7 +9,8 @@ import {
 import { ButtonGroup, Button } from 'react-native-elements';
 import Leaderboard from 'react-native-leaderboard';
 import LinearGradient from 'react-native-linear-gradient';
-import Prompt from 'react-native-prompt';
+// import Prompt from 'react-native-prompt';
+import DialogInput from 'react-native-dialog-input';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
 
@@ -39,8 +40,8 @@ class Friends extends Component {
         username: 'Joe Roddy',
         score: 50,
       },
-      promptVisible: false,
-      message: '',
+      // promptVisible: false,
+      // message: '',
     }
 
     sort = (data) => {
@@ -123,20 +124,14 @@ class Friends extends Component {
             >
               {ordinalSuffixOf(this.state.userRank)}
             </Text>
-            <View style={{ flex: 1, justifyContent: 'center' }}>
-              <Text style={{ fontSize: 20 }}>
-                {this.state.message}
-              </Text>
-            </View>
-            <Prompt
-              title="Say something"
-              placeholder="Start typing"
-              defaultValue="Hello"
-              visible={this.state.promptVisible}
-              onCancel={() => this.setState({ promptVisible: false, message: 'You cancelled' })}
-              onSubmit={value => this.setState({ promptVisible: false, message: `You said "${value}"` })}
-            />
           </View>
+          <DialogInput isDialogVisible={this.state.isDialogVisible}
+            title="Add Friends!"
+            message="Enter your friend's email address"
+            hintInput="example@email.com"
+            submitInput={(inputText) => { this.sendInput(inputText); }}
+            closeDialog={() => { this.showDialog(false); }}
+          />
           <Text style={{
             color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
           }}
