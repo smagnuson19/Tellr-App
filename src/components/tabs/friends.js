@@ -11,6 +11,7 @@ import Leaderboard from 'react-native-leaderboard';
 import LinearGradient from 'react-native-linear-gradient';
 import DialogInput from 'react-native-dialog-input';
 import { StackActions, NavigationActions } from 'react-navigation';
+import axios from 'axios';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
 
@@ -18,6 +19,9 @@ import { colors, fonts } from '../../styling/base';
 // connect with backend (add friends and accept friends)
 // friend requests page
 // change avatars
+// clean up for new set up
+
+const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 
 class Friends extends Component {
   constructor(props) {
@@ -57,7 +61,6 @@ class Friends extends Component {
       return sorted;
     }
 
-    // add friends button functionality - enter email address when clicked
     sendFriendInvite(inputText) {
     // move to home page after you submit a friend
       const resetAction = StackActions.reset({
@@ -67,6 +70,7 @@ class Friends extends Component {
           NavigationActions.navigate({ routeName: 'ParentTabBar' }),
         ],
       });
+      // TODO: temp needs to fix email from sender
       const payLoad = {
         email: 'cgoldstein@gmail.com',
         friend: inputText,
@@ -77,7 +81,11 @@ class Friends extends Component {
         console.log('ERROR: friend email empty');
       } else {
         console.log(payLoad);
-        // this.props.postTask(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
+        axios.post(`${ROOT_URL}/addfriends`, { payLoad })
+          .then((response) => {
+            this.props.navigation.dispatch(resetAction);
+            console.log(payLoad);
+          });
       }
     }
 
