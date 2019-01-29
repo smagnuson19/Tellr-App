@@ -40,8 +40,7 @@ class Friends extends Component {
         username: 'Joe Roddy',
         score: 50,
       },
-      // promptVisible: false,
-      // message: '',
+      isDialogVisible: false,
     }
 
     sort = (data) => {
@@ -124,21 +123,30 @@ class Friends extends Component {
             >
               {ordinalSuffixOf(this.state.userRank)}
             </Text>
-          </View>
-          <DialogInput isDialogVisible={this.state.isDialogVisible}
-            title="Add Friends!"
-            message="Enter your friend's email address"
-            hintInput="example@email.com"
-            submitInput={(inputText) => { this.sendInput(inputText); }}
-            closeDialog={() => { this.showDialog(false); }}
-          />
-          <Text style={{
-            color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
-          }}
-          >
-            {this.state.user.score}
+            <Button
+              onPress={() => this.setState({ isDialogVisible: true })}
+              title="Add Friends!"
+              rounded
+              small
+              style={Style.button}
+              backgroundColor={colors.secondary}
+            />
+            <DialogInput
+              isDialogVisible={this.state.isDialogVisible}
+              title="DialogInput 1"
+              message="Message for DialogInput #1"
+              hintInput="HINT INPUT"
+              submitInput={(inputText) => { this.sendInput(inputText); }}
+              closeDialog={() => { this.showDialog(false); }}
+            />
+            <Text style={{
+              color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
+            }}
+            >
+              {this.state.user.score}
 pts
-          </Text>
+            </Text>
+          </View>
           <ButtonGroup
             onPress={(x) => { this.setState({ filter: x }); }}
             selectedIndex={this.state.filter}
