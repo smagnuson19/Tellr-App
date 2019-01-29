@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, AsyncStorage, Alert,
+  View, Text, StyleSheet, Alert,
 } from 'react-native';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { Button } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 import KeyPad from './keypad';
 import { fonts, colors } from '../../styling/base';
-
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+import { postRedeemMoney } from '../../actions';
 
 class RedeemMoney extends Component {
   constructor(props) {
@@ -18,24 +17,9 @@ class RedeemMoney extends Component {
     this.state = {
     // accountSelected: '',
       amount: '0',
-      childEmail: '',
-      Balance: '0',
+
     };
     this.aButtonPress = this.aButtonPress.bind(this);
-  }
-
-  componentDidMount() {
-    console.log('Fetching info');
-    AsyncStorage.multiGet(['emailID', 'balanceID'], (err, result) => {
-      const API_KEY_USERS = result[0][1].slice(1, -1);
-      const BALANCE = result[1][1];
-      console.log(BALANCE);
-      console.log(API_KEY_USERS);
-      this.setState({ childEmail: API_KEY_USERS });
-      this.setState({ Balance: BALANCE });
-    }).catch((error) => {
-      console.log('ERROR in NewGoal');
-    });
   }
 
   updateAmount(item, prevState, props) {
@@ -84,29 +68,27 @@ class RedeemMoney extends Component {
 
     // Describing what should be sent
     const payLoad = {
-      email: this.state.childEmail,
+      email: this.props.user.email,
       amount: this.state.amount,
     };
 
     // Error checking to make sure child is selected and amount > 0
-    if (this.state.childEmail === '' || this.state.childEmail == null) {
+    if (this.porps.user.email === '' || this.props.user.email == null) {
       console.log('ERROR: select child empty');
     } else if (this.state.amount === '0') {
       Alert.alert('Redemption cannot be zero. Please enter a valid payment');
       console.log('ERROR: payment amount empty');
-    } else if (this.state.amount > this.state.Balance) {
+    } else if (this.state.amount > this.props.user.balance) {
       Alert.alert('You do not have enough money to request this Much');
       console.log(this.state.amount);
-      console.log(this.state.Balance);
+      console.log(this.props.user.balance);
       console.log('ERROR: not enough money in redeem money');
     } else {
       //  ok to RedeemMoney
-      AsyncStorage.setItem('balanceID', JSON.stringify(parseFloat(this.state.Balance) - parseFloat(this.state.amount)), () => {
+
+      this.props.postRedeemMooney(payLoad).then((response) => {
+        this.props.navigation.dispatch(resetAction);
       });
-      axios.post(`${ROOT_URL}/redeemmoney`, { payLoad })
-        .then((response) => {
-          this.props.navigation.dispatch(resetAction);
-        });
     }
   }
 
@@ -198,5 +180,9 @@ const pageStyle = StyleSheet.create({
 
 });
 
+const mapStateToProps = state => (
+  {
+    user: state.user.info,
+  });
 
-export default RedeemMoney;
+export default connect(mapStateToProps, { postRedeemMoney })(RedeemMoney);

@@ -1,99 +1,52 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, AsyncStorage, Button,
+  View, Text, StyleSheet, Button,
 } from 'react-native';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { Divider } from 'react-native-elements';
-import { StackActions, NavigationActions } from 'react-navigation';
+// import { StackActions, NavigationActions } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
+import { logoutUser } from '../../actions';
 import Style from '../../styling/Style';
 import { colors, fonts, dimensions } from '../../styling/base';
-
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
-// const API_KEY = '';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      children: [],
-      accountType: '',
-      accountName: '',
-      balance: '',
-      myEmail: '',
+
     };
-  }
-
-  componentDidMount() {
-    this.fetchNames();
-  }
-
-  fetchNames() {
-    function sleep(time) {
-      return new Promise(resolve => setTimeout(resolve, time));
-    }
-    AsyncStorage.getItem('accountTypeID', (err, result) => {
-      const account = result.slice(1, -1);
-      this.setState({ accountType: account });
-    });
-    AsyncStorage.getItem('accountNameID', (err, result) => {
-      const account = result.slice(1, -1);
-      this.setState({ accountName: account });
-    });
-    AsyncStorage.getItem('emailID', (err, result) => {
-      // get rid of the quotes
-      const email = result.slice(1, -1);
-      this.setState({ myEmail: email });
-    });
-
-    sleep(30).then(() => {
-      if (this.state.accountType === 'Parent') {
-        AsyncStorage.getItem('emailID', (err, result) => {
-          return axios.get(`${ROOT_URL}/children/${this.state.myEmail}`).then((response) => {
-            // make a list of the parent's children
-            const childList = response.data;
-            const childrenList = [];
-            // loop through each kid and make an object for them with FirstName, Email
-            Object.keys(childList).forEach((key) => {
-              childrenList.push({ label: childList[key].firstName, value: childList[key] });
-            });
-            this.setState({ children: childrenList });
-            console.log(this.state.children, 'children');
-          }).catch((error) => {
-            console.log('ERROR in Profile');
-          });
-        });
-      } else if (this.state.accountType === 'Child') {
-        AsyncStorage.getItem('balanceID', (err, result) => {
-          this.setState({ balance: result });
-        });
-      }
-    });
   }
 
   // display children name and balance for Parent view
   displayChildren() {
-    const kidsList = [];
-    for (let i = 0; i < this.state.children.length; i++) {
-      kidsList.push({
-        name: this.state.children[i].value.firstName,
-        balance: this.state.children[i].value.balance,
-      });
+    if (this.props.family !== null) {
+      const kidsList = [];
+      for (let i = 0; i < this.props.family.length; i++) {
+        kidsList.push({
+          name: this.props.family[i].firstName,
+          balance: this.props.family[i].balance,
+        });
+      }
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionText}> Children: </Text>
+          { kidsList.map(person => (
+            <Text style={pageStyle.subSectionText}>
+              {' '}
+              {person.name}
+              {',  Balance: $'}
+              {person.balance}
+              {''}
+            </Text>
+          ))}
+        </View>
+      );
+      // no kids so don't display anything about kids
+    } else {
+      return (null);
     }
-    return (
-      <View style={pageStyle.sectionContainer}>
-        <Text style={pageStyle.sectionText}> Children: </Text>
-        { kidsList.map(person => (
-          <Text style={pageStyle.subSectionText}>
-            {' '}
-            {person.name}
-            {',  Balance: $'}
-            {person.balance}
-            {''}
-          </Text>
-        ))}
-      </View>
-    );
   }
 
   // display kid's current balance for Child view
@@ -103,7 +56,7 @@ class Profile extends Component {
         <Text style={pageStyle.sectionText}> Balance: </Text>
         <Text style={pageStyle.subSectionText}>
           {'  $'}
-          {this.state.balance}
+          {this.props.user.balance}
           {' '}
         </Text>
       </View>
@@ -112,9 +65,9 @@ class Profile extends Component {
 
   determineDisplay() {
     // display children for parents, balance for kids
-    if (this.state.accountType === 'Parent') {
+    if (this.props.user.accountType === 'Parent') {
       return (this.displayChildren());
-    } else if (this.state.accountType === 'Child') {
+    } else if (this.props.user.accountType === 'Child') {
       return (this.displayBalance());
     } else {
       console.log('ERROR: accountType not loaded or selected proprely');
@@ -123,17 +76,21 @@ class Profile extends Component {
   }
 
   logout() {
-    // move to login page after you logout
-    const resetAction = StackActions.reset({
-      index: 0, // <-- currect active route from actions array
-      key: null,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Login' }),
-      ],
-    });
-
-    this.props.navigation.dispatch(resetAction);
+    console.log('logout Clicked');
+    this.props.logoutUser();
+    this.props.navigation.navigate('Auth', {}, NavigationActions.navigate({ routeName: 'Login' }));
   }
+  //   const resetAction = NavigationActions.reset({
+  //     index: 0, // <-- currect active route from actions array
+  //     key: null,
+  //     actions: [
+  //       NavigationActions.navigate({ routeName: 'Auth' }),
+  //     ],
+  //   });
+  //
+  //   console.log(this.props.navigation);
+  //   this.props.navigation.navigate({ routeName: 'Auth' });
+  // }
   //
   // deleteAccount() {
   //   // move to login page after you delete the account
@@ -152,7 +109,7 @@ class Profile extends Component {
   //     .then((response) => {
   //       console.log('deleting 222');
   //       console.log(response.data);
-  //       this.props.navigation.dispatch(resetAction);
+  //
   //     });
   // }
 
@@ -170,8 +127,9 @@ class Profile extends Component {
                 <Text style={pageStyle.sectionText}> Name: </Text>
                 <Text style={pageStyle.subSectionText}>
                   {' '}
-                  {this.state.accountName}
+                  {this.props.user.firstName}
                   {' '}
+                  {this.props.user.lastName}
                 </Text>
               </View>
 
@@ -179,7 +137,7 @@ class Profile extends Component {
                 <Text style={pageStyle.sectionText}> Account Type: </Text>
                 <Text style={pageStyle.subSectionText}>
                   {' '}
-                  {this.state.accountType}
+                  {this.props.user.accountType}
                   {' '}
                 </Text>
               </View>
@@ -261,5 +219,13 @@ const pageStyle = StyleSheet.create({
   },
 });
 
+const mapStateToProps = state => (
+  {
+    user: state.user.info,
+    family: state.user.family,
+  });
 
-export default Profile;
+
+export default connect(mapStateToProps, {
+  logoutUser,
+})(Profile);

@@ -5,18 +5,16 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import {
   Button, FormInput,
 } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
+import { postNewUser } from '../../actions';
 import Style from '../../styling/Style';
 import { colors } from '../../styling/base';
 
-
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
-// const API_KEY = '';
 
 class SignUp extends Component {
   constructor(props) {
@@ -32,13 +30,13 @@ class SignUp extends Component {
 
   createAccount() {
     // So that you are unable to navigate back to login page once logged in.
-    const resetAction = StackActions.reset({
-      index: 0, // <-- currect active route from actions array
-      key: null,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Loading', params: { emailParam: this.state.email } }),
-      ],
-    });
+    // const resetAction = StackActions.reset({
+    //   index: 0, // <-- currect active route from actions array
+    //   key: null,
+    //   actions: [
+    //     NavigationActions.navigate({ routeName: 'Loading', params: { emailParam: this.state.email } }),
+    //   ],
+    // });
 
     // Describing what will be sent
     const payLoad = {
@@ -67,18 +65,18 @@ class SignUp extends Component {
       Alert.alert('Family Name cannot be empty');
       console.log('ERROR: family name empty');
     } else {
+      console.log('attempting to log in');
       // do a post if there are no errors in the fields
-      axios.post(`${ROOT_URL}/users`, { payLoad })
+      this.props.postNewUser(payLoad)
         .then((response) => {
-          console.log(response.data[0].Success);
           // maybe backend returns a specific error so we can know for sure this
           // is the issue
-          if (response.data[0].Success === false) {
-            Alert.alert('This email is already associated with an account.');
-            console.log('ERROR: email already has account');
+          console.log(response);
+
+          if (this.props.authenticated) {
+            this.props.navigation.navigate('Auth', { emailParam: this.state.email }, NavigationActions.navigate({ routeName: 'Loading' }));
           } else {
-            // post and then head over to loading and bring in users info.
-            this.props.navigation.dispatch(resetAction);
+            Alert.alert(this.props.errorMessage);
           }
         });
     }
@@ -200,4 +198,14 @@ const pageStyle = StyleSheet.create({
 });
 
 
-export default SignUp;
+const mapStateToProps = state => (
+  {
+    account: state.user.info,
+    family: state.user.family,
+    authenticated: state.auth.authenticated,
+  });
+
+
+export default connect(mapStateToProps, {
+  postNewUser,
+})(SignUp);

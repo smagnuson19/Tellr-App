@@ -2,73 +2,28 @@ import React, { Component } from 'react';
 import {
   View, Text, StyleSheet, ScrollView,
 } from 'react-native';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { fonts, colors, dimensions } from '../../styling/base';
 import NotificationCard from './notificationCard';
 
 import Style from '../../styling/Style';
 
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+
 // const API_KEY = '';
 
 class ParentViewOfChild extends Component {
   constructor(props) {
     super(props);
     const { navigation } = this.props;
-    const emailItem = navigation.getParam('email');
+    const childAccount = navigation.getParam('childInfo');
     this.state = {
-      email: emailItem,
-      bioInfo: {},
-      goals: [],
-      tasks: [],
+      childAccount,
     };
-    console.log(emailItem);
+    console.log(childAccount);
     this.buttonPress = this.buttonPress.bind(this);
   }
 
-  componentDidMount() {
-    this.fetchAccountInfo();
-    this.fetchGoalsInfo();
-    this.fetchTaskInfo();
-  }
-
-  fetchAccountInfo() {
-    return axios.get(`${ROOT_URL}/users/${this.state.email}`).then((response) => {
-      // make a list of the parent's children
-      const payload = response.data;
-      console.log(payload);
-      this.setState({ bioInfo: payload });
-    });
-  }
-
-  fetchGoalsInfo() {
-    return axios.get(`${ROOT_URL}/goals/${this.state.email}`).then((response) => {
-      // make a list of the parent's children
-      const payload = response.data;
-      const list = [];
-      Object.keys(payload).forEach((key) => {
-        list.push(payload[key]);
-      });
-      this.setState({ goals: list });
-    });
-  }
-
-  fetchTaskInfo() {
-    return axios.get(`${ROOT_URL}/childtasks/${this.state.email}`).then((response) => {
-      // make a list of the parent's children
-      const payload = response.data;
-      const list = [];
-      Object.keys(payload).forEach((key) => {
-        list.push({
-          name: payload[key].taskName,
-          value: payload[key].reward,
-          description: payload[key].taskDescription,
-        });
-      });
-      this.setState({ tasks: list });
-    });
-  }
 
   buttonPress(action, goalName, sEmail, cEmail, priority) {
     this.props.onPress(action, goalName, sEmail, cEmail, priority);
@@ -76,18 +31,19 @@ class ParentViewOfChild extends Component {
 
 
   renderGoalsToComplete() {
-    if (this.state.goals.length > 0) {
+    if (this.state.childAccount.goals.length > 0) {
       return (
         <View style={pageStyle.sectionContainer}>
           <Text style={pageStyle.sectionHeader}>
-          Child Goals WORKINSHBDJFHLKDNafsdfs
+          Goals
           </Text>
-
-          { this.state.goals.map(goal => (
+          {this.render}
+          { this.state.childAccount.goals.map(goal => (
             <View key={goal.name}>
-              <NotificationCard entry={goal}
-                completed
-                nothing
+              <NotificationCard
+                entry={goal}
+                displayButtons={false}
+
               />
 
             </View>
@@ -96,30 +52,48 @@ class ParentViewOfChild extends Component {
         </View>
       );
     } else {
-      console.log('badd');
-      return (null);
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionHeader}>
+          Goals
+          </Text>
+          <Text> No goals to show! </Text>
+        </View>
+      );
     }
   }
 
   renderChores() {
-    return (
-      <View style={pageStyle.sectionContainer}>
-        <Text style={pageStyle.sectionHeader}>
-          Chores
-        </Text>
-        { this.state.tasks.map(goal => (
-          <View key={goal.name}>
-            <NotificationCard entry={goal}
-              completed
-              nothing
+    if (this.state.childAccount.tasks.length > 0) {
+      return (
 
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionHeader}>
+            Chores
+          </Text>
+          { this.state.childAccount.tasks.map(goal => (
+
+            <NotificationCard
+              key={goal.name}
+              entry={goal}
+              displayButtons={false}
             />
 
-          </View>
-        ))}
 
-      </View>
-    );
+          ))}
+
+        </View>
+      );
+    } else {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionHeader}>
+          Chores
+          </Text>
+          <Text> No chores to show! </Text>
+        </View>
+      );
+    }
   }
 
   render() {
@@ -130,13 +104,13 @@ class ParentViewOfChild extends Component {
             <View style={pageStyle.topContainer}>
 
               <Text style={pageStyle.headerText}>
-                {this.state.bioInfo.firstName}
+                {this.state.childAccount.firstName}
                 {'\'s Page' }
               </Text>
               <View style={pageStyle.balanceContainer}>
                 <Text style={pageStyle.balanceText}>
                   {'$'}
-                  {this.state.bioInfo.balance}
+                  {this.state.childAccount.balance}
                 </Text>
               </View>
 
@@ -237,4 +211,13 @@ const pageStyle = StyleSheet.create({
 });
 
 
-export default ParentViewOfChild;
+const mapStateToProps = state => (
+  {
+    user: state.user.info,
+    family: state.user.family,
+  });
+
+
+export default connect(mapStateToProps, {
+
+})(ParentViewOfChild);

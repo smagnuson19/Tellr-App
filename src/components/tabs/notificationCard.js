@@ -12,6 +12,8 @@ import { fonts, colors } from '../../styling/base';
 // can take entry(listOfNotificaitons)
 // notificationTypePassed - what type of notificaiton you want to display
 // based on what is given in entry
+// displayButton (optional) your dont want to displayanython
+// complete= (optional) whether you want to display a task has been completed
 
 class NotificationCard extends Component {
   constructor(props) {
@@ -31,6 +33,7 @@ class NotificationCard extends Component {
       this.props.entry.value,
       this.props.entry.description,
       this.props.entry.redeemed,
+      this.props.entry.notificationType,
     );
   }
 
@@ -71,36 +74,27 @@ class NotificationCard extends Component {
   }
 
   displayCorrectItems() {
-    let names = [];
+    // maps to notificationTypePassed
+    const buttonMap = {
+      newGoal: ['Accept', 'Deny'], // A child created a new goal
+      goalComplete: 'Dismiss', // shows that Child has completed goal on parent
+      taskComplete: ['Accept', 'Deny'], // Parent verify task complete
+      newTask: ['Complete', 'Ignore'], // child newTask
+      // taskUnverified:
+    };
+
     // the goal is complete so we want to return nothing
-    if (this.props.nothing) {
+    if (this.props.displayButtons === false) {
       return (null);
     }
-    if (this.props.typeChore) {
-      names = ['Complete', 'Ignore'];
-    } else {
-      names = ['Accept', 'Deny'];
-    }
-    if (this.props.completed === false) {
-      return (
-        <View style={pageStyle.actionBar}>
-          <TouchableOpacity style={pageStyle.checkButton}
-            onPress={() => this.buttonPress(names[0])}
-          >
-            <View style={pageStyle.buttonView}>
-              <Ionicons name="check"
-                size={20}
-                color="rgb(112, 214, 76)"
-              />
-              <Text style={pageStyle.text}>
-                {names[0]}
-              </Text>
-            </View>
-          </TouchableOpacity>
-          {this.displaySecond(names[1])}
-        </View>
-      );
-    } else {
+
+    // Declaring the buttons
+    const type = this.props.entry.notificationType;
+    const buttons = buttonMap[type];
+
+
+    // We want to display dismiss
+    if (buttons === 'Dismiss') {
       return (
         <View style={pageStyle.actionBar}>
           <TouchableOpacity style={pageStyle.checkButton}
@@ -115,8 +109,28 @@ class NotificationCard extends Component {
           </TouchableOpacity>
         </View>
       );
+    } else {
+      return (
+        <View style={pageStyle.actionBar}>
+          <TouchableOpacity style={pageStyle.checkButton}
+            onPress={() => this.buttonPress(buttons[0])}
+          >
+            <View style={pageStyle.buttonView}>
+              <Ionicons name="check"
+                size={20}
+                color="rgb(112, 214, 76)"
+              />
+              <Text style={pageStyle.text}>
+                {buttons[0]}
+              </Text>
+            </View>
+          </TouchableOpacity>
+          {this.displaySecond(buttons[1])}
+        </View>
+      );
     }
   }
+
 
   // Need to implement
   // return null if its a goal other wise return date for task
@@ -125,7 +139,7 @@ class NotificationCard extends Component {
   }
 
   render() {
-    // grabbing only the notifcations we want
+    // // grabbing only the notifcations we want
     if (this.props.entry.notificationType === this.props.notificationTypePassed) {
       return (
         <Card

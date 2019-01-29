@@ -1,6 +1,9 @@
 import React from 'react';
 import {
-  createBottomTabNavigator, createStackNavigator,
+  createBottomTabNavigator,
+  createStackNavigator,
+  createSwitchNavigator,
+  createAppContainer,
 } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, fonts } from '../styling/base';
@@ -16,17 +19,21 @@ import Login from '../components/login';
 import SignUp from '../components/signup/signUp';
 import Loading from '../components/loading';
 import Friends from '../components/tabs/friends';
-
+import AuthLoadingScreen from '../components/AuthLoading';
 import ParentViewOfChild from '../components/tabs/parentViewOfChild';
 
 
 import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 
 const HomeStack = createStackNavigator({
-  Home: { screen: Home },
+  Home: {
+    screen: Home,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
   ChildPage: {
     screen: ParentViewOfChild,
-    headerMode: 'none',
     navigationOptions: () => ({
       headerTransparent: 'True',
     }),
@@ -35,7 +42,7 @@ const HomeStack = createStackNavigator({
 },
 {
   initialRouteName: 'Home',
-  headerBackTitleVisible: 'True',
+  headerTransparent: 'True',
   navigationOptions: () => ({
     headerTransparent: 'True',
   }),
@@ -48,8 +55,10 @@ const ParentTabBar = createBottomTabNavigator({
   Profile,
 },
 {
-  navigationOptions: ({ navigation }) => ({
-
+  headerMode: 'none',
+  defaultNavigationOptions: ({ navigation }) => ({
+    headerTransparent: 'True',
+    headerMode: 'none',
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
       const { routeName } = navigation.state;
       let iconName;
@@ -79,7 +88,7 @@ const ParentTabBar = createBottomTabNavigator({
   },
 },
 {
-  initialRouteName: 'homeStack',
+  initialRouteName: 'Home',
 });
 
 const ChildTabBar = createBottomTabNavigator({
@@ -90,8 +99,9 @@ const ChildTabBar = createBottomTabNavigator({
 },
 {
   headerMode: 'none',
-  navigationOptions: ({ navigation }) => ({
-
+  defaultNavigationOptions: ({ navigation }) => ({
+    headerTransparent: 'True',
+    headerMode: 'none',
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
       const { routeName } = navigation.state;
       let iconName;
@@ -124,60 +134,144 @@ const ChildTabBar = createBottomTabNavigator({
   initialRouteName: 'Home',
 });
 
-
 const SignUpDialouge = createStackNavigator({
-  SignUpFirstDialouge: { screen: SignUpFirstDialouge },
-  SignUp: { screen: SignUp },
+  SignUpFirstDialouge: {
+    screen: SignUpFirstDialouge,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
+  SignUp: {
+    screen: SignUp,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
 
 },
 {
   initialRouteName: 'SignUpFirstDialouge',
   headerBackTitleVisible: 'True',
-  navigationOptions: () => ({
-    headerTransparent: 'True',
-  }),
 });
 
-
-const RootStack = createStackNavigator(
+const AppStack = createStackNavigator(
   {
-    SignUp: { screen: SignUpDialouge },
-    newGoal: { screen: NewGoal },
-    redeemMoney: { screen: redeemMoney },
     ParentTabBar: {
       screen: ParentTabBar,
       navigationOptions: () => ({
         gesturesEnabled: false,
+        headerTransparent: 'True',
+        header: null,
+
       }),
     },
     ChildTabBar: {
       screen: ChildTabBar,
       navigationOptions: () => ({
         gesturesEnabled: false,
+        headerTransparent: 'True',
+        header: null,
       }),
     },
-    Login: {
-      screen: Login,
-      navigationOptions: () => ({
-        headerTransparent: 'True',
-      }),
+    newGoal: {
+      screen: NewGoal,
+      headerTransparent: 'True',
     },
-    Loading: {
-      screen: Loading,
-      navigationOptions: () => ({
-        headerTransparent: 'True',
-      }),
+    redeemMoney: {
+      screen: redeemMoney,
+      headerTransparent: 'True',
     },
   },
-  {
-    initialRouteName: 'Login',
-    headerBackTitleVisible: 'True',
+
+);
+
+
+AppStack.navigationOptions = {
+  headerTransparent: 'True',
+};
+
+const AuthStack = createSwitchNavigator({
+  App: {
+    screen: AppStack,
+    navigationOptions: () => ({
+      gesturesEnabled: false,
+      headerTransparent: 'True',
+    }),
+  },
+  SignUp: {
+    screen: SignUpDialouge,
+  },
+
+  Loading: {
+    screen: Loading,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+      header: null,
+    }),
+  },
+
+  Login: {
+    screen: Login,
     navigationOptions: () => ({
       headerTransparent: 'True',
     }),
-
   },
-);
+},
+{
+  initialRouteName: 'Login',
+});
 
+
+const RootStack = createAppContainer(createSwitchNavigator(
+  {
+    AuthLoading: AuthLoadingScreen,
+    App: AppStack,
+    Auth: AuthStack,
+  },
+  {
+    initialRouteName: 'AuthLoading',
+  },
+));
+
+
+// const RootStack = createStackNavigator(
+//   {
+//     SignUp: { screen: SignUpDialouge },
+//     newGoal: { screen: NewGoal },
+//     redeemMoney: { screen: redeemMoney },
+//     ParentTabBar: {
+//       screen: ParentTabBar,
+//       navigationOptions: () => ({
+//         gesturesEnabled: false,
+//       }),
+//     },
+//     ChildTabBar: {
+//       screen: ChildTabBar,
+//       navigationOptions: () => ({
+//         gesturesEnabled: false,
+//       }),
+//     },
+//     Login: {
+//       screen: Login,
+//       navigationOptions: () => ({
+//         headerTransparent: 'True',
+//       }),
+//     },
+//     Loading: {
+//       screen: Loading,
+//       navigationOptions: () => ({
+//         headerTransparent: 'True',
+//       }),
+//     },
+//   },
+//   {
+//     initialRouteName: 'Login',
+//     headerBackTitleVisible: 'True',
+//     navigationOptions: () => ({
+//       headerTransparent: 'True',
+//     }),
+//
+//   },
+// );
 
 export default RootStack;
