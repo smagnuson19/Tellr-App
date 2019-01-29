@@ -17,9 +17,6 @@ import {
 } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
 
-
-// const API_KEY = '';
-
 class Home extends Component {
   constructor(props) {
     super(props);

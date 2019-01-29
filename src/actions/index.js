@@ -1,5 +1,6 @@
 import axios from 'axios';
-import AsyncStorage from 'React';
+import { AsyncStorage } from 'react-native';
+import deviceStorage from './deviceStorage';
 // import AsyncStorage from 'react';
 
 const ROOT_URL = 'http://127.0.0.1:5000/api';
@@ -18,16 +19,6 @@ export const ActionTypes = {
   FETCH_GOALS: 'FETCH_GOALS',
 };
 
-// export function fetchPosts() {
-//   return (dispatch) => {
-//     axios.get(`${ROOT_URL}/posts${API_KEY}`).then((response) => {
-//       dispatch({ type: ActionTypes.FETCH_POSTS, payload: (response.data) });
-//     }).catch((error) => {
-//       dispatch({ type: ActionTypes.FETCH_POSTS, payload: null });
-//     });
-//   };
-// }
-
 // trigger to deauth if there is error
 // can also use in your error reducer if you have one to display an error message
 export function authError(error) {
@@ -37,23 +28,56 @@ export function authError(error) {
   };
 }
 
+// use the below when auth is fully implemented - go to login and comment out {email, password}
+export function loginUser(payLoad, resetAction) {
+  console.log(payLoad);
+  return (dispatch) => {
+    return axios.post(`${ROOT_URL}/auth/login`, { payLoad }).then((response) => {
+      dispatch({ type: ActionTypes.AUTH_USER });
+      deviceStorage.saveItem('token', response.data[0].Token).then((error) => {
+        console.log(error);
+      });
+      deviceStorage.saveItem('email', payLoad.email).then((error) => {
+        console.log(error);
+      });
+
+
+      // something should happen in case this fails?
+
+      // console.log(response.data[0].Success);
+    }).catch((error) => {
+      console.log('bullshit');
+      console.log(`LoginError: ${error}`);
+      // bug in error on backend
+      // ispatch(authError(`${error.response.data[0].Error}`));
+    });
+  };
+}
+
 // auth user to
 // give them a new token
 export function postNewUser(payLoad) {
   return (dispatch) => {
-    return axios.post(`${ROOT_URL}/users`, { payLoad })
+    return axios.post(`${ROOT_URL}/auth/register`, { payLoad })
       .then((response) => {
+        console.log(`postNewUser post response ${response.data[0].Token}`);
         dispatch({ type: ActionTypes.AUTH_USER });
-        console.log(`postNewUser post response ${response.data[0]}`);
+        deviceStorage.saveItem('token', response.data[0].Token).then((error) => {
+          console.log(error);
+        });
+        deviceStorage.saveItem('email', payLoad.email).then((error) => {
+          console.log(error);
+        });
       }).catch((error) => {
-        console.log(`postNewUser Post Error: ${error.response.data[0]}`);
+        console.log(error);
+        dispatch(authError(`${error.response}`));
       });
   };
 }
 
 export function postTaskVerified(payLoad, userEmail, priority) {
   return (dispatch) => {
-    return axios.post(`${ROOT_URL}/tasks/verified`, { payLoad })
+    return axios.post(`${ROOT_URL}/tasks/verified`, { payLoad }, { headers: { authorization: AsyncStorage.getItem('token') } })
       .then((response) => {
         console.log(`postTaskVerified post response ${response.data}`);
         const postData = {
@@ -62,7 +86,7 @@ export function postTaskVerified(payLoad, userEmail, priority) {
         };
         return this.postNotifications(postData);
       }).catch((error) => {
-        console.log(`postTaskVerfied Post Error: ${error.response.data[0].Error}`);
+        console.log(`postTaskVerfied Post Error: ${error}`);
       });
   };
 }
@@ -70,7 +94,7 @@ export function postTaskVerified(payLoad, userEmail, priority) {
 
 export function postGoalApprove(payLoad, priority) {
   return (dispatch) => {
-    return axios.post(`${ROOT_URL}/goals/approve`, { payLoad })
+    return axios.post(`${ROOT_URL}/goals/approve`, { payLoad }, { headers: { authorization: AsyncStorage.getItem('token') } })
       .then((response) => {
         console.log(`postGoalApprove post response ${response.data}`);
         const postData = {
@@ -79,14 +103,14 @@ export function postGoalApprove(payLoad, priority) {
         };
         return this.postNotifications(postData);
       }).catch((error) => {
-        console.log(`postNotifications Post Error: ${error.response.data[0].Error}`);
+        console.log(`postNotifications Post Error: ${error}`);
       });
   };
 }
 
 export function postNotifications(payLoad) {
   return (dispatch) => {
-    return axios.post(`${ROOT_URL}/notifications`, { payLoad })
+    return axios.post(`${ROOT_URL}/notifications`, { payLoad }, { headers: { authorization: AsyncStorage.getItem('token') } })
       .then((result) => {
         console.log(`postNotifications post response ${result.data}`);
         // want to reload notification info and we currently do not
@@ -101,7 +125,7 @@ export function postNotifications(payLoad) {
 
 export function postTaskCompleted(payLoad, priority) {
   return (dispatch) => {
-    return axios.post(`${ROOT_URL}/tasks/completed`, { payLoad })
+    return axios.post(`${ROOT_URL}/tasks/completed`, { payLoad }, { headers: { authorization: AsyncStorage.getItem('token') } })
       .then((response) => {
         console.log(`postTaskCompleted post response: ${response.data}`);
         const postData = {
@@ -119,7 +143,7 @@ export function postTaskCompleted(payLoad, priority) {
 
 export function postTask(payLoad) {
   return (dispatch) => {
-    return axios.post(`${ROOT_URL}/tasks`, { payLoad })
+    return axios.post(`${ROOT_URL}/tasks`, { payLoad }, { headers: { authorization: AsyncStorage.getItem('token') } })
       .then((response) => {
         console.log(`Task Created: ${response.data}`);
       }).catch((error) => {
@@ -128,38 +152,20 @@ export function postTask(payLoad) {
   };
 }
 
-// use the below when auth is fully implemented - go to login and comment out {email, password}
-// export function loginUser({ email, password }, resetAction) {
-//   return (dispatch) => {
-//     axios.post(`${ROOT_URL}/credentials`, { email, password }).then((response) => {
-export function loginUser(email, password, resetAction) {
-  return (dispatch) => {
-    return axios.post(`${ROOT_URL}/${email}/credentials/${password}`).then((response) => {
-      dispatch({ type: ActionTypes.AUTH_USER });
-      if (response.data.token) {
-        localStorage.setItem('ACCESS_TOKEN', response.data.token);
-      }
 
-      // console.log(response.data[0].Success);
-    }).catch((error) => {
-      console.log(`LoginError: ${error.response.data[0].Error}`);
-      // bug in error on backend
-      dispatch(authError(`${error.response.data[0].Error}`));
-    });
-  };
-}
-
-export async function deleteToken() {
+export async function deleteTokens() {
   try {
-    await AsyncStorage.removeItem('ACCESS_TOKEN');
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('email');
   } catch (err) {
     console.log(`The error is: ${err}`);
   }
+  console.log('Token and email removed');
 }
 
 export function logoutUser() {
   return (dispatch) => {
-    deleteToken();
+    deleteTokens();
     dispatch({ type: ActionTypes.DEAUTH_USER });
   };
 }
@@ -167,7 +173,7 @@ export function logoutUser() {
 
 export function fetchUserInfo(email) {
   return (dispatch) => {
-    return axios.get(`${ROOT_URL}/users/${email}`).then((response) => {
+    return axios.get(`${ROOT_URL}/users/${email}`, { headers: { authorization: AsyncStorage.getItem('token') } }).then((response) => {
       console.log(response.data);
       dispatch({
         type: ActionTypes.FETCH_USER,
@@ -194,7 +200,7 @@ export function fetchUserInfo(email) {
 
 export function fetchNotificationInfo(email) {
   return (dispatch) => {
-    return axios.get(`${ROOT_URL}/notifications/${email}`).then((response) => {
+    return axios.get(`${ROOT_URL}/notifications/${email}`, { headers: { authorization: AsyncStorage.getItem('token') } }).then((response) => {
       const payload = response.data;
       let itemList = [];
       console.log(response);
@@ -221,7 +227,7 @@ export function fetchGoals(email) {
   return (dispatch) => {
     console.log('INSIDDE FETCH GOALS');
     console.log(email);
-    return axios.get(`${ROOT_URL}/goals/${email}`).then((response) => {
+    return axios.get(`${ROOT_URL}/goals/${email}`, { headers: { authorization: AsyncStorage.getItem('token') } }).then((response) => {
       console.log(`fetchGoals: ${response.data}`);
       // make a list of the parent's children
       const gList = response.data;
@@ -268,7 +274,7 @@ export function fetchGoals(email) {
 
 export function postUpdateBalance(payLoad, email) {
   return (dispatch) => {
-    return axios.post(`${ROOT_URL}/balance`, { payLoad })
+    return axios.post(`${ROOT_URL}/balance`, { payLoad }, { headers: { authorization: AsyncStorage.getItem('token') } })
       .then((response) => {
         console.log(`updateBalance: ${payLoad.data}`);
         return fetchUserInfo(email);
@@ -280,10 +286,10 @@ export function postUpdateBalance(payLoad, email) {
 
 export function postRedeemMoney(payLoad) {
   return (dispatch) => {
-    return axios.post(`${ROOT_URL}/redeemmoney`, { payLoad })
+    return axios.post(`${ROOT_URL}/redeemmoney`, { payLoad }, { headers: { authorization: AsyncStorage.getItem('token') } })
       .then((response) => {
         console.log(`postRedeemMoney: ${response.data}`);
-        return axios.get(`${ROOT_URL}/users/${payLoad.email}`).then((res) => {
+        return axios.get(`${ROOT_URL}/users/${payLoad.email}`, { headers: { authorization: AsyncStorage.getItem('token') } }).then((res) => {
           console.log(res.data);
           dispatch({
             type: ActionTypes.FETCH_USER,
@@ -298,11 +304,11 @@ export function postRedeemMoney(payLoad) {
 
 export function postGoalRedeem(payLoad) {
   return (dispatch) => {
-    return axios.post(`${ROOT_URL}/redeem`, { payLoad })
+    return axios.post(`${ROOT_URL}/redeem`, { payLoad }, { headers: { authorization: AsyncStorage.getItem('token') } })
       .then((response) => {
         console.log(`postGoalRedeem: ${response.data}`);
 
-        return axios.get(`${ROOT_URL}/users/${payLoad.email}`).then((res) => {
+        return axios.get(`${ROOT_URL}/users/${payLoad.email}`, { headers: { authorization: AsyncStorage.getItem('token') } }).then((res) => {
           console.log(res.data);
           dispatch({
             type: ActionTypes.FETCH_USER,
@@ -317,7 +323,7 @@ export function postGoalRedeem(payLoad) {
 
 export function postGoal(payLoad) {
   return (dispatch) => {
-    return axios.post(`${ROOT_URL}/goals`, { payLoad })
+    return axios.post(`${ROOT_URL}/goals`, { payLoad }, { headers: { authorization: AsyncStorage.getItem('token') } })
       .then((response) => {
         console.log(`postGoal: ${response.data[0]}`);
         // return this.fetchGoals(payLoad.email);
@@ -328,7 +334,7 @@ export function postGoal(payLoad) {
 }
 
 export function fetchKidGoals(email) {
-  return axios.get(`${ROOT_URL}/goals/${email}`).then((response) => {
+  return axios.get(`${ROOT_URL}/goals/${email}`, { headers: { authorization: AsyncStorage.getItem('token') } }).then((response) => {
     // make a list of the parent's children
     const payload = response.data;
     const list = [];
@@ -341,7 +347,7 @@ export function fetchKidGoals(email) {
 
 export function fetchKidTasks(email) {
   console.log('HEY');
-  return axios.get(`${ROOT_URL}/childtasks/${email}`).then((response) => {
+  return axios.get(`${ROOT_URL}/childtasks/${email}`, { headers: { authorization: AsyncStorage.getItem('token') } }).then((response) => {
     // make a list of the parent's children
     const payload = response.data;
     const list = [];
@@ -360,7 +366,7 @@ export function fetchKidTasks(email) {
 // Fetch Parent Information -> fetch all child Info as well
 export function fetchParentInfo(email) {
   return (dispatch) => {
-    return axios.get(`${ROOT_URL}/children/${email}`).then((response) => {
+    return axios.get(`${ROOT_URL}/children/${email}`, { headers: { authorization: AsyncStorage.getItem('token') } }).then((response) => {
       // make a list of the parent's children
       const payload = response.data;
       // Want to do this for every Kid

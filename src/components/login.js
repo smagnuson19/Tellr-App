@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   View, Image, Alert,
 } from 'react-native';
-import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { FormInput, Button } from 'react-native-elements';
@@ -24,13 +23,7 @@ class Login extends Component {
 
   submitEmail() {
     // So that you are unable to navigate back to login page once logged in.
-    const resetAction = StackActions.reset({
-      index: 0, // <-- currect active route from actions array
-      key: null,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Loading', params: { emailParam: this.state.email } }),
-      ],
-    });
+
 
     if (this.state.email === '') {
       Alert.alert('Please enter an email address');
@@ -39,10 +32,14 @@ class Login extends Component {
       Alert.alert('Please enter a password');
       console.log('ERROR: empty password login');
     } else {
-      this.props.loginUser(this.state.email, this.state.password, resetAction).then(() => {
+      const payLoad = {
+        email: this.state.email,
+        password: this.state.password,
+      };
+      this.props.loginUser(payLoad).then(() => {
         if (this.props.authenticated) {
           console.log('User is logged in');
-          this.props.navigation.dispatch(resetAction);
+          this.props.navigation.navigate('Loading');
         } else if (this.props.errorMessage) {
           Alert.alert(this.props.errorMessage);
         }
