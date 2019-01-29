@@ -15,7 +15,8 @@ import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
 
 // TODO:
-// connect with backend
+// connect with backend (add friends and accept friends)
+// friend requests page
 // change avatars
 
 class Friends extends Component {
@@ -168,9 +169,7 @@ pts
           >
             <Button
               onPress={() => this.setState({ isDialogVisible: true })}
-              title="Add Friends!"
-              large
-              raised
+              title="Invite Friends!"
               rounded
               style={Style.button}
               backgroundColor={colors.logoGreen}
@@ -186,8 +185,6 @@ pts
             <Button
               onPress={() => this.setState({ isDialogVisible: true })}
               title="Friend Requests"
-              large
-              raised
               rounded
               style={Style.button}
               backgroundColor={colors.logoGreen}
