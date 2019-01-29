@@ -56,7 +56,7 @@ const ParentTabBar = createBottomTabNavigator({
 },
 {
   headerMode: 'none',
-  navigationOptions: ({ navigation }) => ({
+  defaultNavigationOptions: ({ navigation }) => ({
     headerTransparent: 'True',
     headerMode: 'none',
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
@@ -99,14 +99,14 @@ const ChildTabBar = createBottomTabNavigator({
 },
 {
   headerMode: 'none',
-  navigationOptions: ({ navigation }) => ({
+  defaultNavigationOptions: ({ navigation }) => ({
     headerTransparent: 'True',
-
+    headerMode: 'none',
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
       const { routeName } = navigation.state;
       let iconName;
       if (routeName === 'Home') {
-        iconName = `ios-home${focused ? '' : '-outline'}`;
+        iconName = `ios-home${focused ? '' : ''}`;
       } else if (routeName === 'Profile') {
         iconName = `ios-person${focused ? '' : ''}`;
       } else if (routeName === 'Goals') {
@@ -134,15 +134,6 @@ const ChildTabBar = createBottomTabNavigator({
   initialRouteName: 'Home',
 });
 
-ParentTabBar.navigationOptions = {
-  headerTransparent: 'True',
-
-};
-
-ChildTabBar.navigationOptions = {
-  headerTransparent: 'True',
-
-};
 const SignUpDialouge = createStackNavigator({
   SignUpFirstDialouge: {
     screen: SignUpFirstDialouge,
@@ -179,6 +170,7 @@ const AppStack = createStackNavigator(
       navigationOptions: () => ({
         gesturesEnabled: false,
         headerTransparent: 'True',
+        header: null,
       }),
     },
     newGoal: {

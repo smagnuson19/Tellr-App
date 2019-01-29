@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   View, Image, Alert,
 } from 'react-native';
-import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { FormInput, Button } from 'react-native-elements';

@@ -10,7 +10,7 @@ import {
   Button, FormInput,
 } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import { postNewUser } from '../../actions';
 import Style from '../../styling/Style';
 import { colors } from '../../styling/base';
