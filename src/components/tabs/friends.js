@@ -4,12 +4,13 @@ Starter code layout taken from: https://github.com/JoeRoddy/react-native-leaderb
 
 import React, { Component } from 'react';
 import {
-  View, Text,
+  View, Text, Alert, Image,
 } from 'react-native';
 import { ButtonGroup, Button } from 'react-native-elements';
 import Leaderboard from 'react-native-leaderboard';
 import LinearGradient from 'react-native-linear-gradient';
 import DialogInput from 'react-native-dialog-input';
+import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
 
@@ -18,7 +19,9 @@ import { colors, fonts } from '../../styling/base';
 // change avatars
 
 class Friends extends Component {
-    state = {
+  constructor(props) {
+    super(props);
+    this.state = {
       weeklyData: [
         { username: 'We Tu Lo', score: null, iconUrl: 'https://st2.depositphotos.com/1006318/5909/v/950/depositphotos_59094043-stock-illustration-profile-icon-male-avatar.jpg' },
         { username: 'Adam Savage', score: 12, iconUrl: 'https://www.shareicon.net/data/128x128/2016/09/15/829473_man_512x512.png' },
@@ -39,7 +42,8 @@ class Friends extends Component {
         score: 50,
       },
       isDialogVisible: false,
-    }
+    };
+  }
 
     sort = (data) => {
       const sorted = data && data.sort((item1, item2) => {
@@ -53,46 +57,28 @@ class Friends extends Component {
     }
 
     // add friends button functionality - enter email address when clicked
-    // sendInput() {
-    // move to home page after you submit a friend to AddTask
-    //   const resetAction = StackActions.reset({
-    //     index: 0, // <-- currect active route from actions array
-    //     key: null,
-    //     actions: [
-    //       NavigationActions.navigate({ routeName: 'ParentTabBar' }),
-    //     ],
-    //   });
-    //
-    //   const payLoad = {
-    //     taskName: this.state.taskName,
-    //     reward: this.state.reward,
-    //     taskDeadline: this.state.taskDeadline,
-    //     taskDescription: this.state.taskDescription,
-    //     childEmail: this.state.childEmail,
-    //     senderEmail: this.props.account.email,
-    //   };
-    //
-    //   // Error checking: make sure all of the fields are filled in
-    //   if (this.state.taskName === '') {
-    //     Alert.alert('Please enter a Task Name');
-    //     console.log('ERROR: task name empty');
-    //   } else if (this.state.taskDeadline === '') {
-    //     Alert.alert('Please enter a Task Deadline');
-    //     console.log('ERROR: task deadline empty');
-    //   } else if (this.state.childEmail === '' || this.state.childEmail == null) {
-    //     Alert.alert('Please select a child for this task');
-    //     console.log('ERROR: select child empty');
-    //   } else if (this.state.taskDescription === '') {
-    //     Alert.alert('Please enter a Task Description');
-    //     console.log('ERROR: task description empty');
-    //   } else if (this.state.reward === '') {
-    //     Alert.alert('Please enter a Reward');
-    //     console.log('ERROR: reward empty');
-    //   } else {
-    //     console.log(payLoad);
-    //     this.props.postTask(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
-    //   }
-    // }
+    sendFriendInvite(inputText) {
+    // move to home page after you submit a friend
+      const resetAction = StackActions.reset({
+        index: 0, // <-- currect active route from actions array
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'ParentTabBar' }),
+        ],
+      });
+      const payLoad = {
+        email: 'cgoldstein@gmail.com',
+        friend: inputText,
+      };
+      // Error checking: make sure all of the fields are filled in
+      if (inputText === '') {
+        Alert.alert('Please enter a valid email address');
+        console.log('ERROR: friend email empty');
+      } else {
+        console.log(payLoad);
+        // this.props.postTask(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
+      }
+    }
 
     renderHeader() {
       return (
@@ -121,21 +107,10 @@ class Friends extends Component {
             >
               {ordinalSuffixOf(this.state.userRank)}
             </Text>
-            <Button
-              onPress={() => this.setState({ isDialogVisible: true })}
-              title="Add Friends!"
-              rounded
-              small
-              style={Style.button}
-              backgroundColor={colors.secondary}
-            />
-            <DialogInput
-              isDialogVisible={this.state.isDialogVisible}
-              title="Add Friends!"
-              message="Enter your friend's Email Address"
-              hintInput="example@email.com"
-              submitInput={(inputText) => { this.sendInput(inputText); }}
-              closeDialog={() => this.setState({ isDialogVisible: false })}
+            <Image style={{
+              flex: 0.66, height: 60, width: 60, borderRadius: 60 / 2,
+            }}
+              source={{ uri: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' }}
             />
             <Text style={{
               color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
@@ -176,6 +151,52 @@ pts
       );
     }
 
+    renderFooter() {
+      return (
+        <View
+          style={{
+            padding: 15, paddingTop: 5, paddingBottom: 45, alignItems: 'center',
+          }}
+        >
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: 25,
+            marginTop: 5,
+          }}
+          >
+            <Button
+              onPress={() => this.setState({ isDialogVisible: true })}
+              title="Add Friends!"
+              large
+              raised
+              rounded
+              style={Style.button}
+              backgroundColor={colors.logoGreen}
+            />
+            <DialogInput
+              isDialogVisible={this.state.isDialogVisible}
+              title="Add Friends!"
+              message="Enter your friend's Email Address"
+              hintInput="example@email.com"
+              submitInput={(inputText) => { this.sendFriendInvite(inputText); }}
+              closeDialog={() => this.setState({ isDialogVisible: false })}
+            />
+            <Button
+              onPress={() => this.setState({ isDialogVisible: true })}
+              title="Friend Requests"
+              large
+              raised
+              rounded
+              style={Style.button}
+              backgroundColor={colors.logoGreen}
+            />
+          </View>
+        </View>
+      );
+    }
+
     render() {
       const props = {
         labelBy: 'username',
@@ -191,6 +212,7 @@ pts
             <View style={{ flex: 1 }}>
               {this.renderHeader()}
               <Leaderboard {...props} />
+              {this.renderFooter()}
             </View>
           </LinearGradient>
         </View>
