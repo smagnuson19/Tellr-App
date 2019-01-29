@@ -9,13 +9,11 @@ import {
 import { ButtonGroup, Button } from 'react-native-elements';
 import Leaderboard from 'react-native-leaderboard';
 import LinearGradient from 'react-native-linear-gradient';
-// import Prompt from 'react-native-prompt';
 import DialogInput from 'react-native-dialog-input';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
 
-// TODO: Add friends button - where on the screen? - maybe change
-// make add friends go to a different page
+// TODO:
 // connect with backend
 // change avatars
 
@@ -55,7 +53,7 @@ class Friends extends Component {
     }
 
     // add friends button functionality - enter email address when clicked
-    // submitFriends() {
+    // sendInput() {
     // move to home page after you submit a friend to AddTask
     //   const resetAction = StackActions.reset({
     //     index: 0, // <-- currect active route from actions array
@@ -133,11 +131,11 @@ class Friends extends Component {
             />
             <DialogInput
               isDialogVisible={this.state.isDialogVisible}
-              title="DialogInput 1"
-              message="Message for DialogInput #1"
-              hintInput="HINT INPUT"
+              title="Add Friends!"
+              message="Enter your friend's Email Address"
+              hintInput="example@email.com"
               submitInput={(inputText) => { this.sendInput(inputText); }}
-              closeDialog={() => { this.showDialog(false); }}
+              closeDialog={() => this.setState({ isDialogVisible: false })}
             />
             <Text style={{
               color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
@@ -177,24 +175,6 @@ pts
         </View>
       );
     }
-
-    // Add friends button ?
-    // renderFooter() {
-    //   return (
-    //     <View
-    //       style={{
-    //         padding: 15, paddingTop: 45, alignItems: 'center',
-    //       }}
-    //     >
-    //       <Text style={{
-    //         fontSize: fonts.lg, color: 'white', fontFamily: fonts.secondary, textAlign: 'center',
-    //       }}
-    //       >
-    //         {'Add Friends!'}
-    //       </Text>
-    //     </View>
-    //   );
-    // }
 
     render() {
       const props = {
