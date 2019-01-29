@@ -5,11 +5,11 @@ import {
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { Divider } from 'react-native-elements';
-import { StackActions, NavigationActions } from 'react-navigation';
+// import { StackActions, NavigationActions } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import { logoutUser } from '../../actions';
 import Style from '../../styling/Style';
 import { colors, fonts, dimensions } from '../../styling/base';
-
 
 class Profile extends Component {
   constructor(props) {
@@ -76,19 +76,21 @@ class Profile extends Component {
   }
 
   logout() {
-    // move to login page after you logout
-    const resetAction = StackActions.reset({
-      index: 0, // <-- currect active route from actions array
-      key: null,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Login' }),
-      ],
-    });
-
-    // this.props.logoutUser();
-
-    this.props.navigation.dispatch(resetAction);
+    console.log('logout Clicked');
+    this.props.logoutUser();
+    this.props.navigation.navigate('Auth', {}, NavigationActions.navigate({ routeName: 'Login' }));
   }
+  //   const resetAction = NavigationActions.reset({
+  //     index: 0, // <-- currect active route from actions array
+  //     key: null,
+  //     actions: [
+  //       NavigationActions.navigate({ routeName: 'Auth' }),
+  //     ],
+  //   });
+  //
+  //   console.log(this.props.navigation);
+  //   this.props.navigation.navigate({ routeName: 'Auth' });
+  // }
   //
   // deleteAccount() {
   //   // move to login page after you delete the account
@@ -107,7 +109,7 @@ class Profile extends Component {
   //     .then((response) => {
   //       console.log('deleting 222');
   //       console.log(response.data);
-  //       this.props.navigation.dispatch(resetAction);
+  //
   //     });
   // }
 

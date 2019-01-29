@@ -30,13 +30,13 @@ class SignUp extends Component {
 
   createAccount() {
     // So that you are unable to navigate back to login page once logged in.
-    const resetAction = StackActions.reset({
-      index: 0, // <-- currect active route from actions array
-      key: null,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Loading', params: { emailParam: this.state.email } }),
-      ],
-    });
+    // const resetAction = StackActions.reset({
+    //   index: 0, // <-- currect active route from actions array
+    //   key: null,
+    //   actions: [
+    //     NavigationActions.navigate({ routeName: 'Loading', params: { emailParam: this.state.email } }),
+    //   ],
+    // });
 
     // Describing what will be sent
     const payLoad = {
@@ -72,10 +72,9 @@ class SignUp extends Component {
           // maybe backend returns a specific error so we can know for sure this
           // is the issue
           console.log(response);
-          console.log('somethinng');
 
           if (this.props.authenticated) {
-            this.props.navigation.dispatch(resetAction);
+            this.props.navigation.navigate('Auth', { emailParam: this.state.email }, NavigationActions.navigate({ routeName: 'Loading' }));
           } else {
             Alert.alert(this.props.errorMessage);
           }

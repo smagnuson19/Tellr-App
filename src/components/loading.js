@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { StackActions, NavigationActions } from 'react-navigation';
 import { colors } from '../styling/base';
 import {
   fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals,
@@ -12,7 +11,9 @@ import Style from '../styling/Style';
 class Loading extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
+      email: null,
     };
   }
 
@@ -37,17 +38,24 @@ class Loading extends Component {
   fetchNames() {
     const { navigation } = this.props;
     const email = navigation.getParam('emailParam', 'NO-EMAIL');
-    this.props.fetchUserInfo(email).then(() => { this.fetchAtLoad(email); });
+    console.log(email);
+    if (email === 'NO-EMAIL') {
+      console.log('yes');
+      AsyncStorage.getItem('email').then((storageEmail) => {
+        console.log(storageEmail);
+        this.setState({ email: storageEmail });
+        if (storageEmail != null) {
+          console.log();
+          this.props.fetchUserInfo(storageEmail).then(() => { this.fetchAtLoad(storageEmail); });
+        }
+      });
+    }
   }
 
-  loading(email) {
+  loading() {
     function sleep(time) {
       return new Promise(resolve => setTimeout(resolve, time));
     }
-
-    // const emailObject = email;
-    // AsyncStorage.setItem('emailID', JSON.stringify(emailObject), () => {
-    // });
 
 
     // figure out if Parent or Child user
@@ -62,18 +70,19 @@ class Loading extends Component {
       }
       //  So that you are unable to navigate back to login page once logged in.
       if (chooseRoute != null) {
-        const resetAction = StackActions.reset({
-          index: 0, // <-- currect active route from actions array
-          key: null,
-          actions: [
-            NavigationActions.navigate({ routeName: chooseRoute }),
-          ],
-        });
+        // const resetAction = StackActions.reset({
+        //   index: 0, // <-- currect active route from actions array
+        //   key: null,
+        //   actions: [
+        //     NavigationActions.navigate({ routeName: chooseRoute }),
+        //   ],
+        // });
 
         // Usage!
         sleep(500).then(() => {
         // Do something after the sleep!
-          this.props.navigation.dispatch(resetAction);
+          // this.props.navigation.dispatch(resetAction);
+          this.props.navigation.navigate(chooseRoute);
         });
       }
     }
@@ -81,9 +90,10 @@ class Loading extends Component {
 
 
   render() {
-    const { navigation } = this.props;
-    const email = navigation.getParam('emailParam', 'NO-EMAIL');
-    this.loading(email);
+    if (this.state.email != null) {
+      this.loading();
+    }
+
 
     return (
       <View style={Style.rootContainer}>

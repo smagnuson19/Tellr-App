@@ -23,9 +23,6 @@ const Sound = require('react-native-sound');
 
 let unlock;
 
-
-// const API_KEY = '';
-
 class Goals extends Component {
   constructor(props) {
     super(props);
