@@ -38,7 +38,6 @@ class Friends extends Component {
       monthlyData: [
         { username: 'Joe Roddy', score: 50, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' },
         { username: 'Ericka Johannesburg', score: 101, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShPis8NLdplTV1AJx40z-KS8zdgaSPaCfNINLtQ-ENdPvrtMWz' },
-        { username: 'Tim Thomas', score: 41, iconUrl: 'http://conserveindia.org/wp-content/uploads/2017/07/teamMember4.png' },
       ],
       filter: 0,
       userRank: 1,
@@ -72,7 +71,7 @@ class Friends extends Component {
       });
       // TODO: temp needs to fix email from sender
       const payLoad = {
-        email: 'cgoldstein@gmail.com',
+        email: null,
         friend: inputText,
       };
       // Error checking: make sure all of the fields are filled in
@@ -185,13 +184,14 @@ pts
             <DialogInput
               isDialogVisible={this.state.isDialogVisible}
               title="Add Friends!"
-              message="Enter your friend's Email Address"
+              message="Please enter your friend's email address"
               hintInput="example@email.com"
               submitInput={(inputText) => { this.sendFriendInvite(inputText); }}
               closeDialog={() => this.setState({ isDialogVisible: false })}
             />
+
             <Button
-              onPress={() => this.setState({ isDialogVisible: true })}
+              // onPress={() => this.setState({ isDialogVisible: true })}
               title="Friend Requests"
               rounded
               style={Style.button}
