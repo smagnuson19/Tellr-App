@@ -1,23 +1,7 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+import OneSignal from 'react-native-onesignal'; // Import package from node modules
 
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import { createStore, applyMiddleware, compose } from 'redux';
-import OneSignal from 'react-native-onesignal';
-import RootStack from './navigation/navigation';
-import reducers from './reducers';
-
-
-const store = createStore(reducers, {}, compose(
-  applyMiddleware(thunk),
-));
-
-
-// disable really annoying in app warnings
-console.disableYellowBox = true;
-//  <BottomTabBar /> - put this in below, was buggy error
-
-export default class App extends Component {
+class PushNotifications extends Component {
   constructor(properties) {
     super(properties);
     // need to setup app first
@@ -48,12 +32,5 @@ export default class App extends Component {
   onIds(device) {
     console.log('Device info: ', device);
   }
-
-  render() {
-    return (
-      <Provider store={store}>
-        <RootStack />
-      </Provider>
-    );
-  }
 }
+export default PushNotifications;
