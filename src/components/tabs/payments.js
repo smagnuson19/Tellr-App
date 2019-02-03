@@ -10,7 +10,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { postUpdateBalance } from '../../actions';
 import Style from '../../styling/Style';
 import KeyPad from './keypad';
-import { fonts, colors } from '../../styling/base';
+import { fonts, colors, dimensions } from '../../styling/base';
 
 class Payments extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class Payments extends Component {
     if (updatedAmount === '0') {
       updatedAmount = '';
     }
-    if (updatedAmount.length === '5') {
+    if (updatedAmount.length >= 5) {
       return { amount: updatedAmount };
     }
     if (item === '<') {
@@ -114,37 +114,36 @@ class Payments extends Component {
 
   selectorsContainer() {
     // gotta put family into an array and label the dict values and stuff
-
+    let itemList = [];
     if (this.props.family != null) {
       console.log(this.props.family);
-      const itemList = [];
+      itemList = [];
       Object.keys(this.props.family).forEach((key) => {
         itemList.push({ label: this.props.family[key].firstName, value: this.props.family[key].email });
       });
-
-      return (
-
-        <View style={pageStyle.selectorsContainer}>
-          <RNPickerSelect
-            placeholder={{
-              label: 'Select Child',
-              value: null,
-            }}
-            items={itemList}
-            onValueChange={(value) => {
-              this.setState({
-                childEmail: value,
-              });
-            }}
-            style={{ ...pickerSelectStyles }}
-            value={this.state.childEmail}
-          />
-        </View>
-      );
-    } else {
-      return null;
     }
+
+    return (
+
+      <View style={pageStyle.selectorsContainer}>
+        <RNPickerSelect
+          placeholder={{
+            label: 'Select Child',
+            value: null,
+          }}
+          items={itemList}
+          onValueChange={(value) => {
+            this.setState({
+              childEmail: value,
+            });
+          }}
+          style={{ ...pickerSelectStyles }}
+          value={this.state.childEmail}
+        />
+      </View>
+    );
   }
+
 
   render() {
     return (
@@ -170,7 +169,7 @@ class Payments extends Component {
                 large
                 raised
                 onPress={() => this.sendMoney()}
-                title="Give them money!"
+                title="Transfer Funds!"
                 backgroundColor="#424242"
                 accessibilityLabel="enter email"
                 color="white"
@@ -192,7 +191,7 @@ const pageStyle = StyleSheet.create({
   },
   selectorsContainer: {
     flex: 1,
-    padding: 10,
+    padding: '3%',
     justifyContent: 'center',
 
   },
@@ -218,8 +217,8 @@ const pageStyle = StyleSheet.create({
   },
 
   buttonBorder: {
-    paddingHorizontal: 10,
-    marginBottom: 30,
+    paddingHorizontal: '5%',
+    paddingBottom: '15%',
     width: '100%',
   },
 
@@ -233,7 +232,7 @@ const pickerSelectStyles = StyleSheet.create({
     paddingBottom: 10,
     borderWidth: 1,
     borderColor: colors.secondary,
-    width: 300,
+    width: dimensions.fullWidth - 30,
     fontFamily: fonts.secondary,
     textAlign: 'center',
   },

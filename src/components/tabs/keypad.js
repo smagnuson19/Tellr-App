@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 
 // import Style from '../../styling/Style';
-import { fonts, colors } from '../../styling/base';
+import { fonts, colors, dimensions } from '../../styling/base';
 
 class KeyPad extends Component {
   constructor(props) {
@@ -24,10 +24,12 @@ class KeyPad extends Component {
       <View style={pageStyle.numberButtonContainer}>
         { items.map((itemKey) => {
           return (
-            <TouchableOpacity style={pageStyle.numberButton}
+            <TouchableOpacity style={pageStyle.numberCell}
               onPress={() => this.buttonPress(itemKey)}
             >
-              <Text style={pageStyle.number}>
+              <Text
+                style={pageStyle.number}
+              >
                 {' '}
                 {itemKey}
                 {' '}
@@ -36,7 +38,8 @@ class KeyPad extends Component {
           );
         })
     }
-      </View>);
+      </View>
+    );
   }
 
 
@@ -52,29 +55,32 @@ class KeyPad extends Component {
 const pageStyle = StyleSheet.create({
   numberPadContainer: {
     flex: 1,
-    paddingHorizontal: 12,
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingHorizontal: 10,
+    paddingTop: '30%',
+    paddingBottom: 5,
     alignItems: 'center',
   },
   numberButtonContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     flexWrap: 'wrap',
   },
 
-  numberButton: {
+  numberCell: {
+    width: (dimensions.fullWidth - 20) / 3,
     alignItems: 'center',
-    paddingBottom: 15,
-    paddingHorizontal: 33,
+    justifyContent: 'center',
+    paddingBottom: '3%',
+    paddingHorizontal: '7.5%',
   },
 
   number: {
     fontFamily: fonts.secondary,
-    textAlign: 'center',
+
     color: colors.secondary,
-    fontSize: 55,
+    fontSize: 40,
 
   },
 });
