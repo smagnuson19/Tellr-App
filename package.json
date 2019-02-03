@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/TellrApp/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'",
     "test": "./node_modules/.bin/eslint src"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
     "react-dom": "^16.6.0",
     "react-native": "0.57.3",
     "react-native-datepicker": "^1.7.2",
+    "react-native-dialog-input": "^1.0.7",
     "react-native-dropdown-menu": "^2.0.0",
     "react-native-elements": "^0.19.1",
     "react-native-gesture-handler": "^1.0.15",
