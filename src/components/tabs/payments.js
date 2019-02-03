@@ -30,15 +30,14 @@ class Payments extends Component {
     if (updatedAmount === '0') {
       updatedAmount = '';
     }
-    if (updatedAmount.length >= 5) {
-      return { amount: updatedAmount };
-    }
     if (item === '<') {
       if (updatedAmount !== '') {
         updatedAmount = updatedAmount.slice(0, updatedAmount.length - 1);
       } else {
         updatedAmount = '';
       }
+    } else if (updatedAmount.length >= 5) {
+      return { amount: updatedAmount };
     } else if (item === '.') {
       if (updatedAmount === '') {
         updatedAmount = '0.';
