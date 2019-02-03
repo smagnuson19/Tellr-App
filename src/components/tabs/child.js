@@ -14,10 +14,15 @@ class Child extends Component {
       // buttonSelected: '',
     };
     this.buttonPress = this.buttonPress.bind(this);
+    this.refreshAction = this.refreshAction.bind(this);
   }
 
   buttonPress(action, goalName, sEmail, cEmail, priority, taskReward, description, redeemed, notificationType) {
     this.props.onPress(action, goalName, sEmail, cEmail, priority, taskReward, description, redeemed, notificationType);
+  }
+
+  refreshAction() {
+    this.props.refreshAPI();
   }
 
   checkEmptyTasks() {

@@ -27,11 +27,18 @@ class Home extends Component {
     // Bind this instance used in navigationToAccount to this component
     this.navigationToAccount = this.navigationToAccount.bind(this);
     this.renderAction = this.renderAction.bind(this);
+    this.onRefreshForChild = this.onRefreshForChild.bind(this);
   }
 
 
   // A pull down has been initiated
   onRefresh() {
+    this.setState({ isFetching: true }, function () { this.reloadApiData(); });
+  }
+
+  // Needed becasuse there is no seperate parent component but there is a seperate
+  // child component and this function needs to be bound to the home component
+  onRefreshForChild() {
     this.setState({ isFetching: true }, function () { this.reloadApiData(); });
   }
 
@@ -327,7 +334,12 @@ No Chores To Verify, Add some more!
 
       return (
 
-        <Child firstName={this.props.account.firstName} balance={this.props.account.balance} task={notifications} onPress={this.renderAction} />
+        <Child
+          firstName={this.props.account.firstName}
+          balance={this.props.account.balance}
+          task={notifications}
+          onPress={this.renderAction}
+        />
       );
     } else {
       return (
