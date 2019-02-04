@@ -116,7 +116,7 @@ class AddTask extends Component {
                 cancelBtnText="Cancel"
                 customStyles={{
                   dateText: {
-                    color: 'white',
+                    color: colors.lightGrey,
                     fontFamily: fonts.secondary,
                     alignSelf: 'flex-start',
                     marginLeft: 8,
@@ -124,7 +124,7 @@ class AddTask extends Component {
                   },
                   placeholderText: {
                     fontFamily: fonts.secondary,
-                    color: colors.placeholderColor,
+                    color: colors.lightGrey,
                     alignSelf: 'flex-start',
                     marginLeft: 8,
                     fontSize: fonts.md,
@@ -157,6 +157,7 @@ class AddTask extends Component {
                   });
                 }}
                 style={{ ...pickerSelectStyles }}
+                placeholderTextColor={colors.lightGrey}
                 value={this.state.childEmail}
               />
               <FormInput
@@ -202,6 +203,7 @@ const pickerSelectStyles = StyleSheet.create({
     paddingBottom: 7,
     borderWidth: 0.8,
     borderColor: colors.lightGrey,
+    color: 'white',
     width: 320,
     marginLeft: 40,
     marginTop: 15,
