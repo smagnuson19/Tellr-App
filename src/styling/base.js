@@ -15,7 +15,7 @@ export const colors = {
   linearGradientTop: 'rgba(250, 27, 3, 0.29615)',
   linearGradientBottom: 'rgba(1, 2, 243, 0.376)',
   placeholderColor: 'grey',
-  lightGrey: 'rgb(176, 176, 176)',
+  lightGrey: 'rgb(150, 150, 150)',
   black: 'rgb(0,0,0)',
   white: 'rgb(255,255,255)',
   red: 'rgb(255,0,0)',
