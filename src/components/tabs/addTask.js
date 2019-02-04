@@ -24,7 +24,7 @@ class AddTask extends Component {
     super(props);
     this.state = {
       taskName: '',
-      taskDeadline: 'Task Deadline',
+      taskDeadline: '',
       childEmail: '',
       taskDescription: '',
       reward: '',
@@ -110,13 +110,13 @@ class AddTask extends Component {
                 style={{ ...taskDeadlineStyles.style }}
                 date={this.state.taskDeadline}
                 mode="datetime"
-                placeholder={this.state.taskDeadline}
+                placeholder="Task Deadline"
                 format="MMMM Do, h:mma"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 customStyles={{
                   dateText: {
-                    color: colors.lightGrey,
+                    color: colors.white,
                     fontFamily: fonts.secondary,
                     alignSelf: 'flex-start',
                     marginLeft: 8,
