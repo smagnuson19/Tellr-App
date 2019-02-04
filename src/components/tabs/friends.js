@@ -12,6 +12,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import DialogInput from 'react-native-dialog-input';
 import { StackActions, NavigationActions } from 'react-navigation';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
 
@@ -33,7 +34,7 @@ class Friends extends Component {
         { username: 'Jimmy John', score: 20, iconUrl: 'https://static.witei.com/static/img/profile_pics/avatar4.png' },
         { username: 'Joe Roddy', score: 50, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' },
         { username: 'Ericka Johannesburg', score: 101, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShPis8NLdplTV1AJx40z-KS8zdgaSPaCfNINLtQ-ENdPvrtMWz' },
-        { username: 'Tim Thomas', score: 41, iconUrl: 'http://conserveindia.org/wp-content/uploads/2017/07/teamMember4.png' },
+        { username: 'Tim Thomasss', score: 41, iconUrl: 'http://conserveindia.org/wp-content/uploads/2017/07/teamMember4.png' },
       ],
       monthlyData: [
         { username: 'Joe Roddy', score: 50, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' },
@@ -69,9 +70,8 @@ class Friends extends Component {
           NavigationActions.navigate({ routeName: 'ParentTabBar' }),
         ],
       });
-      // TODO: temp needs to fix email from sender
       const payLoad = {
-        email: null,
+        email: this.props.account.email,
         friend: inputText,
       };
       // Error checking: make sure all of the fields are filled in
@@ -242,4 +242,10 @@ const ordinalSuffixOf = (i) => {
   return `${i}th`;
 };
 
-export default Friends;
+
+const mapStateToProps = state => (
+  {
+    account: state.user.info,
+  });
+
+export default connect(mapStateToProps)(Friends);
