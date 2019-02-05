@@ -19,17 +19,23 @@ class ViewOfFriendRequests extends Component {
     };
   }
 
+
+  renderAction(action, taskName, sEmail, cEmail, priority, taskReward, description, redeemed, notificationType) {
+    // child marked task complete now Verify
+    console.log('notification type here:');
+    console.log(notificationType);
+    if (notificationType === 'addRequest') {
+      console.log('add request');
+    }
+  }
+
   // TODO: put requests into child account
   renderRequests() {
     // if (this.props.requests.length > 0) {
     if (false) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
-            Chores
-          </Text>
-          { this.state.childAccount.tasks.map(goal => (
-
+          { this.props.requests.map(goal => (
             <NotificationCard
               key={goal.name}
               entry={goal}
@@ -39,6 +45,8 @@ class ViewOfFriendRequests extends Component {
         </View>
       );
     } else {
+      console.log('props:');
+      console.log(this.props.notifications);
       return (
         <View style={pageStyle.sectionContainer}>
           <Text> No requests to show! </Text>
@@ -58,6 +66,7 @@ class ViewOfFriendRequests extends Component {
               </Text>
             </View>
             <ScrollView style={pageStyle.main}>
+              { this.renderAction() }
               {this.renderRequests()}
             </ScrollView>
           </View>
@@ -116,8 +125,8 @@ const pageStyle = StyleSheet.create({
 
 const mapStateToProps = state => (
   {
-    user: state.user.info,
-    family: state.user.family,
+    account: state.user.info,
+    notifications: state.user.notifications,
   });
 
 

@@ -162,6 +162,18 @@ export function postTask(payLoad) {
   };
 }
 
+export function postRequest(payLoad) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.post(`${ROOT_URL}/addfriend`, { payLoad }, { headers: { authorization: token } })
+        .then((response) => {
+          console.log(`Friend request sent: ${response.data}`);
+        }).catch((error) => {
+          console.log(`postRequest post Error: ${error.response.data[0].Error}`);
+        });
+    });
+  };
+}
 
 export async function deleteTokens() {
   try {

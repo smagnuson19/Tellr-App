@@ -11,18 +11,16 @@ import Leaderboard from 'react-native-leaderboard';
 import LinearGradient from 'react-native-linear-gradient';
 import DialogInput from 'react-native-dialog-input';
 import { StackActions, NavigationActions } from 'react-navigation';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
+import { postRequest } from '../../actions/index';
 
 // TODO:
 // connect with backend (add friends and accept friends)
 // friend requests page
 // change avatars
 // clean up for new set up
-
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 
 class Friends extends Component {
   constructor(props) {
@@ -67,7 +65,7 @@ class Friends extends Component {
         index: 0, // <-- currect active route from actions array
         key: null,
         actions: [
-          NavigationActions.navigate({ routeName: 'ParentTabBar' }),
+          NavigationActions.navigate({ routeName: 'ChildTabBar' }),
         ],
       });
       const payLoad = {
@@ -80,11 +78,7 @@ class Friends extends Component {
         console.log('ERROR: friend email empty');
       } else {
         console.log(payLoad);
-        axios.post(`${ROOT_URL}/addfriends`, { payLoad })
-          .then((response) => {
-            this.props.navigation.dispatch(resetAction);
-            console.log(payLoad);
-          });
+        this.props.postRequest(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
       }
     }
 
@@ -247,4 +241,4 @@ const mapStateToProps = state => (
     account: state.user.info,
   });
 
-export default connect(mapStateToProps)(Friends);
+export default connect(mapStateToProps, { postRequest })(Friends);
