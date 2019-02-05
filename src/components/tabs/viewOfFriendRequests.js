@@ -19,6 +19,34 @@ class ViewOfFriendRequests extends Component {
     };
   }
 
+  // TODO: put requests into child account
+  renderRequests() {
+    // if (this.props.requests.length > 0) {
+    if (false) {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionHeader}>
+            Chores
+          </Text>
+          { this.state.childAccount.tasks.map(goal => (
+
+            <NotificationCard
+              key={goal.name}
+              entry={goal}
+              displayButtons={false}
+            />
+          ))}
+        </View>
+      );
+    } else {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text> No requests to show! </Text>
+        </View>
+      );
+    }
+  }
+
   render() {
     return (
       <View style={Style.rootContainer}>
@@ -29,6 +57,9 @@ class ViewOfFriendRequests extends Component {
                 {'Friend Requests'}
               </Text>
             </View>
+            <ScrollView style={pageStyle.main}>
+              {this.renderRequests()}
+            </ScrollView>
           </View>
         </LinearGradient>
       </View>

@@ -36,7 +36,6 @@ const HomeStack = createStackNavigator({
     navigationOptions: () => ({
       headerTransparent: 'True',
     }),
-
   },
 },
 {
@@ -59,7 +58,6 @@ const FriendsStack = createStackNavigator({
     navigationOptions: () => ({
       headerTransparent: 'True',
     }),
-
   },
 },
 {
