@@ -189,9 +189,8 @@ pts
               submitInput={(inputText) => { this.sendFriendInvite(inputText); }}
               closeDialog={() => this.setState({ isDialogVisible: false })}
             />
-
             <Button
-              // onPress={() => this.setState({ isDialogVisible: true })}
+              onPress={() => this.props.navigation.navigate('FriendRequests')}
               title="Friend Requests"
               rounded
               style={Style.button}
