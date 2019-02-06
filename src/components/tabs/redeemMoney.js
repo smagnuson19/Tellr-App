@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Alert,
+  View, Text, StyleSheet, Alert, Animated,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -12,6 +12,8 @@ import { fonts, colors } from '../../styling/base';
 import { postRedeemMoney } from '../../actions';
 
 class RedeemMoney extends Component {
+  animatedValue = new Animated.Value(0);
+
   constructor(props) {
     super(props);
     this.state = {
@@ -56,6 +58,37 @@ class RedeemMoney extends Component {
     return { amount: updatedAmount };
   }
 
+  renderOverlay = () => {
+    const imageStyles = [
+      {
+        // position: 'absolute',
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        opacity: this.animatedValue,
+        transform: [
+          {
+            scale: this.animatedValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0.7, 1.5],
+            }),
+          },
+        ],
+      },
+    ];
+    return (
+      <View style={Style.buttonContainer}>
+        <Animated.Image
+          source={require('../../media/bill.png')}
+          style={imageStyles}
+        />
+      </View>
+    );
+  }
+
   redeemPress() {
     // move to home page after you send a payment
     const resetAction = StackActions.reset({
@@ -73,7 +106,7 @@ class RedeemMoney extends Component {
     };
 
     // Error checking to make sure child is selected and amount > 0
-    if (this.porps.user.email === '' || this.props.user.email == null) {
+    if (this.props.user.email === '' || this.props.user.email == null) {
       console.log('ERROR: select child empty');
     } else if (this.state.amount === '0') {
       Alert.alert('Redemption cannot be zero. Please enter a valid payment');
@@ -85,10 +118,14 @@ class RedeemMoney extends Component {
       console.log('ERROR: not enough money in redeem money');
     } else {
       //  ok to RedeemMoney
+      Animated.sequence([
+        Animated.spring(this.animatedValue, { toValue: 1, useNativeDriver: false }),
+        Animated.spring(this.animatedValue, { toValue: 0, userNativeDriver: false }),
+      ]).start();
 
-      this.props.postRedeemMooney(payLoad).then((response) => {
-        this.props.navigation.dispatch(resetAction);
-      });
+      // this.props.postRedeemMooney(payLoad).then((response) => {
+      //   this.props.navigation.dispatch(resetAction);
+      // });
     }
   }
 
@@ -105,7 +142,6 @@ class RedeemMoney extends Component {
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
-
             <View style={pageStyle.upperContainer}>
               <View style={pageStyle.amountContainer}>
                 <Text style={Style.headerText}>Redeem Money! </Text>
@@ -118,9 +154,11 @@ class RedeemMoney extends Component {
                   {' '}
                 </Text>
               </View>
+              {this.renderOverlay()}
             </View>
             <KeyPad onPress={this.aButtonPress} />
             <View style={pageStyle.buttonBorder}>
+              {this.renderOverlay()}
               <Button
                 large
                 raised
