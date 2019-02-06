@@ -5,12 +5,11 @@ import {
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { fonts, colors, dimensions } from '../../styling/base';
-import NotificationCard from './notificationCard';
+import RequestCard from './requestCard';
 
 import Style from '../../styling/Style';
 
-
-// const API_KEY = '';
+// TODO: make buttons of accept and ignore work
 
 class ViewOfFriendRequests extends Component {
   constructor(props) {
@@ -19,34 +18,37 @@ class ViewOfFriendRequests extends Component {
     };
   }
 
+  // renderAction(action, taskName, sEmail, cEmail, priority, taskReward, description, redeemed, notificationType) {
+  //   if (notificationType === 'addRequest') {
+  //     console.log('add request');
+  //   }
+  // }
 
-  renderAction(action, taskName, sEmail, cEmail, priority, taskReward, description, redeemed, notificationType) {
-    // child marked task complete now Verify
-    console.log('notification type here:');
-    console.log(notificationType);
-    if (notificationType === 'addRequest') {
-      console.log('add request');
+  checkEmptyRequests() {
+    let empty = true;
+    if (this.props.notifications === null) {
+      empty = true;
+    } else {
+      for (let i = 0; i < this.props.notifications.length; i++) {
+        if (this.props.notifications[i].notificationType === 'addRequest') {
+          empty = false;
+        }
+      }
     }
-  }
-
-  // TODO: put requests into child account
-  renderRequests() {
-    // if (this.props.requests.length > 0) {
-    if (false) {
+    if (empty === false) {
       return (
         <View style={pageStyle.sectionContainer}>
-          { this.props.requests.map(goal => (
-            <NotificationCard
-              key={goal.name}
-              entry={goal}
-              displayButtons={false}
-            />
+          {this.props.notifications.map(component => (
+            <View key={component.notificationName}>
+              <RequestCard entry={component}
+                notificationTypePassed="addRequest"
+                onPress={this.buttonPress}
+              />
+            </View>
           ))}
         </View>
       );
     } else {
-      console.log('props:');
-      console.log(this.props.notifications);
       return (
         <View style={pageStyle.sectionContainer}>
           <Text> No requests to show! </Text>
@@ -66,8 +68,7 @@ class ViewOfFriendRequests extends Component {
               </Text>
             </View>
             <ScrollView style={pageStyle.main}>
-              { this.renderAction() }
-              {this.renderRequests()}
+              {this.checkEmptyRequests()}
             </ScrollView>
           </View>
         </LinearGradient>
