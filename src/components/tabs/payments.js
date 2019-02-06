@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Alert,
+  View, Text, StyleSheet, Alert, Animated,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -13,6 +13,8 @@ import KeyPad from './keypad';
 import { fonts, colors, dimensions } from '../../styling/base';
 
 class Payments extends Component {
+  animatedValue = new Animated.Value(0);
+
   constructor(props) {
     super(props);
     this.state = {
@@ -56,6 +58,38 @@ class Payments extends Component {
     return { amount: updatedAmount };
   }
 
+  renderOverlay = () => {
+    const imageStyles = [
+      {
+        position: 'absolute',
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        left: Math.random() * 500 - 250,
+        right: Math.random() * 500 - 250,
+        top: Math.random() * 1000 - 500,
+        bottom: Math.random() * 1000 - 500,
+        opacity: this.animatedValue,
+        transform: [
+          {
+            scale: this.animatedValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0.1, 0.7],
+            }),
+          },
+        ],
+      },
+    ];
+    return (
+      <View>
+        <Animated.Image
+          source={require('../../media/bill.png')}
+          style={imageStyles}
+        />
+      </View>
+    );
+  }
+
+
   sendMoney() {
     // Error checking to make sure child is selected and amount > 0
     if (this.state.childEmail === '' || this.state.childEmail == null) {
@@ -72,7 +106,10 @@ class Payments extends Component {
         'Are you sure you want to complete this action?',
         [
           { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-          { text: 'Yes', onPress: () => this.postBalance() },
+          {
+            text: 'Yes',
+            onPress: () => this.postBalance(),
+          },
         ],
         { cancelable: false },
       );
@@ -94,13 +131,17 @@ class Payments extends Component {
       increment: this.state.amount,
       senderEmail: this.props.user.email,
     };
+    Animated.sequence([
+      Animated.spring(this.animatedValue, { toValue: 1, useNativeDriver: false }),
+      Animated.spring(this.animatedValue, { toValue: 0, userNativeDriver: false }),
+    ]).start(() => {
+      this.props.postUpdateBalance(payLoad)
+        .then((response) => {
+          console.log('this');
 
-    this.props.postUpdateBalance(payLoad)
-      .then((response) => {
-        console.log('this');
-
-        this.props.navigation.dispatch(resetAction);
-      });
+          this.props.navigation.dispatch(resetAction);
+        });
+    });
   }
 
   aButtonPress(item) {
@@ -161,6 +202,27 @@ class Payments extends Component {
                   {' '}
                 </Text>
               </View>
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
             </View>
             <KeyPad onPress={this.aButtonPress} />
             <View style={pageStyle.buttonBorder}>
