@@ -21,6 +21,7 @@ import { colors } from '../../styling/base';
 // Import the react-native-sound module
 const Sound = require('react-native-sound');
 
+let unlock;
 // let unlock = {
 //   title: 'unlock',
 //   isRequire: true,

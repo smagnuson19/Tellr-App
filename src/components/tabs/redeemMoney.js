@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { Button } from 'react-native-elements';
+import { Button, Divider } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 import KeyPad from './keypad';
@@ -189,6 +189,7 @@ class RedeemMoney extends Component {
                 style={Style.button}
               />
             </View>
+            <Divider style={{ backgroundColor: colors.clear, height: 100 }} />
           </View>
         </LinearGradient>
       </View>
