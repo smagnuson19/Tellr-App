@@ -64,23 +64,23 @@ class RedeemMoney extends Component {
         position: 'absolute',
         // alignItems: 'center',
         // justifyContent: 'center',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
+        left: Math.random() * 500 - 250,
+        right: Math.random() * 500 - 250,
+        top: Math.random() * 1000 - 500,
+        bottom: Math.random() * 1000 - 500,
         opacity: this.animatedValue,
         transform: [
           {
             scale: this.animatedValue.interpolate({
               inputRange: [0, 1],
-              outputRange: [0.7, 1.5],
+              outputRange: [0.1, 0.7],
             }),
           },
         ],
       },
     ];
     return (
-      <View style={Style.buttonContainer}>
+      <View>
         <Animated.Image
           source={require('../../media/bill.png')}
           style={imageStyles}
@@ -95,7 +95,7 @@ class RedeemMoney extends Component {
       index: 0, // <-- currect active route from actions array
       key: null,
       actions: [
-        NavigationActions.navigate({ routeName: 'ParentTabBar' }),
+        NavigationActions.navigate({ routeName: 'ChildTabBar' }),
       ],
     });
 
@@ -143,7 +143,7 @@ class RedeemMoney extends Component {
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
             <View style={pageStyle.upperContainer}>
-              <View style={pageStyle.amountContainer}>
+              <View style={pageStyle.buttonContainer}>
                 <Text style={Style.headerText}>Redeem Money! </Text>
               </View>
               <View style={pageStyle.amountContainer}>
@@ -155,10 +155,29 @@ class RedeemMoney extends Component {
                 </Text>
               </View>
               {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
             </View>
             <KeyPad onPress={this.aButtonPress} />
             <View style={pageStyle.buttonBorder}>
-              {this.renderOverlay()}
               <Button
                 large
                 raised
