@@ -23,6 +23,19 @@ const Style = StyleSheet.create({
     flexDirection: 'column',
   },
 
+  altHeaderText: {
+    flex: 0,
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: fonts.secondary,
+    fontSize: fonts.xlg,
+    color: colors.black,
+    // marginTop: 50,
+    // marginBottom: 30,
+    marginTop: '5%',
+    marginBottom: '10%',
+  },
+
   headerText: {
     flex: 0,
     justifyContent: 'center',
@@ -35,6 +48,7 @@ const Style = StyleSheet.create({
     marginTop: '20%',
     marginBottom: '10%',
   },
+
 
   headerTextContainter: {
     alignItems: 'flex-start',
@@ -86,6 +100,11 @@ const Style = StyleSheet.create({
     marginBottom: '15%',
   },
 
+  button2: {
+    fontFamily: fonts.primary,
+    marginBottom: '8%',
+  },
+
   // The FormInput object, wrapps a single fieldText
   fieldContainer: {
     borderBottomWidth: 1,
@@ -107,6 +126,15 @@ const Style = StyleSheet.create({
     borderBottomWidth: 1,
     flex: 0,
     margin: 40,
+    borderColor: colors.lightGrey,
+    color: 'white',
+    width: '40%',
+  },
+
+  fieldContainerThird: {
+    borderBottomWidth: 1,
+    flex: 0,
+    margin: 2,
     borderColor: colors.lightGrey,
     color: 'white',
     width: '40%',
