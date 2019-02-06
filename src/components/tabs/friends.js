@@ -17,8 +17,9 @@ import { colors, fonts } from '../../styling/base';
 import { postRequest } from '../../actions/index';
 
 // TODO:
-// connect with backend (add friends and accept friends)
+// connect leaderboard front page with backend for displaying friends
 // change avatars
+// make the requests go away when pressed
 
 class Friends extends Component {
   constructor(props) {
@@ -58,7 +59,7 @@ class Friends extends Component {
     }
 
     sendFriendInvite(inputText) {
-    // move to home page after you submit a friend
+      // move to home page after you submit a friend
       const resetAction = StackActions.reset({
         index: 0, // <-- currect active route from actions array
         key: null,
