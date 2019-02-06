@@ -21,7 +21,11 @@ import { colors } from '../../styling/base';
 // Import the react-native-sound module
 const Sound = require('react-native-sound');
 
-let unlock;
+// let unlock = {
+//   title: 'unlock',
+//   isRequire: true,
+//   url: require('../../media/unlock-achievement.wav'),
+// };
 
 class Goals extends Component {
   constructor(props) {
@@ -35,7 +39,7 @@ class Goals extends Component {
   componentWillMount() {
     // Enable playback in silence mode
     Sound.setCategory('Playback');
-    unlock = new Sound('unlock-achievement.wav', Sound.MAIN_BUNDLE, (error) => {
+    unlock = new Sound(require('../../media/unlock-achievement.wav'), (error) => {
       if (error) {
         console.log('failed to load the sound', error);
         return;
