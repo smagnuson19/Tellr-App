@@ -18,9 +18,7 @@ import { postRequest } from '../../actions/index';
 
 // TODO:
 // connect with backend (add friends and accept friends)
-// friend requests page
 // change avatars
-// clean up for new set up
 
 class Friends extends Component {
   constructor(props) {

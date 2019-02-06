@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { fonts, colors, dimensions } from '../../styling/base';
 import RequestCard from './requestCard';
+import { postFriendApprove } from '../../actions/index';
 
 import Style from '../../styling/Style';
 
@@ -16,13 +17,9 @@ class ViewOfFriendRequests extends Component {
     super(props);
     this.state = {
     };
-  }
 
-  // renderAction(action, taskName, sEmail, cEmail, priority, taskReward, description, redeemed, notificationType) {
-  //   if (notificationType === 'addRequest') {
-  //     console.log('add request');
-  //   }
-  // }
+    this.renderAction = this.renderAction.bind(this);
+  }
 
   checkEmptyRequests() {
     let empty = true;
@@ -42,7 +39,7 @@ class ViewOfFriendRequests extends Component {
             <View key={component.notificationName}>
               <RequestCard entry={component}
                 notificationTypePassed="addRequest"
-                onPress={this.buttonPress}
+                onPress={this.renderAction}
               />
             </View>
           ))}
@@ -54,6 +51,27 @@ class ViewOfFriendRequests extends Component {
           <Text> No requests to show! </Text>
         </View>
       );
+    }
+  }
+
+  renderAction(action, taskName, sEmail, cEmail, priority, description, redeemed, notificationType) {
+    // child marked task complete now Verify
+    if (notificationType === 'addRequest') {
+      const actionMap = {
+        Accept: 1,
+        Ignore: -1,
+      };
+      // create the payload
+      if (actionMap[action] === 1) {
+        const payLoad = {
+          email: sEmail,
+          friend: cEmail,
+        };
+        console.log(payLoad);
+        this.props.postFriendApprove(payLoad);
+      } else {
+        console.log('request denied');
+      }
     }
   }
 
@@ -130,7 +148,4 @@ const mapStateToProps = state => (
     notifications: state.user.notifications,
   });
 
-
-export default connect(mapStateToProps, {
-
-})(ViewOfFriendRequests);
+export default connect(mapStateToProps, { postFriendApprove })(ViewOfFriendRequests);

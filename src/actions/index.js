@@ -175,6 +175,19 @@ export function postRequest(payLoad) {
   };
 }
 
+export function postFriendApprove(payLoad) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.post(`${ROOT_URL}/acceptfriends`, { payLoad }, { headers: { authorization: token } })
+        .then((response) => {
+          console.log(`Friend request approved: ${response.data}`);
+        }).catch((error) => {
+          console.log(`postFriendApprove post Error: ${error.response.data[0].Error}`);
+        });
+    });
+  };
+}
+
 export async function deleteTokens() {
   try {
     await AsyncStorage.removeItem('token');
