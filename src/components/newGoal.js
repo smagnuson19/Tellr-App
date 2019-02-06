@@ -11,7 +11,7 @@ import {
 
 } from 'react-native';
 import {
-  Button, FormInput,
+  Button, FormInput, Divider,
 } from 'react-native-elements';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -90,22 +90,21 @@ class NewGoal extends Component {
 
     if (Number.isNaN(parseFloat(this.state.value)) || parseFloat(this.state.value) <= 0) {
       // If the Given Value is Not Number Then It Will Return True and This Part Will Execute.
-      Alert.alert('Value is Not Number');
+      Alert.alert('Please Enter A Valid Number');
     } else {
       console.log(parseFloat(this.state.value));
-      // If the Given Value is Number Then It Will Return False and This Part Will Execute.
-      Alert.alert('Value is Number');
+      Animated.sequence([
+        Animated.spring(this.animatedValue, { toValue: 1, useNativeDriver: false }),
+        Animated.spring(this.animatedValue, { toValue: 0, userNativeDriver: false }),
+      ]).start(() => {
+        this.props.postGoal(payLoad).then((response) => {
+          this.props.navigation.dispatch(resetAction);
+        });
+      });
     }
 
     console.log(payLoad);
-    // Animated.sequence([
-    //   Animated.spring(this.animatedValue, { toValue: 1, useNativeDriver: false }),
-    //   Animated.spring(this.animatedValue, { toValue: 0, userNativeDriver: false }),
-    // ]).start(() => {
-    //   this.props.postGoal(payLoad).then((response) => {
-    //     this.props.navigation.dispatch(resetAction);
-    //   });
-    // });
+
 
     // this.props.postGoal(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
   }
@@ -196,11 +195,12 @@ class NewGoal extends Component {
               />
               <Image
                 style={{
-                  width: 150, height: 200, alignSelf: 'center',
+                  width: 150 * 1.2, height: 200 * 1.2, alignSelf: 'center',
                 }}
                 source={{ uri: this.state.image }}
               />
             </View>
+            <Divider style={{ backgroundColor: colors.clear, height: 100 }} />
           </View>
         </LinearGradient>
       </View>
