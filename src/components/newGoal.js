@@ -5,11 +5,13 @@ import {
   View,
   Text,
   Image,
+  Animated,
+  Alert,
   // StyleSheet,
 
 } from 'react-native';
 import {
-  Button, FormInput, Divider,
+  Button, FormInput,
 } from 'react-native-elements';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -30,6 +32,8 @@ const options = {
 };
 
 class NewGoal extends Component {
+  animatedValue = new Animated.Value(0);
+
   constructor(props) {
     super(props);
     this.state = {
@@ -83,9 +87,62 @@ class NewGoal extends Component {
       image: this.state.image,
       // familyName: this.state.familyName,
     };
-    console.log(payLoad);
 
-    this.props.postGoal(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
+    if (Number.isNaN(parseFloat(this.state.value)) || parseFloat(this.state.value) <= 0) {
+      // If the Given Value is Not Number Then It Will Return True and This Part Will Execute.
+      Alert.alert('Value is Not Number');
+    } else {
+      console.log(parseFloat(this.state.value));
+      // If the Given Value is Number Then It Will Return False and This Part Will Execute.
+      Alert.alert('Value is Number');
+    }
+
+    console.log(payLoad);
+    // Animated.sequence([
+    //   Animated.spring(this.animatedValue, { toValue: 1, useNativeDriver: false }),
+    //   Animated.spring(this.animatedValue, { toValue: 0, userNativeDriver: false }),
+    // ]).start(() => {
+    //   this.props.postGoal(payLoad).then((response) => {
+    //     this.props.navigation.dispatch(resetAction);
+    //   });
+    // });
+
+    // this.props.postGoal(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
+  }
+
+  renderOverlay = () => {
+    const imageStyles = [
+      {
+        position: 'absolute',
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        // left: Math.random() * 500 - 250,
+        // right: Math.random() * 500 - 250,
+        // top: Math.random() * 1000 - 500,
+        // bottom: Math.random() * 1000 - 500,
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        opacity: this.animatedValue,
+        transform: [
+          {
+            scale: this.animatedValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0.1, 0.7],
+            }),
+          },
+        ],
+      },
+    ];
+    return (
+      <View>
+        <Animated.Image
+          source={this.state.image}
+          style={imageStyles}
+        />
+      </View>
+    );
   }
 
   render() {
@@ -93,20 +150,18 @@ class NewGoal extends Component {
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
-            <View style={Style.headerText}>
-              <Text style={Style.headerText}>New Goal </Text>
-            </View>
+            <Text style={Style.altHeaderText}>New Goal </Text>
+            <Button
+              title="Take A Photo!"
+              rounded
+              large
+              style={Style.button2}
+              backgroundColor={colors.secondary}
+              onPress={() => this.choosePhoto()}
+            />
             <View style={Style.inputContainer}>
-              <Button
-                title="Take A Photo!"
-                rounded
-                large
-                style={Style.button}
-                backgroundColor={colors.secondary}
-                onPress={() => this.choosePhoto()}
-              />
               <FormInput
-                containerStyle={Style.fieldContainerSecondary}
+                containerStyle={Style.fieldContainerThird}
                 inputStyle={Style.fieldTextSecondary}
                 onChangeText={text => this.setState({ goalName: text })}
                 value={this.state.goalName}
@@ -114,7 +169,7 @@ class NewGoal extends Component {
                 placeholderTextColor={colors.placeholderColor}
               />
               <FormInput
-                containerStyle={Style.fieldContainerSecondary}
+                containerStyle={Style.fieldContainerThird}
                 inputStyle={Style.fieldTextSecondary}
                 onChangeText={text => this.setState({ goalDescription: text })}
                 value={this.state.goalDescription}
@@ -122,7 +177,7 @@ class NewGoal extends Component {
                 placeholderTextColor={colors.placeholderColor}
               />
               <FormInput
-                containerStyle={Style.fieldContainerSecondary}
+                containerStyle={Style.fieldContainerThird}
                 inputStyle={Style.fieldTextSecondary}
                 onChangeText={text => this.setState({ value: text })}
                 value={this.state.value}
@@ -130,8 +185,7 @@ class NewGoal extends Component {
                 placeholderTextColor={colors.placeholderColor}
               />
             </View>
-            <View style={Style.buttonContainer}>
-              <Divider style={{ backgroundColor: colors.clear, height: 35 }} />
+            <View style={Style.button}>
               <Button
                 title="Set Goal!"
                 rounded
