@@ -61,7 +61,7 @@ class RedeemMoney extends Component {
   renderOverlay = () => {
     const imageStyles = [
       {
-        // position: 'absolute',
+        position: 'absolute',
         // alignItems: 'center',
         // justifyContent: 'center',
         left: 0,
@@ -121,11 +121,11 @@ class RedeemMoney extends Component {
       Animated.sequence([
         Animated.spring(this.animatedValue, { toValue: 1, useNativeDriver: false }),
         Animated.spring(this.animatedValue, { toValue: 0, userNativeDriver: false }),
-      ]).start();
-
-      // this.props.postRedeemMooney(payLoad).then((response) => {
-      //   this.props.navigation.dispatch(resetAction);
-      // });
+      ]).start(() => {
+        this.props.postRedeemMoney(payLoad).then((response) => {
+          this.props.navigation.dispatch(resetAction);
+        });
+      });
     }
   }
 
