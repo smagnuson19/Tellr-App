@@ -14,37 +14,49 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
-import { postRequest } from '../../actions/index';
+import { postRequest, fetchKidFriends } from '../../actions/index';
 
 // TODO:
-// connect leaderboard front page with backend for displaying friends
-// change avatars
+// leaderboard user score switch for weeks / months
+// change avatars -   // http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png
 // make the requests go away when pressed
 
 class Friends extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      weeklyData: [
-        { username: 'We Tu Lo', score: null, iconUrl: 'https://st2.depositphotos.com/1006318/5909/v/950/depositphotos_59094043-stock-illustration-profile-icon-male-avatar.jpg' },
-        { username: 'Adam Savage', score: 12, iconUrl: 'https://www.shareicon.net/data/128x128/2016/09/15/829473_man_512x512.png' },
-        { username: 'Jimmy John', score: 20, iconUrl: 'https://static.witei.com/static/img/profile_pics/avatar4.png' },
-        { username: 'Joe Roddy', score: 50, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' },
-        { username: 'Ericka Johannesburg', score: 101, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShPis8NLdplTV1AJx40z-KS8zdgaSPaCfNINLtQ-ENdPvrtMWz' },
-        { username: 'Tim Thomasss', score: 41, iconUrl: 'http://conserveindia.org/wp-content/uploads/2017/07/teamMember4.png' },
-      ],
-      monthlyData: [
-        { username: 'Joe Roddy', score: 50, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' },
-        { username: 'Ericka Johannesburg', score: 101, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShPis8NLdplTV1AJx40z-KS8zdgaSPaCfNINLtQ-ENdPvrtMWz' },
-      ],
+      weeklyData: [],
+      monthlyData: [],
       filter: 0,
       userRank: 1,
       user: {
-        username: 'Joe Roddy',
-        score: 50,
+        username: this.props.account.email,
+        score: this.props.friendInfo[this.props.account.email].tasksCompletedWeek,
       },
       isDialogVisible: false,
     };
+  }
+
+  componentWillMount() {
+    const weeklyDataList = [];
+    Object.keys(this.props.friendInfo).forEach((key) => {
+      weeklyDataList.push({
+        score: this.props.friendInfo[key].tasksCompletedWeek,
+        username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+      });
+    });
+    console.log(weeklyDataList);
+    this.setState({ weeklyData: weeklyDataList });
+
+    const monthlyDataList = [];
+    Object.keys(this.props.friendInfo).forEach((key) => {
+      monthlyDataList.push({
+        score: this.props.friendInfo[key].tasksCompletedMonth,
+        username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+      });
+    });
+    console.log(monthlyDataList);
+    this.setState({ monthlyData: monthlyDataList });
   }
 
     sort = (data) => {
@@ -238,6 +250,7 @@ const ordinalSuffixOf = (i) => {
 const mapStateToProps = state => (
   {
     account: state.user.info,
+    friendInfo: state.user.friendInfo,
   });
 
-export default connect(mapStateToProps, { postRequest })(Friends);
+export default connect(mapStateToProps, { postRequest, fetchKidFriends })(Friends);
