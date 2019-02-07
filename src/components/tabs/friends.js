@@ -18,8 +18,9 @@ import { postRequest, fetchKidFriends } from '../../actions/index';
 
 // TODO:
 // leaderboard user score switch for weeks / months
-// change avatars -   // http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png
+// change avatars -  http://avatars.adorable.io/#demo
 // make the requests go away when pressed
+// Dislay "friend request accepted" or something
 
 class Friends extends Component {
   constructor(props) {
