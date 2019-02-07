@@ -17,6 +17,7 @@ export const ActionTypes = {
   FETCH_FAMILY: 'FETCH_FAMILY',
   FETCH_NOTIFICATIONS: 'FETCH_NOTIFICATIONS',
   FETCH_GOALS: 'FETCH_GOALS',
+  FETCH_FRIENDINFO: 'FETCH_FRIENDINFO',
 };
 
 // trigger to deauth if there is error
@@ -468,6 +469,22 @@ export function fetchParentInfo(email) {
         }).catch((error) => {
           console.log(`Error in fetchParentInfo fetch ${error.response.data[0].Error}`);
         });
+    });
+  };
+}
+
+export function fetchKidFriends(email) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.get(`${ROOT_URL}/social/${email}`, { headers: { authorization: token } })
+        .then((response) => {
+          dispatch({
+            type: ActionTypes.FETCH_FRIENDINFO,
+            payload: response.data,
+          });
+        });
+    }).catch((error) => {
+      console.log(`Error in fetchKidFriends ${error.response.data[0].Error}`);
     });
   };
 }
