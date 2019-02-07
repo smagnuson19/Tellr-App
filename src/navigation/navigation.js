@@ -21,8 +21,7 @@ import Loading from '../components/loading';
 import Friends from '../components/tabs/friends';
 import AuthLoadingScreen from '../components/AuthLoading';
 import ParentViewOfChild from '../components/tabs/parentViewOfChild';
-
-
+import ViewOfFriendRequests from '../components/tabs/viewOfFriendRequests';
 import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 
 const HomeStack = createStackNavigator({
@@ -37,7 +36,6 @@ const HomeStack = createStackNavigator({
     navigationOptions: () => ({
       headerTransparent: 'True',
     }),
-
   },
 },
 {
@@ -47,6 +45,29 @@ const HomeStack = createStackNavigator({
     headerTransparent: 'True',
   }),
 });
+
+const FriendsStack = createStackNavigator({
+  Leaderboard: {
+    screen: Friends,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
+  FriendRequests: {
+    screen: ViewOfFriendRequests,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
+},
+{
+  initialRouteName: 'Leaderboard',
+  headerTransparent: 'True',
+  navigationOptions: () => ({
+    headerTransparent: 'True',
+  }),
+});
+
 
 const ParentTabBar = createBottomTabNavigator({
   Home: HomeStack,
@@ -94,7 +115,7 @@ const ParentTabBar = createBottomTabNavigator({
 const ChildTabBar = createBottomTabNavigator({
   Home,
   Goals,
-  Friends,
+  Friends: FriendsStack,
   Profile,
 },
 {

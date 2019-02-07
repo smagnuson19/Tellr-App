@@ -11,17 +11,15 @@ import Leaderboard from 'react-native-leaderboard';
 import LinearGradient from 'react-native-linear-gradient';
 import DialogInput from 'react-native-dialog-input';
 import { StackActions, NavigationActions } from 'react-navigation';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
+import { postRequest } from '../../actions/index';
 
 // TODO:
-// connect with backend (add friends and accept friends)
-// friend requests page
+// connect leaderboard front page with backend for displaying friends
 // change avatars
-// clean up for new set up
-
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+// make the requests go away when pressed
 
 class Friends extends Component {
   constructor(props) {
@@ -33,7 +31,7 @@ class Friends extends Component {
         { username: 'Jimmy John', score: 20, iconUrl: 'https://static.witei.com/static/img/profile_pics/avatar4.png' },
         { username: 'Joe Roddy', score: 50, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' },
         { username: 'Ericka Johannesburg', score: 101, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShPis8NLdplTV1AJx40z-KS8zdgaSPaCfNINLtQ-ENdPvrtMWz' },
-        { username: 'Tim Thomas', score: 41, iconUrl: 'http://conserveindia.org/wp-content/uploads/2017/07/teamMember4.png' },
+        { username: 'Tim Thomasss', score: 41, iconUrl: 'http://conserveindia.org/wp-content/uploads/2017/07/teamMember4.png' },
       ],
       monthlyData: [
         { username: 'Joe Roddy', score: 50, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' },
@@ -61,17 +59,16 @@ class Friends extends Component {
     }
 
     sendFriendInvite(inputText) {
-    // move to home page after you submit a friend
+      // move to home page after you submit a friend
       const resetAction = StackActions.reset({
         index: 0, // <-- currect active route from actions array
         key: null,
         actions: [
-          NavigationActions.navigate({ routeName: 'ParentTabBar' }),
+          NavigationActions.navigate({ routeName: 'ChildTabBar' }),
         ],
       });
-      // TODO: temp needs to fix email from sender
       const payLoad = {
-        email: null,
+        email: this.props.account.email,
         friend: inputText,
       };
       // Error checking: make sure all of the fields are filled in
@@ -80,11 +77,7 @@ class Friends extends Component {
         console.log('ERROR: friend email empty');
       } else {
         console.log(payLoad);
-        axios.post(`${ROOT_URL}/addfriends`, { payLoad })
-          .then((response) => {
-            this.props.navigation.dispatch(resetAction);
-            console.log(payLoad);
-          });
+        this.props.postRequest(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
       }
     }
 
@@ -189,9 +182,8 @@ pts
               submitInput={(inputText) => { this.sendFriendInvite(inputText); }}
               closeDialog={() => this.setState({ isDialogVisible: false })}
             />
-
             <Button
-              // onPress={() => this.setState({ isDialogVisible: true })}
+              onPress={() => this.props.navigation.navigate('FriendRequests')}
               title="Friend Requests"
               rounded
               style={Style.button}
@@ -242,4 +234,10 @@ const ordinalSuffixOf = (i) => {
   return `${i}th`;
 };
 
-export default Friends;
+
+const mapStateToProps = state => (
+  {
+    account: state.user.info,
+  });
+
+export default connect(mapStateToProps, { postRequest })(Friends);
