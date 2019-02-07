@@ -4,12 +4,16 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { Button } from 'react-native-elements';
+import { Button, Divider } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 import KeyPad from './keypad';
 import { fonts, colors } from '../../styling/base';
 import { postRedeemMoney } from '../../actions';
+// Import the react-native-sound module
+const Sound = require('react-native-sound');
+
+let chime;
 
 class RedeemMoney extends Component {
   animatedValue = new Animated.Value(0);
@@ -22,6 +26,19 @@ class RedeemMoney extends Component {
 
     };
     this.aButtonPress = this.aButtonPress.bind(this);
+  }
+
+  componentWillMount() {
+    // Enable playback in silence mode
+    Sound.setCategory('Playback');
+    chime = new Sound(require('../../media/cha-ching.wav'), (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      console.log('Loaded sound');
+      // loaded successfully
+    });
   }
 
   updateAmount(item, prevState, props) {
@@ -117,6 +134,16 @@ class RedeemMoney extends Component {
       console.log(this.props.user.balance);
       console.log('ERROR: not enough money in redeem money');
     } else {
+      chime.play((success) => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+          // reset the player to its uninitialized state (android only)
+          // this is the only option to recover after an error occured and use the player again
+          chime.reset();
+        }
+      });
       //  ok to RedeemMoney
       Animated.sequence([
         Animated.spring(this.animatedValue, { toValue: 1, useNativeDriver: false }),
@@ -189,6 +216,7 @@ class RedeemMoney extends Component {
                 style={Style.button}
               />
             </View>
+            <Divider style={{ backgroundColor: colors.clear, height: 100 }} />
           </View>
         </LinearGradient>
       </View>
