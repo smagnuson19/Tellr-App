@@ -53,7 +53,7 @@ class Profile extends Component {
   // display kid's current balance for Child view
   displayBalance() {
     return (
-      <View style={pageStyle.sectionContainer}>
+      <View>
         <Text style={pageStyle.sectionText}> Balance: </Text>
         <Text style={pageStyle.subSectionText}>
           {'  $'}
@@ -153,7 +153,7 @@ class Profile extends Component {
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
-            <Text style={Style.headerText}>Profile </Text>
+            <Text style={Style.altHeaderText}>Profile </Text>
             <View style={pageStyle.sectionContainer}>
               <Text style={pageStyle.sectionHeader}> Account </Text>
               <Divider style={pageStyle.divider} />
@@ -166,36 +166,27 @@ class Profile extends Component {
                   {' '}
                   {this.props.user.lastName}
                 </Text>
-              </View>
-
-              <View style={pageStyle.sectionContainer}>
                 <Text style={pageStyle.sectionText}> Account Type: </Text>
                 <Text style={pageStyle.subSectionText}>
                   {' '}
                   {this.props.user.accountType}
                   {' '}
                 </Text>
+                {this.determineDisplay()}
+                <View style={pageStyle.buttonContainer}>
+                  <Button
+                    title="Logout"
+                    color={colors.Red}
+                    style={pageStyle.settingsButton}
+                    onPress={() => this.logout()}
+                  />
+                </View>
               </View>
-
-              {this.determineDisplay()}
             </View>
-            <View style={pageStyle.sectionContainer}>
-              <Text style={pageStyle.sectionHeader}> Settings </Text>
-              <Divider style={pageStyle.divider} />
-
-              <View style={pageStyle.buttonContainer}>
-                <Button
-                  title="Logout"
-                  color={colors.secondary}
-                  style={pageStyle.settingsButton}
-                  onPress={() => this.logout()}
-                />
-              </View>
-              <ScrollView>
-                {this.childCharts()}
-                {this.childCharts()}
-              </ScrollView>
-            </View>
+            <ScrollView>
+              {this.childCharts()}
+              {this.childCharts()}
+            </ScrollView>
           </View>
         </LinearGradient>
       </View>
@@ -223,7 +214,7 @@ const pageStyle = StyleSheet.create({
   sectionText: {
     fontSize: fonts.smmd,
     fontWeight: 'bold',
-    color: colors.secondary,
+    color: colors.black,
     fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
     paddingVertical: 6,
@@ -240,13 +231,13 @@ const pageStyle = StyleSheet.create({
   divider: {
     backgroundColor: colors.primary,
     height: 2,
-    marginTop: 6,
-    marginBottom: 6,
+    marginTop: 2,
+    marginBottom: 2,
   },
   settingsButton: {
     fontSize: fonts.smmd,
     fontWeight: 'bold',
-    color: colors.secondary,
+    color: colors.logoGreen,
     fontFamily: fonts.secondary,
   },
   buttonContainer: {
