@@ -108,7 +108,7 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderRadius: 8,
-    backgroundColor: colors.money,
+    backgroundColor: colors.logoGreen,
   },
 
   headerView: {
@@ -173,7 +173,7 @@ const pageStyle = StyleSheet.create({
   },
 
   checkButton: {
-    backgroundColor: colors.lightGrey,
+    backgroundColor: 'rgba(255,0,0,.8)',
     paddingHorizontal: 10,
     marginTop: 10,
     borderRadius: 8,
