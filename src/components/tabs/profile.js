@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Button,
+  View, Text, StyleSheet, Button, ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { Divider } from 'react-native-elements';
+import { PieChart } from 'react-native-svg-charts';
 // import { StackActions, NavigationActions } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
 import { logoutUser } from '../../actions';
@@ -71,6 +72,40 @@ class Profile extends Component {
       return (this.displayBalance());
     } else {
       console.log('ERROR: accountType not loaded or selected proprely');
+      return null;
+    }
+  }
+
+  childCharts() {
+    if (this.props.user.accountType === 'Child') {
+      // const completed = 10;
+      // const incomplete = 5;
+      const pieData = [
+        {
+          key: 1,
+          amount: 100,
+          svg: { fill: colors.logoGreen },
+        },
+        {
+          key: 2,
+          amount: 400,
+          svg: { fill: colors.red },
+        },
+      ];
+      console.log('Charting');
+      return (
+        <PieChart
+          style={{
+            height: 200,
+            width: 200,
+            // backgroundColor: colors.logoGreen,
+          }}
+          valueAccessor={({ item }) => item.amount}
+          data={pieData}
+        />
+      );
+    } else {
+      console.log('no charts rn');
       return null;
     }
   }
@@ -156,7 +191,10 @@ class Profile extends Component {
                   onPress={() => this.logout()}
                 />
               </View>
-
+              <ScrollView>
+                {this.childCharts()}
+                {this.childCharts()}
+              </ScrollView>
             </View>
           </View>
         </LinearGradient>
