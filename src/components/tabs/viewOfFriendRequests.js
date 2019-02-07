@@ -68,7 +68,7 @@ class ViewOfFriendRequests extends Component {
           friend: cEmail,
         };
         console.log(payLoad);
-        this.props.postFriendApprove(payLoad);
+        this.props.postFriendApprove(payLoad, priority);
       } else {
         console.log('request denied');
       }

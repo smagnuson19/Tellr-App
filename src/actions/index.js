@@ -175,12 +175,19 @@ export function postRequest(payLoad) {
   };
 }
 
-export function postFriendApprove(payLoad) {
+export function postFriendApprove(payLoad, priority) {
   return (dispatch) => {
     return AsyncStorage.getItem('token').then((token) => {
       return axios.post(`${ROOT_URL}/acceptfriends`, { payLoad }, { headers: { authorization: token } })
         .then((response) => {
           console.log(`Friend request approved: ${response.data}`);
+          const postData = {
+            email: payLoad.email,
+            priority,
+          };
+          console.log(postData);
+          // need to alert the backend that some
+          return postNotifications(postData);
         }).catch((error) => {
           console.log(`postFriendApprove post Error: ${error.response.data[0].Error}`);
         });
