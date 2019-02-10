@@ -22,8 +22,6 @@ export default class App extends Component {
     super(properties);
     // need to setup app first
     OneSignal.init('4e80c299-4fec-4279-bde3-3cdffbb24e1d', { kOSSettingsKeyAutoPrompt: true });
-    OneSignal.enableVibrate(true);
-    OneSignal.enableSound(true);
 
     OneSignal.addEventListener('received', this.onReceived);
     OneSignal.addEventListener('opened', this.onOpened);
