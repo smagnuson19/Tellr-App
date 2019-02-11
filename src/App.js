@@ -5,6 +5,8 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import OneSignal from 'react-native-onesignal';
 import RootStack from './navigation/navigation';
+import NavigationService from './navigation/navigationService';
+
 import reducers from './reducers';
 
 
@@ -52,7 +54,10 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <RootStack />
+        <RootStack ref={(navigatorRef) => {
+          NavigationService.setTopLevelNavigator(navigatorRef);
+        }}
+        />
       </Provider>
     );
   }

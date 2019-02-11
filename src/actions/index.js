@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import deviceStorage from './deviceStorage';
-// import AsyncStorage from 'react';
+import navigationService from '../navigation/navigationService';
 
-const ROOT_URL = 'http://127.0.0.1:5000/api';
-// const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+
+// const ROOT_URL = 'http://127.0.0.1:5000/api';
+const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
 
@@ -29,10 +30,30 @@ export function authError(error) {
   };
 }
 
+export async function deleteTokens() {
+  try {
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('email');
+  } catch (err) {
+    console.log(`The error is: ${err}`);
+  }
+  console.log('Token and email removed');
+}
+
+// Send to url to delete token
+export function logoutUser() {
+  return (dispatch) => {
+    deleteTokens();
+    dispatch({ type: ActionTypes.DEAUTH_USER });
+  };
+}
+
 export function errorHandling(message, error) {
   console.log(message + error);
-  if (error.response.data[0].Error === ('Invalid Token' || 'Expired Token')) {
+  if (error === ('Invalid Token' || 'Expired Token')) {
     console.log('Invalid Token -> Send to home');
+    logoutUser();
+    navigationService.navigate('AuthStack');
     // to be implemented
   }
 }
@@ -211,24 +232,6 @@ export function postFriendApprove(payLoad, priority) {
           );
         });
     });
-  };
-}
-
-export async function deleteTokens() {
-  try {
-    await AsyncStorage.removeItem('token');
-    await AsyncStorage.removeItem('email');
-  } catch (err) {
-    console.log(`The error is: ${err}`);
-  }
-  console.log('Token and email removed');
-}
-
-// Send to url to delete token
-export function logoutUser() {
-  return (dispatch) => {
-    deleteTokens();
-    dispatch({ type: ActionTypes.DEAUTH_USER });
   };
 }
 
@@ -422,6 +425,7 @@ export function postGoal(payLoad) {
         .then((response) => {
           console.log(`postGoal: ${response.data[0]}`);
           // return this.fetchGoals(payLoad.email);
+          errorHandling('bla', 'Invalid Token');
         }).catch((error) => {
           errorHandling(
             'Error in postGoal post: ',
