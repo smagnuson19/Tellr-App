@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView,
+  View, Text, StyleSheet, ScrollView, RefreshControl,
 } from 'react-native';
 import { fonts, colors, dimensions } from '../../styling/base';
 import NotificationCard from './notificationCard';
@@ -41,7 +41,7 @@ class Child extends Component {
             <View key={component.notificationName}>
               <NotificationCard entry={component}
                 notificationTypePassed="newTask"
-                onPress={this.buttonPress}
+                onPress={this.refreshAction}
               />
 
             </View>
@@ -75,7 +75,15 @@ class Child extends Component {
           </View>
 
         </View>
-        <ScrollView style={pageStyle.main}>
+        <ScrollView style={pageStyle.main}
+          refreshControl={(
+            <RefreshControl
+              onRefresh={this.refreshAction}
+              refreshing={this.props.isFetching}
+              tintColor="#fff"
+            />
+)}
+        >
 
           <View style={pageStyle.sectionContainer}>
             <Text style={pageStyle.sectionHeader}>

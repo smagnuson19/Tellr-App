@@ -339,7 +339,9 @@ No Chores To Verify, Add some more!
           firstName={this.props.account.firstName}
           balance={this.props.account.balance}
           task={notifications}
+          isFetching={this.state.isFetching}
           onPress={this.renderAction}
+          refreshAPI={this.onRefreshForChild}
         />
       );
     } else {
