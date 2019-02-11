@@ -82,6 +82,9 @@
 		EA5B140D22078AFF0059C52F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5B140C22078AFF0059C52F /* UIKit.framework */; };
 		EA5B140F22078B0B0059C52F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5B140E22078B0B0059C52F /* SystemConfiguration.framework */; };
 		EA5B141022078B1A0059C52F /* libRCTOneSignal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5B13F9220788700059C52F /* libRCTOneSignal.a */; };
+		EAA1809222113A5900025734 /* main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAA1806322113A5900025734 /* main.storyboard */; };
+		EAA1809322113A5900025734 /* LauncScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAA1809122113A5900025734 /* LauncScreen.storyboard */; };
+		EAA1809622113A7900025734 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA1809522113A7900025734 /* ViewController.swift */; };
 		F2426D82DC8340AA9236BB03 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABF87BBD73C44A29B1360D11 /* Montserrat-ExtraBold.ttf */; };
 		F537BACA47EE4D0287E9C1AC /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D9F14AE6EA64B53B47FBF24 /* Ionicons.ttf */; };
 /* End PBXBuildFile section */
@@ -518,6 +521,10 @@
 		EA5B140422078A310059C52F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA5B140C22078AFF0059C52F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EA5B140E22078B0B0059C52F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		EAA1806322113A5900025734 /* main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = main.storyboard; path = TellrApp/main.storyboard; sourceTree = "<group>"; };
+		EAA1809122113A5900025734 /* LauncScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LauncScreen.storyboard; path = TellrApp/LauncScreen.storyboard; sourceTree = "<group>"; };
+		EAA1809422113A7800025734 /* TellrApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TellrApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		EAA1809522113A7900025734 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = TellrApp/ViewController.swift; sourceTree = "<group>"; };
 		F7BDBA22B78E45C8B1951495 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../src/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 		F88579EF61244D358769EE5E /* Montserrat-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BoldItalic.ttf"; path = "../src/fonts/Montserrat-BoldItalic.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -689,15 +696,19 @@
 		13B07FAE1A68108700A75B9A /* TellrApp */ = {
 			isa = PBXGroup;
 			children = (
+				EAA1809522113A7900025734 /* ViewController.swift */,
 				EA5B13FA220789300059C52F /* TellrApp.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				EA0A2316220384E2000EF809 /* main.jsbundle */,
+				EAA1809122113A5900025734 /* LauncScreen.storyboard */,
+				EAA1806322113A5900025734 /* main.storyboard */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				EAA1809422113A7800025734 /* TellrApp-Bridging-Header.h */,
 			);
 			name = TellrApp;
 			sourceTree = "<group>";
@@ -1034,6 +1045,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = JQ28K6Y7JE;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -1502,6 +1514,7 @@
 				3A309EFFAAA343D586F51D23 /* Montserrat-Italic.ttf in Resources */,
 				4A78CD30971841D9B1537A2F /* Montserrat-Light.ttf in Resources */,
 				3929EC8A02A74C9D93AE26F4 /* Montserrat-LightItalic.ttf in Resources */,
+				EAA1809222113A5900025734 /* main.storyboard in Resources */,
 				2DAAEDD5F44A416DAB26C752 /* Montserrat-Medium.ttf in Resources */,
 				5E445EEC31AC41FB8BC9F37F /* Montserrat-MediumItalic.ttf in Resources */,
 				7311E4357E9D461D85B79CBE /* Montserrat-Regular.ttf in Resources */,
@@ -1517,6 +1530,7 @@
 				BD2599038525454194F0FB52 /* FontAwesome5_Brands.ttf in Resources */,
 				783A8764365044ACA89C8C69 /* FontAwesome5_Regular.ttf in Resources */,
 				7B4FB48D47B84E5FB2D12051 /* FontAwesome5_Solid.ttf in Resources */,
+				EAA1809322113A5900025734 /* LauncScreen.storyboard in Resources */,
 				67A752CF34EF431CA9E30919 /* Foundation.ttf in Resources */,
 				F537BACA47EE4D0287E9C1AC /* Ionicons.ttf in Resources */,
 				B8571AE907F44BE9B01A2F41 /* MaterialCommunityIcons.ttf in Resources */,
@@ -1595,6 +1609,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAA1809622113A7900025734 /* ViewController.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
@@ -1661,6 +1676,7 @@
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1697,6 +1713,7 @@
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				HEADER_SEARCH_PATHS = (
@@ -1731,6 +1748,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TellrApp/TellrApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -1757,6 +1775,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.dartmouth.Tellr-App";
 				PRODUCT_NAME = TellrApp;
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore edu.dartmouth.Tellr-App";
+				SWIFT_OBJC_BRIDGING_HEADER = "TellrApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1766,6 +1787,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TellrApp/TellrApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -1791,6 +1813,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.dartmouth.Tellr-App";
 				PRODUCT_NAME = TellrApp;
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore edu.dartmouth.Tellr-App";
+				SWIFT_OBJC_BRIDGING_HEADER = "TellrApp-Bridging-Header.h";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
