@@ -40,6 +40,7 @@ class Loading extends Component {
     const { navigation } = this.props;
     const email = navigation.getParam('emailParam', 'NO-EMAIL');
     console.log(email);
+    // means there should be a token
     if (email === 'NO-EMAIL') {
       console.log('yes');
       AsyncStorage.getItem('email').then((storageEmail) => {

@@ -47,10 +47,9 @@ export function loginUser(payLoad, resetAction) {
 
       // console.log(response.data[0].Success);
     }).catch((error) => {
-      console.log('bullshit');
-      console.log(`LoginError: ${error}`);
+      console.log(`LoginError: ${error.response.data[0].Error}`);
       // bug in error on backend
-      // ispatch(authError(`${error.response.data[0].Error}`));
+      dispatch(authError(`${error.response.data[0].Error}`));
     });
   };
 }
@@ -70,8 +69,8 @@ export function postNewUser(payLoad) {
           console.log(error);
         });
       }).catch((error) => {
-        console.log(error);
-        dispatch(authError(`${error.response}`));
+        console.log(error.response.data[0].Error);
+        dispatch(authError(`${error.response.data[0].Error}`));
       });
   };
 }
@@ -403,6 +402,8 @@ export function fetchKidGoals(email) {
           list.push(payload[key]);
         });
         return list;
+      }).catch((error) => {
+        console.log(`Error in fetchKidGoals ${error.response.data[0].Error}`);
       });
   });
 }
@@ -424,6 +425,8 @@ export function fetchKidTasks(email) {
         });
         console.log(list);
         return list;
+      }).catch((error) => {
+        console.log(`Error in fetchKidTasks ${error.response.data[0].Error}`);
       });
   });
 }
