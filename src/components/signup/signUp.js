@@ -75,7 +75,7 @@ class SignUp extends Component {
 
           if (this.props.authenticated) {
             this.props.navigation.navigate('Auth', { emailParam: this.state.email }, NavigationActions.navigate({ routeName: 'Loading' }));
-          } else {
+          } else if (this.props.errorMessage) {
             Alert.alert(this.props.errorMessage);
           }
         });
@@ -203,6 +203,7 @@ const mapStateToProps = state => (
     account: state.user.info,
     family: state.user.family,
     authenticated: state.auth.authenticated,
+    errorMessage: state.auth.error,
   });
 
 

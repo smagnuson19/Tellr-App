@@ -5,6 +5,8 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import OneSignal from 'react-native-onesignal';
 import RootStack from './navigation/navigation';
+import NavigationService from './navigation/navigationService';
+
 import reducers from './reducers';
 
 
@@ -21,7 +23,7 @@ export default class App extends Component {
   constructor(properties) {
     super(properties);
     // need to setup app first
-    OneSignal.init('YOUR_ONESIGNAL_APPID');
+    OneSignal.init('4e80c299-4fec-4279-bde3-3cdffbb24e1d', { kOSSettingsKeyAutoPrompt: true });
 
     OneSignal.addEventListener('received', this.onReceived);
     OneSignal.addEventListener('opened', this.onOpened);
@@ -52,7 +54,10 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <RootStack />
+        <RootStack ref={(navigatorRef) => {
+          NavigationService.setTopLevelNavigator(navigatorRef);
+        }}
+        />
       </Provider>
     );
   }

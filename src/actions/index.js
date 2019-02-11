@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import deviceStorage from './deviceStorage';
-// import AsyncStorage from 'react';
+import navigationService from '../navigation/navigationService';
 
-const ROOT_URL = 'http://127.0.0.1:5000/api';
-// const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+
+// const ROOT_URL = 'http://127.0.0.1:5000/api';
+const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
 
@@ -29,6 +30,33 @@ export function authError(error) {
   };
 }
 
+export async function deleteTokens() {
+  try {
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('email');
+  } catch (err) {
+    console.log(`The error is: ${err}`);
+  }
+  console.log('Token and email removed');
+}
+
+// Send to url to delete token
+export function logoutUser() {
+  return (dispatch) => {
+    deleteTokens();
+    dispatch({ type: ActionTypes.DEAUTH_USER });
+  };
+}
+
+export function errorHandling(message, error) {
+  console.log(message + error);
+  if (error === ('Invalid Token' || 'Expired Token')) {
+    console.log('Invalid Token -> Send to home');
+    logoutUser();
+    navigationService.navigate('AuthStack');
+    // to be implemented
+  }
+}
 // use the below when auth is fully implemented - go to login and comment out {email, password}
 export function loginUser(payLoad, resetAction) {
   console.log(payLoad);
@@ -47,10 +75,9 @@ export function loginUser(payLoad, resetAction) {
 
       // console.log(response.data[0].Success);
     }).catch((error) => {
-      console.log('bullshit');
-      console.log(`LoginError: ${error}`);
+      console.log(`LoginError: ${error.response.data[0].Error}`);
       // bug in error on backend
-      // ispatch(authError(`${error.response.data[0].Error}`));
+      dispatch(authError(`${error.response.data[0].Error}`));
     });
   };
 }
@@ -70,8 +97,8 @@ export function postNewUser(payLoad) {
           console.log(error);
         });
       }).catch((error) => {
-        console.log(error);
-        dispatch(authError(`${error.response}`));
+        console.log(error.response.data[0].Error);
+        dispatch(authError(`${error.response.data[0].Error}`));
       });
   };
 }
@@ -88,7 +115,7 @@ export function postTaskVerified(payLoad, userEmail, priority) {
           };
           return this.postNotifications(postData);
         }).catch((error) => {
-          console.log(`postTaskVerfied Post Error: ${error}`);
+          errorHandling('postTaskVerfied Post Error: ', error.response.data[0].Error);
         });
     });
   };
@@ -107,7 +134,7 @@ export function postGoalApprove(payLoad, priority) {
           };
           return this.postNotifications(postData);
         }).catch((error) => {
-          console.log(`postNotifications Post Error: ${error}`);
+          errorHandling('`postNotifications Post Error:', error.response.data[0].Error);
         });
     });
   };
@@ -123,7 +150,7 @@ export function postNotifications(payLoad) {
           // get a return of new notifications
           return this.fetchNotificationInfo(payLoad.email);
         }).catch((error) => {
-          console.log(`postNotifications Post Error: ${error.response.data[0].Error}`);
+          errorHandling('postNotifications Post Error:', error.response.data[0].Error);
         });
     });
   };
@@ -144,7 +171,10 @@ export function postTaskCompleted(payLoad, priority) {
           // need to alert the backend that some
           return this.postNotifications(postData);
         }).catch((error) => {
-          console.log(`postTaskCompletion Post Error: ${error.response.data[0].Error}`);
+          errorHandling(
+            'postTaskCompletion Post Error:',
+            error.response.data[0].Error,
+          );
         });
     });
   };
@@ -157,7 +187,10 @@ export function postTask(payLoad) {
         .then((response) => {
           console.log(`Task Created: ${response.data}`);
         }).catch((error) => {
-          console.log(`postTask post Error: ${error.response.data[0].Error}`);
+          errorHandling(
+            'postTask post Error:',
+            error.response.data[0].Error,
+          );
         });
     });
   };
@@ -170,7 +203,10 @@ export function postRequest(payLoad) {
         .then((response) => {
           console.log(`Friend request sent: ${response.data}`);
         }).catch((error) => {
-          console.log(`postRequest post Error: ${error.response.data[0].Error}`);
+          errorHandling(
+            'postRequest post Error: ',
+            error.response.data[0].Error,
+          );
         });
     });
   };
@@ -190,26 +226,12 @@ export function postFriendApprove(payLoad, priority) {
           // need to alert the backend that some
           return postNotifications(postData);
         }).catch((error) => {
-          console.log(`postFriendApprove post Error: ${error.response.data[0].Error}`);
+          errorHandling(
+            'postFriendApprove post Error: ',
+            error.response.data[0].Error,
+          );
         });
     });
-  };
-}
-
-export async function deleteTokens() {
-  try {
-    await AsyncStorage.removeItem('token');
-    await AsyncStorage.removeItem('email');
-  } catch (err) {
-    console.log(`The error is: ${err}`);
-  }
-  console.log('Token and email removed');
-}
-
-export function logoutUser() {
-  return (dispatch) => {
-    deleteTokens();
-    dispatch({ type: ActionTypes.DEAUTH_USER });
   };
 }
 
@@ -225,7 +247,10 @@ export function fetchUserInfo(email) {
             payload: response.data,
           });
         }).catch((error) => {
-          console.log(`${error.response.data[0].Error}`);
+          errorHandling(
+            'fetchUserInfo fail : ',
+            error.response.data[0].Error,
+          );
         });
     });
   };
@@ -266,7 +291,10 @@ export function fetchNotificationInfo(email) {
             payload: itemList,
           });
         }).catch((error) => {
-          console.log(`Notifications Grab Error: ${error.response.data[0].Error}`);
+          errorHandling(
+            'Notifications Grab Error: ',
+            error.response.data[0].Error,
+          );
         });
     });
   };
@@ -317,7 +345,10 @@ export function fetchGoals(email) {
           payload: goalList,
         });
       }).catch((error) => {
-        console.log(`Error in fetchGoals fetch ${error.response.data[0].Error}`);
+        errorHandling(
+          'Error in fetchGoals fetch: ',
+          error.response.data[0].Error,
+        );
       });
     });
   };
@@ -331,7 +362,10 @@ export function postUpdateBalance(payLoad, email) {
           console.log(`updateBalance: ${payLoad.data}`);
           return fetchUserInfo(email);
         }).catch((error) => {
-          console.log(`Error in postUpdateBalance post ${error.response.data[0].Error}`);
+          errorHandling(
+            'Error in postUpdateBalance post: ',
+            error.response.data[0].Error,
+          );
         });
     });
   };
@@ -351,7 +385,10 @@ export function postRedeemMoney(payLoad) {
             });
           });
         }).catch((error) => {
-          console.log(`Error in postRedeemMoney post ${error.response.data[0].Error}`);
+          errorHandling(
+            'Error in postRedeemMoney post: ',
+            error.response.data[0].Error,
+          );
         });
     });
   };
@@ -372,7 +409,10 @@ export function postGoalRedeem(payLoad) {
             });
           });
         }).catch((error) => {
-          console.log(`Error in postGoalsRedeem post ${error.response.data[0].Error}`);
+          errorHandling(
+            'Error in postGoalsRedeem post: ',
+            error.response.data[0].Error,
+          );
         });
     });
   };
@@ -385,8 +425,12 @@ export function postGoal(payLoad) {
         .then((response) => {
           console.log(`postGoal: ${response.data[0]}`);
           // return this.fetchGoals(payLoad.email);
+          errorHandling('bla', 'Invalid Token');
         }).catch((error) => {
-          console.log(`Error in postGoal post ${error.response.data[0].Error}`);
+          errorHandling(
+            'Error in postGoal post: ',
+            error.response.data[0].Error,
+          );
         });
     });
   };
@@ -403,6 +447,11 @@ export function fetchKidGoals(email) {
           list.push(payload[key]);
         });
         return list;
+      }).catch((error) => {
+        errorHandling(
+          'Error in fetchKidGoals: ',
+          error.response.data[0].Error,
+        );
       });
   });
 }
@@ -424,6 +473,12 @@ export function fetchKidTasks(email) {
         });
         console.log(list);
         return list;
+      }).catch((error) => {
+        errorHandling(
+          'Error in fetchKidTasks: ',
+          error.response.data[0].Error,
+
+        );
       });
   });
 }
@@ -467,7 +522,10 @@ export function fetchParentInfo(email) {
             payload: childList,
           });
         }).catch((error) => {
-          console.log(`Error in fetchParentInfo fetch ${error.response.data[0].Error}`);
+          errorHandling(
+            'Error in fetchParentInfo fetch: ',
+            error.response.data[0].Error,
+          );
         });
     });
   };
@@ -484,7 +542,10 @@ export function fetchKidFriends(email) {
           });
         });
     }).catch((error) => {
-      console.log(`Error in fetchKidFriends ${error.response.data[0].Error}`);
+      errorHandling(
+        'Error in fetchKidFriends: ',
+        error.response.data[0].Error,
+      );
     });
   };
 }
