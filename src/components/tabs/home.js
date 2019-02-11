@@ -44,6 +44,7 @@ class Home extends Component {
 
   // Pulls in new data for the pull Down Refresh
   reloadApiData() {
+    console.log('reloading api Data');
     // Do we want to update children info as well?
     this.props.fetchNotificationInfo(this.props.account.email);
     this.props.fetchUserInfo(this.props.account.email);
