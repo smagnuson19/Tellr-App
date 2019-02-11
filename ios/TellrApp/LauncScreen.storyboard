@@ -37,7 +37,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Tellr-Logo.gif" width="233" height="122"/>
+        <image name="Tellr-Logo.gif" width="16" height="16"/>
         <image name="picture" width="646" height="1024"/>
     </resources>
 </document>
