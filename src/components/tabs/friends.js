@@ -66,7 +66,7 @@ class Friends extends Component {
     // const weeklyGoalDataList = [];
     // Object.keys(this.props.friendInfo).forEach((key) => {
     //   weeklyGoalDataList.push({
-    //     score: this.props.friendInfo[key].tasksCompletedWeek,
+    //     score: this.props.friendInfo[key].goalsCompletedWeek,
     //     username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
     //   });
     // });
@@ -76,7 +76,7 @@ class Friends extends Component {
     // const monthlyGoalDataList = [];
     // Object.keys(this.props.friendInfo).forEach((key) => {
     //   monthlyGoalDataList.push({
-    //     score: this.props.friendInfo[key].tasksCompletedMonth,
+    //     score: this.props.friendInfo[key].goalsCompletedMonth,
     //     username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
     //   });
     // });
@@ -119,7 +119,6 @@ class Friends extends Component {
     }
 
     renderHeader() {
-      console.log(this.state.filter);
       return (
         <View
           style={{
@@ -236,10 +235,12 @@ pts
       const props = {
         labelBy: 'username',
         sortBy: 'score',
-        data: this.state.filter > 0 ? this.state.weeklyTaskData : this.state.monthlyTaskData,
+        data: this.state.filter > 0 ? this.state.monthlyTaskData : this.state.weeklyTaskData,
         icon: 'iconUrl',
         sort: this.sort,
       };
+      console.log(this.state.filter);
+      console.log(props.data);
 
       return (
         <View style={Style.rootContainer}>
