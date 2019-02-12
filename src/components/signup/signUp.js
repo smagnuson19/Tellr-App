@@ -25,6 +25,7 @@ class SignUp extends Component {
       email: '',
       password: '',
       familyName: '',
+      avatar: '',
     };
   }
 
@@ -46,6 +47,7 @@ class SignUp extends Component {
       password: this.state.password,
       familyName: this.state.familyName,
       accountType: this.props.navigation.getParam('userType'),
+      avatar: this.state.avatar,
     };
 
     // checking for errors and notifying user
@@ -64,6 +66,9 @@ class SignUp extends Component {
     } else if (this.state.familyName === '') {
       Alert.alert('Family Name cannot be empty');
       console.log('ERROR: family name empty');
+    } else if (this.state.avatar === '') {
+      Alert.alert('Avatar cannot be empty');
+      console.log('ERROR: avatar empty');
     } else {
       console.log('attempting to log in');
       // do a post if there are no errors in the fields
