@@ -18,6 +18,7 @@ import { postRequest, fetchKidFriends } from '../../actions/index';
 
 // TODO:
 // leaderboard user score switch for weeks / months
+// add goals completed / tasks completed
 // change avatars -  http://avatars.adorable.io/#demo
 // make the requests go away when pressed
 // Dislay "friend request accepted" or something
@@ -26,8 +27,10 @@ class Friends extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      weeklyData: [],
-      monthlyData: [],
+      weeklyTaskData: [],
+      monthlyTaskData: [],
+      // weeklyGoalData: [],
+      // monthlyGoalData: [],
       filter: 0,
       userRank: 1,
       user: {
@@ -39,25 +42,46 @@ class Friends extends Component {
   }
 
   componentWillMount() {
-    const weeklyDataList = [];
+    const weeklyTaskDataList = [];
     Object.keys(this.props.friendInfo).forEach((key) => {
-      weeklyDataList.push({
+      weeklyTaskDataList.push({
         score: this.props.friendInfo[key].tasksCompletedWeek,
         username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
       });
     });
-    console.log(weeklyDataList);
-    this.setState({ weeklyData: weeklyDataList });
+    console.log(weeklyTaskDataList);
+    this.setState({ weeklyTaskData: weeklyTaskDataList });
 
-    const monthlyDataList = [];
+    const monthlyTaskDataList = [];
     Object.keys(this.props.friendInfo).forEach((key) => {
-      monthlyDataList.push({
+      monthlyTaskDataList.push({
         score: this.props.friendInfo[key].tasksCompletedMonth,
         username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
       });
     });
-    console.log(monthlyDataList);
-    this.setState({ monthlyData: monthlyDataList });
+    console.log(monthlyTaskDataList);
+    this.setState({ monthlyTaskData: monthlyTaskDataList });
+
+
+    // const weeklyGoalDataList = [];
+    // Object.keys(this.props.friendInfo).forEach((key) => {
+    //   weeklyGoalDataList.push({
+    //     score: this.props.friendInfo[key].tasksCompletedWeek,
+    //     username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+    //   });
+    // });
+    // console.log(weeklyGoalDataList);
+    // this.setState({ weeklyGoalData: weeklyGoalDataList });
+    //
+    // const monthlyGoalDataList = [];
+    // Object.keys(this.props.friendInfo).forEach((key) => {
+    //   monthlyGoalDataList.push({
+    //     score: this.props.friendInfo[key].tasksCompletedMonth,
+    //     username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+    //   });
+    // });
+    // console.log(monthlyGoalDataList);
+    // this.setState({ monthlyGoalData: monthlyGoalDataList });
   }
 
     sort = (data) => {
@@ -95,6 +119,7 @@ class Friends extends Component {
     }
 
     renderHeader() {
+      console.log(this.state.filter);
       return (
         <View
           style={{
@@ -137,7 +162,7 @@ pts
           <ButtonGroup
             onPress={(x) => { this.setState({ filter: x }); }}
             selectedIndex={this.state.filter}
-            buttons={['Weekly', 'Monthly']}
+            buttons={['Weekly Tasks', 'Monthly Tasks']}
             containerStyle={{ height: 30 }}
           />
           <View style={{
@@ -211,7 +236,7 @@ pts
       const props = {
         labelBy: 'username',
         sortBy: 'score',
-        data: this.state.filter > 0 ? this.state.monthlyData : this.state.weeklyData,
+        data: this.state.filter > 0 ? this.state.weeklyTaskData : this.state.monthlyTaskData,
         icon: 'iconUrl',
         sort: this.sort,
       };
