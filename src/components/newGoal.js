@@ -21,6 +21,11 @@ import Style from '../styling/Style';
 // import { colors, fonts } from '../styling/base';
 import { colors } from '../styling/base';
 
+const Sound = require('react-native-sound');
+
+let laser;
+let submitted = false;
+
 
 const options = {
   title: 'What Do You Want?',
@@ -42,6 +47,19 @@ class NewGoal extends Component {
       value: '',
       image: '',
     };
+  }
+
+  componentWillMount() {
+    // Enable playback in silence mode
+    Sound.setCategory('Playback');
+    laser = new Sound(require('../media/laser.wav'), (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      console.log('Loaded sound');
+      // loaded successfully
+    });
   }
 
 
@@ -91,7 +109,19 @@ class NewGoal extends Component {
     if (Number.isNaN(parseFloat(this.state.value)) || parseFloat(this.state.value) <= 0) {
       // If the Given Value is Not Number Then It Will Return True and This Part Will Execute.
       Alert.alert('Please Enter A Valid Number');
-    } else {
+    } else if (submitted === false) {
+      submitted = true;
+      laser.play((success) => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+          // reset the player to its uninitialized state (android only)
+          // this is the only option to recover after an error occured and use the player again
+          laser.reset();
+        }
+      });
+
       console.log(parseFloat(this.state.value));
       Animated.sequence([
         Animated.spring(this.animatedValue, { toValue: 1, useNativeDriver: false }),
@@ -143,6 +173,24 @@ class NewGoal extends Component {
       </View>
     );
   }
+
+  // loadButton() {
+  //   // display children for parents, balance for kids
+  //   if (submitted === false) {
+  //     return (
+  //       <Button
+  //         title="Set Goal!"
+  //         rounded
+  //         large
+  //         style={Style.button}
+  //         backgroundColor={colors.secondary}
+  //         onPress={() => this.submitGoal()}
+  //       />
+  //     );
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   render() {
     return (
