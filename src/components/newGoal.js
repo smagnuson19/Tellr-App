@@ -24,7 +24,6 @@ import { colors } from '../styling/base';
 const Sound = require('react-native-sound');
 
 let laser;
-let submitted = false;
 
 
 const options = {
@@ -39,6 +38,10 @@ const options = {
 class NewGoal extends Component {
   animatedValue = new Animated.Value(0);
 
+  girlAnimation = new Animated.ValueXY({ x: -400, y: 200 })
+
+  boyAnimation = new Animated.ValueXY({ x: -600, y: 200 })
+
   constructor(props) {
     super(props);
     this.state = {
@@ -46,12 +49,14 @@ class NewGoal extends Component {
       goalDescription: '',
       value: '',
       image: '',
+      submitted: false,
     };
   }
 
   componentWillMount() {
     // Enable playback in silence mode
     Sound.setCategory('Playback');
+    // this.setState({ submitted: false });
     laser = new Sound(require('../media/laser.wav'), (error) => {
       if (error) {
         console.log('failed to load the sound', error);
@@ -60,6 +65,60 @@ class NewGoal extends Component {
       console.log('Loaded sound');
       // loaded successfully
     });
+  }
+
+  girlOverlay = () => {
+    const imageStyles = [
+      {
+        position: 'absolute',
+        top: this.girlAnimation.y,
+        right: this.girlAnimation.x,
+        opacity: this.animatedValue,
+        transform: [
+          {
+            scale: this.animatedValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0.1, 0.3],
+            }),
+          },
+        ],
+      },
+    ];
+    return (
+      <View>
+        <Animated.Image
+          source={require('../media/superGirl.png')}
+          style={imageStyles}
+        />
+      </View>
+    );
+  }
+
+  boyOverlay = () => {
+    const imageStyles = [
+      {
+        position: 'absolute',
+        top: this.boyAnimation.y,
+        right: this.boyAnimation.x,
+        opacity: this.animatedValue,
+        transform: [
+          {
+            scale: this.animatedValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0.1, 0.3],
+            }),
+          },
+        ],
+      },
+    ];
+    return (
+      <View>
+        <Animated.Image
+          source={require('../media/superBoy.png')}
+          style={imageStyles}
+        />
+      </View>
+    );
   }
 
 
@@ -85,7 +144,6 @@ class NewGoal extends Component {
     });
   }
 
-
   submitGoal() {
     console.log('Trying to submit goal');
     // So that you are unable to navigate back to login page once logged in.
@@ -109,8 +167,8 @@ class NewGoal extends Component {
     if (Number.isNaN(parseFloat(this.state.value)) || parseFloat(this.state.value) <= 0) {
       // If the Given Value is Not Number Then It Will Return True and This Part Will Execute.
       Alert.alert('Please Enter A Valid Number');
-    } else if (submitted === false) {
-      submitted = true;
+    } else if (this.state.submitted === false) {
+      this.setState({ submitted: true });
       laser.play((success) => {
         if (success) {
           console.log('successfully finished playing');
@@ -124,13 +182,23 @@ class NewGoal extends Component {
 
       console.log(parseFloat(this.state.value));
       Animated.sequence([
-        Animated.spring(this.animatedValue, { toValue: 1, useNativeDriver: false }),
-        Animated.spring(this.animatedValue, { toValue: 0, userNativeDriver: false }),
+        Animated.parallel([
+          Animated.spring(this.animatedValue, { toValue: 1, useNativeDriver: false, duration: 10 }),
+          Animated.timing(this.boyAnimation, { toValue: { x: -300, y: -400 }, duration: 250, useNativeDriver: false }),
+          Animated.timing(this.girlAnimation, { toValue: { x: -600, y: -400 }, duration: 250, useNativeDriver: false }),
+        ]),
+        Animated.parallel([
+          Animated.spring(this.girlAnimation, { toValue: { x: -600, y: -1200 }, useNativeDriver: false }),
+          Animated.spring(this.boyAnimation, { toValue: { x: -300, y: -1200 }, useNativeDriver: false }),
+        ]),
       ]).start(() => {
-        this.props.postGoal(payLoad).then((response) => {
-          this.props.navigation.dispatch(resetAction);
-        });
+        console.log('Animated');
+        // this.props.postGoal(payLoad).then((response) => {
+        //   this.props.navigation.dispatch(resetAction);
+        // });
       });
+    } else {
+      console.log('Submitted');
     }
 
     console.log(payLoad);
@@ -139,58 +207,22 @@ class NewGoal extends Component {
     // this.props.postGoal(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
   }
 
-  renderOverlay = () => {
-    const imageStyles = [
-      {
-        position: 'absolute',
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        // left: Math.random() * 500 - 250,
-        // right: Math.random() * 500 - 250,
-        // top: Math.random() * 1000 - 500,
-        // bottom: Math.random() * 1000 - 500,
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        opacity: this.animatedValue,
-        transform: [
-          {
-            scale: this.animatedValue.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0.1, 0.7],
-            }),
-          },
-        ],
-      },
-    ];
-    return (
-      <View>
-        <Animated.Image
-          source={this.state.image}
-          style={imageStyles}
-        />
-      </View>
-    );
-  }
 
-  // loadButton() {
-  //   // display children for parents, balance for kids
-  //   if (submitted === false) {
-  //     return (
-  //       <Button
-  //         title="Set Goal!"
-  //         rounded
-  //         large
-  //         style={Style.button}
-  //         backgroundColor={colors.secondary}
-  //         onPress={() => this.submitGoal()}
-  //       />
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  // }
+  renderImage() {
+    // display children for parents, balance for kids
+    if (this.image !== '') {
+      return (
+        <Image
+          style={{
+            width: 150 * 1.2, height: 200 * 1.2, alignSelf: 'center',
+          }}
+          source={{ uri: this.state.image }}
+        />
+      );
+    } else {
+      return null;
+    }
+  }
 
   render() {
     return (
@@ -206,6 +238,8 @@ class NewGoal extends Component {
               backgroundColor={colors.secondary}
               onPress={() => this.choosePhoto()}
             />
+            {this.girlOverlay()}
+            {this.boyOverlay()}
             <View style={Style.inputContainer}>
               <FormInput
                 containerStyle={Style.fieldContainerThird}
@@ -241,14 +275,9 @@ class NewGoal extends Component {
                 backgroundColor={colors.secondary}
                 onPress={() => this.submitGoal()}
               />
-              <Image
-                style={{
-                  width: 150 * 1.2, height: 200 * 1.2, alignSelf: 'center',
-                }}
-                source={{ uri: this.state.image }}
-              />
+              {this.renderImage()}
             </View>
-            <Divider style={{ backgroundColor: colors.clear, height: 100 }} />
+            <Divider style={{ backgroundColor: colors.clear, height: 50 }} />
           </View>
         </LinearGradient>
       </View>
