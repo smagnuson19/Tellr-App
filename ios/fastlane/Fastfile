@@ -16,10 +16,18 @@
 default_platform(:ios)
 
 platform :ios do
+
+  lane :certificates do
+    match( app_identifier: ["edu.dartmouth.Tellr-App", "edu.dartmouth.Tellr-App.OneSignalNotificationServiceExtension"])
+  end
+
   desc "Push a new beta build to TestFlight"
   lane :beta do
     increment_build_number(xcodeproj: "TellrApp.xcodeproj")
-    match(type: "appstore")
+    match(  type: "appstore",
+        app_identifier: ["edu.dartmouth.Tellr-App", "edu.dartmouth.Tellr-App.OneSignalNotificationServiceExtension"])
+
+
     gym(
       export_method: "app-store",
       project: "TellrApp.xcodeproj",

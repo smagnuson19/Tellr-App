@@ -1,4 +1,4 @@
-app_identifier("edu.dartmouth.Tellr-App") # The bundle identifier of your app
+app_identifier ("edu.dartmouth.Tellr-App") # The bundle identifier of your app
 apple_id("apps@brunchlabs.com") # Your Apple email address
 
 itc_team_id("118606859") # App Store Connect Team ID

@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-svg')
     compile project(':bugsnag-react-native')
     compile project(':react-native-onesignal')
     compile project(':react-native-vector-icons')
