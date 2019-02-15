@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   Alert,
+  Animated,
 } from 'react-native';
 import {
   Button, FormInput,
@@ -20,6 +21,12 @@ import { postTask } from '../../actions/index';
 
 
 class AddTask extends Component {
+  animatedValue = new Animated.Value(0);
+
+  mopAnimation = new Animated.ValueXY({ x: -400, y: 200 })
+
+  broomAnimation = new Animated.ValueXY({ x: -600, y: 200 })
+
   constructor(props) {
     super(props);
     this.state = {
@@ -36,6 +43,61 @@ class AddTask extends Component {
   componentWillMount() {
     this.fetchNames();
   }
+
+  mopOverlay = () => {
+    const imageStyles = [
+      {
+        position: 'absolute',
+        top: this.mopAnimation.y,
+        right: this.mopAnimation.x,
+        opacity: this.animatedValue,
+        transform: [
+          {
+            scale: this.animatedValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0.1, 0.3],
+            }),
+          },
+        ],
+      },
+    ];
+    return (
+      <View>
+        <Animated.Image
+          source={require('../../media/broom.png')}
+          style={imageStyles}
+        />
+      </View>
+    );
+  }
+
+  broomOverlay = () => {
+    const imageStyles = [
+      {
+        position: 'absolute',
+        top: this.broomAnimation.y,
+        right: this.broomAnimation.x,
+        opacity: this.animatedValue,
+        transform: [
+          {
+            scale: this.animatedValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0.1, 0.3],
+            }),
+          },
+        ],
+      },
+    ];
+    return (
+      <View>
+        <Animated.Image
+          source={require('../../media/mop.png')}
+          style={imageStyles}
+        />
+      </View>
+    );
+  }
+
 
   fetchNames() {
     const childrenList = [];
@@ -86,8 +148,20 @@ class AddTask extends Component {
       Alert.alert('Please enter a Reward');
       console.log('ERROR: reward empty');
     } else {
-      console.log(payLoad);
-      this.props.postTask(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
+      Animated.sequence([
+        Animated.parallel([
+          Animated.spring(this.animatedValue, { toValue: 1, useNativeDriver: false, duration: 10 }),
+          Animated.timing(this.broomAnimation, { toValue: { x: -300, y: -400 }, duration: 250, useNativeDriver: false }),
+          Animated.timing(this.mopAnimation, { toValue: { x: -600, y: -400 }, duration: 250, useNativeDriver: false }),
+        ]),
+        Animated.parallel([
+          Animated.spring(this.mopAnimation, { toValue: { x: -600, y: -1200 }, duration: 450, useNativeDriver: false }),
+          Animated.spring(this.broomAnimation, { toValue: { x: -300, y: -1200 }, duration: 450, useNativeDriver: false }),
+        ]),
+      ]).start(() => {
+        console.log(payLoad);
+        this.props.postTask(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
+      });
     }
   }
 
@@ -177,6 +251,8 @@ class AddTask extends Component {
                 placeholderTextColor={colors.placeholderColor}
               />
             </View>
+            {this.mopOverlay()}
+            {this.broomOverlay()}
             <View style={Style.buttonContainer}>
               <Button
                 title="Make them do it!"
