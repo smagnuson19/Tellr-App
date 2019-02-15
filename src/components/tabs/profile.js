@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Button,
+  View, Text, StyleSheet, Button, ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { Divider } from 'react-native-elements';
+import { PieChart } from 'react-native-svg-charts';
 // import { StackActions, NavigationActions } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
 import { logoutUser } from '../../actions';
@@ -52,7 +53,7 @@ class Profile extends Component {
   // display kid's current balance for Child view
   displayBalance() {
     return (
-      <View style={pageStyle.sectionContainer}>
+      <View>
         <Text style={pageStyle.sectionText}> Balance: </Text>
         <Text style={pageStyle.subSectionText}>
           {'  $'}
@@ -71,6 +72,40 @@ class Profile extends Component {
       return (this.displayBalance());
     } else {
       console.log('ERROR: accountType not loaded or selected proprely');
+      return null;
+    }
+  }
+
+  childCharts() {
+    if (this.props.user.accountType === 'Child') {
+      // const completed = 10;
+      // const incomplete = 5;
+      const pieData = [
+        {
+          key: 1,
+          amount: 100,
+          svg: { fill: colors.logoGreen },
+        },
+        {
+          key: 2,
+          amount: 400,
+          svg: { fill: colors.red },
+        },
+      ];
+      console.log('Charting');
+      return (
+        <PieChart
+          style={{
+            height: 200,
+            width: 200,
+            // backgroundColor: colors.logoGreen,
+          }}
+          valueAccessor={({ item }) => item.amount}
+          data={pieData}
+        />
+      );
+    } else {
+      console.log('no charts rn');
       return null;
     }
   }
@@ -118,7 +153,7 @@ class Profile extends Component {
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
-            <Text style={Style.headerText}>Profile </Text>
+            <Text style={Style.altHeaderText}>Profile </Text>
             <View style={pageStyle.sectionContainer}>
               <Text style={pageStyle.sectionHeader}> Account </Text>
               <Divider style={pageStyle.divider} />
@@ -131,33 +166,27 @@ class Profile extends Component {
                   {' '}
                   {this.props.user.lastName}
                 </Text>
-              </View>
-
-              <View style={pageStyle.sectionContainer}>
                 <Text style={pageStyle.sectionText}> Account Type: </Text>
                 <Text style={pageStyle.subSectionText}>
                   {' '}
                   {this.props.user.accountType}
                   {' '}
                 </Text>
+                {this.determineDisplay()}
+                <View style={pageStyle.buttonContainer}>
+                  <Button
+                    title="Logout"
+                    color={colors.Red}
+                    style={pageStyle.settingsButton}
+                    onPress={() => this.logout()}
+                  />
+                </View>
               </View>
-
-              {this.determineDisplay()}
             </View>
-            <View style={pageStyle.sectionContainer}>
-              <Text style={pageStyle.sectionHeader}> Settings </Text>
-              <Divider style={pageStyle.divider} />
-
-              <View style={pageStyle.buttonContainer}>
-                <Button
-                  title="Logout"
-                  color={colors.secondary}
-                  style={pageStyle.settingsButton}
-                  onPress={() => this.logout()}
-                />
-              </View>
-
-            </View>
+            <ScrollView>
+              {this.childCharts()}
+              {this.childCharts()}
+            </ScrollView>
           </View>
         </LinearGradient>
       </View>
@@ -185,7 +214,7 @@ const pageStyle = StyleSheet.create({
   sectionText: {
     fontSize: fonts.smmd,
     fontWeight: 'bold',
-    color: colors.secondary,
+    color: colors.black,
     fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
     paddingVertical: 6,
@@ -202,13 +231,13 @@ const pageStyle = StyleSheet.create({
   divider: {
     backgroundColor: colors.primary,
     height: 2,
-    marginTop: 6,
-    marginBottom: 6,
+    marginTop: 2,
+    marginBottom: 2,
   },
   settingsButton: {
     fontSize: fonts.smmd,
     fontWeight: 'bold',
-    color: colors.secondary,
+    color: colors.logoGreen,
     fontFamily: fonts.secondary,
   },
   buttonContainer: {

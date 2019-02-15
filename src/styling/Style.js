@@ -32,8 +32,8 @@ const Style = StyleSheet.create({
     color: colors.black,
     // marginTop: 50,
     // marginBottom: 30,
-    marginTop: '5%',
-    marginBottom: '10%',
+    marginTop: '7.5%',
+    marginBottom: '7.5%',
   },
 
   headerText: {
