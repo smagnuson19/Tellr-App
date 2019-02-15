@@ -188,14 +188,14 @@ class NewGoal extends Component {
           Animated.timing(this.girlAnimation, { toValue: { x: -600, y: -400 }, duration: 250, useNativeDriver: false }),
         ]),
         Animated.parallel([
-          Animated.spring(this.girlAnimation, { toValue: { x: -600, y: -1200 }, useNativeDriver: false }),
-          Animated.spring(this.boyAnimation, { toValue: { x: -300, y: -1200 }, useNativeDriver: false }),
+          Animated.spring(this.girlAnimation, { toValue: { x: -600, y: -1200 }, duration: 450, useNativeDriver: false }),
+          Animated.spring(this.boyAnimation, { toValue: { x: -300, y: -1200 }, duration: 450, useNativeDriver: false }),
         ]),
       ]).start(() => {
         console.log('Animated');
-        // this.props.postGoal(payLoad).then((response) => {
-        //   this.props.navigation.dispatch(resetAction);
-        // });
+        this.props.postGoal(payLoad).then((response) => {
+          this.props.navigation.dispatch(resetAction);
+        });
       });
     } else {
       console.log('Submitted');
