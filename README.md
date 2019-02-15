@@ -33,24 +33,17 @@ We followed [these](https://medium.com/@randerson112358/setup-react-native-envir
 1. Install watchman: `brew install watchman`
 2. Install React Native: `sudo npm install -g react-native-cli`
 3. Install XCode for iOS
-4. Install pyMongo: `pip install pymongo=3.4.0`
 
 #### Setup of React Native dependencies
 
-1. `yarn add react-native-image-picker`
-2. `yarn add react-native-elements`
-3. `yarn add react-native-linear-gradient`
-4. `yarn add react-native-datepicker`
-5. `yarn add react-native-picker-select`
-6. `yarn add react-native-vector-icons/Ionicons`
-
-
-7. `react-native link`
+1. `yarn install`
+2. `react-native link`
 
 ## Deployment
 To run:
 
 `yarn start`
+Once watchman is running open up the project in xcode
 
 ## Term 1 Demo Prioritizations
 1. User Login and signup flow complete
