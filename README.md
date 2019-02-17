@@ -38,6 +38,13 @@ We followed [these](https://medium.com/@randerson112358/setup-react-native-envir
 
 1. `yarn install`
 2. `react-native link`
+3. Install Cocoapods with gem
+`sudo gem install cocoapods`
+4. Link in Pods
+`install pods`
+6. cd to directory
+run `yarn start`
+7. run in Xcode
 
 ## Deployment
 To run:
