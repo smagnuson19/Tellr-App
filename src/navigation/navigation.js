@@ -23,6 +23,7 @@ import AuthLoadingScreen from '../components/AuthLoading';
 import ParentViewOfChild from '../components/tabs/parentViewOfChild';
 import ViewOfFriendRequests from '../components/tabs/viewOfFriendRequests';
 import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
+import SocialView from '../components/tabs/socialView';
 
 const HomeStack = createStackNavigator({
   Home: {
@@ -55,6 +56,12 @@ const FriendsStack = createStackNavigator({
   },
   FriendRequests: {
     screen: ViewOfFriendRequests,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
+  SocialIndividual: {
+    screen: SocialView,
     navigationOptions: () => ({
       headerTransparent: 'True',
     }),
