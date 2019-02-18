@@ -46,6 +46,13 @@ We followed [these](https://medium.com/@randerson112358/setup-react-native-envir
 run `yarn start`
 7. run in Xcode
 
+Issues: If you run into an issue on install pods with react-native-image-picker
+1. cd into node_modules/react-native-image-picker
+2. In package.json rename "name" value to RNImagePicker
+3. Rename the .podspec file to RNImagePicker
+4. cd ios and rename the .xcodeproject file to RNImagePicker.xcodeproject
+5. `pod install` again
+
 ## Deployment
 To run:
 
