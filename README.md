@@ -40,6 +40,7 @@ We followed [these](https://medium.com/@randerson112358/setup-react-native-envir
 2. `react-native link`
 3. Install Cocoapods with gem
 `sudo gem install cocoapods`
+(optional for bugsnag to upload dSYM files) 'sudo gem install cocoapods-bugsnag`
 4. Link in Pods
 `install pods`
 6. cd to directory
