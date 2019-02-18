@@ -66,11 +66,15 @@ class Login extends Component {
                 onChangeText={text => this.setState({ email: text })}
                 value={this.state.text}
                 placeholder="Email..."
+                enablesReturnKeyAutomatically="true"
                 placeholderTextColor={colors.grey}
                 spellCheck="false"
                 keyboardType="email-address"
+                textContentType="username"
                 returnKeyType="next"
                 selectionColor={colors.grey}
+                onSubmitEditing={() => { this.secondTextInput.focus(); }}
+                blurOnSubmit={false}
 
               />
               <FormInput
@@ -80,9 +84,13 @@ class Login extends Component {
                 value={this.state.password}
                 secureTextEntry="true"
                 placeholderTextColor={colors.grey}
+                textContentType="password"
                 spellCheck="false"
                 placeholder="Password..."
+                returnKeyType="done"
                 selectionColor={colors.grey}
+                ref={(input) => { this.secondTextInput = input; }}
+                onSubmitEditing={() => this.submitEmail()}
               />
             </View>
             <View style={Style.buttonContainer}>

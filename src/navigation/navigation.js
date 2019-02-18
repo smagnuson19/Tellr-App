@@ -4,8 +4,10 @@ import {
   createStackNavigator,
   createSwitchNavigator,
   createAppContainer,
+  HeaderBackButton,
 } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import { colors, fonts } from '../styling/base';
 
 import Home from '../components/tabs/home';
@@ -29,22 +31,20 @@ const HomeStack = createStackNavigator({
   Home: {
     screen: Home,
     navigationOptions: () => ({
-      headerTransparent: 'True',
+      header: null,
     }),
   },
   ChildPage: {
     screen: ParentViewOfChild,
     navigationOptions: () => ({
-      headerTransparent: 'True',
+      headerTransparent: 'False',
     }),
   },
 },
 {
   initialRouteName: 'Home',
-  headerTransparent: 'True',
-  navigationOptions: () => ({
-    headerTransparent: 'True',
-  }),
+
+
 });
 
 const FriendsStack = createStackNavigator({
@@ -162,17 +162,27 @@ const ChildTabBar = createBottomTabNavigator({
   initialRouteName: 'Home',
 });
 
+
 const SignUpDialouge = createStackNavigator({
   SignUpFirstDialouge: {
     screen: SignUpFirstDialouge,
-    navigationOptions: () => ({
+    navigationOptions: ({ navigation }) => ({
+
+      headerLeft: <HeaderBackButton
+        title="Back"
+        tintColor="#000"
+        backTitleVisible="true"
+        onPress={() => navigation.navigate('Login')}
+      />,
+
       headerTransparent: 'True',
     }),
   },
   SignUp: {
     screen: SignUp,
     navigationOptions: () => ({
-      headerTransparent: 'True',
+      headerTransparent: 'False',
+      headerBackTitleVisible: 'True',
     }),
   },
 
@@ -187,8 +197,7 @@ const AppStack = createStackNavigator(
     ParentTabBar: {
       screen: ParentTabBar,
       navigationOptions: () => ({
-        gesturesEnabled: false,
-        headerTransparent: 'True',
+
         header: null,
 
       }),
@@ -196,8 +205,7 @@ const AppStack = createStackNavigator(
     ChildTabBar: {
       screen: ChildTabBar,
       navigationOptions: () => ({
-        gesturesEnabled: false,
-        headerTransparent: 'True',
+
         header: null,
       }),
     },
@@ -228,6 +236,9 @@ const AuthStack = createSwitchNavigator({
   },
   SignUp: {
     screen: SignUpDialouge,
+    navigationOptions: () => ({
+      headerBackTitleVisible: 'True',
+    }),
   },
 
   Loading: {

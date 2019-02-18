@@ -22,7 +22,6 @@ console.disableYellowBox = true;
 export default class App extends Component {
   constructor(properties) {
     super(properties);
-    // need to setup app first
     OneSignal.init('4e80c299-4fec-4279-bde3-3cdffbb24e1d', { kOSSettingsKeyAutoPrompt: true });
 
     OneSignal.addEventListener('received', this.onReceived);

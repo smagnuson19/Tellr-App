@@ -1,0 +1,58 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '9.0'
+
+target 'TellrApp' do
+# Native Navigation uses Swift, so this line is required!
+  #use_frameworks!
+
+  # To use CocoaPods with React Native, you need to add this specific Yoga spec as well
+
+  # You don't necessarily need all of these subspecs, but this would be a typical setup.
+  pod 'React', :path => '../node_modules/react-native', :subspecs => [
+    'Core',
+    'RCTLinkingIOS',
+    'cxxreact',
+    'CxxBridge',
+    'DevSupport',
+    'RCTText',
+    'RCTWebSocket', # needed for debugging
+    'RCTAnimation',
+    'RCTImage',
+    'RCTNetwork'
+    # Add any other subspecs you want to use in your project
+  ]
+
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+  pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
+  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+  # Add any other dependencies here, including any 3rd party native libraries that you depend on for
+  # React Native.
+
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
+  pod 'RNImagePicker', :path => '../node_modules/react-native-image-picker'
+
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
+  pod 'RNSound', :path => '../node_modules/react-native-sound'
+
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+   pod 'react-native-onesignal',
+    :path => "../node_modules/react-native-onesignal/react-native-onesignal.podspec",
+    :inhibit_warnings => true
+
+
+  pod 'BugsnagReactNative', :path => '../node_modules/bugsnag-react-native'
+
+  target 'TellrAppTests' do
+    #something
+    inherit! :search_paths
+
+  end
+
+end
+

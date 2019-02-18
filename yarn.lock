@@ -799,6 +799,14 @@
     prop-types "^15.6.0"
     react-is "^16.6.3"
 
+"@raydeck/xcode@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@raydeck/xcode/-/xcode-2.2.1.tgz#fd94c3b1908ad15ad9a82fde298b87bf08238289"
+  integrity sha512-464tAzmcJLL0A4W5vKP3t3s6mRLnwGWE/cHo+I+0mHJiSzojSwHIZK7i3shFJioyQFHPxYndzRzTu2VOjdpBcQ==
+  dependencies:
+    simple-plist "^0.2.1"
+    uuid "3.0.1"
+
 "@react-navigation/core@3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.0.2.tgz#8631801533a27d034a3b8421dfd0510a9f27dcf3"
@@ -1884,6 +1892,15 @@ buffer-from@^1.0.0:
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
   integrity sha512-MQcXEUbCKtEo7bhqEs6560Hyd4XaovZlO/k9V3hjVUF/zwW7KBVdSK4gIt/bzwS9MbR5qob+F5jusZsb0YQK2A==
 
+bugsnag-react-native@^2.14.0:
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/bugsnag-react-native/-/bugsnag-react-native-2.14.0.tgz#5d70208a1db678c7770ac17cd4083906acd4c94c"
+  integrity sha512-fMJy97yun+eEwRHt0juXlVUAFuwLm5nbtsyP+0TNAAGkJtiZJ6SEk2HTRe9wIy0TB3LYVDDXYfv5awm7k/HYGA==
+  dependencies:
+    iserror "^0.0.2"
+    promise "^7"
+    prop-types "^15.6.0"
+
 builtin-modules@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/builtin-modules/-/builtin-modules-1.1.1.tgz#270f076c5a72c02f5b65a47df94c5fe3a278892f"
@@ -2099,7 +2116,7 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^2.11.0, commander@^2.9.0:
+commander@^2.11.0, commander@^2.14.1, commander@^2.9.0:
   version "2.19.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
   integrity sha512-6tvAOO+D6OENvRAh524Dh9jcfKTYDQAqvqezbCW82xj5X0pSrcpxtvRKHLG0yBY6SD7PSDrJaj+0AiOcKVd1Xg==
@@ -3941,6 +3958,11 @@ isarray@1.0.0, isarray@^1.0.0, isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
   integrity sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=
+
+iserror@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/iserror/-/iserror-0.0.2.tgz#bd53451fe2f668b9f2402c1966787aaa2c7c0bf5"
+  integrity sha1-vVNFH+L2aLnyQCwZZnh6qix8C/U=
 
 isexe@^2.0.0:
   version "2.0.0"
@@ -5829,7 +5851,7 @@ progress@^2.0.0:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-promise@^7.1.1:
+promise@^7, promise@^7.1.1:
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/promise/-/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
   integrity sha512-nolQXZ/4L+bP/UGlkfaIujX9BKxGwmQ9OT4mOt5yvy8iK1h3wqTEJCijzGANTCCl9nWjY41juyAn2K3Q1hLLTg==
@@ -6024,6 +6046,15 @@ react-native-picker-select@^5.0.1:
   integrity sha512-x0NTsOBjFIO40XPc+UxQ5fjCRx7ghwMDejEUyhU7VRKViHxaaScvO0jxpnW/2L1kFcqbZWqWhjC1DuuDnE6jyA==
   dependencies:
     lodash.isequal "^4.5.0"
+
+react-native-pod@^1.10.4:
+  version "1.10.4"
+  resolved "https://registry.yarnpkg.com/react-native-pod/-/react-native-pod-1.10.4.tgz#5f067c65ead06c1fb54728a01d56957e17f1d225"
+  integrity sha512-hvpvGe/t0yPfARiJoLxxqhyIyR4TU/fdvqHEAUvfRHatpqESK4J2il+mO63z063Nzxj6BiNYnNMC5z5N5PoHhg==
+  dependencies:
+    "@raydeck/xcode" "^2.2.1"
+    commander "^2.14.1"
+    glob "^7.1.2"
 
 react-native-safe-area-view@^0.11.0:
   version "0.11.0"

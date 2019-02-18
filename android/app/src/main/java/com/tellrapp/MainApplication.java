@@ -3,7 +3,10 @@ package com.tellrapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.bugsnag.BugsnagReactNative;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
+import com.airbnb.android.NativeNavigationPackage;
+import com.horcrux.svg.SvgPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.zmxv.RNSound.RNSoundPackage;
@@ -29,7 +32,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            BugsnagReactNative.getPackage(),
             new ReactNativeOneSignalPackage(),
+            new NativeNavigationPackage(),
+            new SvgPackage(),
             new VectorIconsPackage(),
             new RNGestureHandlerPackage(),
             new RNSoundPackage(),

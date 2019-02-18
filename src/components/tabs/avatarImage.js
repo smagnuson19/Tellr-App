@@ -22,27 +22,14 @@ class AvatarImage extends Component {
     const firstLetter = this.props.individual.firstName.slice(0, 1).toUpperCase();
     const secondLetter = this.props.individual.lastName.slice(0, 1).toUpperCase();
     const avatarLetters = firstLetter + secondLetter;
-    if (this.props.account.accountType === 'Parent') {
-      return (
-        <View style={pageStyle.avatarParentContainer}>
-          <TouchableOpacity
-            style={pageStyle.avatarBackground}
-            onPress={() => this.bPress()}
-          >
-            <View style={pageStyle.avatarInnerCircle}>
-              <Text style={pageStyle.avatarText}>
-                {' '}
-                {avatarLetters}
-                {' '}
-              </Text>
-            </View>
+    return (
+      <View style={pageStyle.avatarContainer}>
 
-          </TouchableOpacity>
-        </View>
-      );
-    } else {
-      return (
-        <View style={pageStyle.avatarChildContainer}>
+
+        <TouchableOpacity
+          style={pageStyle.avatarBackground}
+          onPress={() => this.bPress()}
+        >
           <View style={pageStyle.avatarInnerCircle}>
             <Text style={pageStyle.avatarText}>
               {' '}
@@ -50,18 +37,21 @@ class AvatarImage extends Component {
               {' '}
             </Text>
           </View>
-        </View>
-      );
-    }
+
+        </TouchableOpacity>
+
+      </View>
+    );
   }
 }
 
 const pageStyle = StyleSheet.create({
   avatarParentContainer: {
     margin: 8,
+
     // controlls how far from top view they render
-    paddingTop: 80,
-    paddingBottom: 8,
+    paddingTop: '50%',
+    paddingBottom: '4%',
   },
   avatarChildContainer: {
   },
