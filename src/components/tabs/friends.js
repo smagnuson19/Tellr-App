@@ -14,6 +14,7 @@ import DialogInput from 'react-native-dialog-input';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Style from '../../styling/Style';
+import AvatarImage from './avatarImage';
 import { colors, fonts } from '../../styling/base';
 import { postRequest, fetchKidFriends } from '../../actions/index';
 
@@ -154,11 +155,6 @@ class Friends extends Component {
             >
               {ordinalSuffixOf(this.state.userRank)}
             </Text>
-            <AvatarImage
-              flex: 0.66, height: 60, width: 60, borderRadius: 60 / 2,
-            }}
-              source={{ uri: 'https://api.adorable.io/avatars/165/a.png' }}
-            />
             <AvatarImage
               individual={this.props.account}
             />
