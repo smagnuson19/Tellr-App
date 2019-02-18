@@ -31,8 +31,7 @@ Install Homebrew, npm, node, yarn
 #### Setup of React Native environment:
 We followed [these](https://medium.com/@randerson112358/setup-react-native-environment-for-ios-97bf7faadf77) setup instructions:
 1. Install watchman: `brew install watchman`
-2. Install React Native: `sudo npm install -g react-native-cli`
-3. Install XCode for iOS
+2. Install XCode for iOS
 
 #### Setup of React Native dependencies
 
@@ -56,9 +55,12 @@ Issues: If you run into an issue on install pods with react-native-image-picker
 
 ## Deployment
 To run:
+The scheme 'DeployTellrApp' is shipped with xcode and is the production version. Just select it as your target in Xcode and click build.
 
-`yarn start`
-Once watchman is running open up the project in xcode
+If you want a Debug version of TellrApp, you have to create a new scheme using TellrAppTests. Make sure in the build config that you build the React library first as you might encounter issues. No other libraries/dependencies need to be built. 
+
+Run `yarn start` in Tellr root directory.
+Once watchman is running open up the xcworkspace in xcode and build to the debug scheme you just made.
 
 ## Term 1 Demo Prioritizations
 1. User Login and signup flow complete
