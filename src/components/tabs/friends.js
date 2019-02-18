@@ -47,6 +47,7 @@ class Friends extends Component {
       weeklyTaskDataList.push({
         score: this.props.friendInfo[key].tasksCompletedWeek,
         username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+        email: key,
       });
     });
     console.log(weeklyTaskDataList);
@@ -57,6 +58,7 @@ class Friends extends Component {
       monthlyTaskDataList.push({
         score: this.props.friendInfo[key].tasksCompletedMonth,
         username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+        email: key,
       });
     });
     console.log(monthlyTaskDataList);
@@ -155,7 +157,6 @@ class Friends extends Component {
             }}
             >
               {this.state.user.score}
-pts
             </Text>
           </View>
           <ButtonGroup
@@ -238,6 +239,11 @@ pts
         data: this.state.filter > 0 ? this.state.monthlyTaskData : this.state.weeklyTaskData,
         icon: 'iconUrl',
         sort: this.sort,
+        onRowPress: (item, index) => {
+          this.props.navigation.navigate('SocialIndividual', {
+            email: item.email,
+          });
+        },
       };
       console.log(this.state.filter);
       console.log(props.data);
