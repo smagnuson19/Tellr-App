@@ -20,6 +20,7 @@ import { postRequest, fetchKidFriends } from '../../actions/index';
 // TODO:
 // change avatars:
 //       need to add avatars to backened as part of friendInfo, need to make landing page for avatar selection when create an account
+//       currently have as initials but this can change
 // leaderboard user score switch for weeks / months
 // add goals completed / tasks completed
 // make the requests go away when pressed
@@ -153,10 +154,13 @@ class Friends extends Component {
             >
               {ordinalSuffixOf(this.state.userRank)}
             </Text>
-            <Image style={{
+            <AvatarImage
               flex: 0.66, height: 60, width: 60, borderRadius: 60 / 2,
             }}
               source={{ uri: 'https://api.adorable.io/avatars/165/a.png' }}
+            />
+            <AvatarImage
+              individual={this.props.account}
             />
             <Text style={{
               color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,

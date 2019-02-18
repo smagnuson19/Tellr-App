@@ -141,8 +141,11 @@ export function postGoalApprove(payLoad, priority) {
 }
 
 export function postNotifications(payLoad) {
+  console.log('0 here');
   return (dispatch) => {
+    console.log('1 here');
     return AsyncStorage.getItem('token').then((token) => {
+      console.log('2 here');
       return axios.post(`${ROOT_URL}/notifications`, { payLoad }, { headers: { authorization: token } })
         .then((result) => {
           console.log(`postNotifications post response ${result.data}`);

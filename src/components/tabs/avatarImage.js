@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
+import { connect } from 'react-redux';
 
 // import Style from '../../styling/Style';
 import { fonts, colors } from '../../styling/base';
@@ -21,12 +22,27 @@ class AvatarImage extends Component {
     const firstLetter = this.props.individual.firstName.slice(0, 1).toUpperCase();
     const secondLetter = this.props.individual.lastName.slice(0, 1).toUpperCase();
     const avatarLetters = firstLetter + secondLetter;
-    return (
-      <View style={pageStyle.avatarContainer}>
-        <TouchableOpacity
-          style={pageStyle.avatarBackground}
-          onPress={() => this.bPress()}
-        >
+    if (this.props.account.accountType === 'Parent') {
+      return (
+        <View style={pageStyle.avatarParentContainer}>
+          <TouchableOpacity
+            style={pageStyle.avatarBackground}
+            onPress={() => this.bPress()}
+          >
+            <View style={pageStyle.avatarInnerCircle}>
+              <Text style={pageStyle.avatarText}>
+                {' '}
+                {avatarLetters}
+                {' '}
+              </Text>
+            </View>
+
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return (
+        <View style={pageStyle.avatarChildContainer}>
           <View style={pageStyle.avatarInnerCircle}>
             <Text style={pageStyle.avatarText}>
               {' '}
@@ -34,19 +50,20 @@ class AvatarImage extends Component {
               {' '}
             </Text>
           </View>
-
-        </TouchableOpacity>
-      </View>
-    );
+        </View>
+      );
+    }
   }
 }
 
 const pageStyle = StyleSheet.create({
-  avatarContainer: {
+  avatarParentContainer: {
     margin: 8,
     // controlls how far from top view they render
     paddingTop: 80,
     paddingBottom: 8,
+  },
+  avatarChildContainer: {
   },
   avatarBackground: {
     borderWidth: 1,
@@ -75,5 +92,9 @@ const pageStyle = StyleSheet.create({
   },
 });
 
+const mapStateToProps = state => (
+  {
+    account: state.user.info,
+  });
 
-export default AvatarImage;
+export default connect(mapStateToProps)(AvatarImage);

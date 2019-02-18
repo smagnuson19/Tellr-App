@@ -66,9 +66,9 @@ class SignUp extends Component {
     } else if (this.state.familyName === '') {
       Alert.alert('Family Name cannot be empty');
       console.log('ERROR: family name empty');
-    } else if (this.state.avatar === '') {
-      Alert.alert('Avatar cannot be empty');
-      console.log('ERROR: avatar empty');
+    // } else if (this.state.avatar === '') {
+    //   Alert.alert('Avatar cannot be empty');
+    //   console.log('ERROR: avatar empty');
     } else {
       console.log('attempting to log in');
       // do a post if there are no errors in the fields
