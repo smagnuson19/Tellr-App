@@ -8,6 +8,7 @@ const UserReducer = (
     family: null,
     goals: null,
     friendInfo: null,
+    allFriend: null,
   },
   action,
 ) => {
@@ -19,6 +20,7 @@ const UserReducer = (
         notifications: state.notifications,
         goals: state.goals,
         friendInfo: state.friendInfo,
+        allFriend: state.allFriend,
       };
     case ActionTypes.FETCH_FAMILY:
       return {
@@ -27,6 +29,7 @@ const UserReducer = (
         notifications: state.notifications,
         goals: state.goals,
         friendInfo: state.friendInfo,
+        allFriend: state.allFriend,
       };
     case ActionTypes.FETCH_NOTIFICATIONS:
       return {
@@ -35,6 +38,7 @@ const UserReducer = (
         notifications: action.payload,
         goals: state.goals,
         friendInfo: state.friendInfo,
+        allFriend: state.allFriend,
       };
     case ActionTypes.FETCH_GOALS:
       return {
@@ -43,6 +47,7 @@ const UserReducer = (
         notifications: state.notifications,
         goals: action.payload,
         friendInfo: state.friendInfo,
+        allFriend: state.allFriend,
       };
     case ActionTypes.FETCH_FRIENDINFO:
       return {
@@ -51,6 +56,16 @@ const UserReducer = (
         notifications: state.notifications,
         goals: state.goals,
         friendInfo: action.payload,
+        allFriend: state.allFriend,
+      };
+    case ActionTypes.FETCH_ALL_SOC:
+      return {
+        info: state.info,
+        family: state.family,
+        notifications: state.notifications,
+        goals: state.goals,
+        friendInfo: state.friendInfo,
+        allFriend: action.payload,
       };
     default:
       return state;

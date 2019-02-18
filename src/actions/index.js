@@ -19,6 +19,8 @@ export const ActionTypes = {
   FETCH_NOTIFICATIONS: 'FETCH_NOTIFICATIONS',
   FETCH_GOALS: 'FETCH_GOALS',
   FETCH_FRIENDINFO: 'FETCH_FRIENDINFO',
+  FETCH_IND: 'FETCH_IND',
+  FETCH_ALL_SOC: 'FETCH_ALL_SOC',
 };
 
 // trigger to deauth if there is error
@@ -549,6 +551,73 @@ export function fetchKidFriends(email) {
     });
   };
 }
+
+export function fetchIndividualSocial(email) {
+  return AsyncStorage.getItem('token').then((token) => {
+    return axios.get(`${ROOT_URL}/social/taskhistory/${email}`, { headers: { authorization: token } })
+      .then((response) => {
+        // make a list of the parent's children
+        const payload = response.data;
+        const list = [];
+        Object.keys(payload).forEach((key) => {
+          list.push(payload[key]);
+        });
+        return list;
+      }).catch((error) => {
+        errorHandling(
+          'Error in fetchKidGoals: ',
+          error.response.data[0].Error,
+        );
+      });
+  });
+}
+
+export function fetchAllSocial(email) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.get(`${ROOT_URL}/social/${email}`, { headers: { authorization: token } })
+        .then((response) => {
+          // make a list of the kid's friends
+          const payload = response.data;
+          // Want to do this for every Kid
+          let friendList = [];
+          // console.log(`fetchParentPay :${payload[0]}`);
+
+          if ((Object.keys(payload).length > 0)) {
+            Object.keys(payload).forEach((key) => {
+              axios.all([fetchIndividualSocial(key)])
+                .then(axios.spread((taskhist) => {
+                  console.log(payload[key]);
+                  payload[key].taskhist = taskhist;
+                }));
+              // adding goals and tasks Json objects to payLoad
+              // fetchKidGoals(payload[key].email).then((kidsGoals) => {
+              //   console.log(kidsGoals);
+              //
+              // });
+              //
+              // payload[key].put('tasks', fetchKidTasks(payload[key].email));
+              console.log(payload[key]);
+              friendList.push(payload[key]);
+            });
+          } else {
+            friendList = null;
+          }
+          console.log(`Fetched Friends Info ${friendList}`);
+          dispatch({
+            type: ActionTypes.FETCH_ALL_SOC,
+            payload: friendList,
+          });
+        }).catch((error) => {
+          errorHandling(
+            'Error in fetchAllSocial fetch: ',
+            error.response.data[0].Error,
+          );
+        });
+    });
+  };
+}
+
 
 // deleteAccount()
 
