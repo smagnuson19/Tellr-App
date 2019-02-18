@@ -1,0 +1,150 @@
+PODS:
+  - boost-for-react-native (1.63.0)
+  - BugsnagReactNative (2.14.0):
+    - BugsnagReactNative/Core (= 2.14.0)
+    - React
+  - BugsnagReactNative/Core (2.14.0):
+    - React
+  - BVLinearGradient (2.5.3):
+    - React
+  - DoubleConversion (1.1.6)
+  - Folly (2016.10.31.00):
+    - boost-for-react-native
+    - DoubleConversion
+    - glog
+  - glog (0.3.5)
+  - OneSignal (2.9.4)
+  - React (0.57.3):
+    - React/Core (= 0.57.3)
+  - react-native-onesignal (3.2.12):
+    - OneSignal (= 2.9.4)
+    - React
+  - React/Core (0.57.3):
+    - yoga (= 0.57.3.React)
+  - React/CxxBridge (0.57.3):
+    - Folly (= 2016.10.31.00)
+    - React/Core
+    - React/cxxreact
+  - React/cxxreact (0.57.3):
+    - boost-for-react-native (= 1.63.0)
+    - Folly (= 2016.10.31.00)
+    - React/jschelpers
+    - React/jsinspector
+  - React/DevSupport (0.57.3):
+    - React/Core
+    - React/RCTWebSocket
+  - React/fishhook (0.57.3)
+  - React/jschelpers (0.57.3):
+    - Folly (= 2016.10.31.00)
+    - React/PrivateDatabase
+  - React/jsinspector (0.57.3)
+  - React/PrivateDatabase (0.57.3)
+  - React/RCTAnimation (0.57.3):
+    - React/Core
+  - React/RCTBlob (0.57.3):
+    - React/Core
+  - React/RCTImage (0.57.3):
+    - React/Core
+    - React/RCTNetwork
+  - React/RCTLinkingIOS (0.57.3):
+    - React/Core
+  - React/RCTNetwork (0.57.3):
+    - React/Core
+  - React/RCTText (0.57.3):
+    - React/Core
+  - React/RCTWebSocket (0.57.3):
+    - React/Core
+    - React/fishhook
+    - React/RCTBlob
+  - RNGestureHandler (1.0.15):
+    - React
+  - RNImagePicker (0.27.2):
+    - React
+  - RNSound (0.10.9):
+    - React/Core
+    - RNSound/Core (= 0.10.9)
+  - RNSound/Core (0.10.9):
+    - React/Core
+  - RNSVG (9.2.4):
+    - React
+  - RNVectorIcons (6.2.0):
+    - React
+  - yoga (0.57.3.React)
+
+DEPENDENCIES:
+  - BugsnagReactNative (from `../node_modules/bugsnag-react-native`)
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
+  - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
+  - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - react-native-onesignal (from `../node_modules/react-native-onesignal/react-native-onesignal.podspec`)
+  - React/Core (from `../node_modules/react-native`)
+  - React/CxxBridge (from `../node_modules/react-native`)
+  - React/cxxreact (from `../node_modules/react-native`)
+  - React/DevSupport (from `../node_modules/react-native`)
+  - React/RCTAnimation (from `../node_modules/react-native`)
+  - React/RCTImage (from `../node_modules/react-native`)
+  - React/RCTLinkingIOS (from `../node_modules/react-native`)
+  - React/RCTNetwork (from `../node_modules/react-native`)
+  - React/RCTText (from `../node_modules/react-native`)
+  - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNImagePicker (from `../node_modules/react-native-image-picker`)
+  - RNSound (from `../node_modules/react-native-sound`)
+  - RNSVG (from `../node_modules/react-native-svg`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - boost-for-react-native
+    - OneSignal
+
+EXTERNAL SOURCES:
+  BugsnagReactNative:
+    :path: "../node_modules/bugsnag-react-native"
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
+  DoubleConversion:
+    :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  Folly:
+    :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
+  glog:
+    :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  React:
+    :path: "../node_modules/react-native"
+  react-native-onesignal:
+    :path: "../node_modules/react-native-onesignal/react-native-onesignal.podspec"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
+  RNImagePicker:
+    :path: "../node_modules/react-native-image-picker"
+  RNSound:
+    :path: "../node_modules/react-native-sound"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
+  yoga:
+    :path: "../node_modules/react-native/ReactCommon/yoga"
+
+SPEC CHECKSUMS:
+  boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  BugsnagReactNative: 4c8c68d901a9eb9601311f15426d2d95fc69e58c
+  BVLinearGradient: 0d985ec461359c82bc254f26d11008bdae50d17a
+  DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
+  Folly: c89ac2d5c6ab169cd7397ef27485c44f35f742c7
+  glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
+  OneSignal: a41f5a896177275662da07e23d6a809c0e105a89
+  React: a197ec4fee34abff321271f5614cabc517faed71
+  react-native-onesignal: fa2b1e784076b8e8a1e5d86789fbb3f5345778fa
+  RNGestureHandler: 14c09a7361c272efea8f7f3799142c893a6a4485
+  RNImagePicker: 0dbb6f40e666363fa989f95e7ba6a7aaf130a611
+  RNSound: 24fa73ccfa6236a0b493e3f4bf3c952028dc3ce2
+  RNSVG: 6fec2b50e65b4a01ba54155e8e546e0a1eeb16f4
+  RNVectorIcons: b6b131d2fdc2e240f7aba41296df869141443793
+  yoga: c991dffbcb89c7eee1aadf243b72e48d462ee34a
+
+PODFILE CHECKSUM: b2bc488d83a54ee9d674d04892ac8c52432f8d49
+
+COCOAPODS: 1.6.0

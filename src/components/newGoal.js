@@ -248,6 +248,9 @@ class NewGoal extends Component {
                 value={this.state.goalName}
                 placeholder="Goal"
                 placeholderTextColor={colors.placeholderColor}
+                returnKeyType="next"
+                onSubmitEditing={() => { this.secondTextInput.focus(); }}
+                blurOnSubmit={false}
               />
               <FormInput
                 containerStyle={Style.fieldContainerThird}
@@ -256,6 +259,10 @@ class NewGoal extends Component {
                 value={this.state.goalDescription}
                 placeholder="Goal Description..."
                 placeholderTextColor={colors.placeholderColor}
+                returnKeyType="next"
+                ref={(input) => { this.secondTextInput = input; }}
+                onSubmitEditing={() => { this.thirdTextInput.focus(); }}
+                blurOnSubmit={false}
               />
               <FormInput
                 containerStyle={Style.fieldContainerThird}
@@ -263,6 +270,9 @@ class NewGoal extends Component {
                 onChangeText={text => this.setState({ value: text })}
                 value={this.state.value}
                 placeholder="Value: $0.00"
+                ref={(input) => { this.thirdTextInput = input; }}
+                keyboardType="decimal-pad"
+                blurOnSubmit={false}
                 placeholderTextColor={colors.placeholderColor}
               />
             </View>

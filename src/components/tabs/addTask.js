@@ -179,8 +179,10 @@ class AddTask extends Component {
                 value={this.state.taskName}
                 placeholder="Task Name"
                 placeholderTextColor={colors.placeholderColor}
+                returnKeyType="next"
               />
               <DatePicker
+
                 style={{ ...taskDeadlineStyles.style }}
                 date={this.state.taskDeadline}
                 mode="datetime"
@@ -220,6 +222,8 @@ class AddTask extends Component {
                 minuteInterval={30}
               />
               <RNPickerSelect
+                onSubmitEditing={() => { this.fourthTextInput.focus(); }}
+                blurOnSubmit={false}
                 placeholder={{
                   label: 'Select Child',
                   value: null,
@@ -235,14 +239,21 @@ class AddTask extends Component {
                 value={this.state.childEmail}
               />
               <FormInput
+                ref={(input) => { this.fourthTextInput = input; }}
+                onSubmitEditing={() => { this.fithTextInput.focus(); }}
+                blurOnSubmit={false}
                 containerStyle={Style.fieldContainerSecondary}
                 inputStyle={Style.fieldTextSecondary}
                 onChangeText={text => this.setState({ taskDescription: text })}
                 value={this.state.taskDescription}
                 placeholder="Task Description..."
                 placeholderTextColor={colors.placeholderColor}
+                returnKeyType="next"
               />
               <FormInput
+                ref={(input) => { this.fithTextInput = input; }}
+                returnKeyType="done"
+                onSubmitEditing={() => this.submitTask()}
                 containerStyle={Style.fieldContainerSecondary}
                 inputStyle={Style.fieldTextSecondary}
                 onChangeText={text => this.setState({ reward: text })}
