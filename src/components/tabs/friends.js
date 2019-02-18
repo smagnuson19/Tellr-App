@@ -1,5 +1,6 @@
 /*
 Starter code layout taken from: https://github.com/JoeRoddy/react-native-leaderboard/blob/master/examples/CustomExample.js
+Avatars from: http://avatars.adorable.io/#demo
 */
 
 import React, { Component } from 'react';
@@ -13,13 +14,16 @@ import DialogInput from 'react-native-dialog-input';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Style from '../../styling/Style';
+import AvatarImage from './avatarImage';
 import { colors, fonts } from '../../styling/base';
 import { postRequest, fetchKidFriends } from '../../actions/index';
 
 // TODO:
+// change avatars:
+//       need to add avatars to backened as part of friendInfo, need to make landing page for avatar selection when create an account
+//       currently have as initials but this can change
 // leaderboard user score switch for weeks / months
 // add goals completed / tasks completed
-// change avatars -  http://avatars.adorable.io/#demo
 // make the requests go away when pressed
 // Dislay "friend request accepted" or something
 
@@ -47,6 +51,7 @@ class Friends extends Component {
       weeklyTaskDataList.push({
         score: this.props.friendInfo[key].tasksCompletedWeek,
         username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+        iconUrl: this.props.friendInfo[key].avatarUrl,
         email: key,
       });
     });
@@ -58,6 +63,7 @@ class Friends extends Component {
       monthlyTaskDataList.push({
         score: this.props.friendInfo[key].tasksCompletedMonth,
         username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+        iconUrl: this.props.friendInfo[key].avatarUrl,
         email: key,
       });
     });
@@ -70,6 +76,7 @@ class Friends extends Component {
     //   weeklyGoalDataList.push({
     //     score: this.props.friendInfo[key].goalsCompletedWeek,
     //     username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+    //     iconUrl: this.props.friendInfo[key].avatarUrl,
     //   });
     // });
     // console.log(weeklyGoalDataList);
@@ -80,6 +87,7 @@ class Friends extends Component {
     //   monthlyGoalDataList.push({
     //     score: this.props.friendInfo[key].goalsCompletedMonth,
     //     username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+    //     iconUrl: this.props.friendInfo[key].avatarUrl,
     //   });
     // });
     // console.log(monthlyGoalDataList);
@@ -147,10 +155,8 @@ class Friends extends Component {
             >
               {ordinalSuffixOf(this.state.userRank)}
             </Text>
-            <Image style={{
-              flex: 0.66, height: 60, width: 60, borderRadius: 60 / 2,
-            }}
-              source={{ uri: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' }}
+            <AvatarImage
+              individual={this.props.account}
             />
             <Text style={{
               color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
