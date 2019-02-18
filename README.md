@@ -36,13 +36,13 @@ We followed [these](https://medium.com/@randerson112358/setup-react-native-envir
 
 #### Setup of React Native dependencies
 
-1. `yarn install`
-2. `react-native link`
-3. Install Cocoapods with gem
+1.  Install Cocoapods with gem
 `sudo gem install cocoapods`
 (optional for bugsnag to upload dSYM files) 'sudo gem install cocoapods-bugsnag`
+2. `yarn install`
+3. `react-native link`
 4. Link in Pods
-`install pods`
+ `install pods`
 6. cd to directory
 run `yarn start`
 7. run in Xcode
