@@ -38,6 +38,21 @@ We followed [these](https://medium.com/@randerson112358/setup-react-native-envir
 
 1. `yarn install`
 2. `react-native link`
+3. Install Cocoapods with gem
+`sudo gem install cocoapods`
+(optional for bugsnag to upload dSYM files) 'sudo gem install cocoapods-bugsnag`
+4. Link in Pods
+`install pods`
+6. cd to directory
+run `yarn start`
+7. run in Xcode
+
+Issues: If you run into an issue on install pods with react-native-image-picker
+1. cd into node_modules/react-native-image-picker
+2. In package.json rename "name" value to RNImagePicker
+3. Rename the .podspec file to RNImagePicker
+4. cd ios and rename the .xcodeproject file to RNImagePicker.xcodeproject
+5. `pod install` again
 
 ## Deployment
 To run:
