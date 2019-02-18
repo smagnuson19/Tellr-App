@@ -242,6 +242,9 @@ class Friends extends Component {
         onRowPress: (item, index) => {
           this.props.navigation.navigate('SocialIndividual', {
             email: item.email,
+            rank: index,
+            score: item.score,
+            name: item.username,
           });
         },
       };
