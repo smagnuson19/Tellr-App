@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
-  View, Image, Alert,
+  View, Image, Alert, TouchableOpacity, Text,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { FormInput, Button } from 'react-native-elements';
-import { colors } from '../styling/base';
 import Style from '../styling/Style';
+import { colors, fonts } from '../styling/base';
 import { loginUser } from '../actions/index';
 
 class Login extends Component {
@@ -105,6 +105,16 @@ class Login extends Component {
                 onPress={() => this.props.navigation.navigate('SignUpFirstDialouge')}
                 style={Style.button}
               />
+              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity>
+                  <Text style={{
+                    color: 'white', fontFamily: fonts.secondary, fontSize: fonts.smmd, fontWeight: 'bold',
+                  }}
+                  >
+Forgot Password?
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </LinearGradient>
