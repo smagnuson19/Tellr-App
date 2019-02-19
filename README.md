@@ -41,9 +41,9 @@ We followed [these](https://medium.com/@randerson112358/setup-react-native-envir
 `sudo gem install cocoapods-bugsnag`
 2. `yarn install`
 3. `react-native link`
-4. Link in Pods
- `install pods`
-6. cd to directory
+4. cd into ios folder and Link in Pods
+ `pod install`
+6. cd to root TellrApp directory
 run `yarn start`
 7. run in Xcode
 
