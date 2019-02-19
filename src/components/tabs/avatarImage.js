@@ -23,7 +23,7 @@ class AvatarImage extends Component {
     const secondLetter = this.props.individual.lastName.slice(0, 1).toUpperCase();
     const avatarLetters = firstLetter + secondLetter;
     return (
-      <View style={pageStyle.avatarContainer}>
+      <View style={pageStyle.avatarParentContainer}>
 
 
         <TouchableOpacity
