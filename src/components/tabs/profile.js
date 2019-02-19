@@ -116,6 +116,11 @@ class Profile extends Component {
     this.props.navigation.navigate('Auth', {}, NavigationActions.navigate({ routeName: 'Login' }));
   }
 
+  changePassword() {
+    console.log('change password childked');
+    // this.props.postChangePassword();
+  }
+
   // deleteAccount() {
   //   // move to login page after you delete the account
   //   const resetAction = StackActions.reset({
@@ -168,6 +173,12 @@ class Profile extends Component {
                     color={colors.Red}
                     style={pageStyle.settingsButton}
                     onPress={() => this.logout()}
+                  />
+                  <Button
+                    title="Change Password"
+                    color={colors.Red}
+                    style={pageStyle.settingsButton}
+                    onPress={() => this.changePassword()}
                   />
                 </View>
               </View>
