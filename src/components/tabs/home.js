@@ -63,6 +63,7 @@ class Home extends Component {
 
   renderAction(action, taskName, sEmail, cEmail, priority, taskReward, description, redeemed, notificationType) {
     // child marked task complete now Verify
+    console.log(action);
     if (notificationType === 'newGoal') {
       const actionMap = {
         Accept: 1,
@@ -83,6 +84,7 @@ class Home extends Component {
 
 
     // New Task for the Child to see
+
     if (notificationType === 'newTask') {
       // We do not give them the option to ignore right now.
       // Could easily add in notifcaitonCard

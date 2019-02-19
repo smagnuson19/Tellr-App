@@ -41,7 +41,7 @@ class Child extends Component {
             <View key={component.notificationName}>
               <NotificationCard entry={component}
                 notificationTypePassed="newTask"
-                onPress={this.refreshAction}
+                onPress={this.buttonPress}
               />
 
             </View>
