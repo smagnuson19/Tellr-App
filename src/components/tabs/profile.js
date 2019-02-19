@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Button, ScrollView,
+  View, Text, StyleSheet, ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { Divider } from 'react-native-elements';
+import { Divider, Button } from 'react-native-elements';
 import { PieChart } from 'react-native-svg-charts';
 // import { StackActions, NavigationActions } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
@@ -121,6 +121,41 @@ class Profile extends Component {
     // this.props.postChangePassword();
   }
 
+
+  renderFooter() {
+    return (
+      <View
+        style={{
+          padding: 15, paddingTop: 5, paddingBottom: 45, alignItems: 'center',
+        }}
+      >
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 25,
+          marginTop: 5,
+        }}
+        >
+          <Button
+            onPress={() => this.logout()}
+            title="Logout"
+            rounded
+            style={Style.button}
+            backgroundColor={colors.logoGreen}
+          />
+          <Button
+            onPress={() => this.changePassword()}
+            title="Change Password"
+            rounded
+            style={Style.button}
+            backgroundColor={colors.logoGreen}
+          />
+        </View>
+      </View>
+    );
+  }
+
   // deleteAccount() {
   //   // move to login page after you delete the account
   //   const resetAction = StackActions.reset({
@@ -167,26 +202,13 @@ class Profile extends Component {
                   {' '}
                 </Text>
                 {this.determineDisplay()}
-                <View style={pageStyle.buttonContainer}>
-                  <Button
-                    title="Logout"
-                    color={colors.Red}
-                    style={pageStyle.settingsButton}
-                    onPress={() => this.logout()}
-                  />
-                  <Button
-                    title="Change Password"
-                    color={colors.Red}
-                    style={pageStyle.settingsButton}
-                    onPress={() => this.changePassword()}
-                  />
-                </View>
               </View>
             </View>
             <ScrollView>
               {this.childCharts()}
               {this.childCharts()}
             </ScrollView>
+            {this.renderFooter()}
           </View>
         </LinearGradient>
       </View>
