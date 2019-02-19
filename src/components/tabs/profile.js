@@ -115,18 +115,7 @@ class Profile extends Component {
     this.props.logoutUser();
     this.props.navigation.navigate('Auth', {}, NavigationActions.navigate({ routeName: 'Login' }));
   }
-  //   const resetAction = NavigationActions.reset({
-  //     index: 0, // <-- currect active route from actions array
-  //     key: null,
-  //     actions: [
-  //       NavigationActions.navigate({ routeName: 'Auth' }),
-  //     ],
-  //   });
-  //
-  //   console.log(this.props.navigation);
-  //   this.props.navigation.navigate({ routeName: 'Auth' });
-  // }
-  //
+
   // deleteAccount() {
   //   // move to login page after you delete the account
   //   const resetAction = StackActions.reset({

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import {
-  View, Image, Alert,
+  View, Image, Alert, TouchableOpacity, Text,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { FormInput, Button } from 'react-native-elements';
-import { colors } from '../styling/base';
+import DialogInput from 'react-native-dialog-input';
 import Style from '../styling/Style';
-import { loginUser } from '../actions/index';
+import { colors, fonts } from '../styling/base';
+import { loginUser, postForgotPassword } from '../actions/index';
 
 class Login extends Component {
   constructor(props) {
@@ -15,16 +16,12 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
+      isDialogVisible: false,
     };
   }
 
-
   // Don't allow going back once logged in
-
   submitEmail() {
-    // So that you are unable to navigate back to login page once logged in.
-
-
     if (this.state.email === '') {
       Alert.alert('Please enter an email address');
       console.log('ERROR: no email login');
@@ -47,6 +44,20 @@ class Login extends Component {
     }
   }
 
+  forgotPassword(inputText) {
+    console.log('forgot password clicked');
+    const payLoad = {
+      email: inputText,
+    };
+    // Error checking: make sure all of the fields are filled in
+    if (inputText === '') {
+      Alert.alert('Please enter a valid email address');
+      console.log('ERROR: Forgot Password email empty');
+    } else {
+      console.log(payLoad);
+      this.props.postForgotPassword(payLoad);
+    }
+  }
 
   render() {
     const img = require('../media/Tellr-Logo.gif');
@@ -113,6 +124,26 @@ class Login extends Component {
                 onPress={() => this.props.navigation.navigate('SignUpFirstDialouge')}
                 style={Style.button}
               />
+              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity
+                  onPress={() => this.setState({ isDialogVisible: true })}
+                >
+                  <Text style={{
+                    color: 'white', fontFamily: fonts.secondary, fontSize: fonts.smmd, fontWeight: 'bold',
+                  }}
+                  >
+Forgot Password?
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <DialogInput
+                isDialogVisible={this.state.isDialogVisible}
+                title="Forgot Password?"
+                message="Please enter the email address associated with the account, then check your inbox for a password reset email. "
+                hintInput="example@email.com"
+                submitInput={(inputText) => { this.forgotPassword(inputText); }}
+                closeDialog={() => this.setState({ isDialogVisible: false })}
+              />
             </View>
           </View>
         </LinearGradient>
@@ -130,4 +161,4 @@ const mapStateToProps = state => (
   });
 
 
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(mapStateToProps, { loginUser, postForgotPassword })(Login);
