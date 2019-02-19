@@ -217,6 +217,22 @@ export function postRequest(payLoad) {
   };
 }
 
+export function postForgotPassword(payLoad) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.post(`${ROOT_URL}/auth/forgotpassword`, { payLoad }, { headers: { authorization: token } })
+        .then((response) => {
+          console.log(`Forgot password email sent: ${response.data}`);
+        }).catch((error) => {
+          errorHandling(
+            'postForgotPassword post Error: ',
+            error.response.data[0].Error,
+          );
+        });
+    });
+  };
+}
+
 export function postFriendApprove(payLoad, priority) {
   return (dispatch) => {
     return AsyncStorage.getItem('token').then((token) => {

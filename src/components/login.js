@@ -8,7 +8,7 @@ import { FormInput, Button } from 'react-native-elements';
 import DialogInput from 'react-native-dialog-input';
 import Style from '../styling/Style';
 import { colors, fonts } from '../styling/base';
-import { loginUser } from '../actions/index';
+import { loginUser, postForgotPassword } from '../actions/index';
 
 class Login extends Component {
   constructor(props) {
@@ -46,7 +46,6 @@ class Login extends Component {
 
   forgotPassword(inputText) {
     console.log('forgot password clicked');
-
     const payLoad = {
       email: inputText,
     };
@@ -56,7 +55,7 @@ class Login extends Component {
       console.log('ERROR: Forgot Password email empty');
     } else {
       console.log(payLoad);
-      // this.props.postRequest(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
+      this.props.postForgotPassword(payLoad);
     }
   }
 
@@ -154,4 +153,4 @@ const mapStateToProps = state => (
   });
 
 
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(mapStateToProps, { loginUser, postForgotPassword })(Login);
