@@ -23,7 +23,7 @@ class ChangePassword extends Component {
   }
 
   changePassword() {
-    // move to home page after you submit a task
+    // move to home page after you change password
     let resetAction;
     if (this.props.account.accountType === 'Parent') {
       resetAction = StackActions.reset({
@@ -112,7 +112,6 @@ class ChangePassword extends Component {
 const mapStateToProps = state => (
   {
     account: state.user.info,
-    notifications: state.user.notifications,
   });
 
 export default connect(mapStateToProps, { postChangePassword })(ChangePassword);
