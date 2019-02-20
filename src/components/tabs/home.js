@@ -63,6 +63,7 @@ class Home extends Component {
 
   renderAction(action, taskName, sEmail, cEmail, priority, taskReward, description, redeemed, notificationType) {
     // child marked task complete now Verify
+    console.log(action);
     if (notificationType === 'newGoal') {
       const actionMap = {
         Accept: 1,
@@ -83,6 +84,7 @@ class Home extends Component {
 
 
     // New Task for the Child to see
+
     if (notificationType === 'newTask') {
       // We do not give them the option to ignore right now.
       // Could easily add in notifcaitonCard
@@ -366,6 +368,7 @@ No Chores To Verify, Add some more!
       );
     } else {
       return (
+
         <View style={Style.rootContainer}>
           <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
@@ -373,6 +376,7 @@ No Chores To Verify, Add some more!
             </View>
           </LinearGradient>
         </View>
+
       );
     }
   }
@@ -399,6 +403,7 @@ const pageStyle = StyleSheet.create({
 
   avatarRow: {
     flexDirection: 'row',
+
     // width: dimensions.fullWidth,
     justifyContent: 'center',
     marginHorizontal: 20,

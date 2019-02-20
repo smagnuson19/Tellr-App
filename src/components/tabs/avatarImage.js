@@ -36,7 +36,6 @@ class AvatarImage extends Component {
                 {' '}
               </Text>
             </View>
-
           </TouchableOpacity>
         </View>
       );
@@ -60,8 +59,8 @@ const pageStyle = StyleSheet.create({
   avatarParentContainer: {
     margin: 8,
     // controlls how far from top view they render
-    paddingTop: 80,
-    paddingBottom: 8,
+    paddingTop: '50%',
+    paddingBottom: '4%',
   },
   avatarChildContainer: {
   },

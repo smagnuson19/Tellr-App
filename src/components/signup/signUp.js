@@ -94,14 +94,15 @@ class SignUp extends Component {
     return (
       <FormInput
         inputStyle={Style.fieldText}
-        containerStyle={Style.fieldContainer}
+        containerStyle={pageStyle.fieldContainer}
         onChangeText={text => this.setState({ familyName: text })}
         value={this.state.familyName}
         placeholder="Family Name"
         placeholderTextColor={colors.grey}
         spellCheck="false"
-        returnKeyType="next"
-        keyboardType="number-pad"
+        returnKeyType="done"
+        ref={(input) => { this.lastInput = input; }}
+        onSubmitEditing={() => this.createAccount()}
       />
     );
     // }
@@ -118,7 +119,7 @@ class SignUp extends Component {
             <Text style={Style.headerText}>Create Account </Text>
             <View style={pageStyle.inputContainer}>
               <FormInput
-                containerStyle={Style.fieldContainer}
+                containerStyle={pageStyle.fieldContainer}
                 onChangeText={text => this.setState({ firstName: text })}
                 value={this.state.firstName}
                 placeholder="First Name"
@@ -126,20 +127,25 @@ class SignUp extends Component {
                 placeholderTextColor={colors.grey}
                 spellCheck="false"
                 returnKeyType="next"
+                onSubmitEditing={() => { this.secondTextInput.focus(); }}
+                blurOnSubmit={false}
               />
               <FormInput
                 inputStyle={Style.fieldText}
-                containerStyle={Style.fieldContainer}
+                containerStyle={pageStyle.fieldContainer}
                 onChangeText={text => this.setState({ lastName: text })}
                 value={this.state.lastName}
                 placeholder="Last Name"
                 placeholderTextColor={colors.grey}
                 spellCheck="false"
                 returnKeyType="next"
+                ref={(input) => { this.secondTextInput = input; }}
+                onSubmitEditing={() => { this.thirdTextInput.focus(); }}
+                blurOnSubmit={false}
               />
               <FormInput
                 inputStyle={Style.fieldText}
-                containerStyle={Style.fieldContainer}
+                containerStyle={pageStyle.fieldContainer}
                 onChangeText={text => this.setState({ email: text })}
                 value={this.state.email}
                 placeholder="Email Address"
@@ -147,10 +153,13 @@ class SignUp extends Component {
                 placeholderTextColor={colors.grey}
                 spellCheck="false"
                 returnKeyType="next"
+                ref={(input) => { this.thirdTextInput = input; }}
+                onSubmitEditing={() => { this.fourthTextInput.focus(); }}
+                blurOnSubmit={false}
               />
               <FormInput
                 inputStyle={Style.fieldText}
-                containerStyle={Style.fieldContainer}
+                containerStyle={pageStyle.fieldContainer}
                 onChangeText={text => this.setState({ password: text })}
                 value={this.state.password}
                 placeholder="Set Password"
@@ -158,6 +167,9 @@ class SignUp extends Component {
                 spellCheck="false"
                 returnKeyType="next"
                 secureTextEntry="true"
+                ref={(input) => { this.fourthTextInput = input; }}
+                onSubmitEditing={() => { this.lastInput.focus(); }}
+                blurOnSubmit={false}
               />
 
               {this.displayAdditionalFields(userType)}
@@ -183,10 +195,16 @@ class SignUp extends Component {
 }
 
 const pageStyle = StyleSheet.create({
+  fieldContainer: {
+    borderBottomWidth: 1,
+    flex: 0,
+    borderColor: colors.lightGrey,
+    color: colors.white,
+  },
   inputContainer: {
     flex: 1,
-    marginTop: '5%',
-    marginBottom: '3%',
+    marginTop: '0%',
+    marginBottom: '8%',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'center',

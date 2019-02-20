@@ -22,9 +22,9 @@ platform :ios do
     match(type: "appstore")
     gym(
       export_method: "app-store",
-      project: "TellrApp.xcodeproj",
-      # workspace: "TellrApp.xcworkspace", #one of project or workspace depends on if you use pods
-      scheme: "TellrApp",
+      #project: "TellrApp.xcodeproj",
+      workspace: "TellrApp.xcworkspace", #one of project or workspace depends on if you use pods
+      scheme: "DeployTellrApp",
     )
     upload_to_testflight
   end

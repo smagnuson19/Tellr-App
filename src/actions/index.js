@@ -4,8 +4,8 @@ import deviceStorage from './deviceStorage';
 import navigationService from '../navigation/navigationService';
 
 
-// const ROOT_URL = 'http://127.0.0.1:5000/api';
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+const ROOT_URL = 'http://127.0.0.1:5000/api';
+// const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
 
@@ -55,8 +55,8 @@ export function errorHandling(message, error) {
   if (error === ('Invalid Token' || 'Expired Token')) {
     console.log('Invalid Token -> Send to home');
     logoutUser();
-    navigationService.navigate('AuthStack');
-    // to be implemented
+    // want to go back to the login page
+    navigationService.navigate('Login');
   }
 }
 // use the below when auth is fully implemented - go to login and comment out {email, password}
@@ -106,6 +106,8 @@ export function postNewUser(payLoad) {
 }
 
 export function postTaskVerified(payLoad, userEmail, priority) {
+  console.log('The payload I am sending: ');
+  console.log(payLoad);
   return (dispatch) => {
     return AsyncStorage.getItem('token').then((token) => {
       return axios.post(`${ROOT_URL}/tasks/verified`, { payLoad }, { headers: { authorization: token } })
