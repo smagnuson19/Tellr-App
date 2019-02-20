@@ -4,8 +4,8 @@ import deviceStorage from './deviceStorage';
 import navigationService from '../navigation/navigationService';
 
 
-const ROOT_URL = 'http://127.0.0.1:5000/api';
-// const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+// const ROOT_URL = 'http://127.0.0.1:5000/api';
+const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
 
@@ -228,6 +228,22 @@ export function postForgotPassword(payLoad) {
         }).catch((error) => {
           errorHandling(
             'postForgotPassword post Error: ',
+            error.response.data[0].Error,
+          );
+        });
+    });
+  };
+}
+
+export function postChangePassword(payLoad) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.post(`${ROOT_URL}/auth/changepassword`, { payLoad }, { headers: { authorization: token } })
+        .then((response) => {
+          console.log(`Change password email sent: ${response.data}`);
+        }).catch((error) => {
+          errorHandling(
+            'postChangePassword post Error: ',
             error.response.data[0].Error,
           );
         });
