@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Image,
+  View, Text, StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -8,6 +8,7 @@ import { Button } from 'react-native-elements';
 import DialogInput from 'react-native-dialog-input';
 import { AreaChart, PieChart } from 'react-native-svg-charts';
 import * as shape from 'd3-shape';
+import AvatarImageFriend from './avatarImageFriend';
 import { fonts, colors, dimensions } from '../../styling/base';
 import { fetchAllSocial } from '../../actions/index';
 import Style from '../../styling/Style';
@@ -111,10 +112,8 @@ class SocialView extends Component {
           >
             {`${this.state.score} tasks`}
           </Text>
-          <Image style={{
-            flex: 0.66, height: 60, width: 60, borderRadius: 60 / 2,
-          }}
-            source={{ uri: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' }}
+          <AvatarImageFriend
+            individualName={this.state.name}
           />
           <Text style={{
             color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
@@ -217,22 +216,18 @@ const pageStyle = StyleSheet.create({
     width: dimensions.fullWidth,
     height: dimensions.fullHeight,
   },
-
   topContainer: {
     width: dimensions.fullWidth,
     backgroundColor: '#fff',
     marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
-
     marginTop: 0,
   },
-
   main: {
     flex: 1,
     marginBottom: 90,
   },
-
   headerText: {
     paddingTop: 80,
     marginLeft: 15,
@@ -240,7 +235,6 @@ const pageStyle = StyleSheet.create({
     fontSize: fonts.lg,
     color: colors.black,
   },
-
   balanceContainer: {
     backgroundColor: colors.grey,
     width: 100,
@@ -257,7 +251,6 @@ const pageStyle = StyleSheet.create({
     fontSize: fonts.md,
     fontFamily: fonts.secondary,
   },
-
   sectionContainer: {
     marginBottom: 15,
     width: dimensions.fullWidth,
@@ -278,10 +271,7 @@ const pageStyle = StyleSheet.create({
   noGoals: {
     alignItems: 'center',
     justifyContent: 'center',
-
-
   },
-
   noGoalsText: {
     fontSize: fonts.md,
     color: '#fff',
