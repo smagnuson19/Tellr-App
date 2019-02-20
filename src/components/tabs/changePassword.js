@@ -77,6 +77,8 @@ class ChangePassword extends Component {
                 placeholder="Enter old password..."
                 placeholderTextColor={colors.placeholderColor}
                 returnKeyType="next"
+                secureTextEntry="true"
+                textContentType="password"
               />
               <FormInput
                 ref={(input) => { this.fithTextInput = input; }}
@@ -87,6 +89,8 @@ class ChangePassword extends Component {
                 value={this.state.newPassword}
                 placeholder="Enter new password..."
                 placeholderTextColor={colors.placeholderColor}
+                secureTextEntry="true"
+                textContentType="password"
               />
             </View>
             <View style={Style.buttonContainer}>
