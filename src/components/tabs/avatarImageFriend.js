@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity,
+  View, Text, StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
-
 // import Style from '../../styling/Style';
 import { fonts, colors } from '../../styling/base';
 
@@ -19,44 +18,24 @@ class AvatarImageFriend extends Component {
   }
 
   render() {
-    console.log('here');
     console.log(this.props.individualName);
-    const nameArray = this.props.individualName.split('');
+    const nameArray = this.props.individualName.split(' ');
     const indFirstName = nameArray[0];
     const indLastName = nameArray[1];
     const firstLetter = indFirstName.slice(0, 1).toUpperCase();
     const secondLetter = indLastName.slice(0, 1).toUpperCase();
     const avatarLetters = firstLetter + secondLetter;
-    if (this.props.account.accountType === 'Parent') {
-      return (
-        <View style={pageStyle.avatarParentContainer}>
-          <TouchableOpacity
-            style={pageStyle.avatarBackground}
-            onPress={() => this.bPress()}
-          >
-            <View style={pageStyle.avatarInnerCircle}>
-              <Text style={pageStyle.avatarText}>
-                {' '}
-                {avatarLetters}
-                {' '}
-              </Text>
-            </View>
-          </TouchableOpacity>
+    return (
+      <View style={pageStyle.avatarChildContainer}>
+        <View style={pageStyle.avatarInnerCircle}>
+          <Text style={pageStyle.avatarText}>
+            {' '}
+            {avatarLetters}
+            {' '}
+          </Text>
         </View>
-      );
-    } else {
-      return (
-        <View style={pageStyle.avatarChildContainer}>
-          <View style={pageStyle.avatarInnerCircle}>
-            <Text style={pageStyle.avatarText}>
-              {' '}
-              {avatarLetters}
-              {' '}
-            </Text>
-          </View>
-        </View>
-      );
-    }
+      </View>
+    );
   }
 }
 
