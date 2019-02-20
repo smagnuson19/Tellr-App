@@ -13,8 +13,6 @@ import { postChangePassword } from '../../actions/index';
 
 import Style from '../../styling/Style';
 
-// TODO: make buttons of accept and ignore work
-
 class ChangePassword extends Component {
   constructor(props) {
     super(props);
