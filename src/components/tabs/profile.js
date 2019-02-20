@@ -8,7 +8,7 @@ import { Divider, Button } from 'react-native-elements';
 import { PieChart } from 'react-native-svg-charts';
 // import { StackActions, NavigationActions } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
-import { logoutUser } from '../../actions';
+import { logoutUser, postChangePassword } from '../../actions';
 import Style from '../../styling/Style';
 import { colors, fonts, dimensions } from '../../styling/base';
 
@@ -16,7 +16,6 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
     };
   }
 
@@ -116,12 +115,6 @@ class Profile extends Component {
     this.props.navigation.navigate('Auth', {}, NavigationActions.navigate({ routeName: 'Login' }));
   }
 
-  changePassword() {
-    console.log('change password childked');
-    // this.props.postChangePassword();
-  }
-
-
   renderFooter() {
     return (
       <View
@@ -145,7 +138,7 @@ class Profile extends Component {
             backgroundColor={colors.logoGreen}
           />
           <Button
-            onPress={() => this.changePassword()}
+            onPress={() => this.props.navigation.navigate('ChangePassword')}
             title="Change Password"
             rounded
             style={Style.button}
@@ -278,5 +271,5 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  logoutUser,
+  logoutUser, postChangePassword,
 })(Profile);
