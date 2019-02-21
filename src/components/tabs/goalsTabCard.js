@@ -48,7 +48,13 @@ class GoalsCard extends Component {
     const progString0 = 'Progress: ';
     const progString1 = '%';
     console.log(this.props.goals.goalImage);
-    const progress0 = parseFloat(this.props.balance) / parseFloat(this.props.goals.goalValue);
+    let progress0 = parseFloat(this.props.balance) / parseFloat(this.props.goals.goalValue);
+    if (this.props.goals.redeemed === true) {
+      progress0 = 1;
+    }
+    if (Number.isNaN(progress0)) {
+      progress0 = 0;
+    }
     const progress = Math.trunc(Math.min(progress0 * 100, 100));
     const progressString = `${progString0} ${progress} ${progString1}`;
     let style = pageStyle.cardContainer;
