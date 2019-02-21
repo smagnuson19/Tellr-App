@@ -152,7 +152,7 @@ class Home extends Component {
           <Divider style={pageStyle.divider} />
 
           <View>
-            <Text> No Goals To Verify, have your child add more! </Text>
+            <Text style={{ fontSize: 18, paddingHorizontal: 10 }}> No Goals To Verify, have your child add more! </Text>
           </View>
 
 
@@ -193,7 +193,7 @@ class Home extends Component {
           <Divider style={pageStyle.divider} />
 
           <View>
-            <Text> No Goals To Confirm, remind your child! </Text>
+            <Text style={{ fontSize: 18, paddingHorizontal: 10 }}> No Goals To Confirm, remind your child! </Text>
           </View>
 
 
@@ -233,7 +233,7 @@ class Home extends Component {
           </Text>
           <Divider style={pageStyle.divider} />
           <View>
-            <Text>
+            <Text style={{ fontSize: 18, paddingHorizontal: 10 }}>
               {' '}
 No Chores To Verify, Add some more!
             </Text>
@@ -413,11 +413,13 @@ const pageStyle = StyleSheet.create({
     width: dimensions.fullWidth,
   },
   sectionHeader: {
-    fontSize: fonts.md,
+    fontSize: 25,
     color: '#fff',
     fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
     paddingVertical: 6,
+    paddingHorizontal: 10,
+    fontWeight: 'bold',
   },
   divider: {
     backgroundColor: colors.primary,
