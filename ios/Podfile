@@ -48,6 +48,8 @@ target 'TellrApp' do
 
   pod 'BugsnagReactNative', :path => '../node_modules/bugsnag-react-native'
 
+  pod 'RNImagePicker', :path => '../node_modules/react-native-image-picker'
+
   target 'TellrAppTests' do
     #something
     inherit! :search_paths
