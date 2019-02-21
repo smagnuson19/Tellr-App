@@ -5,7 +5,7 @@ Avatars from: http://avatars.adorable.io/#demo
 
 import React, { Component } from 'react';
 import {
-  View, Text, Alert, Image,
+  View, Text, Alert,
 } from 'react-native';
 import { ButtonGroup, Button } from 'react-native-elements';
 import Leaderboard from 'react-native-leaderboard';

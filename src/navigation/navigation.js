@@ -26,6 +26,7 @@ import ParentViewOfChild from '../components/tabs/parentViewOfChild';
 import ViewOfFriendRequests from '../components/tabs/viewOfFriendRequests';
 import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 import SocialView from '../components/tabs/socialView';
+import ChangePassword from '../components/tabs/changePassword';
 
 const HomeStack = createStackNavigator({
   Home: {
@@ -43,8 +44,6 @@ const HomeStack = createStackNavigator({
 },
 {
   initialRouteName: 'Home',
-
-
 });
 
 const FriendsStack = createStackNavigator({
@@ -75,12 +74,29 @@ const FriendsStack = createStackNavigator({
   }),
 });
 
+const ProfileStack = createStackNavigator({
+  Profile: {
+    screen: Profile,
+    navigationOptions: () => ({
+      header: null,
+    }),
+  },
+  ChangePassword: {
+    screen: ChangePassword,
+    navigationOptions: () => ({
+      headerTransparent: 'False',
+    }),
+  },
+},
+{
+  initialRouteName: 'Profile',
+});
 
 const ParentTabBar = createBottomTabNavigator({
   Home: HomeStack,
   Payments,
   'Add Task': AddTask,
-  Profile,
+  Profile: ProfileStack,
 },
 {
   headerMode: 'none',
@@ -123,7 +139,7 @@ const ChildTabBar = createBottomTabNavigator({
   Home,
   Goals,
   Friends: FriendsStack,
-  Profile,
+  Profile: ProfileStack,
 },
 {
   headerMode: 'none',
