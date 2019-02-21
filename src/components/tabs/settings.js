@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import SettingsList from 'react-native-settings-list';
 import { logoutUser, postChangePassword } from '../../actions';
 import Style from '../../styling/Style';
@@ -71,12 +71,13 @@ class Settings extends Component {
           <SettingsList.Item
             title="Change Password"
             titleStyle={{ fontSize: 16 }}
+            onPress={() => this.props.navigation.navigate('ChangePassword')}
           />
           <SettingsList.Item
             title="Delete Account"
             hasNavArrow={false}
             titleStyle={{ fontSize: 16 }}
-            onPress={() => Alert.alert('Route To Notifications Page')}
+            onPress={() => Alert.alert('Are you sure you want to delete account?')}
           />
           <SettingsList.Item
             title="Logout"

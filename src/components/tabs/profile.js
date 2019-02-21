@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { Divider, Button } from 'react-native-elements';
+import { Divider, ButtonGroup } from 'react-native-elements';
 import { PieChart } from 'react-native-svg-charts';
 // import { StackActions, NavigationActions } from 'react-navigation';
 import { logoutUser } from '../../actions';
@@ -112,34 +112,14 @@ class Profile extends Component {
     return (
       <View
         style={{
-          padding: 5, paddingTop: 5, paddingBottom: 45, alignItems: 'center',
+          padding: 20, paddingTop: 5, paddingBottom: 85, alignItems: 'center',
         }}
       >
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginBottom: 25,
-          marginTop: 5,
-        }}
-        >
-          <Button
-            small
-            onPress={() => this.props.navigation.navigate('ChangePassword')}
-            title="Change Password"
-            rounded
-            style={Style.button}
-            backgroundColor={colors.logoGreen}
-          />
-          <Button
-            small
-            onPress={() => this.props.navigation.navigate('SettingsPage')}
-            title="Settings"
-            rounded
-            style={Style.button}
-            backgroundColor={colors.logoGreen}
-          />
-        </View>
+        <ButtonGroup
+          onPress={() => this.props.navigation.navigate('SettingsPage')}
+          buttons={['Settings']}
+          containerStyle={{ width: dimensions.fullWidth }}
+        />
       </View>
     );
   }

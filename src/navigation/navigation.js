@@ -75,11 +75,12 @@ const FriendsStack = createStackNavigator({
   }),
 });
 
-const ProfileStack = createStackNavigator({
-  Profile: {
-    screen: Profile,
+
+const SettingsStack = createStackNavigator({
+  SettingsPage: {
+    screen: Settings,
     navigationOptions: () => ({
-      header: null,
+      headerTransparent: 'True',
     }),
   },
   ChangePassword: {
@@ -88,8 +89,21 @@ const ProfileStack = createStackNavigator({
       headerTransparent: 'True',
     }),
   },
+},
+{
+  initialRouteName: 'SettingsPage',
+});
+
+
+const ProfileStack = createStackNavigator({
+  Profile: {
+    screen: Profile,
+    navigationOptions: () => ({
+      header: null,
+    }),
+  },
   SettingsPage: {
-    screen: Settings,
+    screen: SettingsStack,
     navigationOptions: () => ({
       headerTransparent: 'True',
     }),
