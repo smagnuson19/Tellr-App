@@ -51,8 +51,9 @@ class Settings extends Component {
 
   postDelete() {
     const payLoad = {
-      email: this.state.myEmail,
+      email: this.props.user.email,
     };
+    console.log(payLoad);
     this.props.postDeleteAccount(payLoad);
     this.props.navigation.navigate('Auth', {}, NavigationActions.navigate({ routeName: 'Login' }));
   }
@@ -75,8 +76,9 @@ class Settings extends Component {
 
   postParentDelete() {
     const payLoad = {
-      email: this.state.myEmail,
+      email: this.props.user.email,
     };
+    console.log(payLoad);
     this.props.postParentDeleteAccount(payLoad);
     this.props.navigation.navigate('Auth', {}, NavigationActions.navigate({ routeName: 'Login' }));
   }
