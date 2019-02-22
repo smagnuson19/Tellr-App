@@ -8,7 +8,9 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { NavigationActions } from 'react-navigation';
 import SettingsList from 'react-native-settings-list';
-import { logoutUser, postChangePassword } from '../../actions';
+import {
+  logoutUser, postChangePassword, postDeleteAccount, postParentDelete,
+} from '../../actions';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
 
@@ -31,26 +33,29 @@ class Settings extends Component {
     this.props.navigation.navigate('Auth', {}, NavigationActions.navigate({ routeName: 'Login' }));
   }
 
-  // deleteAccount() {
-  //   // TODO: Are you sure you want to delete account (like with payments)
-  //   // move to login page after you delete the account
-  //   const resetAction = StackActions.reset({
-  //     index: 0, // <-- currect active route from actions array
-  //     key: null,
-  //     actions: [
-  //       NavigationActions.navigate({ routeName: 'Login' }),
-  //     ],
-  //   });
-  //
-  //   const payLoad = {
-  //     email: this.state.myEmail,
-  //   };
-  //   axios.post(`${ROOT_URL}/delete`, { payLoad })
-  //     .then((response) => {
-  //       console.log('deleting 222');
-  //       console.log(response.data);
-  //     });
-  // }
+  postDelete() {
+    const payLoad = {
+      email: this.state.myEmail,
+    };
+    this.props.postDeleteAccount(payLoad);
+    this.props.navigation.navigate('Auth', {}, NavigationActions.navigate({ routeName: 'Login' }));
+  }
+
+  deleteAccount() {
+    // Confirmation alert
+    Alert.alert(
+      'Are you sure you want to delete your account?',
+      'Deleting your account is permanent and will erase all data associated with your account.',
+      [
+        { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+        {
+          text: 'Yes',
+          onPress: () => this.postDelete(),
+        },
+      ],
+      { cancelable: false },
+    );
+  }
 
 
   render() {
@@ -77,7 +82,7 @@ class Settings extends Component {
             title="Delete Account"
             hasNavArrow={false}
             titleStyle={{ fontSize: 16 }}
-            onPress={() => Alert.alert('Are you sure you want to delete account?')}
+            onPress={() => this.deleteAccount()}
           />
           <SettingsList.Item
             title="Logout"
@@ -111,5 +116,5 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  logoutUser, postChangePassword,
+  logoutUser, postChangePassword, postParentDelete, postDeleteAccount,
 })(Settings);
