@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import {
-  View, Image, Alert, TouchableOpacity, Text,
+  View, Alert, TouchableOpacity, Text,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { FormInput, Button } from 'react-native-elements';
 import DialogInput from 'react-native-dialog-input';
+import Logo from './LoginAdditions/logo';
 import Style from '../styling/Style';
 import { colors, fonts } from '../styling/base';
 import { loginUser, postForgotPassword } from '../actions/index';
+
 
 class Login extends Component {
   constructor(props) {
@@ -60,16 +62,20 @@ class Login extends Component {
   }
 
   render() {
-    const img = require('../media/Tellr-Logo.gif');
+    // switched to SVG instead of a gif logo for blurry reasons.
+    // const img = require('../media/Tellr-Logo.gif');
     return (
       <View style={Style.rootContainer}>
 
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
-          <View style={Style.contentWrapper}>
-            <Image
-              style={Style.headerImage}
-              source={img}
-            />
+        <LinearGradient
+          colors={[colors.linearGradientTop, colors.linearGradientBottom]}
+          style={Style.gradient}
+        >
+          <View
+            style={Style.contentWrapper}
+          >
+            <Logo />
+
             <View style={Style.inputContainer}>
               <FormInput
                 containerStyle={Style.fieldContainer}
@@ -124,7 +130,9 @@ class Login extends Component {
                 onPress={() => this.props.navigation.navigate('SignUpFirstDialouge')}
                 style={Style.button}
               />
-              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <View
+                style={{ justifyContent: 'center', alignItems: 'center' }}
+              >
                 <TouchableOpacity
                   onPress={() => this.setState({ isDialogVisible: true })}
                 >

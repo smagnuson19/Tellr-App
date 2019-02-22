@@ -40,6 +40,7 @@
     "react-native-onesignal": "^3.2.12",
     "react-native-picker-select": "^5.0.1",
     "react-native-pod": "^1.10.4",
+    "react-native-size-matters": "^0.1.6",
     "react-native-sound": "^0.10.9",
     "react-native-svg": "^9.2.4",
     "react-native-svg-charts": "^5.2.0",
@@ -66,7 +67,8 @@
   },
   "rnpm": {
     "assets": [
-      "./src/fonts"
+      "./src/fonts",
+      ".src/media"
     ]
   },
   "jest": {

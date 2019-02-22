@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+// import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import {
   colors, fonts, dimensions,
 } from './base';
@@ -55,13 +56,6 @@ const Style = StyleSheet.create({
     marginTop: -200,
   },
 
-  headerImage: {
-    // marginTop: 80,
-    // marginBottom: 100,
-    marginTop: '30 %',
-    marginBottom: '15 %',
-    alignItems: 'center',
-  },
 
   gradient: {
     flex: 1,
