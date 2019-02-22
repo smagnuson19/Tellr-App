@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   // View, Text, StyleSheet, AsyncStorage,
-  View, Text, ScrollView, Alert, Icon,
+  View, Text, ScrollView, Alert, Icon, Animated,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -29,6 +29,8 @@ let unlock;
 // };
 
 class Goals extends Component {
+  animatedValue = new Animated.Value(0);
+
   constructor(props) {
     super(props);
     this.state = {
@@ -48,6 +50,38 @@ class Goals extends Component {
       console.log('Loaded sound');
       // loaded successfully
     });
+  }
+
+  renderOverlay = () => {
+    const imageStyles = [
+      {
+        position: 'absolute',
+        zIndex: 10,
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        left: Math.random() * 500 - 250,
+        right: Math.random() * 500 - 250,
+        top: Math.random() * 1000 - 500,
+        bottom: Math.random() * 1000 - 500,
+        opacity: this.animatedValue,
+        transform: [
+          {
+            scale: this.animatedValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0.1, 0.7],
+            }),
+          },
+        ],
+      },
+    ];
+    return (
+      <View>
+        <Animated.Image
+          source={require('../../media/bill.png')}
+          style={imageStyles}
+        />
+      </View>
+    );
   }
 
 
@@ -70,11 +104,6 @@ class Goals extends Component {
         goalName: gName,
       };
 
-      this.props.postGoalRedeem(payLoad).then((res) => {
-        console.log(`THIS IS THE EMAIL ${this.props}`);
-        this.props.navigation.dispatch(resetAction);
-        return this.props.fetchGoals(this.props.user.email);
-      });
       // this.props.fetchGoals(this.props.user.email);
 
 
@@ -89,6 +118,17 @@ class Goals extends Component {
           // this is the only option to recover after an error occured and use the player again
           unlock.reset();
         }
+      });
+
+      Animated.sequence([
+        Animated.spring(this.animatedValue, { toValue: 1, useNativeDriver: false }),
+        Animated.spring(this.animatedValue, { toValue: 0, userNativeDriver: false }),
+      ]).start(() => {
+        this.props.postGoalRedeem(payLoad).then((res) => {
+          console.log(`THIS IS THE EMAIL ${this.props}`);
+          this.props.navigation.dispatch(resetAction);
+          return this.props.fetchGoals(this.props.user.email);
+        });
       });
     } else if (this.props.user.balance < gValue) {
       Alert.alert('You don\'t have the money! Complete a task to make more');
@@ -142,6 +182,26 @@ class Goals extends Component {
         return (
           <View style={Style.rootContainer}>
             <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
               <View style={Style.contentWrapper}>
                 <Text style={Style.headerText}>Goals!</Text>
                 <ScrollView>
@@ -151,9 +211,9 @@ class Goals extends Component {
                     </Text>
                     <View style={{ flexDirection: 'row' }}>
                       <Button
-                        color="purple"
+                        color="black"
                         buttonStyle={{
-                          backgroundColor: colors.red,
+                          backgroundColor: colors.linearGradientTop,
                           width: 120,
                           height: 45,
                           alignSelf: 'center',
@@ -175,9 +235,9 @@ class Goals extends Component {
                         }}
                       />
                       <Button
-                        color="purple"
+                        color="black"
                         buttonStyle={{
-                          backgroundColor: colors.logoGreen,
+                          backgroundColor: colors.linearGradientBottom,
                           width: 120,
                           height: 45,
                           alignSelf: 'center',
