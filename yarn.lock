@@ -2238,7 +2238,7 @@ cosmiconfig@^5.0.5:
     js-yaml "^3.9.0"
     parse-json "^4.0.0"
 
-create-react-class@^15.6.3:
+create-react-class@^15.6.2, create-react-class@^15.6.3:
   version "15.6.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   integrity sha512-M+/3Q6E6DLO6Yx3OwrWjwHBnvfXXYA7W+dFjt/ZDBemHO1DDZhsalX/NUtnTYclN6GfnBDRh4qRHjcDHmlJBJg==
@@ -6274,6 +6274,14 @@ react-native-safe-area-view@^0.11.0:
   version "1.0.0-alpha.22"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-1.0.0-alpha.22.tgz#7a120377b52aa9bbb94d0b8541a014026be9289b"
   integrity sha512-kSyAt0AeVU6N7ZonfV6dP6iZF8B7Bce+tk3eujXhzBGsLg0VSLnU7uE9VqJF0xdQrHR91ZjGgVMieo/8df9KTA==
+
+react-native-settings-list@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-settings-list/-/react-native-settings-list-1.8.0.tgz#89089546e84e6fdf3b9e421fe870f0c2626868da"
+  integrity sha1-iQiVRuhOb987nkIf6HDwwmJoaNo=
+  dependencies:
+    create-react-class "^15.6.2"
+    prop-types "^15.5.10"
 
 react-native-size-matters@^0.1.6:
   version "0.1.6"
