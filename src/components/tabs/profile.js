@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { Divider, ButtonGroup } from 'react-native-elements';
 import { PieChart } from 'react-native-svg-charts';
-// import { StackActions, NavigationActions } from 'react-navigation';
-import { logoutUser } from '../../actions';
 import Style from '../../styling/Style';
 import { colors, fonts, dimensions } from '../../styling/base';
 
@@ -225,5 +223,4 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  logoutUser,
 })(Profile);
