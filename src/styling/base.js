@@ -6,7 +6,7 @@ export const dimensions = {
 };
 
 export const colors = {
-  // primary: '#3de594',
+
   primary: 'rgb(0, 0, 0)',
   secondary: '#15BFD6',
   grey: '#424242',
@@ -23,6 +23,7 @@ export const colors = {
   clear: 'rgba(0,0,0,0)',
   button: 'rgba(250,0,0,.5)',
   logoGreen: 'rgb(61, 229, 148)',
+  logoGreenHex: '#3de594',
 };
 
 export const fonts = {
@@ -33,4 +34,5 @@ export const fonts = {
   xlg: 35,
   primary: 'Montserrat-Thin',
   secondary: 'Montserrat',
+  logo: 'SignPainter',
 };
