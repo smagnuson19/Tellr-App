@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Alert, Image,
+  Text, StyleSheet, Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -10,7 +10,7 @@ import { NavigationActions } from 'react-navigation';
 import SettingsList from 'react-native-settings-list';
 import { logoutUser, postChangePassword } from '../../actions';
 import Style from '../../styling/Style';
-import { colors, fonts, dimensions } from '../../styling/base';
+import { colors, fonts } from '../../styling/base';
 
 class Settings extends Component {
   constructor(props) {
@@ -58,19 +58,19 @@ class Settings extends Component {
       <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
         <Text style={Style.headerText}>Settings </Text>
         <SettingsList borderColor="#c8c7cc">
-          <SettingsList.Header headerStyle={{ marginTop: 15 }} headerText="Notifications" />
+          <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Notifications" />
           <SettingsList.Item
             hasSwitch
             switchState={this.state.switchValue}
             switchOnValueChange={this.onValueChange}
             hasNavArrow={false}
             title="Allow Push Notifications"
-            titleStyle={{ fontSize: 16 }}
+            titleStyle={pageStyle.sectionText}
           />
-          <SettingsList.Header headerStyle={{ marginTop: 15 }} headerText="Manage" />
+          <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Manage" />
           <SettingsList.Item
             title="Change Password"
-            titleStyle={{ fontSize: 16 }}
+            titleStyle={pageStyle.sectionText}
             onPress={() => this.props.navigation.navigate('ChangePassword')}
           />
           <SettingsList.Item
@@ -82,7 +82,7 @@ class Settings extends Component {
           <SettingsList.Item
             title="Logout"
             hasNavArrow={false}
-            titleStyle={{ fontSize: 16 }}
+            titleStyle={pageStyle.sectionText}
             onPress={() => this.logout()}
           />
         </SettingsList>
@@ -90,6 +90,19 @@ class Settings extends Component {
     );
   }
 }
+
+const pageStyle = StyleSheet.create({
+  sectionHeader: {
+    fontSize: fonts.md,
+    fontFamily: fonts.secondary,
+    marginTop: 15,
+  },
+  sectionText: {
+    fontSize: fonts.smmd,
+    fontFamily: fonts.secondary,
+  },
+});
+
 const mapStateToProps = state => (
   {
     user: state.user.info,
