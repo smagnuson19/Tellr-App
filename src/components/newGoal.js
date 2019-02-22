@@ -208,90 +208,99 @@ class NewGoal extends Component {
   }
 
 
-  renderImage() {
-    // display children for parents, balance for kids
-    if (this.image !== '') {
-      return (
-        <Image
-          style={{
-            width: 150 * 1.2, height: 200 * 1.2, alignSelf: 'center',
-          }}
-          source={{ uri: this.state.image }}
-        />
-      );
-    } else {
-      return null;
-    }
-  }
-
   render() {
-    return (
-      <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
-          <View style={Style.contentWrapper}>
-            <Text style={Style.altHeaderText}>New Goal </Text>
-            <Button
-              title="Take A Photo!"
-              rounded
-              large
-              style={Style.button2}
-              backgroundColor={colors.secondary}
-              onPress={() => this.choosePhoto()}
-            />
-            {this.girlOverlay()}
-            {this.boyOverlay()}
-            <View style={Style.inputContainer}>
-              <FormInput
-                containerStyle={Style.fieldContainerThird}
-                inputStyle={Style.fieldTextSecondary}
-                onChangeText={text => this.setState({ goalName: text })}
-                value={this.state.goalName}
-                placeholder="Goal"
-                placeholderTextColor={colors.placeholderColor}
-                returnKeyType="next"
-                onSubmitEditing={() => { this.secondTextInput.focus(); }}
-                blurOnSubmit={false}
+    if (this.state.image === '') {
+      return (
+        <View style={Style.rootContainer}>
+          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+            <View style={Style.contentWrapper}>
+              <Text style={Style.altHeaderText}>New Goal! </Text>
+              <Image
+                source={require('../media/kids.png')}
+                style={{
+                  width: 400, height: 350, alignSelf: 'center',
+                }}
               />
-              <FormInput
-                containerStyle={Style.fieldContainerThird}
-                inputStyle={Style.fieldTextSecondary}
-                onChangeText={text => this.setState({ goalDescription: text })}
-                value={this.state.goalDescription}
-                placeholder="Goal Description..."
-                placeholderTextColor={colors.placeholderColor}
-                returnKeyType="next"
-                ref={(input) => { this.secondTextInput = input; }}
-                onSubmitEditing={() => { this.thirdTextInput.focus(); }}
-                blurOnSubmit={false}
-              />
-              <FormInput
-                containerStyle={Style.fieldContainerThird}
-                inputStyle={Style.fieldTextSecondary}
-                onChangeText={text => this.setState({ value: text })}
-                value={this.state.value}
-                placeholder="Value: $0.00"
-                ref={(input) => { this.thirdTextInput = input; }}
-                keyboardType="decimal-pad"
-                blurOnSubmit={false}
-                placeholderTextColor={colors.placeholderColor}
-              />
-            </View>
-            <View style={Style.button}>
+              <Divider style={{ backgroundColor: colors.clear, height: 70 }} />
               <Button
-                title="Set Goal!"
+                title="Take A Photo!"
                 rounded
                 large
-                style={Style.button}
+                style={Style.button2}
                 backgroundColor={colors.secondary}
-                onPress={() => this.submitGoal()}
+                onPress={() => this.choosePhoto()}
               />
-              {this.renderImage()}
+              <Divider style={{ backgroundColor: colors.clear, height: 70 }} />
             </View>
-            <Divider style={{ backgroundColor: colors.clear, height: 50 }} />
-          </View>
-        </LinearGradient>
-      </View>
-    );
+          </LinearGradient>
+        </View>
+      );
+    } else {
+      return (
+        <View style={Style.rootContainer}>
+          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+            <View style={Style.contentWrapper}>
+              <Text style={Style.altHeaderText}>New Goal </Text>
+              {this.girlOverlay()}
+              {this.boyOverlay()}
+              <View style={Style.inputContainer}>
+                <FormInput
+                  containerStyle={Style.fieldContainerThird}
+                  inputStyle={Style.fieldTextSecondary}
+                  onChangeText={text => this.setState({ goalName: text })}
+                  value={this.state.goalName}
+                  placeholder="Goal"
+                  placeholderTextColor={colors.placeholderColor}
+                  returnKeyType="next"
+                  onSubmitEditing={() => { this.secondTextInput.focus(); }}
+                  blurOnSubmit={false}
+                />
+                <FormInput
+                  containerStyle={Style.fieldContainerThird}
+                  inputStyle={Style.fieldTextSecondary}
+                  onChangeText={text => this.setState({ goalDescription: text })}
+                  value={this.state.goalDescription}
+                  placeholder="Goal Description..."
+                  placeholderTextColor={colors.placeholderColor}
+                  returnKeyType="next"
+                  ref={(input) => { this.secondTextInput = input; }}
+                  onSubmitEditing={() => { this.thirdTextInput.focus(); }}
+                  blurOnSubmit={false}
+                />
+                <FormInput
+                  containerStyle={Style.fieldContainerThird}
+                  inputStyle={Style.fieldTextSecondary}
+                  onChangeText={text => this.setState({ value: text })}
+                  value={this.state.value}
+                  placeholder="Value: $0.00"
+                  ref={(input) => { this.thirdTextInput = input; }}
+                  keyboardType="decimal-pad"
+                  blurOnSubmit={false}
+                  placeholderTextColor={colors.placeholderColor}
+                />
+              </View>
+              <View style={Style.button}>
+                <Button
+                  title="Set Goal!"
+                  rounded
+                  large
+                  style={Style.button}
+                  backgroundColor={colors.secondary}
+                  onPress={() => this.submitGoal()}
+                />
+                <Image
+                  style={{
+                    width: 150 * 1.2, height: 200 * 1.2, alignSelf: 'center',
+                  }}
+                  source={{ uri: this.state.image }}
+                />
+              </View>
+              <Divider style={{ backgroundColor: colors.clear, height: 70 }} />
+            </View>
+          </LinearGradient>
+        </View>
+      );
+    }
   }
 }
 
