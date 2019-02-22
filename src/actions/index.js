@@ -251,6 +251,39 @@ export function postChangePassword(payLoad) {
   };
 }
 
+export function postDeleteAccount(payLoad) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.post(`${ROOT_URL}/delete`, { payLoad }, { headers: { authorization: token } })
+        .then((response) => {
+          console.log(`Account deleted: ${response.data}`);
+        }).catch((error) => {
+          errorHandling(
+            'deleteAccount post Error: ',
+            error.response.data[0].Error,
+          );
+        });
+    });
+  };
+}
+
+
+export function postParentDeleteAccount(payLoad) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.post(`${ROOT_URL}/deleteall`, { payLoad }, { headers: { authorization: token } })
+        .then((response) => {
+          console.log(`Parent account and associated children deleted: ${response.data}`);
+        }).catch((error) => {
+          errorHandling(
+            'postParentDelete post Error: ',
+            error.response.data[0].Error,
+          );
+        });
+    });
+  };
+}
+
 export function postFriendApprove(payLoad, priority) {
   return (dispatch) => {
     return AsyncStorage.getItem('token').then((token) => {

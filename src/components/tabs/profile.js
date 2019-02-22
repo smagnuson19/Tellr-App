@@ -4,11 +4,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { Divider, Button } from 'react-native-elements';
+import { Divider, ButtonGroup } from 'react-native-elements';
 import { PieChart } from 'react-native-svg-charts';
-// import { StackActions, NavigationActions } from 'react-navigation';
-import { NavigationActions } from 'react-navigation';
-import { logoutUser, postChangePassword } from '../../actions';
 import Style from '../../styling/Style';
 import { colors, fonts, dimensions } from '../../styling/base';
 
@@ -109,66 +106,21 @@ class Profile extends Component {
     }
   }
 
-  logout() {
-    console.log('logout Clicked');
-    this.props.logoutUser();
-    this.props.navigation.navigate('Auth', {}, NavigationActions.navigate({ routeName: 'Login' }));
-  }
-
   renderFooter() {
     return (
       <View
         style={{
-          padding: 15, paddingTop: 5, paddingBottom: 45, alignItems: 'center',
+          padding: 20, paddingTop: 5, paddingBottom: 85, alignItems: 'center',
         }}
       >
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginBottom: 25,
-          marginTop: 5,
-        }}
-        >
-          <Button
-            onPress={() => this.logout()}
-            title="Logout"
-            rounded
-            style={Style.button}
-            backgroundColor={colors.logoGreen}
-          />
-          <Button
-            onPress={() => this.props.navigation.navigate('ChangePassword')}
-            title="Change Password"
-            rounded
-            style={Style.button}
-            backgroundColor={colors.logoGreen}
-          />
-        </View>
+        <ButtonGroup
+          onPress={() => this.props.navigation.navigate('SettingsPage')}
+          buttons={['Settings']}
+          containerStyle={{ width: dimensions.fullWidth }}
+        />
       </View>
     );
   }
-
-  // deleteAccount() {
-  //   // move to login page after you delete the account
-  //   const resetAction = StackActions.reset({
-  //     index: 0, // <-- currect active route from actions array
-  //     key: null,
-  //     actions: [
-  //       NavigationActions.navigate({ routeName: 'Login' }),
-  //     ],
-  //   });
-  //
-  //   const payLoad = {
-  //     email: this.state.myEmail,
-  //   };
-  //   axios.post(`${ROOT_URL}/delete`, { payLoad })
-  //     .then((response) => {
-  //       console.log('deleting 222');
-  //       console.log(response.data);
-  //
-  //     });
-  // }
 
   render() {
     return (
@@ -271,5 +223,4 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  logoutUser, postChangePassword,
 })(Profile);

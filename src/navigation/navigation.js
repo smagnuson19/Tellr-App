@@ -27,6 +27,7 @@ import ViewOfFriendRequests from '../components/tabs/viewOfFriendRequests';
 import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 import SocialView from '../components/tabs/socialView';
 import ChangePassword from '../components/tabs/changePassword';
+import Settings from '../components/tabs/settings';
 
 const HomeStack = createStackNavigator({
   Home: {
@@ -74,6 +75,26 @@ const FriendsStack = createStackNavigator({
   }),
 });
 
+
+const SettingsStack = createStackNavigator({
+  SettingsPage: {
+    screen: Settings,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
+  ChangePassword: {
+    screen: ChangePassword,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
+},
+{
+  initialRouteName: 'SettingsPage',
+});
+
+
 const ProfileStack = createStackNavigator({
   Profile: {
     screen: Profile,
@@ -81,10 +102,10 @@ const ProfileStack = createStackNavigator({
       header: null,
     }),
   },
-  ChangePassword: {
-    screen: ChangePassword,
+  SettingsPage: {
+    screen: SettingsStack,
     navigationOptions: () => ({
-      headerTransparent: 'False',
+      headerTransparent: 'True',
     }),
   },
 },
