@@ -268,7 +268,7 @@ export function postDeleteAccount(payLoad) {
 }
 
 
-export function postParentDelete(payLoad) {
+export function postParentDeleteAccount(payLoad) {
   return (dispatch) => {
     return AsyncStorage.getItem('token').then((token) => {
       return axios.post(`${ROOT_URL}/deleteall`, { payLoad }, { headers: { authorization: token } })

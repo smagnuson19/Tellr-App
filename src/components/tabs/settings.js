@@ -9,7 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { NavigationActions } from 'react-navigation';
 import SettingsList from 'react-native-settings-list';
 import {
-  logoutUser, postChangePassword, postDeleteAccount, postParentDelete,
+  logoutUser, postChangePassword, postDeleteAccount, postParentDeleteAccount,
 } from '../../actions';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
@@ -25,6 +25,22 @@ class Settings extends Component {
 
   onValueChange(value) {
     this.setState({ switchValue: value });
+  }
+
+  parentDeleteDisplay() {
+    if (this.props.user.accountType === 'Parent') {
+      return (
+        <SettingsList.Item
+          title="Delete All Accounts"
+          hasNavArrow={false}
+          titleStyle={{ fontSize: 16 }}
+          onPress={() => this.deleteParenAccount()}
+        />
+      );
+      // if a kid, don't have this button
+    } else {
+      return (null);
+    }
   }
 
   logout() {
@@ -57,6 +73,29 @@ class Settings extends Component {
     );
   }
 
+  postParentDelete() {
+    const payLoad = {
+      email: this.state.myEmail,
+    };
+    this.props.postParentDeleteAccount(payLoad);
+    this.props.navigation.navigate('Auth', {}, NavigationActions.navigate({ routeName: 'Login' }));
+  }
+
+  deleteParenAccount() {
+    // Confirmation alert
+    Alert.alert(
+      'Are you sure you want to delete your account and all children accounts?',
+      'This action is permanent and will erase all data associated with your account and all child accounts.',
+      [
+        { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+        {
+          text: 'Yes',
+          onPress: () => this.postParentDelete(),
+        },
+      ],
+      { cancelable: false },
+    );
+  }
 
   render() {
     return (
@@ -84,6 +123,7 @@ class Settings extends Component {
             titleStyle={{ fontSize: 16 }}
             onPress={() => this.deleteAccount()}
           />
+          {this.parentDeleteDisplay()}
           <SettingsList.Item
             title="Logout"
             hasNavArrow={false}
@@ -116,5 +156,5 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  logoutUser, postChangePassword, postParentDelete, postDeleteAccount,
+  logoutUser, postChangePassword, postParentDeleteAccount, postDeleteAccount,
 })(Settings);
