@@ -151,9 +151,9 @@ class Goals extends Component {
                     </Text>
                     <View style={{ flexDirection: 'row' }}>
                       <Button
-                        color="purple"
+                        color="black"
                         buttonStyle={{
-                          backgroundColor: colors.red,
+                          backgroundColor: colors.linearGradientTop,
                           width: 120,
                           height: 45,
                           alignSelf: 'center',
@@ -175,9 +175,9 @@ class Goals extends Component {
                         }}
                       />
                       <Button
-                        color="purple"
+                        color="black"
                         buttonStyle={{
-                          backgroundColor: colors.logoGreen,
+                          backgroundColor: colors.linearGradientBottom,
                           width: 120,
                           height: 45,
                           alignSelf: 'center',
