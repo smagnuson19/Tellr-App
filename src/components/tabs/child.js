@@ -129,7 +129,7 @@ const pageStyle = StyleSheet.create({
   },
 
   balanceContainer: {
-    backgroundColor: colors.grey,
+    backgroundColor: colors.linearGradientBottom,
     width: 100,
     height: 100,
     borderRadius: 100,
@@ -150,11 +150,13 @@ const pageStyle = StyleSheet.create({
     width: dimensions.fullWidth,
   },
   sectionHeader: {
-    fontSize: fonts.md,
+    fontSize: 24,
     color: '#fff',
+    fontWeight: 'bold',
     fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
     paddingVertical: 6,
+    paddingHorizontal: 10,
   },
   divider: {
     backgroundColor: colors.primary,
@@ -170,8 +172,9 @@ const pageStyle = StyleSheet.create({
   },
 
   noGoalsText: {
-    fontSize: fonts.md,
-    color: '#fff',
+    fontSize: 21,
+    fontWeight: '400',
+    color: colors.black,
     fontFamily: fonts.primary,
   },
 });
