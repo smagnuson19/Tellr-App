@@ -15,10 +15,12 @@ class AvatarImageFriend extends Component {
 
   bPress() {
     this.props.onPressNav(this.props.individualName);
+    this.props.onPressNav(this.props.avatarColor);
   }
 
   render() {
     console.log(this.props.individualName);
+    console.log(this.props.avatarColor);
     const nameArray = this.props.individualName.split(' ');
     const indFirstName = nameArray[0];
     const indLastName = nameArray[1];
@@ -27,7 +29,10 @@ class AvatarImageFriend extends Component {
     const avatarLetters = firstLetter + secondLetter;
     return (
       <View style={pageStyle.avatarChildContainer}>
-        <View style={pageStyle.avatarInnerCircle}>
+        <View style={{
+          width: 50, height: 50, borderRadius: 100, backgroundColor: this.props.avatarColor, justifyContent: 'center',
+        }}
+        >
           <Text style={pageStyle.avatarText}>
             {' '}
             {avatarLetters}
@@ -57,15 +62,6 @@ const pageStyle = StyleSheet.create({
     height: 60,
     backgroundColor: colors.grey,
     borderRadius: 100,
-  },
-  avatarInnerCircle: {
-    width: 50,
-    height: 50,
-    borderRadius: 100,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-
-
   },
   avatarText: {
     textAlign: 'center',

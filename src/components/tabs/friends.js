@@ -17,6 +17,7 @@ import Style from '../../styling/Style';
 import AvatarImage from './avatarImage';
 import { colors, fonts } from '../../styling/base';
 import { postRequest, fetchKidFriends } from '../../actions/index';
+// import AvatarImageFriend from './avatarImageFriend';
 
 // TODO:
 // change avatars:
@@ -51,7 +52,12 @@ class Friends extends Component {
       weeklyTaskDataList.push({
         score: this.props.friendInfo[key].tasksCompletedWeek,
         username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
-        iconUrl: this.props.friendInfo[key].avatarUrl,
+        // iconUrl: this.props.friendInfo[key].avatarUrl,
+        // iconUrl: <AvatarImageFriend
+        //   individualName={`${this.props.friendInfo[key].firstName}${this.props.friendInfo[key].lastName}`}
+        //   avatarColor={this.props.friendInfo[key].avatarColor}
+        // />,
+        iconUrl: this.props.friendInfo[key].avatarColor,
         email: key,
       });
     });
@@ -63,7 +69,12 @@ class Friends extends Component {
       monthlyTaskDataList.push({
         score: this.props.friendInfo[key].tasksCompletedMonth,
         username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
-        iconUrl: this.props.friendInfo[key].avatarUrl,
+        // iconUrl: this.props.friendInfo[key].avatarUrl,
+        // iconUrl: <AvatarImageFriend
+        //   individualName={`${this.props.friendInfo[key].firstName}${this.props.friendInfo[key].lastName}`}
+        //   avatarColor={this.props.friendInfo[key].avatarColor}
+        // />,
+        iconUrl: this.props.friendInfo[key].avatarColor,
         email: key,
       });
     });
@@ -233,18 +244,23 @@ class Friends extends Component {
     }
 
     render() {
+      const randomColor = require('randomcolor'); // import the script
+      const avatarColor = randomColor(); // a hex code for an attractive color
       const props = {
         labelBy: 'username',
         sortBy: 'score',
         data: this.state.filter > 0 ? this.state.monthlyTaskData : this.state.weeklyTaskData,
-        icon: 'iconUrl',
+        // icon: 'iconUrl',
         sort: this.sort,
         onRowPress: (item, index) => {
+          console.log(item);
           this.props.navigation.navigate('SocialIndividual', {
             email: item.email,
             rank: index,
             score: item.score,
             name: item.username,
+            // avatarColor: item.iconUrl,
+            avatarColor,
           });
         },
       };
