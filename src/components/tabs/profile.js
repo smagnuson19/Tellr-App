@@ -127,11 +127,10 @@ class Profile extends Component {
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
-            <Text style={Style.altHeaderText}>Profile </Text>
+            <Text style={Style.headerText}>Profile </Text>
             <View style={pageStyle.sectionContainer}>
               <Text style={pageStyle.sectionHeader}> Account </Text>
               <Divider style={pageStyle.divider} />
-
               <View style={pageStyle.sectionContainer}>
                 <Text style={pageStyle.sectionText}> Name: </Text>
                 <Text style={pageStyle.subSectionText}>
@@ -171,7 +170,7 @@ const pageStyle = StyleSheet.create({
     width: dimensions.fullWidth,
   },
   sectionHeader: {
-    fontSize: fonts.md,
+    fontSize: fonts.lg,
     color: '#fff',
     fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
@@ -179,17 +178,16 @@ const pageStyle = StyleSheet.create({
     marginLeft: 5,
   },
   sectionText: {
-    fontSize: fonts.smmd,
+    fontSize: fonts.md,
     fontWeight: 'bold',
-    color: colors.black,
+    color: colors.white,
     fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
     paddingVertical: 6,
     marginLeft: 5,
   },
   subSectionText: {
-    fontSize: fonts.sm,
-    color: '#fff',
+    fontSize: fonts.smmd,
     fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
     paddingVertical: 6,
@@ -202,7 +200,7 @@ const pageStyle = StyleSheet.create({
     marginBottom: 2,
   },
   settingsButton: {
-    fontSize: fonts.smmd,
+    fontSize: fonts.md,
     fontWeight: 'bold',
     color: colors.logoGreen,
     fontFamily: fonts.secondary,

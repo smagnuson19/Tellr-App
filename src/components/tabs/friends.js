@@ -132,15 +132,9 @@ class Friends extends Component {
       return (
         <View
           style={{
-            padding: 15, paddingTop: 45, alignItems: 'center',
+            padding: 15, paddingTop: 25, alignItems: 'center',
           }}
         >
-          <Text style={{
-            fontSize: fonts.lg, color: 'white', fontFamily: fonts.secondary, textAlign: 'center',
-          }}
-          >
-            {'Leaderboard'}
-          </Text>
           <View style={{
             flexDirection: 'row',
             justifyContent: 'center',
@@ -261,6 +255,7 @@ class Friends extends Component {
         <View style={Style.rootContainer}>
           <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
             <View style={{ flex: 1 }}>
+              <Text style={Style.headerTextLeaderboard}>Leaderboard </Text>
               {this.renderHeader()}
               <Leaderboard {...props} />
               {this.renderFooter()}
