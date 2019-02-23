@@ -368,7 +368,6 @@ No Chores To Verify, Add some more!
       );
     } else {
       return (
-
         <View style={Style.rootContainer}>
           <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
@@ -376,7 +375,6 @@ No Chores To Verify, Add some more!
             </View>
           </LinearGradient>
         </View>
-
       );
     }
   }

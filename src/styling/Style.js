@@ -24,19 +24,6 @@ const Style = StyleSheet.create({
     flexDirection: 'column',
   },
 
-  altHeaderText: {
-    flex: 0,
-    justifyContent: 'center',
-    textAlign: 'center',
-    fontFamily: fonts.secondary,
-    fontSize: fonts.xlg,
-    color: colors.black,
-    // marginTop: 50,
-    // marginBottom: 30,
-    marginTop: '7.5%',
-    marginBottom: '7.5%',
-  },
-
   headerText: {
     flex: 0,
     justifyContent: 'center',
@@ -44,18 +31,25 @@ const Style = StyleSheet.create({
     fontFamily: fonts.secondary,
     fontSize: fonts.xlg,
     color: colors.black,
-    // marginTop: 50,
-    // marginBottom: 30,
     marginTop: '20%',
     marginBottom: '10%',
   },
 
+  headerTextLeaderboard: {
+    flex: 0,
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: fonts.secondary,
+    fontSize: fonts.xlg,
+    color: colors.black,
+    marginTop: '20%',
+    marginBottom: '0%',
+  },
 
   headerTextContainter: {
     alignItems: 'flex-start',
     marginTop: -200,
   },
-
 
   gradient: {
     flex: 1,

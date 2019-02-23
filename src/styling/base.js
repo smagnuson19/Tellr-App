@@ -30,7 +30,7 @@ export const fonts = {
   sm: 11,
   smmd: 15,
   md: 21,
-  lg: 30,
+  lg: 28,
   xlg: 35,
   primary: 'Montserrat-Thin',
   secondary: 'Montserrat',
