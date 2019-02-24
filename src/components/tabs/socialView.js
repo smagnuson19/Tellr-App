@@ -5,7 +5,7 @@ import {
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { Button } from 'react-native-elements';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import {
   ProgressCircle, AreaChart, XAxis,
 } from 'react-native-svg-charts';
@@ -83,6 +83,30 @@ class SocialView extends Component {
       ],
       { cancelable: false },
     );
+  }
+
+  determineDisplay() {
+    // don't display a remove friend button if this is your own account page
+    if (this.props.account.email === this.state.indEmail) {
+      return (
+        <Text style={{
+          marginBottom: '15%',
+        }}
+        >
+          {' '}
+        </Text>
+      );
+    } else {
+      return (
+        <Button
+          onPress={() => this.removeFriendAlert()}
+          title="Remove Friend"
+          rounded
+          style={Style.button}
+          backgroundColor={colors.logoGreen}
+        />
+      );
+    }
   }
 
   renderChart() {
@@ -277,13 +301,7 @@ class SocialView extends Component {
           marginTop: 50,
         }}
         >
-          <Button
-            onPress={() => this.removeFriendAlert()}
-            title="Remove Friend"
-            rounded
-            style={Style.button}
-            backgroundColor={colors.logoGreen}
-          />
+          {this.determineDisplay()}
         </View>
       </View>
     );
