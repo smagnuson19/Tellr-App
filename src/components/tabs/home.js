@@ -283,11 +283,12 @@ No Chores To Verify, Add some more!
         <View style={pageStyle.avatarRow}>
           { this.props.family.map(person => (
             <View key={person.email}>
-              <AvatarImage onPressNav={this.navigationToAccount} individual={person} />
-
+              <AvatarImage
+                onPressNav={this.navigationToAccount}
+                individual={person}
+              />
             </View>
           ))}
-
         </View>
       );
     }

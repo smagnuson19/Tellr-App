@@ -13,14 +13,7 @@ class AvatarImageFriend extends Component {
     };
   }
 
-  bPress() {
-    this.props.onPressNav(this.props.individualName);
-    this.props.onPressNav(this.props.avatarColor);
-  }
-
   render() {
-    console.log(this.props.individualName);
-    console.log(this.props.avatarColor);
     const nameArray = this.props.individualName.split(' ');
     const indFirstName = nameArray[0];
     const indLastName = nameArray[1];
@@ -54,12 +47,6 @@ class AvatarImageFriend extends Component {
 }
 
 const pageStyle = StyleSheet.create({
-  avatarParentContainer: {
-    margin: 8,
-    // controlls how far from top view they render
-    paddingTop: '50%',
-    paddingBottom: '4%',
-  },
   avatarChildContainer: {
   },
   avatarBackground: {
