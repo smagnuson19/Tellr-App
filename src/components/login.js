@@ -83,9 +83,8 @@ class Login extends Component {
                 onChangeText={text => this.setState({ email: text })}
                 value={this.state.text}
                 placeholder="Email..."
-                enablesReturnKeyAutomatically="true"
                 placeholderTextColor={colors.grey}
-                spellCheck="false"
+                spellCheck={false}
                 keyboardType="email-address"
                 textContentType="username"
                 returnKeyType="next"
@@ -99,10 +98,10 @@ class Login extends Component {
                 inputStyle={Style.fieldText}
                 onChangeText={text => this.setState({ password: text })}
                 value={this.state.password}
-                secureTextEntry="true"
+                secureTextEntry
                 placeholderTextColor={colors.grey}
                 textContentType="password"
-                spellCheck="false"
+                spellCheck={false}
                 placeholder="Password..."
                 returnKeyType="done"
                 selectionColor={colors.grey}

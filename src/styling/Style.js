@@ -97,9 +97,8 @@ const Style = StyleSheet.create({
   fieldContainer: {
     borderBottomWidth: 1,
     flex: 0,
-    margin: '5 %',
+    margin: '5%',
     borderColor: colors.lightGrey,
-    color: colors.white,
   },
 
   // Style for a FormInput

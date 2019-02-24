@@ -24,7 +24,9 @@ export const colors = {
   button: 'rgba(250,0,0,.5)',
   logoGreen: 'rgb(61, 229, 148)',
   logoGreenHex: '#3de594',
+  NavigationBarColoredLine: 'rgb(5, 5, 5)',
 };
+
 
 export const fonts = {
   sm: 11,
