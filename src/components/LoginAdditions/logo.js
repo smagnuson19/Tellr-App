@@ -22,7 +22,7 @@ const Logo = () => {
         <Text style={pageStyle.lastPart}
           adjustsFontSizeToFit
         >
-        eller
+        ellr
         </Text>
       </Text>
 

@@ -6233,6 +6233,14 @@ react-native-image-picker@^0.27.1:
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.27.2.tgz#c44195feb1a4855eead36fadacc8b82828329b2a"
   integrity sha512-1GuPIuQHjnLxmzUkmOHbI6cllETVRhJyrf8UoJXotD38+eX4JdcUSHGqV48XPc3e1u7b4HU7drFgyJcKFfQKRA==
 
+react-native-input-scroll-view@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/react-native-input-scroll-view/-/react-native-input-scroll-view-1.9.0.tgz#c0134823427052ef4d45e0daece686ba09b24fd0"
+  integrity sha512-hUkrzVsSFAnlwptn3M00MeZ3XvlxI+lkJqxkTVn+/Qb41Z5eu4U7RPkJdnGn0Nhl3+TJfOyKb3MFFimgOO2hqA==
+  dependencies:
+    lodash "^4.17.10"
+    prop-types "^15.5.10"
+
 react-native-leaderboard@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-native-leaderboard/-/react-native-leaderboard-1.0.5.tgz#53562d85576ef0faedcf8737715accd10d8d78d7"
@@ -6297,6 +6305,13 @@ react-native-sound@^0.10.9:
   version "0.10.9"
   resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.9.tgz#6b00b0f4afd017cde09fbb9d171df1b5d5b851a8"
   integrity sha1-awCw9K/QF83gn7udFx3xtdW4Uag=
+
+react-native-step-indicator@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/react-native-step-indicator/-/react-native-step-indicator-0.0.9.tgz#939b78b43c131c048cf52493c4ed8a1bbc8ce034"
+  integrity sha512-oiHYIMNrSePamQHRE1rf+9NfrY7LorEOIzjI3ya5nfmpGW2pBxjbRDQgZboVPpi5hradLqadw5qVb/CAOGypmQ==
+  dependencies:
+    prop-types "^15.6.0"
 
 react-native-svg-charts@^5.2.0:
   version "5.2.0"
@@ -6838,6 +6853,11 @@ rimraf@~2.2.6:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
   integrity sha1-5Dm+Kq7jJzIZUnMPmaiSnk/FBYI=
+
+rn-viewpager@^1.2.9:
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/rn-viewpager/-/rn-viewpager-1.2.9.tgz#7f06f898e23b296f3b5be7c98bd9101d94427779"
+  integrity sha512-wN4HlNhjTkrg25qBeEHTJ6TzRGtLu8SpKSZ9/mWcgWHMNr3RT06Zzrky3Tg14PPgaPp//6h02FCcAaQ83VGdgQ==
 
 rsvp@^3.3.3:
   version "3.6.2"
