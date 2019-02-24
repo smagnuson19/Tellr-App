@@ -37,6 +37,7 @@ class Friends extends Component {
       // monthlyGoalData: [],
       filter: 0,
       userRank: 1,
+      userScore: 0,
       user: {
         name: this.props.account.email,
         score: this.props.friendInfo[this.props.account.email].tasksCompletedWeek,
@@ -100,10 +101,15 @@ class Friends extends Component {
       const sorted = data && data.sort((item1, item2) => {
         return item2.score - item1.score;
       });
+
+      // set userRank and userScore var
       let userRank = sorted.findIndex((item) => {
         return item.email === this.state.user.name;
       });
+      const uScore = sorted[userRank].score;
       this.setState({ userRank: ++userRank });
+      this.setState({ userScore: uScore });
+
       return sorted;
     }
 
@@ -149,7 +155,7 @@ class Friends extends Component {
               color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, textAlign: 'right', marginRight: 40,
             }}
             >
-              {`${numTasks(this.state.user.score)} Done`}
+              {`${numTasks(this.state.userScore)} Done`}
             </Text>
             <AvatarImageFriend
               individualName={`${this.props.account.firstName} ${this.props.account.lastName}`}
