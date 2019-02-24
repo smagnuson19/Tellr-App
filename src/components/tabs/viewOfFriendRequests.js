@@ -74,7 +74,12 @@ class ViewOfFriendRequests extends Component {
         };
         this.props.postFriendApprove(payLoad, priority).then(() => { this.props.postNotificationsAlt(postData); });
       } else {
+        const postDataDeny = {
+          email: sEmail,
+          priority,
+        };
         console.log('request denied');
+        this.props.postNotificationsAlt(postDataDeny);
       }
     }
   }
