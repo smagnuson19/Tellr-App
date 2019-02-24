@@ -38,7 +38,7 @@ class Friends extends Component {
       filter: 0,
       userRank: 1,
       user: {
-        username: this.props.account.email,
+        name: this.props.account.email,
         score: this.props.friendInfo[this.props.account.email].tasksCompletedWeek,
       },
       isDialogVisible: false,
@@ -50,7 +50,7 @@ class Friends extends Component {
     Object.keys(this.props.friendInfo).forEach((key) => {
       weeklyTaskDataList.push({
         score: this.props.friendInfo[key].tasksCompletedWeek,
-        username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+        name: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
         // iconUrl: this.props.friendInfo[key].avatarUrl,
         iconUrl: this.props.friendInfo[key].avatarColor,
         email: key,
@@ -63,7 +63,7 @@ class Friends extends Component {
     Object.keys(this.props.friendInfo).forEach((key) => {
       monthlyTaskDataList.push({
         score: this.props.friendInfo[key].tasksCompletedMonth,
-        username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+        name: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
         // iconUrl: this.props.friendInfo[key].avatarUrl,
         iconUrl: this.props.friendInfo[key].avatarColor,
         email: key,
@@ -77,7 +77,7 @@ class Friends extends Component {
     // Object.keys(this.props.friendInfo).forEach((key) => {
     //   weeklyGoalDataList.push({
     //     score: this.props.friendInfo[key].goalsCompletedWeek,
-    //     username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+    //     name: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
     //     iconUrl: this.props.friendInfo[key].avatarUrl,
     //   });
     // });
@@ -88,7 +88,7 @@ class Friends extends Component {
     // Object.keys(this.props.friendInfo).forEach((key) => {
     //   monthlyGoalDataList.push({
     //     score: this.props.friendInfo[key].goalsCompletedMonth,
-    //     username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+    //     name: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
     //     iconUrl: this.props.friendInfo[key].avatarUrl,
     //   });
     // });
@@ -101,7 +101,7 @@ class Friends extends Component {
         return item2.score - item1.score;
       });
       let userRank = sorted.findIndex((item) => {
-        return item.username === this.state.user.username;
+        return item.email === this.state.user.name;
       });
       this.setState({ userRank: ++userRank });
       return sorted;
@@ -149,7 +149,7 @@ class Friends extends Component {
               color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, textAlign: 'right', marginRight: 40,
             }}
             >
-              {ordinalSuffixOf(this.state.userRank)}
+              {`${numTasks(this.state.user.score)} Done`}
             </Text>
             <AvatarImageFriend
               individualName={`${this.props.account.firstName} ${this.props.account.lastName}`}
@@ -159,7 +159,7 @@ class Friends extends Component {
               color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
             }}
             >
-              {this.state.user.score}
+              {`${ordinalSuffixOf(this.state.userRank)} Place`}
             </Text>
           </View>
           <ButtonGroup
@@ -180,7 +180,7 @@ class Friends extends Component {
               color: 'white', fontSize: fonts.sm, textDecorationLine: 'underline', fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'left',
             }}
             >
-              {'Username'}
+              {'Name'}
             </Text>
             <Text style={{
               color: 'white', fontSize: fonts.sm, textDecorationLine: 'underline', fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'right',
@@ -237,9 +237,9 @@ class Friends extends Component {
 
     render() {
       const props = {
-        labelBy: 'username',
+        labelBy: 'name',
         sortBy: 'score',
-        data: this.state.filter > 0 ? this.state.monthlyTaskData : this.state.weeklyTaskData,
+        data: this.state.filter > 0 ? this.state.weeklyTaskData : this.state.monthlyTaskData,
         // icon: 'iconUrl',
         sort: this.sort,
         onRowPress: (item, index) => {
@@ -248,13 +248,11 @@ class Friends extends Component {
             email: item.email,
             rank: index,
             score: item.score,
-            name: item.username,
+            name: item.name,
             avatarColor: item.iconUrl,
           });
         },
       };
-      console.log(this.state.filter);
-      console.log(props.data);
 
       return (
         <View style={Style.rootContainer}>
@@ -286,6 +284,14 @@ const ordinalSuffixOf = (i) => {
     return `${i}rd`;
   }
   return `${i}th`;
+};
+
+const numTasks = (i) => {
+  if (i === 1) {
+    return `${i} Task`;
+  } else {
+    return `${i} Tasks`;
+  }
 };
 
 
