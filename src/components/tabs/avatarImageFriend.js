@@ -27,10 +27,19 @@ class AvatarImageFriend extends Component {
     const firstLetter = indFirstName.slice(0, 1).toUpperCase();
     const secondLetter = indLastName.slice(0, 1).toUpperCase();
     const avatarLetters = firstLetter + secondLetter;
+
+    // check for old account with no avatarColors
+    let aColor;
+    if (this.props.avatarColor) {
+      aColor = this.props.avatarColor;
+    } else {
+      aColor = '#000000';
+    }
+
     return (
       <View style={pageStyle.avatarChildContainer}>
         <View style={{
-          width: 50, height: 50, borderRadius: 100, backgroundColor: this.props.avatarColor, justifyContent: 'center',
+          width: 50, height: 50, borderRadius: 100, backgroundColor: aColor, justifyContent: 'center',
         }}
         >
           <Text style={pageStyle.avatarText}>

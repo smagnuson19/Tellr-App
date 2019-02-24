@@ -39,8 +39,8 @@ class SignUp extends Component {
     //   ],
     // });
     //
-    // const randomColor = require('randomcolor'); // import the script
-    // const color = randomColor(); // a hex code for an attractive color
+    const randomColor = require('randomcolor'); // import the script
+    const color = randomColor(); // a hex code for an attractive color
 
     // Describing what will be sent
     const payLoad = {
@@ -50,8 +50,8 @@ class SignUp extends Component {
       password: this.state.password,
       familyName: this.state.familyName,
       accountType: this.props.navigation.getParam('userType'),
+      avatarColor: color,
       // avatar: this.state.avatar,
-      // avatarColor: color,
     };
 
     // checking for errors and notifying user
