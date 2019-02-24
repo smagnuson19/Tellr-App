@@ -15,19 +15,33 @@ class AvatarImageFriend extends Component {
 
   bPress() {
     this.props.onPressNav(this.props.individualName);
+    this.props.onPressNav(this.props.avatarColor);
   }
 
   render() {
     console.log(this.props.individualName);
+    console.log(this.props.avatarColor);
     const nameArray = this.props.individualName.split(' ');
     const indFirstName = nameArray[0];
     const indLastName = nameArray[1];
     const firstLetter = indFirstName.slice(0, 1).toUpperCase();
     const secondLetter = indLastName.slice(0, 1).toUpperCase();
     const avatarLetters = firstLetter + secondLetter;
+
+    // check for old account with no avatarColors
+    let aColor;
+    if (this.props.avatarColor) {
+      aColor = this.props.avatarColor;
+    } else {
+      aColor = '#000000';
+    }
+
     return (
       <View style={pageStyle.avatarChildContainer}>
-        <View style={pageStyle.avatarInnerCircle}>
+        <View style={{
+          width: 50, height: 50, borderRadius: 100, backgroundColor: aColor, justifyContent: 'center',
+        }}
+        >
           <Text style={pageStyle.avatarText}>
             {' '}
             {avatarLetters}
@@ -57,15 +71,6 @@ const pageStyle = StyleSheet.create({
     height: 60,
     backgroundColor: colors.grey,
     borderRadius: 100,
-  },
-  avatarInnerCircle: {
-    width: 50,
-    height: 50,
-    borderRadius: 100,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-
-
   },
   avatarText: {
     textAlign: 'center',

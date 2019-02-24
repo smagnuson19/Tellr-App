@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Image, Dimensions,
+  View, Text, StyleSheet, Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -26,6 +26,7 @@ class SocialView extends Component {
     const name = navigation.getParam('name');
     const score = navigation.getParam('score');
     const rank = navigation.getParam('rank');
+    const avatarColor = navigation.getParam('avatarColor');
     this.state = {
       indEmail,
       name,
@@ -33,6 +34,7 @@ class SocialView extends Component {
       rank,
       taskhistory: [],
       isDialogVisible: false,
+      avatarColor,
     };
     console.log(indEmail);
     this.buttonPress = this.buttonPress.bind(this);
@@ -204,6 +206,7 @@ class SocialView extends Component {
           </Text>
           <AvatarImageFriend
             individualName={this.state.name}
+            avatarColor={this.state.avatarColor}
           />
           <Text style={{
             color: 'white', fontSize: 16, fontFamily: fonts.secondary, flex: 1, marginLeft: 40, fontWeight: 'bold',

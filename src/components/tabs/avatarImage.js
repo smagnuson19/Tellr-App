@@ -3,8 +3,6 @@ import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
-
-// import Style from '../../styling/Style';
 import { fonts, colors } from '../../styling/base';
 
 class AvatarImage extends Component {
@@ -16,6 +14,7 @@ class AvatarImage extends Component {
 
   bPress() {
     this.props.onPressNav(this.props.individual);
+    this.props.onPressNav(this.props.avatarColor);
   }
 
   render() {

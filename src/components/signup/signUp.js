@@ -25,7 +25,7 @@ class SignUp extends Component {
       email: '',
       password: '',
       familyName: '',
-      avatar: '',
+      // avatar: '',
     };
   }
 
@@ -38,6 +38,9 @@ class SignUp extends Component {
     //     NavigationActions.navigate({ routeName: 'Loading', params: { emailParam: this.state.email } }),
     //   ],
     // });
+    //
+    const randomColor = require('randomcolor'); // import the script
+    const color = randomColor(); // a hex code for an attractive color
 
     // Describing what will be sent
     const payLoad = {
@@ -47,7 +50,8 @@ class SignUp extends Component {
       password: this.state.password,
       familyName: this.state.familyName,
       accountType: this.props.navigation.getParam('userType'),
-      avatar: this.state.avatar,
+      avatarColor: color,
+      // avatar: this.state.avatar,
     };
 
     // checking for errors and notifying user

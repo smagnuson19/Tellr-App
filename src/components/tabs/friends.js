@@ -14,9 +14,9 @@ import DialogInput from 'react-native-dialog-input';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Style from '../../styling/Style';
-import AvatarImage from './avatarImage';
 import { colors, fonts } from '../../styling/base';
 import { postRequest, fetchKidFriends } from '../../actions/index';
+import AvatarImageFriend from './avatarImageFriend';
 
 // TODO:
 // change avatars:
@@ -51,7 +51,8 @@ class Friends extends Component {
       weeklyTaskDataList.push({
         score: this.props.friendInfo[key].tasksCompletedWeek,
         username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
-        iconUrl: this.props.friendInfo[key].avatarUrl,
+        // iconUrl: this.props.friendInfo[key].avatarUrl,
+        iconUrl: this.props.friendInfo[key].avatarColor,
         email: key,
       });
     });
@@ -63,7 +64,8 @@ class Friends extends Component {
       monthlyTaskDataList.push({
         score: this.props.friendInfo[key].tasksCompletedMonth,
         username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
-        iconUrl: this.props.friendInfo[key].avatarUrl,
+        // iconUrl: this.props.friendInfo[key].avatarUrl,
+        iconUrl: this.props.friendInfo[key].avatarColor,
         email: key,
       });
     });
@@ -149,8 +151,9 @@ class Friends extends Component {
             >
               {ordinalSuffixOf(this.state.userRank)}
             </Text>
-            <AvatarImage
-              individual={this.props.account}
+            <AvatarImageFriend
+              individualName={`${this.props.account.firstName} ${this.props.account.lastName}`}
+              avatarColor={this.props.account.avatarColor}
             />
             <Text style={{
               color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
@@ -237,14 +240,16 @@ class Friends extends Component {
         labelBy: 'username',
         sortBy: 'score',
         data: this.state.filter > 0 ? this.state.monthlyTaskData : this.state.weeklyTaskData,
-        icon: 'iconUrl',
+        // icon: 'iconUrl',
         sort: this.sort,
         onRowPress: (item, index) => {
+          console.log(item);
           this.props.navigation.navigate('SocialIndividual', {
             email: item.email,
             rank: index,
             score: item.score,
             name: item.username,
+            avatarColor: item.iconUrl,
           });
         },
       };
