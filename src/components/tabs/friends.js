@@ -40,7 +40,6 @@ class Friends extends Component {
       userScore: 0,
       user: {
         name: this.props.account.email,
-        score: this.props.friendInfo[this.props.account.email].tasksCompletedWeek,
       },
       isDialogVisible: false,
     };
