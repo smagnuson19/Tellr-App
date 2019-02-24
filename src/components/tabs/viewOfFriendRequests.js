@@ -10,8 +10,6 @@ import { postFriendApprove, postNotificationsAlt } from '../../actions/index';
 
 import Style from '../../styling/Style';
 
-// TODO: make button of ignore work
-
 class ViewOfFriendRequests extends Component {
   constructor(props) {
     super(props);
