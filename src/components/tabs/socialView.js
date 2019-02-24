@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Dimensions,
+  View, Text, StyleSheet, Dimensions, Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { Button } from 'react-native-elements';
-import DialogInput from 'react-native-dialog-input';
+import { StackActions, NavigationActions } from 'react-navigation';
 import {
   ProgressCircle, AreaChart, XAxis,
 } from 'react-native-svg-charts';
@@ -13,7 +13,7 @@ import * as scale from 'd3-scale';
 import * as shape from 'd3-shape';
 import AvatarImageFriend from './avatarImageFriend';
 import { fonts, colors, dimensions } from '../../styling/base';
-import { fetchAllSocial } from '../../actions/index';
+import { fetchAllSocial, postRemoveFriend } from '../../actions/index';
 import Style from '../../styling/Style';
 
 // const API_KEY = '';
@@ -33,7 +33,6 @@ class SocialView extends Component {
       score,
       rank,
       taskhistory: [],
-      isDialogVisible: false,
       avatarColor,
     };
     console.log(indEmail);
@@ -56,6 +55,34 @@ class SocialView extends Component {
 
   buttonPress(action, goalName, sEmail, cEmail, priority) {
     this.props.onPress(action, goalName, sEmail, cEmail, priority);
+  }
+
+
+  removeFriend() {
+    // email of yourself, remFriend is email of friend you're removing
+    const payLoad = {
+      email: this.props.account.email,
+      remFriend: this.state.indEmail,
+    };
+    console.log(payLoad);
+    // this.props.postRemoveFriend(payLoad);
+    // this.props.navigation.navigate('Auth', {}, NavigationActions.navigate({ routeName: 'ChildTabBar' }));
+  }
+
+  removeFriendAlert() {
+    // Confirmation alert
+    Alert.alert(
+      'Are you sure you want to remove this friend?',
+      'You will be removed from your friend\'s friend list as well',
+      [
+        { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+        {
+          text: 'Yes',
+          onPress: () => this.removeFriend(),
+        },
+      ],
+      { cancelable: false },
+    );
   }
 
   renderChart() {
@@ -251,24 +278,16 @@ class SocialView extends Component {
         }}
         >
           <Button
-            onPress={() => this.setState({ isDialogVisible: true })}
+            onPress={() => this.removeFriendAlert()}
             title="Remove Friend"
             rounded
             style={Style.button}
             backgroundColor={colors.logoGreen}
           />
-          <DialogInput
-            isDialogVisible={this.state.isDialogVisible}
-            title="Do you want to remove this friend?"
-            message="You cannot undo this action"
-            submitInput={console.log('hi')}
-            closeDialog={() => this.setState({ isDialogVisible: false })}
-          />
         </View>
       </View>
     );
   }
-
 
   render() {
     // const props = {
@@ -405,4 +424,4 @@ const mapStateToProps = state => (
   });
 
 
-export default connect(mapStateToProps, { fetchAllSocial })(SocialView);
+export default connect(mapStateToProps, { fetchAllSocial, postRemoveFriend })(SocialView);
