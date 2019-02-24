@@ -15,16 +15,13 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
-import { postRequest, fetchKidFriends } from '../../actions/index';
+import { postRequest } from '../../actions/index';
 import AvatarImageFriend from './avatarImageFriend';
 
 // TODO:
 // change avatars:
 //       need to add avatars to backened as part of friendInfo, need to make landing page for avatar selection when create an account
 //       currently have as initials but this can change
-// leaderboard user score switch for weeks / months
-// add goals completed / tasks completed
-// make the requests go away when pressed
 // Dislay "friend request accepted" or something
 
 class Friends extends Component {
@@ -306,4 +303,4 @@ const mapStateToProps = state => (
     friendInfo: state.user.friendInfo,
   });
 
-export default connect(mapStateToProps, { postRequest, fetchKidFriends })(Friends);
+export default connect(mapStateToProps, { postRequest })(Friends);

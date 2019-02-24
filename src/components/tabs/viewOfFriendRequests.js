@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { fonts, colors, dimensions } from '../../styling/base';
 import RequestCard from './requestCard';
-import { postFriendApprove } from '../../actions/index';
+import { postFriendApprove, postNotificationsAlt } from '../../actions/index';
 
 import Style from '../../styling/Style';
 
-// TODO: make buttons of accept and ignore work
+// TODO: make button of ignore work
 
 class ViewOfFriendRequests extends Component {
   constructor(props) {
@@ -68,7 +68,11 @@ class ViewOfFriendRequests extends Component {
           friend: cEmail,
         };
         console.log(payLoad);
-        this.props.postFriendApprove(payLoad, priority);
+        const postData = {
+          email: payLoad.email,
+          priority,
+        };
+        this.props.postFriendApprove(payLoad, priority).then(() => { this.props.postNotificationsAlt(postData); });
       } else {
         console.log('request denied');
       }
@@ -148,4 +152,4 @@ const mapStateToProps = state => (
     notifications: state.user.notifications,
   });
 
-export default connect(mapStateToProps, { postFriendApprove })(ViewOfFriendRequests);
+export default connect(mapStateToProps, { postFriendApprove, postNotificationsAlt })(ViewOfFriendRequests);

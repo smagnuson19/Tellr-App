@@ -84,12 +84,12 @@ const Style = StyleSheet.create({
   },
 
   button: {
-    fontFamily: fonts.primary,
+    // fontFamily: fonts.primary,
     marginBottom: '15%',
   },
 
   button2: {
-    fontFamily: fonts.primary,
+    // fontFamily: fonts.primary,
     marginBottom: '8%',
   },
 
