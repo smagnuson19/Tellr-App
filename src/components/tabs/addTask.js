@@ -15,8 +15,8 @@ import RNPickerSelect from 'react-native-picker-select';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions, NavigationActions } from 'react-navigation';
-import Style from '../../styling/Style';
-import { colors, fonts } from '../../styling/base';
+import Style from '../../styling/ParentStyle';
+import { colors2, fonts2 } from '../../styling/parent';
 import { postTask } from '../../actions/index';
 
 
@@ -168,7 +168,7 @@ class AddTask extends Component {
   render() {
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+        <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
             <Text style={Style.headerText}>New Task </Text>
             <View style={Style.inputContainer}>
@@ -178,7 +178,7 @@ class AddTask extends Component {
                 onChangeText={text => this.setState({ taskName: text })}
                 value={this.state.taskName}
                 placeholder="Task Name"
-                placeholderTextColor={colors.placeholderColor}
+                placeholderTextColor={colors2.placeholderColor}
                 returnKeyType="next"
               />
               <DatePicker
@@ -192,26 +192,26 @@ class AddTask extends Component {
                 cancelBtnText="Cancel"
                 customStyles={{
                   dateText: {
-                    color: colors.white,
-                    fontFamily: fonts.secondary,
+                    color: colors2.white,
+                    fontFamily: fonts2.secondary,
                     alignSelf: 'flex-start',
                     marginLeft: 8,
-                    fontSize: fonts.md,
+                    fontSize: fonts2.md,
                   },
                   placeholderText: {
-                    fontFamily: fonts.secondary,
-                    color: colors.lightGrey,
+                    fontFamily: fonts2.secondary,
+                    color: colors2.lightGrey,
                     alignSelf: 'flex-start',
                     marginLeft: 8,
-                    fontSize: fonts.md,
+                    fontSize: fonts2.md,
                   },
                   btnTextConfirm: {
-                    fontFamily: fonts.secondary,
-                    color: colors.secondary,
+                    fontFamily: fonts2.secondary,
+                    color: colors2.secondary,
                   },
                   btnTextCancel: {
-                    fontFamily: fonts.secondary,
-                    color: colors.secondary,
+                    fontFamily: fonts2.secondary,
+                    color: colors2.secondary,
                   },
                   dateInput: {
                     textAlign: 'left',
@@ -235,7 +235,7 @@ class AddTask extends Component {
                   });
                 }}
                 style={{ ...pickerSelectStyles }}
-                placeholderTextColor={colors.lightGrey}
+                placeholderTextColor={colors2.lightGrey}
                 value={this.state.childEmail}
               />
               <FormInput
@@ -247,7 +247,7 @@ class AddTask extends Component {
                 onChangeText={text => this.setState({ taskDescription: text })}
                 value={this.state.taskDescription}
                 placeholder="Task Description..."
-                placeholderTextColor={colors.placeholderColor}
+                placeholderTextColor={colors2.placeholderColor}
                 returnKeyType="next"
               />
               <FormInput
@@ -259,7 +259,7 @@ class AddTask extends Component {
                 onChangeText={text => this.setState({ reward: text })}
                 value={this.state.reward}
                 placeholder="Reward: $0.00"
-                placeholderTextColor={colors.placeholderColor}
+                placeholderTextColor={colors2.placeholderColor}
               />
             </View>
             {this.mopOverlay()}
@@ -270,7 +270,7 @@ class AddTask extends Component {
                 rounded
                 large
                 style={Style.button}
-                backgroundColor={colors.secondary}
+                backgroundColor={colors2.logoGreen}
                 onPress={() => this.submitTask()}
               />
             </View>
@@ -283,18 +283,18 @@ class AddTask extends Component {
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    fontSize: fonts.md,
+    fontSize: fonts2.md,
     margin: 40,
     paddingTop: 7,
     paddingHorizontal: 8,
     paddingBottom: 7,
     borderWidth: 0.8,
-    borderColor: colors.lightGrey,
+    borderColor: colors2.lightGrey,
     color: 'white',
     width: 320,
     marginLeft: 40,
     marginTop: 15,
-    fontFamily: fonts.secondary,
+    fontFamily: fonts2.secondary,
     alignSelf: 'flex-start',
   },
 });
@@ -306,8 +306,8 @@ const taskDeadlineStyles = StyleSheet.create({
     alignSelf: 'flex-start',
     paddingBottom: 30,
     marginLeft: 40,
-    fontFamily: fonts.secondary,
-    borderColor: colors.lightGrey,
+    fontFamily: fonts2.secondary,
+    borderColor: colors2.lightGrey,
   },
 });
 
