@@ -24,6 +24,7 @@ class SignUpFirstDialouge extends Component {
       accountSelected: null,
       firstName: '',
       lastName: '',
+      familyName: '',
     };
   }
 
@@ -56,7 +57,7 @@ class SignUpFirstDialouge extends Component {
         userType: this.state.accountSelected,
         firstName: this.state.firstName,
         lastName: this.state.lastName,
-
+        familyName: this.state.familyName,
       });
     }
   }
@@ -202,7 +203,7 @@ const PageStyle = StyleSheet.create({
     flex: 0,
     paddingTop: '10%',
     marginBottom: '15%',
-    borderColor: colors.lightGrey,
+    borderColor: '#000000',
     color: colors.white,
   },
   buttonContainer: {

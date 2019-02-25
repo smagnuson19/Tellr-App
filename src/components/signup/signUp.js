@@ -24,7 +24,6 @@ class SignUp extends Component {
 
       email: '',
       password: '',
-      familyName: '',
       // avatar: '',
     };
   }
@@ -42,14 +41,21 @@ class SignUp extends Component {
     const randomColor = require('randomcolor'); // import the script
     const color = randomColor(); // a hex code for an attractive color
 
+
+    const { navigation } = this.props;
+    const userType = navigation.getParam('userType');
+    const firstName = navigation.getParam('firstName');
+    const lastName = navigation.getParam('lastName');
+    const familyName = navigation.getParam('familyName');
+
     // Describing what will be sent
     const payLoad = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
+      firstName,
+      lastName,
       email: this.state.email,
       password: this.state.password,
-      familyName: this.state.familyName,
-      accountType: this.props.navigation.getParam('userType'),
+      familyName,
+      accountType: userType,
       avatarColor: color,
       // avatar: this.state.avatar,
     };
@@ -84,9 +90,6 @@ class SignUp extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
-    const userType = navigation.getParam('userType');
-
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
@@ -114,29 +117,10 @@ class SignUp extends Component {
                 placeholder="Password"
                 placeholderTextColor={colors.grey}
                 spellCheck="false"
-                returnKeyType="next"
+                returnKeyType="done"
                 secureTextEntry="true"
                 ref={(input) => { this.fourthTextInput = input; }}
-                onSubmitEditing={() => { this.lastInput.focus(); }}
-                blurOnSubmit={false}
               />
-
-              <FormInput
-                inputStyle={Style.fieldText}
-                containerStyle={pageStyle.fieldContainer}
-                onChangeText={text => this.setState({ password: text })}
-                value={this.state.password}
-                placeholder="Confirm Password"
-                placeholderTextColor={colors.grey}
-                spellCheck="false"
-                returnKeyType="next"
-                secureTextEntry="true"
-                ref={(input) => { this.fourthTextInput = input; }}
-                onSubmitEditing={() => { this.lastInput.focus(); }}
-                blurOnSubmit={false}
-              />
-
-
             </View>
             <View style={pageStyle.buttonContainer}>
               <TouchableOpacity
@@ -144,7 +128,7 @@ class SignUp extends Component {
                 onPress={() => this.createAccount()}
               >
                 <Text style={pageStyle.buttonText}>
-                Begin Now!
+                Let&apos;s Start!
                 </Text>
               </TouchableOpacity>
             </View>
@@ -160,7 +144,7 @@ const pageStyle = StyleSheet.create({
   fieldContainer: {
     borderBottomWidth: 1,
     flex: 0,
-    borderColor: colors.lightGrey,
+    borderColor: '#000000',
     color: colors.white,
   },
   inputContainer: {
@@ -172,7 +156,7 @@ const pageStyle = StyleSheet.create({
     alignItems: 'center',
   },
   buttonContainer: {
-    flex: 0,
+    flex: 1,
     margin: '10%',
     width: '80%',
     flexDirection: 'column',
@@ -183,10 +167,8 @@ const pageStyle = StyleSheet.create({
     fontFamily: fonts.secondary,
     textAlign: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
     fontSize: fonts.lg,
     color: '#ffff',
-
 
   },
   bottomInputContainer: {
@@ -196,8 +178,6 @@ const pageStyle = StyleSheet.create({
     shadowRadius: 1, // IOS
     justifyContent: 'center',
     backgroundColor: colors.secondary,
-    flexDirection: 'column',
-    alignItems: 'center',
     paddingTop: 25,
     paddingBottom: 25,
   },
