@@ -8,9 +8,10 @@ import { Button } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 import RNPickerSelect from 'react-native-picker-select';
 import { postUpdateBalance } from '../../actions';
-import Style from '../../styling/Style';
+import Style from '../../styling/ParentStyle';
+import { colors2, fonts2, dimensions2 } from '../../styling/parent';
 import KeyPad from './keypad';
-import { fonts, colors, dimensions } from '../../styling/base';
+
 
 const Sound = require('react-native-sound');
 
@@ -217,7 +218,7 @@ class Payments extends Component {
   render() {
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+        <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
 
             <View style={pageStyle.upperContainer}>
@@ -260,7 +261,7 @@ class Payments extends Component {
                 raised
                 onPress={() => this.sendMoney()}
                 title="Transfer Funds!"
-                backgroundColor="#424242"
+                backgroundColor={colors2.logoGreen}
                 accessibilityLabel="enter email"
                 color="white"
                 style={Style.button}
@@ -294,14 +295,14 @@ const pageStyle = StyleSheet.create({
   dollarSign: {
     color: 'white',
     marginRight: -30,
-    fontFamily: fonts.secondary,
+    fontFamily: fonts2.secondary,
     fontSize: 30,
   },
 
   amountStyle: {
     color: 'white',
     textAlign: 'center',
-    fontFamily: fonts.secondary,
+    fontFamily: fonts2.secondary,
     fontSize: 90,
 
   },
@@ -316,14 +317,14 @@ const pageStyle = StyleSheet.create({
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    fontSize: fonts.md,
+    fontSize: fonts2.md,
     paddingTop: 10,
     paddingHorizontal: 10,
     paddingBottom: 10,
     borderWidth: 1,
-    borderColor: colors.secondary,
-    width: dimensions.fullWidth - 30,
-    fontFamily: fonts.secondary,
+    borderColor: colors2.secondary,
+    width: dimensions2.fullWidth - 30,
+    fontFamily: fonts2.secondary,
     textAlign: 'center',
   },
 });

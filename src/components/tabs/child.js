@@ -34,16 +34,13 @@ class Child extends Component {
     }
     if (empty === false) {
       return (
-
         <View>
-
           { this.props.task.map(component => (
             <View key={component.notificationName}>
               <NotificationCard entry={component}
                 notificationTypePassed="newTask"
                 onPress={this.buttonPress}
               />
-
             </View>
           ))}
         </View>
@@ -56,6 +53,38 @@ class Child extends Component {
       );
     }
   }
+
+
+  checkDeniedTasks() {
+    let empty = true;
+    for (let i = 0; i < this.props.task.length; i++) {
+      if (this.props.task[i].notificationType === 'taskUnverified') {
+        empty = false;
+      }
+    }
+    if (empty === false) {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionHeader}>
+      Your task was denied!
+          </Text>
+          <View>
+            { this.props.task.map(component => (
+              <View key={component.notificationName}>
+                <NotificationCard entry={component}
+                  notificationTypePassed="taskUnverified"
+                  onPress={this.buttonPress}
+                />
+              </View>
+            ))}
+          </View>
+        </View>
+      );
+    } else {
+      return (null);
+    }
+  }
+
 
   render() {
     return (
@@ -87,11 +116,11 @@ class Child extends Component {
 
           <View style={pageStyle.sectionContainer}>
             <Text style={pageStyle.sectionHeader}>
-        Complete The Tasks
+        Complete The New Tasks
             </Text>
             {this.checkEmptyTasks()}
-
           </View>
+          {this.checkDeniedTasks()}
         </ScrollView>
       </View>
     );

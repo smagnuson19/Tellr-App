@@ -9,6 +9,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { colors, fonts } from '../styling/base';
+import { colors2, fonts2 } from '../styling/parent';
 
 import Home from '../components/tabs/home';
 import Payments from '../components/tabs/payments';
@@ -144,11 +145,11 @@ const ParentTabBar = createBottomTabNavigator({
     },
   }),
   tabBarOptions: {
-    activeTintColor: colors.primary,
+    activeTintColor: colors2.logoGreen,
     inactiveTintColor: 'white',
     style: {
-      backgroundColor: colors.linearGradientBottom,
-      fontFamily: fonts.secondary,
+      backgroundColor: colors2.linearGradientBottom,
+      fontFamily: fonts2.secondary,
     },
   },
 },

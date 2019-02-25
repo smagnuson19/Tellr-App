@@ -7,7 +7,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Divider, ButtonGroup } from 'react-native-elements';
 import { PieChart } from 'react-native-svg-charts';
 import Style from '../../styling/Style';
+import Style2 from '../../styling/ParentStyle';
 import { colors, fonts, dimensions } from '../../styling/base';
+import { colors2 } from '../../styling/parent';
 
 class Profile extends Component {
   constructor(props) {
@@ -30,7 +32,7 @@ class Profile extends Component {
         <View style={pageStyle.sectionContainer}>
           <Text style={pageStyle.sectionText}> Children: </Text>
           { kidsList.map(person => (
-            <Text style={pageStyle.subSectionText}>
+            <Text style={pageStyle.darkSubSectionText}>
               {' '}
               {person.name}
               {',  Balance: $'}
@@ -123,40 +125,72 @@ class Profile extends Component {
   }
 
   render() {
-    return (
-      <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
-          <View style={Style.contentWrapper}>
-            <Text style={Style.headerText}>Profile </Text>
-            <View style={pageStyle.sectionContainer}>
-              <Text style={pageStyle.sectionHeader}> Account </Text>
-              <Divider style={pageStyle.divider} />
+    if (this.props.user.accountType === 'Parent') {
+      return (
+        <View style={Style.rootContainer}>
+          <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
+            <View style={Style.contentWrapper}>
+              <Text style={Style2.headerText}>Profile </Text>
               <View style={pageStyle.sectionContainer}>
-                <Text style={pageStyle.sectionText}> Name: </Text>
-                <Text style={pageStyle.subSectionText}>
-                  {' '}
-                  {this.props.user.firstName}
-                  {' '}
-                  {this.props.user.lastName}
-                </Text>
-                <Text style={pageStyle.sectionText}> Account Type: </Text>
-                <Text style={pageStyle.subSectionText}>
-                  {' '}
-                  {this.props.user.accountType}
-                  {' '}
-                </Text>
-                {this.determineDisplay()}
+                <Text style={pageStyle.sectionHeader}> Account </Text>
+                <Divider style={pageStyle.divider} />
+                <View style={pageStyle.sectionContainer}>
+                  <Text style={pageStyle.sectionText}> Name: </Text>
+                  <Text style={pageStyle.darkSubSectionText}>
+                    {' '}
+                    {this.props.user.firstName}
+                    {' '}
+                    {this.props.user.lastName}
+                  </Text>
+                  <Text style={pageStyle.sectionText}> Account Type: </Text>
+                  <Text style={pageStyle.darkSubSectionText}>
+                    {' '}
+                    {this.props.user.accountType}
+                    {' '}
+                  </Text>
+                  {this.displayChildren()}
+                </View>
               </View>
+              {this.renderFooter()}
             </View>
-            <ScrollView>
-              {this.childCharts()}
-              {this.childCharts()}
-            </ScrollView>
-            {this.renderFooter()}
-          </View>
-        </LinearGradient>
-      </View>
-    );
+          </LinearGradient>
+        </View>
+      );
+    } else if (this.props.user.accountType === 'Child') {
+      return (
+        <View style={Style.rootContainer}>
+          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+            <View style={Style.contentWrapper}>
+              <Text style={Style.headerText}>Profile </Text>
+              <View style={pageStyle.sectionContainer}>
+                <Text style={pageStyle.sectionHeader}> Account </Text>
+                <Divider style={pageStyle.divider} />
+                <View style={pageStyle.sectionContainer}>
+                  <Text style={pageStyle.sectionText}> Name: </Text>
+                  <Text style={pageStyle.subSectionText}>
+                    {' '}
+                    {this.props.user.firstName}
+                    {' '}
+                    {this.props.user.lastName}
+                  </Text>
+                  <Text style={pageStyle.sectionText}> Account Type: </Text>
+                  <Text style={pageStyle.subSectionText}>
+                    {' '}
+                    {this.props.user.accountType}
+                    {' '}
+                  </Text>
+                  {this.displayBalance()}
+                </View>
+              </View>
+              {this.renderFooter()}
+            </View>
+          </LinearGradient>
+        </View>
+      );
+    } else {
+      console.log('ERROR: accountType not loaded or selected proprely');
+      return null;
+    }
   }
 }
 
@@ -188,6 +222,14 @@ const pageStyle = StyleSheet.create({
   },
   subSectionText: {
     fontSize: fonts.smmd,
+    fontFamily: fonts.secondary,
+    justifyContent: 'flex-start',
+    paddingVertical: 6,
+    marginLeft: 10,
+  },
+  darkSubSectionText: {
+    fontSize: fonts.smmd,
+    color: colors.logoGreen,
     fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
     paddingVertical: 6,
