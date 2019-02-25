@@ -256,11 +256,15 @@ const AppStack = createStackNavigator(
     },
     newGoal: {
       screen: NewGoal,
-      headerTransparent: 'True',
+      navigationOptions: () => ({
+        headerTransparent: 'True',
+      }),
     },
     redeemMoney: {
       screen: redeemMoney,
-      headerTransparent: 'True',
+      navigationOptions: () => ({
+        headerTransparent: 'True',
+      }),
     },
   },
 
