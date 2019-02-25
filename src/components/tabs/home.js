@@ -407,11 +407,10 @@ const pageStyle = StyleSheet.create({
   sectionHeader: {
     fontSize: fonts.md,
     color: '#fff',
-    fontFamily: fonts.primary,
     justifyContent: 'flex-start',
     paddingVertical: 6,
     paddingHorizontal: 10,
-    fontWeight: 'bold',
+
   },
   divider: {
     backgroundColor: colors.primary,
