@@ -345,6 +345,22 @@ export function postFriendApprove(payLoad, priority) {
   };
 }
 
+export function postRemoveFriend(payLoad) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.post(`${ROOT_URL}/removefriends`, { payLoad }, { headers: { authorization: token } })
+        .then((response) => {
+          console.log(`Friend Removed: ${response.data}`);
+        }).catch((error) => {
+          errorHandling(
+            'postRemoveFriend post Error: ',
+            error.response.data[0].Error,
+          );
+        });
+    });
+  };
+}
+
 
 export function fetchUserInfo(email) {
   return (dispatch) => {
