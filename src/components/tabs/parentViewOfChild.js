@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { fonts, colors, dimensions } from '../../styling/base';
+import { fonts2, colors2, dimensions2 } from '../../styling/parent';
 import NotificationCard from './notificationCard';
 
 import Style from '../../styling/Style';
@@ -99,7 +99,7 @@ class ParentViewOfChild extends Component {
   render() {
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+        <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
           <View style={pageStyle.homeWrapper}>
             <View style={pageStyle.topContainer}>
 
@@ -135,12 +135,12 @@ const pageStyle = StyleSheet.create({
   homeWrapper: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    width: dimensions.fullWidth,
-    height: dimensions.fullHeight,
+    width: dimensions2.fullWidth,
+    height: dimensions2.fullHeight,
   },
 
   topContainer: {
-    width: dimensions.fullWidth,
+    width: dimensions2.fullWidth,
     backgroundColor: '#fff',
     marginBottom: 15,
     flexDirection: 'row',
@@ -158,12 +158,12 @@ const pageStyle = StyleSheet.create({
     paddingTop: 80,
     marginLeft: 15,
     alignContent: 'center',
-    fontSize: fonts.lg,
-    color: colors.black,
+    fontSize: fonts2.lg,
+    color: colors2.black,
   },
 
   balanceContainer: {
-    backgroundColor: colors.grey,
+    backgroundColor: colors2.logoGreen,
     width: 100,
     height: 100,
     borderRadius: 100,
@@ -174,24 +174,24 @@ const pageStyle = StyleSheet.create({
   },
   balanceText: {
     textAlign: 'center',
-    color: colors.primary,
-    fontSize: fonts.md,
-    fontFamily: fonts.secondary,
+    color: colors2.primary,
+    fontSize: fonts2.md,
+    fontFamily: fonts2.secondary,
   },
 
   sectionContainer: {
     marginBottom: 15,
-    width: dimensions.fullWidth,
+    width: dimensions2.fullWidth,
   },
   sectionHeader: {
-    fontSize: fonts.md,
+    fontSize: fonts2.md,
     color: '#fff',
-    fontFamily: fonts.secondary,
+    fontFamily: fonts2.secondary,
     justifyContent: 'flex-start',
     paddingVertical: 6,
   },
   divider: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors2.primary,
     height: 2,
     marginTop: 6,
     marginBottom: 6,
@@ -204,9 +204,9 @@ const pageStyle = StyleSheet.create({
   },
 
   noGoalsText: {
-    fontSize: fonts.md,
+    fontSize: fonts2.md,
     color: '#fff',
-    fontFamily: fonts.primary,
+    fontFamily: fonts2.primary,
   },
 });
 
