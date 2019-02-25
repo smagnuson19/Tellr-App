@@ -145,7 +145,7 @@ class Home extends Component {
           <Divider style={pageStyle.divider} />
 
           <View>
-            <Text style={{ fontSize: 18, paddingHorizontal: 10 }}> No Goals To Verify, have your child add more! </Text>
+            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors2.lightGrey }}> No Goals To Verify, have your child add more! </Text>
           </View>
 
 
@@ -186,7 +186,7 @@ class Home extends Component {
           <Divider style={pageStyle.divider} />
 
           <View>
-            <Text style={{ fontSize: 18, paddingHorizontal: 10 }}> No Goals To Confirm, remind your child! </Text>
+            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors2.lightGrey }}> No Goals To Confirm, remind your child! </Text>
           </View>
 
 
@@ -226,7 +226,7 @@ class Home extends Component {
           </Text>
           <Divider style={pageStyle.divider} />
           <View>
-            <Text style={{ fontSize: 18, paddingHorizontal: 10 }}>
+            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors2.lightGrey }}>
               {' '}
 No Chores To Verify, Add some more!
             </Text>
