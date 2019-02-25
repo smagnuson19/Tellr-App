@@ -30,6 +30,7 @@
     "react-dom": "^16.6.0",
     "react-moment": "^0.8.4",
     "react-native": "0.57.3",
+    "react-native-blur": "^3.2.2",
     "react-native-datepicker": "^1.7.2",
     "react-native-dialog-input": "^1.0.7",
     "react-native-dropdown-menu": "^2.0.0",

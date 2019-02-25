@@ -13,17 +13,29 @@ class AvatarImage extends Component {
   }
 
   bPress() {
-    this.props.onPressNav(this.props.individual);
+    if (this.props.screenRoute !== undefined) {
+      console.log('Do nothing!');
+    } else {
+      this.props.onPressNav(this.props.individual);
+    }
   }
 
   render() {
-    const firstLetter = this.props.individual.firstName.slice(0, 1).toUpperCase();
-    const secondLetter = this.props.individual.lastName.slice(0, 1).toUpperCase();
-    const avatarLetters = firstLetter + secondLetter;
+    let avatarLetters, aColor;
+    if (this.props.pageNumber !== undefined) {
+      avatarLetters = this.props.pageNumber;
+      console.log('something');
+    } else if (this.props.individual !== undefined) {
+      const firstLetter = this.props.individual.firstName.slice(0, 1).toUpperCase();
+      const secondLetter = this.props.individual.lastName.slice(0, 1).toUpperCase();
+      avatarLetters = firstLetter + secondLetter;
+    }
+
 
     // check for old account with no avatarColors
-    let aColor;
-    if (this.props.individual.avatarColor) {
+    if (this.props.definedColor !== undefined) {
+      aColor = this.props.definedColor;
+    } else if (this.props.individual.avatarColor) {
       aColor = this.props.individual.avatarColor;
     } else {
       aColor = '#000000';

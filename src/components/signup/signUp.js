@@ -4,24 +4,24 @@ import {
   Text,
   StyleSheet,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
-  Button, FormInput,
+  FormInput,
 } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import { NavigationActions } from 'react-navigation';
 import { postNewUser } from '../../actions';
 import Style from '../../styling/Style';
-import { colors } from '../../styling/base';
+import { colors, fonts } from '../../styling/base';
 
 
 class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '',
-      lastName: '',
+
       email: '',
       password: '',
       familyName: '',
@@ -55,21 +55,13 @@ class SignUp extends Component {
     };
 
     // checking for errors and notifying user
-    if (this.state.firstName === '') {
-      Alert.alert('First Name cannot be empty');
-      console.log('ERROR: first name empty');
-    } else if (this.state.lastName === '') {
-      Alert.alert('Last Name cannot be empty');
-      console.log('ERROR: last name empty');
-    } else if (this.state.email === '') {
+
+    if (this.state.email === '') {
       Alert.alert('Email cannot be empty');
       console.log('ERROR: email empty');
     } else if (this.state.password === '') {
       Alert.alert('Password cannot be empty');
       console.log('ERROR: password empty');
-    } else if (this.state.familyName === '') {
-      Alert.alert('Family Name cannot be empty');
-      console.log('ERROR: family name empty');
     // } else if (this.state.avatar === '') {
     //   Alert.alert('Avatar cannot be empty');
     //   console.log('ERROR: avatar empty');
@@ -91,27 +83,6 @@ class SignUp extends Component {
     }
   }
 
-  displayAdditionalFields(userType) {
-    // if (userType === 'child') {
-    //   return (<View />);
-    // } else {
-    return (
-      <FormInput
-        inputStyle={Style.fieldText}
-        containerStyle={pageStyle.fieldContainer}
-        onChangeText={text => this.setState({ familyName: text })}
-        value={this.state.familyName}
-        placeholder="Family Name"
-        placeholderTextColor={colors.grey}
-        spellCheck="false"
-        returnKeyType="done"
-        ref={(input) => { this.lastInput = input; }}
-        onSubmitEditing={() => this.createAccount()}
-      />
-    );
-    // }
-  }
-
   render() {
     const { navigation } = this.props;
     const userType = navigation.getParam('userType');
@@ -123,31 +94,6 @@ class SignUp extends Component {
             <Text style={Style.headerText}>Create Account </Text>
             <View style={pageStyle.inputContainer}>
               <FormInput
-                containerStyle={pageStyle.fieldContainer}
-                onChangeText={text => this.setState({ firstName: text })}
-                value={this.state.firstName}
-                placeholder="First Name"
-                inputStyle={Style.fieldText}
-                placeholderTextColor={colors.grey}
-                spellCheck="false"
-                returnKeyType="next"
-                onSubmitEditing={() => { this.secondTextInput.focus(); }}
-                blurOnSubmit={false}
-              />
-              <FormInput
-                inputStyle={Style.fieldText}
-                containerStyle={pageStyle.fieldContainer}
-                onChangeText={text => this.setState({ lastName: text })}
-                value={this.state.lastName}
-                placeholder="Last Name"
-                placeholderTextColor={colors.grey}
-                spellCheck="false"
-                returnKeyType="next"
-                ref={(input) => { this.secondTextInput = input; }}
-                onSubmitEditing={() => { this.thirdTextInput.focus(); }}
-                blurOnSubmit={false}
-              />
-              <FormInput
                 inputStyle={Style.fieldText}
                 containerStyle={pageStyle.fieldContainer}
                 onChangeText={text => this.setState({ email: text })}
@@ -157,7 +103,6 @@ class SignUp extends Component {
                 placeholderTextColor={colors.grey}
                 spellCheck="false"
                 returnKeyType="next"
-                ref={(input) => { this.thirdTextInput = input; }}
                 onSubmitEditing={() => { this.fourthTextInput.focus(); }}
                 blurOnSubmit={false}
               />
@@ -166,7 +111,7 @@ class SignUp extends Component {
                 containerStyle={pageStyle.fieldContainer}
                 onChangeText={text => this.setState({ password: text })}
                 value={this.state.password}
-                placeholder="Set Password"
+                placeholder="Password"
                 placeholderTextColor={colors.grey}
                 spellCheck="false"
                 returnKeyType="next"
@@ -176,19 +121,32 @@ class SignUp extends Component {
                 blurOnSubmit={false}
               />
 
-              {this.displayAdditionalFields(userType)}
+              <FormInput
+                inputStyle={Style.fieldText}
+                containerStyle={pageStyle.fieldContainer}
+                onChangeText={text => this.setState({ password: text })}
+                value={this.state.password}
+                placeholder="Confirm Password"
+                placeholderTextColor={colors.grey}
+                spellCheck="false"
+                returnKeyType="next"
+                secureTextEntry="true"
+                ref={(input) => { this.fourthTextInput = input; }}
+                onSubmitEditing={() => { this.lastInput.focus(); }}
+                blurOnSubmit={false}
+              />
+
 
             </View>
             <View style={pageStyle.buttonContainer}>
-              <Button
-                large
-                raised
-                rounded
-                title="Get Started"
-                backgroundColor="#3de594"
+              <TouchableOpacity
+                style={pageStyle.bottomInputContainer}
                 onPress={() => this.createAccount()}
-                style={Style.button}
-              />
+              >
+                <Text style={pageStyle.buttonText}>
+                Begin Now!
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </LinearGradient>
@@ -220,6 +178,28 @@ const pageStyle = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
 
+  },
+  buttonText: {
+    fontFamily: fonts.secondary,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: fonts.lg,
+    color: '#ffff',
+
+
+  },
+  bottomInputContainer: {
+    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, // IOS
+    justifyContent: 'center',
+    backgroundColor: colors.secondary,
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingTop: 25,
+    paddingBottom: 25,
   },
 
 });

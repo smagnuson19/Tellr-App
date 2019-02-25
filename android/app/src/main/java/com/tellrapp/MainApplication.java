@@ -3,6 +3,7 @@ package com.tellrapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.cmcewen.blurview.BlurViewPackage;
 import com.bugsnag.BugsnagReactNative;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.airbnb.android.NativeNavigationPackage;
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new BlurViewPackage(),
             BugsnagReactNative.getPackage(),
             new ReactNativeOneSignalPackage(),
             new NativeNavigationPackage(),

@@ -113,19 +113,19 @@ class Login extends Component {
               <Button
                 large
                 raised
-                rounded
+
                 onPress={() => this.submitEmail()}
                 title="LOG IN"
-                backgroundColor={colors.logoGreen}
+                backgroundColor={colors.secondary}
                 accessibilityLabel="enter email"
                 style={Style.button}
               />
               <Button
                 large
                 raised
-                rounded
+
                 title="CREATE ACCOUNT"
-                backgroundColor={colors.logoGreen}
+                backgroundColor={colors.secondary}
                 onPress={() => this.props.navigation.navigate('SignUpFirstDialouge')}
                 style={Style.button}
               />

@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-blur')
     compile project(':bugsnag-react-native')
     compile project(':react-native-onesignal')
     compile project(':native-navigation')
