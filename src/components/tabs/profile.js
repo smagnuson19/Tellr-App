@@ -195,7 +195,7 @@ class Profile extends Component {
                     {this.props.user.lastName}
                   </Text>
                   <Text style={pageStyle.sectionText}> Account Type: </Text>
-                  <Text style={pageStyle.subSectionText}>
+                  <Text style={pageStyle.darkSubSectionText}>
                     {' '}
                     {this.props.user.accountType}
                     {' '}
