@@ -27,21 +27,36 @@ class GoalsCard extends Component {
     // action is boolean deny or accept
   }
 
-  displayCorrectItems() {
-    return (
-      <View style={pageStyle.actionBar}>
-        <TouchableOpacity style={pageStyle.checkButton}
-          onPress={() => this.buttonPress()}
-        >
-          <View style={pageStyle.buttonView}>
-
-            <Text style={pageStyle.text}>
+  displayCorrectItems(redeemed) {
+    if (redeemed !== true) {
+      return (
+        <View style={pageStyle.actionBar}>
+          <TouchableOpacity style={pageStyle.redeemButton}
+            onPress={() => this.buttonPress()}
+          >
+            <View style={pageStyle.buttonView}>
+              <Text style={pageStyle.text}>
           Redeem!
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return (
+        <View style={pageStyle.actionBar}>
+          <TouchableOpacity style={pageStyle.greyButton}
+            onPress={() => this.buttonPress()}
+          >
+            <View style={pageStyle.buttonView}>
+              <Text style={pageStyle.text}>
+          Done!
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
   }
 
   render() {
@@ -95,7 +110,7 @@ class GoalsCard extends Component {
             source={{ uri: this.props.goals.goalImage }}
           />
         </View>
-        {this.displayCorrectItems()}
+        {this.displayCorrectItems(this.props.goals.redeemed)}
       </Card>
     );
   }
@@ -178,8 +193,16 @@ const pageStyle = StyleSheet.create({
     marginBottom: 6,
   },
 
-  checkButton: {
-    backgroundColor: 'rgba(255,0,0,.8)',
+  redeemButton: {
+    backgroundColor: colors.logoGreen,
+    paddingHorizontal: 10,
+    marginTop: 10,
+    borderRadius: 8,
+
+  },
+
+  greyButton: {
+    backgroundColor: colors.lightGrey,
     paddingHorizontal: 10,
     marginTop: 10,
     borderRadius: 8,
