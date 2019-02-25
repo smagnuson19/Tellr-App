@@ -214,7 +214,7 @@ class NewGoal extends Component {
         <View style={Style.rootContainer}>
           <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
-              <Text style={Style.altHeaderText}>New Goal! </Text>
+              <Text style={Style.headerText}>New Goal! </Text>
               <Image
                 source={require('../media/kids.png')}
                 style={{
@@ -240,7 +240,7 @@ class NewGoal extends Component {
         <View style={Style.rootContainer}>
           <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
-              <Text style={Style.altHeaderText}>New Goal </Text>
+              <Text style={Style.headerText}>New Goal </Text>
               {this.girlOverlay()}
               {this.boyOverlay()}
               <View style={Style.inputContainer}>
