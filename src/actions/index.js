@@ -4,8 +4,8 @@ import deviceStorage from './deviceStorage';
 import navigationService from '../navigation/navigationService';
 
 
-// const ROOT_URL = 'http://127.0.0.1:5000/api';
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+const ROOT_URL = 'http://127.0.0.1:5000/api';
+// const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
 
@@ -21,6 +21,7 @@ export const ActionTypes = {
   FETCH_FRIENDINFO: 'FETCH_FRIENDINFO',
   FETCH_IND: 'FETCH_IND',
   FETCH_ALL_SOC: 'FETCH_ALL_SOC',
+  FETCH_EARNINGS: 'FETCH_EARNINGS',
 };
 
 // trigger to deauth if there is error
@@ -693,6 +694,31 @@ export function fetchIndividualSocial(email) {
         );
       });
   });
+}
+
+export function fetchEarningsHistory(email) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.get(`${ROOT_URL}/history/${email}`, { headers: { authorization: token } })
+        .then((response) => {
+          // make a list of the parent's children
+          const payload = response.data;
+          const list = [];
+          Object.keys(payload).forEach((key) => {
+            list.push(payload[key]);
+          });
+          dispatch({
+            type: ActionTypes.FETCH_EARNINGS,
+            payload: list,
+          });
+        }).catch((error) => {
+          errorHandling(
+            'Error in fetchEarningsHistory: ',
+            error.response.data[0].Error,
+          );
+        });
+    });
+  };
 }
 
 export function fetchAllSocial(email) {
