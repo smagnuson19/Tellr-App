@@ -90,7 +90,9 @@ class Profile extends Component {
             data={balHist}
             style={{ marginBottom: 0 }}
             yAccessor={({ item }) => item.value}
-            contentInset={contentInset}
+            contentInset={{
+              top: 0, left: 5, right: 0, bottom: 25,
+            }}
             formatLabel={value => `$${value}`}
             svg={{
               fill: 'black',
@@ -101,7 +103,7 @@ class Profile extends Component {
           />
           <View
             style={{
-              height: 200, marginLeft: 5, marginRight: 10, flexDirection: 'column', width: 370,
+              height: '100%', marginLeft: 5, marginRight: 10, flexDirection: 'column', width: '95%',
             }}
           >
             <AreaChart
@@ -112,7 +114,7 @@ class Profile extends Component {
               xAccessor={({ item }) => item.index}
               // showGrid={false}
               style={{
-                height: 200, flex: 1, marginLeft: 5, width: 370,
+                height: '100%', flex: 1, marginLeft: 5, width: '95%',
               }}
               gridMin={0}
               contentInset={contentInset}
@@ -150,7 +152,7 @@ class Profile extends Component {
     return (
       <View
         style={{
-          position: 'absolute', alignItems: 'center', top: '85%', left: '-1.5%',
+          position: 'absolute', top: '84%', left: '-2.2%',
         }}
       >
         <ButtonGroup
@@ -164,9 +166,13 @@ class Profile extends Component {
 
   render() {
     return (
-      <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
-          <View style={{ flex: 1 }}>
+      <View style={{
+        width: dimensions.fullWidth,
+        height: dimensions.fullHeight,
+      }}
+      >
+        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={{ width: dimensions.fullWidth, height: dimensions.fullHeight }}>
+          <View>
             <Text style={Style.headerTextLeaderboard}>Profile </Text>
             <View style={pageStyle.sectionContainer}>
               <Text style={pageStyle.sectionHeader}> Account </Text>
@@ -186,9 +192,6 @@ class Profile extends Component {
                   {' '}
                 </Text>
                 {this.determineDisplay()}
-                <Text style={pageStyle.subSectionText}>
-                  {' '}
-                </Text>
                 <Text style={pageStyle.sectionHeader}> Analytics </Text>
                 <Divider style={pageStyle.bdivider} />
               </View>
@@ -206,15 +209,15 @@ class Profile extends Component {
               </Text>
               {this.childCharts()}
               <Text style={{
-                color: 'black', fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', marginTop: 32,
+                color: 'black', fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
               }}
               >
                 {'Click the Graph for More! '}
               </Text>
             </TouchableOpacity>
-            {this.renderFooter()}
           </View>
         </LinearGradient>
+        {this.renderFooter()}
       </View>
     );
   }
@@ -230,70 +233,64 @@ const pageStyle = StyleSheet.create({
     width: dimensions.fullWidth,
   },
   sectionHeader: {
-    fontSize: fonts.lg,
+    fontSize: 24,
     color: '#fff',
     fontFamily: fonts.secondary,
-    justifyContent: 'flex-start',
-    paddingVertical: 6,
-    marginLeft: 5,
+    paddingVertical: 4,
+    paddingLeft: 2,
+    paddingTop: 10,
   },
   sectionText: {
     fontSize: fonts.md,
     fontWeight: 'bold',
     color: colors.white,
     fontFamily: fonts.secondary,
-    justifyContent: 'flex-start',
     paddingVertical: 6,
-    marginLeft: 5,
+    paddingLeft: 2,
   },
   lastSectionText: {
     fontSize: fonts.md,
     fontWeight: 'bold',
     color: colors.white,
     fontFamily: fonts.secondary,
-    justifyContent: 'flex-start',
     paddingVertical: 6,
-    marginLeft: 5,
     marginBottom: -50,
   },
   subSectionText: {
     fontSize: fonts.smmd,
     fontFamily: fonts.secondary,
-    justifyContent: 'flex-start',
     paddingVertical: 6,
-    marginLeft: 10,
+    paddingLeft: 2,
   },
   darkSubSectionText: {
     fontSize: fonts.smmd,
     color: colors.logoGreen,
     fontFamily: fonts.secondary,
-    justifyContent: 'flex-start',
     paddingVertical: 6,
-    marginLeft: 10,
+    paddingLeft: 3,
   },
   divider: {
     backgroundColor: colors.primary,
     height: 2,
     marginTop: 2,
     marginBottom: 2,
+    width: dimensions.fullWidth,
   },
   bdivider: {
     backgroundColor: colors.primary,
     height: 2,
     marginTop: 2,
     marginBottom: 0,
+    width: dimensions.fullWidth,
   },
   settingsButton: {
     fontSize: fonts.md,
     fontWeight: 'bold',
     color: colors.logoGreen,
     fontFamily: fonts.secondary,
+    width: dimensions.fullWidth,
   },
   buttonContainer: {
-    flex: 0,
-    flexDirection: 'column',
-    alignSelf: 'flex-start',
-    marginLeft: 3,
   },
 });
 
