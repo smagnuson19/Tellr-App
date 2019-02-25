@@ -5,7 +5,7 @@ import {
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { Button } from 'react-native-elements';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation';
 import {
   ProgressCircle, AreaChart, XAxis,
 } from 'react-native-svg-charts';
@@ -59,14 +59,20 @@ class SocialView extends Component {
 
 
   removeFriend() {
+    const resetAction = StackActions.reset({
+      index: 0, // <-- currect active route from actions array
+      key: null,
+      actions: [
+        NavigationActions.navigate({ routeName: 'ChildTabBar' }),
+      ],
+    });
     // email of yourself, remFriend is email of friend you're removing
     const payLoad = {
       email: this.props.account.email,
       remFriend: this.state.indEmail,
     };
     console.log(payLoad);
-    // this.props.postRemoveFriend(payLoad);
-    // this.props.navigation.navigate('Auth', {}, NavigationActions.navigate({ routeName: 'ChildTabBar' }));
+    this.props.postRemoveFriend(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
   }
 
   removeFriendAlert() {
