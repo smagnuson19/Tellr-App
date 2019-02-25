@@ -405,13 +405,12 @@ const pageStyle = StyleSheet.create({
     width: dimensions.fullWidth,
   },
   sectionHeader: {
-    fontSize: 25,
+    fontSize: fonts.md,
     color: '#fff',
-    fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
     paddingVertical: 6,
     paddingHorizontal: 10,
-    fontWeight: 'bold',
+
   },
   divider: {
     backgroundColor: colors.primary,

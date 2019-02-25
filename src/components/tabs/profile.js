@@ -302,7 +302,7 @@ const pageStyle = StyleSheet.create({
     width: dimensions.fullWidth,
   },
   sectionHeader: {
-    fontSize: 24,
+    fontSize: fonts.lg,
     color: '#fff',
     fontFamily: fonts.secondary,
     paddingVertical: 4,
@@ -311,7 +311,6 @@ const pageStyle = StyleSheet.create({
   },
   sectionText: {
     fontSize: fonts.md,
-    fontWeight: 'bold',
     color: colors.white,
     fontFamily: fonts.secondary,
     paddingVertical: 6,
