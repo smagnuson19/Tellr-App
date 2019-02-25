@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import deviceStorage from './deviceStorage';
-import navigationService from '../navigation/navigationService';
+import NavigationService from '../navigation/navigationService';
 
 
-const ROOT_URL = 'http://127.0.0.1:5000/api';
-// const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+// For Debug purposes
+// const ROOT_URL = 'http://127.0.0.1:5000/api';
+const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
 
@@ -57,7 +58,7 @@ export function errorHandling(message, error) {
     console.log('Invalid Token -> Send to home');
     logoutUser();
     // want to go back to the login page
-    navigationService.navigate('Login');
+    NavigationService.navigate('Login');
   }
 }
 // use the below when auth is fully implemented - go to login and comment out {email, password}
@@ -373,12 +374,17 @@ export function fetchUserInfo(email) {
             type: ActionTypes.FETCH_USER,
             payload: response.data,
           });
+          return Promise.resolve();
         }).catch((error) => {
           errorHandling(
             'fetchUserInfo fail : ',
             error.response.data[0].Error,
           );
+          return Promise.reject();
         });
+    }).catch(() => {
+      console.log('Failed on token asyncGrab');
+      return Promise.reject();
     });
   };
 }
@@ -396,6 +402,11 @@ export function fetchUserInfo(email) {
 //   }
 //   return dict;
 
+
+// IMPORTANT!!!
+// This function is used in login to check if there is a valid Token
+// stored in async AND in the database
+// It returns a promise so you can use .then and .catch
 export function fetchNotificationInfo(email) {
   return (dispatch) => {
     return AsyncStorage.getItem('token').then((token) => {
@@ -417,12 +428,17 @@ export function fetchNotificationInfo(email) {
             type: ActionTypes.FETCH_NOTIFICATIONS,
             payload: itemList,
           });
+          return Promise.resolve();
         }).catch((error) => {
           errorHandling(
             'Notifications Grab Error: ',
             error.response.data[0].Error,
           );
+          return Promise.reject();
         });
+    }).catch((error) => {
+      console.log('Error grabbing the token');
+      return Promise.reject();
     });
   };
 }
@@ -469,11 +485,13 @@ export function fetchGoals(email) {
           type: ActionTypes.FETCH_GOALS,
           payload: goalList,
         });
+        return Promise.resolve();
       }).catch((error) => {
         errorHandling(
           'Error in fetchGoals fetch: ',
           error.response.data[0].Error,
         );
+        return Promise.reject();
       });
     });
   };
@@ -646,11 +664,13 @@ export function fetchParentInfo(email) {
             type: ActionTypes.FETCH_FAMILY,
             payload: childList,
           });
+          return Promise.resolve();
         }).catch((error) => {
           errorHandling(
             'Error in fetchParentInfo fetch: ',
             error.response.data[0].Error,
           );
+          return Promise.reject();
         });
     });
   };
@@ -666,12 +686,15 @@ export function fetchKidFriends(email) {
             type: ActionTypes.FETCH_FRIENDINFO,
             payload: response.data,
           });
+          return Promise.resolve();
         });
     }).catch((error) => {
+      console.log(error);
       errorHandling(
         'Error in fetchKidFriends: ',
         error.response.data[0].Error,
       );
+      return Promise.reject();
     });
   };
 }
@@ -711,11 +734,13 @@ export function fetchEarningsHistory(email) {
             type: ActionTypes.FETCH_EARNINGS,
             payload: list,
           });
+          return Promise.resolve();
         }).catch((error) => {
           errorHandling(
             'Error in fetchEarningsHistory: ',
             error.response.data[0].Error,
           );
+          return Promise.reject();
         });
     });
   };
@@ -757,11 +782,13 @@ export function fetchAllSocial(email) {
             type: ActionTypes.FETCH_ALL_SOC,
             payload: friendList,
           });
+          return Promise.resolve();
         }).catch((error) => {
           errorHandling(
             'Error in fetchAllSocial fetch: ',
             error.response.data[0].Error,
           );
+          return Promise.reject();
         });
     });
   };

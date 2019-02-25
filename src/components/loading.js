@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator, AsyncStorage } from 'react-native';
+import {
+  View,
+  ActivityIndicator,
+  AsyncStorage,
+  Alert,
+} from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { colors } from '../styling/base';
@@ -8,12 +13,17 @@ import {
 } from '../actions/index';
 import Style from '../styling/Style';
 
+
+// IMPORTANT !!!!!!!!!
+// THIS page includes a loading part to make sure everything is successfully Loaded
+// If YOU ADD ITEMS TO LOAD THEN INCREASE THE ITEMS TO LOAD and necessary Parts
 class Loading extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       email: null,
+      loginVerify: true,
     };
   }
 
@@ -22,19 +32,44 @@ class Loading extends Component {
     this.fetchNames();
   }
 
-
+  // IMPORTANT!!!!!!
+  // Logic flow is if there is an error in fetchNotifications
+  // We can see if the token is valid or
+  // If its a bad token we obviously dont want to continue with the other functions and want to send to go home
+  // better way here would be to dispatch error messages/ have something that checks each function
+  // userinfo call also checks for bad tokens
   fetchAtLoad(email) {
     if (this.props.accountInfo.accountType === 'Child') {
-      this.props.fetchNotificationInfo(email).then(() => { console.log('Notifications pulled in'); });
-      this.props.fetchGoals(email).then(() => { console.log('Goals pulled in'); });
-      this.props.fetchKidFriends(email).then(() => { console.log('Friends pulled in'); });
-      this.props.fetchAllSocial(email).then(() => { console.log('All friends pulled in'); });
-      this.props.fetchEarningsHistory(email).then(() => { console.log('Earnings pulled in'); });
+      this.props.fetchNotificationInfo(email).then((response) => {
+        console.log('Notifications pulled in');
+        this.props.fetchGoals(email)
+          .then(() => { console.log('Goals pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
+        this.props.fetchKidFriends(email)
+          .then(() => { console.log('Friends pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
+        this.props.fetchAllSocial(email)
+          .then(() => { console.log('All friends pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
+        this.props.fetchEarningsHistory(email)
+          .then(() => { console.log('Earnings pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
+      }).catch((error) => {
+        this.setState({ loginVerify: false });
+      });
     } else if (this.props.accountInfo.accountType === 'Parent') {
-      this.props.fetchNotificationInfo(email).then(() => { console.log('Notifications pulled in'); });
-      this.props.fetchParentInfo(email).then(() => { console.log('User Info pulled in'); });
+      this.props.fetchNotificationInfo(email).then(() => {
+        console.log('Notifications pulled in ');
+        this.props.fetchParentInfo(email)
+          .then(() => { console.log('User Info pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
+      }).catch(() => {
+        console.log('Error on Notification');
+        this.setState({ loginVerify: false });
+      });
     } else {
       console.log('missing accountTypeID');
+      this.setState({ loginVerify: false });
     }
   }
 
@@ -49,11 +84,19 @@ class Loading extends Component {
         console.log(storageEmail);
         this.setState({ email: storageEmail });
         if (storageEmail != null) {
-          console.log();
-          this.props.fetchUserInfo(storageEmail).then(() => { this.fetchAtLoad(storageEmail); });
+          // this is going to check that async correctly pulled token AND token is valid
+          this.props.fetchUserInfo(storageEmail)
+            .then(() => { this.fetchAtLoad(storageEmail); })
+            .catch(() => {
+              this.setState({ loginVerify: false });
+            });
         }
       });
     }
+  }
+
+  goToLogin() {
+    // this.props.navigation.navigate('Login');
   }
 
   loading() {
@@ -86,7 +129,11 @@ class Loading extends Component {
         sleep(500).then(() => {
         // Do something after the sleep!
           // this.props.navigation.dispatch(resetAction);
-          this.props.navigation.navigate(chooseRoute);
+          if (this.state.loginVerify) {
+            this.props.navigation.navigate(chooseRoute);
+          } else {
+            this.goToLogin();
+          }
         });
       }
     }
