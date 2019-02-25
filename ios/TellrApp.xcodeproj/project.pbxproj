@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* TellrAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TellrAppTests.m */; };
 		05A9CF6DFAD64A91941AA58B /* Montserrat-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82B364149FD04BC580A6AA72 /* Montserrat-BlackItalic.ttf */; };
@@ -58,6 +57,7 @@
 		F2426D82DC8340AA9236BB03 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABF87BBD73C44A29B1360D11 /* Montserrat-ExtraBold.ttf */; };
 		F537BACA47EE4D0287E9C1AC /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D9F14AE6EA64B53B47FBF24 /* Ionicons.ttf */; };
 		FD2A72D4847C34AF1945AA63 /* libPods-TellrApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B84EFA5BDAB3C39EC2525624 /* libPods-TellrApp.a */; };
+		35D944451232488B95EDCBC6 /* SignPainter.otf in Resources */ = {isa = PBXBuildFile; fileRef = 323D39127F5440579CCAB23B /* SignPainter.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,6 +160,7 @@
 		EB1BD9F818A41ACBC254556B /* Pods-TellrAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TellrAppTests.release.xcconfig"; path = "Target Support Files/Pods-TellrAppTests/Pods-TellrAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		F7BDBA22B78E45C8B1951495 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../src/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 		F88579EF61244D358769EE5E /* Montserrat-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BoldItalic.ttf"; path = "../src/fonts/Montserrat-BoldItalic.ttf"; sourceTree = "<group>"; };
+		323D39127F5440579CCAB23B /* SignPainter.otf */ = {isa = PBXFileReference; name = "SignPainter.otf"; path = "../src/fonts/SignPainter.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +300,7 @@
 				BF95EA6AEE5748EA93D57146 /* Octicons.ttf */,
 				8B68DD97C5ED4346ACF1CEC4 /* SimpleLineIcons.ttf */,
 				D2E9F0438FE1427995EF4030 /* Zocial.ttf */,
+				323D39127F5440579CCAB23B /* SignPainter.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -541,6 +543,7 @@
 				DE45CAC59BEA49A987C54D04 /* Octicons.ttf in Resources */,
 				CF8E2B20B4184F0D9809AA0F /* SimpleLineIcons.ttf in Resources */,
 				8A49212AAABB4F69889CCD30 /* Zocial.ttf in Resources */,
+				35D944451232488B95EDCBC6 /* SignPainter.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

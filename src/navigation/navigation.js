@@ -28,6 +28,7 @@ import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 import SocialView from '../components/tabs/socialView';
 import ChangePassword from '../components/tabs/changePassword';
 import Settings from '../components/tabs/settings';
+import Analytics from '../components/tabs/analytics';
 
 const HomeStack = createStackNavigator({
   Home: {
@@ -104,6 +105,12 @@ const ProfileStack = createStackNavigator({
   },
   SettingsPage: {
     screen: SettingsStack,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
+  Analytics: {
+    screen: Analytics,
     navigationOptions: () => ({
       headerTransparent: 'True',
     }),
