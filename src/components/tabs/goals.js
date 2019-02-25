@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   // View, Text, StyleSheet, AsyncStorage,
-  View, Text, ScrollView, Alert, Icon, Animated,
+  View, Text, ScrollView, Alert, Animated,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -162,7 +162,7 @@ class Goals extends Component {
       return new Promise(resolve => setTimeout(resolve, time));
     }
     console.log(this.props); const balanceString0 = 'Your Balance: $';
-    const balanceString = `${balanceString0} ${this.props.user.balance}`;
+    const balanceString = `${balanceString0}${this.props.user.balance}`;
     if (this.props.goals !== null) {
       if (this.props.goals.length === 0) {
         return (
@@ -221,12 +221,12 @@ class Goals extends Component {
                           borderWidth: 0,
                           borderRadius: 5,
                         }}
-                        icon={(
-                          <Icon
-                            name="arrow-right"
-                            color="white"
-                          />
-                      )}
+                      //   icon={(
+                      //     <Icon
+                      //       name="arrow-right"
+                      //       color="white"
+                      //     />
+                      // )}
                         title="New Goal"
                   // icon={<Icon name="money-bill-wave" color={colors.logoGreen} />}
                         onPress={() => {
@@ -245,12 +245,12 @@ class Goals extends Component {
                           borderWidth: 0,
                           borderRadius: 5,
                         }}
-                        icon={(
-                          <Icon
-                            name="arrow-right"
-                            color="white"
-                          />
-                      )}
+                      //   icon={(
+                      //     <Icon
+                      //       name="arrow-right"
+                      //       color="white"
+                      //     />
+                      // )}
                         title="Redeem!"
                     // icon={<Icon name="money-bill-wave" color={colors.logoGreen} />}
                         onPress={() => {
