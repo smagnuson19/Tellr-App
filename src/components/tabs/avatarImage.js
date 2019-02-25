@@ -3,8 +3,6 @@ import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
-
-// import Style from '../../styling/Style';
 import { fonts, colors } from '../../styling/base';
 
 class AvatarImage extends Component {
@@ -22,36 +20,33 @@ class AvatarImage extends Component {
     const firstLetter = this.props.individual.firstName.slice(0, 1).toUpperCase();
     const secondLetter = this.props.individual.lastName.slice(0, 1).toUpperCase();
     const avatarLetters = firstLetter + secondLetter;
-    if (this.props.account.accountType === 'Parent') {
-      return (
-        <View style={pageStyle.avatarParentContainer}>
-          <TouchableOpacity
-            style={pageStyle.avatarBackground}
-            onPress={() => this.bPress()}
-          >
-            <View style={pageStyle.avatarInnerCircle}>
-              <Text style={pageStyle.avatarText}>
-                {' '}
-                {avatarLetters}
-                {' '}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      );
+
+    // check for old account with no avatarColors
+    let aColor;
+    if (this.props.individual.avatarColor) {
+      aColor = this.props.individual.avatarColor;
     } else {
-      return (
-        <View style={pageStyle.avatarChildContainer}>
-          <View style={pageStyle.avatarInnerCircle}>
+      aColor = '#000000';
+    }
+    return (
+      <View style={pageStyle.avatarParentContainer}>
+        <TouchableOpacity
+          style={pageStyle.avatarBackground}
+          onPress={() => this.bPress()}
+        >
+          <View style={{
+            width: 50, height: 50, borderRadius: 100, backgroundColor: aColor, justifyContent: 'center',
+          }}
+          >
             <Text style={pageStyle.avatarText}>
               {' '}
               {avatarLetters}
               {' '}
             </Text>
           </View>
-        </View>
-      );
-    }
+        </TouchableOpacity>
+      </View>
+    );
   }
 }
 
@@ -61,8 +56,6 @@ const pageStyle = StyleSheet.create({
     // controlls how far from top view they render
     paddingTop: '50%',
     paddingBottom: '4%',
-  },
-  avatarChildContainer: {
   },
   avatarBackground: {
     borderWidth: 1,
@@ -80,8 +73,6 @@ const pageStyle = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: colors.primary,
     justifyContent: 'center',
-
-
   },
   avatarText: {
     textAlign: 'center',

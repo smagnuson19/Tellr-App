@@ -16,6 +16,7 @@ import {
   postNotifications, postGoalApprove, postTaskVerified,
 } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
+import { colors2 } from '../../styling/parent';
 
 class Home extends Component {
   constructor(props) {
@@ -95,8 +96,14 @@ class Home extends Component {
         };
         this.props.postTaskCompleted(payLoad, priority);
       }
-
-
+    } else if (notificationType === 'taskUnverified') {
+      if (action === 'Complete') {
+        const payLoad = {
+          email: sEmail,
+          taskName,
+        };
+        this.props.postTaskCompleted(payLoad, priority);
+      }
       // Parent dismissed the goal child has completed
     } else if (notificationType === 'goalComplete') {
       if (action === 'Dismiss') {
@@ -114,26 +121,12 @@ class Home extends Component {
     } else if (notificationType === 'taskComplete') {
       let bool;
       if (action === 'Accept') { bool = true; } else { bool = false; }
-      let payLoad = {
+      const payLoad = {
         email: cEmail,
         taskName,
         verify: bool,
       };
       this.props.postTaskVerified(payLoad, sEmail, priority);
-
-      //  add the task back if it was denied by the parent
-      // TODO: get taskDeadline here somehow
-      payLoad = {
-        taskName: `DENIED, REDO: ${taskName}`,
-        reward: taskReward,
-        taskDeadline: 'holder',
-        taskDescription: description,
-        childEmail: cEmail,
-        senderEmail: sEmail,
-      };
-      if (bool === false) {
-        this.props.postTask(payLoad).then(() => { this.props.fetchNotificationInfo(sEmail); });
-      }
     } else {
       console.log(`Error in renderActions: ${notificationType}`);
     }
@@ -283,11 +276,12 @@ No Chores To Verify, Add some more!
         <View style={pageStyle.avatarRow}>
           { this.props.family.map(person => (
             <View key={person.email}>
-              <AvatarImage onPressNav={this.navigationToAccount} individual={person} />
-
+              <AvatarImage
+                onPressNav={this.navigationToAccount}
+                individual={person}
+              />
             </View>
           ))}
-
         </View>
       );
     }
@@ -359,7 +353,7 @@ No Chores To Verify, Add some more!
     if (this.props.account.accountType === 'Parent') {
       return (
         <View style={Style.rootContainer}>
-          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+          <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
               {this.renderParentView()}
             </View>

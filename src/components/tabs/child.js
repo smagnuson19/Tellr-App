@@ -34,16 +34,13 @@ class Child extends Component {
     }
     if (empty === false) {
       return (
-
         <View>
-
           { this.props.task.map(component => (
             <View key={component.notificationName}>
               <NotificationCard entry={component}
                 notificationTypePassed="newTask"
                 onPress={this.buttonPress}
               />
-
             </View>
           ))}
         </View>
@@ -57,11 +54,42 @@ class Child extends Component {
     }
   }
 
+
+  checkDeniedTasks() {
+    let empty = true;
+    for (let i = 0; i < this.props.task.length; i++) {
+      if (this.props.task[i].notificationType === 'taskUnverified') {
+        empty = false;
+      }
+    }
+    if (empty === false) {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={pageStyle.sectionHeader}>
+      Your task was denied!
+          </Text>
+          <View>
+            { this.props.task.map(component => (
+              <View key={component.notificationName}>
+                <NotificationCard entry={component}
+                  notificationTypePassed="taskUnverified"
+                  onPress={this.buttonPress}
+                />
+              </View>
+            ))}
+          </View>
+        </View>
+      );
+    } else {
+      return (null);
+    }
+  }
+
+
   render() {
     return (
       <View style={pageStyle.homeWrapper}>
         <View style={pageStyle.topContainer}>
-
           <Text style={pageStyle.headerText}>
             {'Hey '}
             {this.props.firstName}
@@ -73,7 +101,6 @@ class Child extends Component {
               {this.props.balance}
             </Text>
           </View>
-
         </View>
         <ScrollView style={pageStyle.main}
           refreshControl={(
@@ -84,14 +111,13 @@ class Child extends Component {
             />
 )}
         >
-
           <View style={pageStyle.sectionContainer}>
             <Text style={pageStyle.sectionHeader}>
-        Complete The Tasks
+        Complete the new tasks
             </Text>
             {this.checkEmptyTasks()}
-
           </View>
+          {this.checkDeniedTasks()}
         </ScrollView>
       </View>
     );
@@ -112,14 +138,11 @@ const pageStyle = StyleSheet.create({
     marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
-
     marginTop: 0,
   },
-
   main: {
     flex: 1,
   },
-
   headerText: {
     paddingTop: 80,
     marginLeft: 15,
@@ -127,7 +150,6 @@ const pageStyle = StyleSheet.create({
     fontSize: fonts.lg,
     color: colors.black,
   },
-
   balanceContainer: {
     backgroundColor: colors.linearGradientBottom,
     width: 100,
@@ -144,7 +166,6 @@ const pageStyle = StyleSheet.create({
     fontSize: fonts.md,
     fontFamily: fonts.secondary,
   },
-
   sectionContainer: {
     marginBottom: 15,
     width: dimensions.fullWidth,
@@ -167,10 +188,7 @@ const pageStyle = StyleSheet.create({
   noGoals: {
     alignItems: 'center',
     justifyContent: 'center',
-
-
   },
-
   noGoalsText: {
     fontSize: 21,
     fontWeight: '400',

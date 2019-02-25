@@ -34,6 +34,7 @@ class NotificationCard extends Component {
       this.props.entry.description,
       this.props.entry.redeemed,
       this.props.entry.notificationType,
+      this.props.entry.deadline,
     );
   }
 
@@ -80,7 +81,7 @@ class NotificationCard extends Component {
       goalComplete: 'Dismiss', // shows that Child has completed goal on parent
       taskComplete: ['Accept', 'Deny'], // Parent verify task complete
       newTask: ['Complete', 'Ignore'], // child newTask
-      // taskUnverified:
+      taskUnverified: ['Complete', 'Ignore'], // child newTask
     };
 
     // the goal is complete so we want to return nothing
@@ -135,7 +136,29 @@ class NotificationCard extends Component {
   // Need to implement
   // return null if its a goal other wise return date for task
   displayDueDate() {
-    return (null);
+    if (this.props.entry.notificationType === 'newTask' || this.props.entry.notificationType === 'taskComplete' || this.props.entry.notificationType === 'taskUnverified') {
+      if (this.props.entry.displayRed === true) {
+        return (
+          <View style={pageStyle.deadlineContainerRed}>
+            <Text style={pageStyle.deadlineText}>
+              {'Due: '}
+              {this.props.entry.deadline}
+            </Text>
+          </View>
+        );
+      } else {
+        return (
+          <View style={pageStyle.descriptionContainer}>
+            <Text style={pageStyle.deadlineText}>
+              {'Due: '}
+              {this.props.entry.deadline}
+            </Text>
+          </View>
+        );
+      }
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -158,18 +181,16 @@ class NotificationCard extends Component {
               <Text style={pageStyle.price}>
           $
                 {this.props.entry.value}
-
               </Text>
             </View>
           </View>
           <Divider style={pageStyle.divider} />
           <View style={pageStyle.descriptionContainer}>
             <Text style={pageStyle.descriptionText}>
-              {this.displayDueDate()}
               {this.props.entry.description}
-
             </Text>
           </View>
+          {this.displayDueDate()}
           {this.displayCorrectItems()}
         </Card>
       );
@@ -194,12 +215,14 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+
   pageFiller: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     marginLeft: 6,
   },
+
   divider: {
     backgroundColor: colors.black,
     height: 2,
@@ -238,10 +261,28 @@ const pageStyle = StyleSheet.create({
     padding: 3,
     marginLeft: 10,
     marginRight: 10,
-
   },
+
   descriptionText: {
     textAlign: 'center',
+  },
+
+  deadlineContainerRed: {
+    backgroundColor: colors.red,
+    padding: 3,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+
+  deadlineText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+
+  deadlineTextRed: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: colors.red,
   },
 
   actionBar: {
@@ -255,7 +296,6 @@ const pageStyle = StyleSheet.create({
     paddingHorizontal: 10,
     marginTop: 10,
     borderRadius: 8,
-
   },
 
   text: {

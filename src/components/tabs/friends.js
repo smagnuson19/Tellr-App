@@ -14,17 +14,14 @@ import DialogInput from 'react-native-dialog-input';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Style from '../../styling/Style';
-import AvatarImage from './avatarImage';
 import { colors, fonts } from '../../styling/base';
-import { postRequest, fetchKidFriends } from '../../actions/index';
+import { postRequest } from '../../actions/index';
+import AvatarImageFriend from './avatarImageFriend';
 
 // TODO:
 // change avatars:
 //       need to add avatars to backened as part of friendInfo, need to make landing page for avatar selection when create an account
 //       currently have as initials but this can change
-// leaderboard user score switch for weeks / months
-// add goals completed / tasks completed
-// make the requests go away when pressed
 // Dislay "friend request accepted" or something
 
 class Friends extends Component {
@@ -37,9 +34,9 @@ class Friends extends Component {
       // monthlyGoalData: [],
       filter: 0,
       userRank: 1,
+      userScore: 0,
       user: {
-        username: this.props.account.email,
-        score: this.props.friendInfo[this.props.account.email].tasksCompletedWeek,
+        name: this.props.account.email,
       },
       isDialogVisible: false,
     };
@@ -50,8 +47,9 @@ class Friends extends Component {
     Object.keys(this.props.friendInfo).forEach((key) => {
       weeklyTaskDataList.push({
         score: this.props.friendInfo[key].tasksCompletedWeek,
-        username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
-        iconUrl: this.props.friendInfo[key].avatarUrl,
+        name: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+        // iconUrl: this.props.friendInfo[key].avatarUrl,
+        iconUrl: this.props.friendInfo[key].avatarColor,
         email: key,
       });
     });
@@ -62,8 +60,9 @@ class Friends extends Component {
     Object.keys(this.props.friendInfo).forEach((key) => {
       monthlyTaskDataList.push({
         score: this.props.friendInfo[key].tasksCompletedMonth,
-        username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
-        iconUrl: this.props.friendInfo[key].avatarUrl,
+        name: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+        // iconUrl: this.props.friendInfo[key].avatarUrl,
+        iconUrl: this.props.friendInfo[key].avatarColor,
         email: key,
       });
     });
@@ -75,7 +74,7 @@ class Friends extends Component {
     // Object.keys(this.props.friendInfo).forEach((key) => {
     //   weeklyGoalDataList.push({
     //     score: this.props.friendInfo[key].goalsCompletedWeek,
-    //     username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+    //     name: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
     //     iconUrl: this.props.friendInfo[key].avatarUrl,
     //   });
     // });
@@ -86,7 +85,7 @@ class Friends extends Component {
     // Object.keys(this.props.friendInfo).forEach((key) => {
     //   monthlyGoalDataList.push({
     //     score: this.props.friendInfo[key].goalsCompletedMonth,
-    //     username: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+    //     name: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
     //     iconUrl: this.props.friendInfo[key].avatarUrl,
     //   });
     // });
@@ -98,10 +97,15 @@ class Friends extends Component {
       const sorted = data && data.sort((item1, item2) => {
         return item2.score - item1.score;
       });
+
+      // set userRank and userScore var
       let userRank = sorted.findIndex((item) => {
-        return item.username === this.state.user.username;
+        return item.email === this.state.user.name;
       });
+      const uScore = sorted[userRank].score;
       this.setState({ userRank: ++userRank });
+      this.setState({ userScore: uScore });
+
       return sorted;
     }
 
@@ -147,16 +151,17 @@ class Friends extends Component {
               color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, textAlign: 'right', marginRight: 40,
             }}
             >
-              {ordinalSuffixOf(this.state.userRank)}
+              {`${numTasks(this.state.userScore)} Done`}
             </Text>
-            <AvatarImage
-              individual={this.props.account}
+            <AvatarImageFriend
+              individualName={`${this.props.account.firstName} ${this.props.account.lastName}`}
+              avatarColor={this.props.account.avatarColor}
             />
             <Text style={{
               color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
             }}
             >
-              {this.state.user.score}
+              {`${ordinalSuffixOf(this.state.userRank)} Place`}
             </Text>
           </View>
           <ButtonGroup
@@ -165,27 +170,6 @@ class Friends extends Component {
             buttons={['Weekly Tasks', 'Monthly Tasks']}
             containerStyle={{ height: 30 }}
           />
-          <View style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: 0,
-            marginTop: 10,
-          }}
-          >
-            <Text style={{
-              color: 'white', fontSize: fonts.sm, textDecorationLine: 'underline', fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'left',
-            }}
-            >
-              {'Username'}
-            </Text>
-            <Text style={{
-              color: 'white', fontSize: fonts.sm, textDecorationLine: 'underline', fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'right',
-            }}
-            >
-              {'# Tasks Completed'}
-            </Text>
-          </View>
         </View>
       );
     }
@@ -234,22 +218,22 @@ class Friends extends Component {
 
     render() {
       const props = {
-        labelBy: 'username',
+        labelBy: 'name',
         sortBy: 'score',
-        data: this.state.filter > 0 ? this.state.monthlyTaskData : this.state.weeklyTaskData,
-        icon: 'iconUrl',
+        data: this.state.filter > 0 ? this.state.weeklyTaskData : this.state.monthlyTaskData,
+        // icon: 'iconUrl',
         sort: this.sort,
         onRowPress: (item, index) => {
+          console.log(item);
           this.props.navigation.navigate('SocialIndividual', {
             email: item.email,
             rank: index,
             score: item.score,
-            name: item.username,
+            name: item.name,
+            avatarColor: item.iconUrl,
           });
         },
       };
-      console.log(this.state.filter);
-      console.log(props.data);
 
       return (
         <View style={Style.rootContainer}>
@@ -283,6 +267,14 @@ const ordinalSuffixOf = (i) => {
   return `${i}th`;
 };
 
+const numTasks = (i) => {
+  if (i === 1) {
+    return `${i} Task`;
+  } else {
+    return `${i} Tasks`;
+  }
+};
+
 
 const mapStateToProps = state => (
   {
@@ -290,4 +282,4 @@ const mapStateToProps = state => (
     friendInfo: state.user.friendInfo,
   });
 
-export default connect(mapStateToProps, { postRequest, fetchKidFriends })(Friends);
+export default connect(mapStateToProps, { postRequest })(Friends);

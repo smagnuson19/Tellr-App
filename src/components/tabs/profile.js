@@ -11,7 +11,9 @@ import {
 import * as shape from 'd3-shape';
 import * as scale from 'd3-scale';
 import Style from '../../styling/Style';
+import Style2 from '../../styling/ParentStyle';
 import { colors, fonts, dimensions } from '../../styling/base';
+import { colors2 } from '../../styling/parent';
 
 class Profile extends Component {
   constructor(props) {
@@ -34,7 +36,7 @@ class Profile extends Component {
         <View style={pageStyle.sectionContainer}>
           <Text style={pageStyle.sectionText}> Children: </Text>
           { kidsList.map(person => (
-            <Text style={pageStyle.subSectionText}>
+            <Text style={pageStyle.darkSubSectionText}>
               {' '}
               {person.name}
               {',  Balance: $'}
@@ -190,6 +192,7 @@ class Profile extends Component {
                 <Text style={pageStyle.sectionHeader}> Analytics </Text>
                 <Divider style={pageStyle.bdivider} />
               </View>
+              {this.renderFooter()}
             </View>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('Analytics', {
               email: this.props.user.email,
@@ -256,6 +259,14 @@ const pageStyle = StyleSheet.create({
   },
   subSectionText: {
     fontSize: fonts.smmd,
+    fontFamily: fonts.secondary,
+    justifyContent: 'flex-start',
+    paddingVertical: 6,
+    marginLeft: 10,
+  },
+  darkSubSectionText: {
+    fontSize: fonts.smmd,
+    color: colors.logoGreen,
     fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
     paddingVertical: 6,

@@ -1,19 +1,19 @@
 import { Dimensions } from 'react-native';
 
-export const dimensions = {
+export const dimensions2 = {
   fullHeight: Dimensions.get('window').height,
   fullWidth: Dimensions.get('window').width,
 };
 
-export const colors = {
+export const colors2 = {
 
   primary: 'rgb(0, 0, 0)',
   secondary: '#15BFD6',
   grey: '#424242',
-  // linearGradientTop: 'rgba(4, 27, 37, 0.9615)',
-  // linearGradientBottom: 'rgba(1, 6, 3, 0.76)',
-  linearGradientTop: 'rgba(250, 27, 3, 0.29615)',
-  linearGradientBottom: 'rgba(1, 2, 243, 0.376)',
+  linearGradientTop: 'rgba(4, 27, 37, 0.9615)',
+  linearGradientBottom: 'rgba(1, 6, 3, 0.76)',
+  // linearGradientTop: 'rgba(250, 27, 3, 0.29615)',
+  // linearGradientBottom: 'rgba(1, 2, 243, 0.376)',
   placeholderColor: 'grey',
   lightGrey: 'rgb(150, 150, 150)',
   black: 'rgb(0,0,0)',
@@ -26,7 +26,7 @@ export const colors = {
   logoGreenHex: '#3de594',
 };
 
-export const fonts = {
+export const fonts2 = {
   sm: 11,
   smmd: 15,
   md: 19,

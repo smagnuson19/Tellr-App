@@ -145,11 +145,8 @@ export function postGoalApprove(payLoad, priority) {
 }
 
 export function postNotifications(payLoad) {
-  console.log('0 here');
   return (dispatch) => {
-    console.log('1 here');
     return AsyncStorage.getItem('token').then((token) => {
-      console.log('2 here');
       return axios.post(`${ROOT_URL}/notifications`, { payLoad }, { headers: { authorization: token } })
         .then((result) => {
           console.log(`postNotifications post response ${result.data}`);
@@ -157,12 +154,53 @@ export function postNotifications(payLoad) {
           // get a return of new notifications
           return this.fetchNotificationInfo(payLoad.email);
         }).catch((error) => {
+          console.log(error);
           errorHandling('postNotifications Post Error:', error.response.data[0].Error);
         });
     });
   };
 }
 
+export function postNotificationsAlt(payLoad) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.post(`${ROOT_URL}/notifications`, { payLoad }, { headers: { authorization: token } })
+        .then((result) => {
+          console.log(`postNotifications post response ${result.data}`);
+          // want to reload notification info and we currently do not
+          // get a return of new notifications
+          return axios.get(`${ROOT_URL}/notifications/${payLoad.email}`, { headers: { authorization: token } })
+            .then((response) => {
+              const payload = response.data;
+              let itemList = [];
+              console.log(response);
+              if (Object.keys(payload).length > 0) {
+                Object.keys(payload).forEach((key) => {
+                  itemList.push(payload[key]);
+                });
+              } else {
+                itemList = null;
+              }
+              console.log(`NotificationList: ${itemList}`);
+
+              dispatch({
+                type: ActionTypes.FETCH_NOTIFICATIONS,
+                payload: itemList,
+              });
+            }).catch((error) => {
+              console.log(error);
+              errorHandling(
+                'Notifications Grab Error: ',
+                error.response.data[0].Error,
+              );
+            });
+        });
+    }).catch((error) => {
+      console.log(error);
+      errorHandling('postNotifications Post Error:', error.response.data[0].Error);
+    });
+  };
+}
 
 export function postTaskCompleted(payLoad, priority) {
   return (dispatch) => {
@@ -290,16 +328,32 @@ export function postFriendApprove(payLoad, priority) {
       return axios.post(`${ROOT_URL}/acceptfriends`, { payLoad }, { headers: { authorization: token } })
         .then((response) => {
           console.log(`Friend request approved: ${response.data}`);
-          const postData = {
-            email: payLoad.email,
-            priority,
-          };
-          console.log(postData);
+          // const postData = {
+          //   email: payLoad.email,
+          //   priority,
+          // };
           // need to alert the backend that some
-          return postNotifications(postData);
+          // return this.postNotifications(postData);
         }).catch((error) => {
+          console.log(error);
           errorHandling(
             'postFriendApprove post Error: ',
+            error.response.data[0].Error,
+          );
+        });
+    });
+  };
+}
+
+export function postRemoveFriend(payLoad) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.post(`${ROOT_URL}/removefriends`, { payLoad }, { headers: { authorization: token } })
+        .then((response) => {
+          console.log(`Friend Removed: ${response.data}`);
+        }).catch((error) => {
+          errorHandling(
+            'postRemoveFriend post Error: ',
             error.response.data[0].Error,
           );
         });
@@ -374,8 +428,6 @@ export function fetchNotificationInfo(email) {
 
 export function fetchGoals(email) {
   return (dispatch) => {
-    console.log('INSIDDE FETCH GOALS');
-    console.log(email);
     return AsyncStorage.getItem('token').then((token) => {
       return axios.get(`${ROOT_URL}/goals/${email}`, { headers: { authorization: token } }).then((response) => {
         console.log(`fetchGoals: ${response.data}`);
@@ -608,6 +660,7 @@ export function fetchKidFriends(email) {
     return AsyncStorage.getItem('token').then((token) => {
       return axios.get(`${ROOT_URL}/social/${email}`, { headers: { authorization: token } })
         .then((response) => {
+          console.log('fetched kid friends');
           dispatch({
             type: ActionTypes.FETCH_FRIENDINFO,
             payload: response.data,
@@ -687,8 +740,3 @@ export function fetchAllSocial(email) {
     });
   };
 }
-
-
-// deleteAccount()
-
-//
