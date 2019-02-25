@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 // import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import {
-  colors, fonts, dimensions,
-} from './base';
+  colors2, fonts2, dimensions2,
+} from './parent';
 
 
 const Style = StyleSheet.create({
@@ -11,14 +11,14 @@ const Style = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    width: dimensions.fullWidth,
-    height: dimensions.fullHeight,
+    width: dimensions2.fullWidth,
+    height: dimensions2.fullHeight,
   },
 
   // Another wrapper - will bring the full width of the screen in
   contentWrapper: {
     flex: 1,
-    width: dimensions.fullWidth,
+    width: dimensions2.fullWidth,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
@@ -28,9 +28,9 @@ const Style = StyleSheet.create({
     flex: 0,
     justifyContent: 'center',
     textAlign: 'center',
-    fontFamily: fonts.secondary,
-    fontSize: fonts.xlg,
-    color: colors.black,
+    fontFamily: fonts2.secondary,
+    fontSize: fonts2.xlg,
+    color: colors2.white,
     marginTop: '20%',
     marginBottom: '10%',
   },
@@ -39,9 +39,9 @@ const Style = StyleSheet.create({
     flex: 0,
     justifyContent: 'center',
     textAlign: 'center',
-    fontFamily: fonts.secondary,
-    fontSize: fonts.xlg,
-    color: colors.black,
+    fontFamily: fonts2.secondary,
+    fontSize: fonts2.xlg,
+    color: colors2.black,
     marginTop: '20%',
     marginBottom: '0%',
   },
@@ -61,17 +61,17 @@ const Style = StyleSheet.create({
     flex: 0,
     resizeMode: 'cover',
     justifyContent: 'center',
-    height: dimensions.fullHeight / 4,
-    backgroundColor: colors.logoGreen,
+    height: dimensions2.fullHeight / 4,
+    backgroundColor: colors2.logoGreen,
     alignItems: 'center',
     marginBottom: '15%',
   },
 
   // associated with buttonGradient and Touchable Opacity object
   buttonText: {
-    fontFamily: fonts.secondary,
+    fontFamily: fonts2.secondary,
     textAlign: 'center',
-    fontSize: fonts.lg,
+    fontSize: fonts2.lg,
 
   },
 
@@ -98,23 +98,23 @@ const Style = StyleSheet.create({
     borderBottomWidth: 1,
     flex: 0,
     margin: '5 %',
-    borderColor: colors.lightGrey,
-    color: colors.white,
+    borderColor: colors2.lightGrey,
+    color: colors2.white,
   },
 
   // Style for a FormInput
   fieldText: {
-    color: colors.black,
-    fontFamily: fonts.secondary,
+    color: colors2.black,
+    fontFamily: fonts2.secondary,
     textAlign: 'center',
-    fontSize: fonts.md,
+    fontSize: fonts2.md,
   },
 
   fieldContainerSecondary: {
     borderBottomWidth: 1,
     flex: 0,
     margin: 40,
-    borderColor: colors.lightGrey,
+    borderColor: colors2.lightGrey,
     color: 'white',
     width: '40%',
   },
@@ -123,7 +123,7 @@ const Style = StyleSheet.create({
     borderBottomWidth: 1,
     flex: 0,
     margin: 2,
-    borderColor: colors.lightGrey,
+    borderColor: colors2.lightGrey,
     color: 'white',
     width: '40%',
   },
@@ -131,15 +131,15 @@ const Style = StyleSheet.create({
   // Style for a FormInput
   fieldTextSecondary: {
     color: 'white',
-    fontFamily: fonts.secondary,
+    fontFamily: fonts2.secondary,
     textAlign: 'left',
-    fontSize: fonts.md,
+    fontSize: fonts2.md,
     marginLeft: 25,
   },
 
   container: {
     flex: 1,
-    width: dimensions.fullWidth,
+    width: dimensions2.fullWidth,
     justifyContent: 'center',
     marginBottom: 10,
     // background: linear-gradient(155.26, rgba(4, 27, 37, 0.961547) - 13.61, rgba(0, 6, 3, 0.76) - 146.55),
@@ -158,7 +158,7 @@ const Style = StyleSheet.create({
   // Container for a Chore object
   listContainer: {
     flex: 0,
-    borderColor: colors.secondary,
+    borderColor: colors2.secondary,
     width: 380,
     borderTopWidth: 3,
     borderBottomWidth: 3,
@@ -168,9 +168,9 @@ const Style = StyleSheet.create({
   },
 
   displayText: {
-    color: colors.primary,
-    fontSize: fonts.large,
-    fontFamily: fonts.secondary,
+    color: colors2.primary,
+    fontSize: fonts2.large,
+    fontFamily: fonts2.secondary,
     fontWeight: 'bold',
     textAlign: 'center',
   },

@@ -1,11 +1,11 @@
 import { Dimensions } from 'react-native';
 
-export const dimensions = {
+export const dimensions2 = {
   fullHeight: Dimensions.get('window').height,
   fullWidth: Dimensions.get('window').width,
 };
 
-export const colors = {
+export const colors2 = {
 
   primary: 'rgb(0, 0, 0)',
   secondary: '#15BFD6',
@@ -26,7 +26,7 @@ export const colors = {
   logoGreenHex: '#3de594',
 };
 
-export const fonts = {
+export const fonts2 = {
   sm: 11,
   smmd: 15,
   md: 19,
