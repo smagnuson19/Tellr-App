@@ -81,7 +81,7 @@ class NotificationCard extends Component {
       goalComplete: 'Dismiss', // shows that Child has completed goal on parent
       taskComplete: ['Accept', 'Deny'], // Parent verify task complete
       newTask: ['Complete', 'Ignore'], // child newTask
-      // taskUnverified:
+      taskUnverified: ['Complete', 'Ignore'], // child newTask
     };
 
     // the goal is complete so we want to return nothing
