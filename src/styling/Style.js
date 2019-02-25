@@ -1,11 +1,12 @@
-import { StyleSheet } from 'react-native';
+// import { StyleSheet } from 'react-native';
 // import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import { ScaledSheet } from 'react-native-size-matters';
 import {
   colors, fonts, dimensions,
 } from './base';
 
 
-const Style = StyleSheet.create({
+const Style = ScaledSheet.create({
   // Should wrap the entire page
   rootContainer: {
     flexDirection: 'column',
@@ -77,7 +78,7 @@ const Style = StyleSheet.create({
 
   buttonContainer: {
     flex: 1,
-    paddingTop: '20%',
+    paddingTop: '20@vs',
     width: '90%',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -85,7 +86,7 @@ const Style = StyleSheet.create({
 
   button: {
     fontFamily: fonts.primary,
-    marginBottom: '15%',
+    marginBottom: '20@vs',
   },
 
   button2: {
@@ -95,7 +96,7 @@ const Style = StyleSheet.create({
 
   // The FormInput object, wrapps a single fieldText
   fieldContainer: {
-    borderBottomWidth: 1,
+    borderBottomWidth: '1@vs',
     flex: 0,
     margin: '5 %',
     borderColor: colors.lightGrey,
@@ -107,7 +108,7 @@ const Style = StyleSheet.create({
     color: colors.black,
     fontFamily: fonts.secondary,
     textAlign: 'center',
-    fontSize: fonts.md,
+    fontSize: '20@s',
   },
 
   fieldContainerSecondary: {
@@ -148,10 +149,10 @@ const Style = StyleSheet.create({
   // Wrapper for multiple FormInput Objects
   inputContainer: {
     flex: 1,
-    marginTop: '5%',
+    marginTop: '4@vs',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
-    // paddingHorizontal: 30,
+    // height: '2@vs',
     alignItems: 'center',
   },
 

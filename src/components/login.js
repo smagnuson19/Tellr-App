@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { FormInput, Button } from 'react-native-elements';
 import DialogInput from 'react-native-dialog-input';
+import { verticalScale } from 'react-native-size-matters';
 import Logo from './LoginAdditions/logo';
 import Style from '../styling/Style';
 import { colors, fonts } from '../styling/base';
@@ -134,6 +135,7 @@ class Login extends Component {
                 style={{ justifyContent: 'center', alignItems: 'center' }}
               >
                 <TouchableOpacity
+                  style={{ height: verticalScale(50) }}
                   onPress={() => this.setState({ isDialogVisible: true })}
                 >
                   <Text style={{

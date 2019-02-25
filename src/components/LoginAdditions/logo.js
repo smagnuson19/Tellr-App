@@ -40,7 +40,7 @@ const pageStyle = StyleSheet.create({
 
   firstLetter: {
     padding: 0,
-    fontSize: scale(170),
+    fontSize: scale(150),
     marginTop: '25%',
     paddingRight: '5%',
     color: colors.logoGreenHex,

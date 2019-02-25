@@ -211,7 +211,7 @@ const pageStyle = StyleSheet.create({
   },
   buttonContainer: {
     flex: 0,
-    margin: '10%',
+    margin: '9%',
     width: '80%',
     flexDirection: 'column',
     justifyContent: 'center',
