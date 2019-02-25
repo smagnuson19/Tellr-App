@@ -113,7 +113,7 @@ class Child extends Component {
         >
           <View style={pageStyle.sectionContainer}>
             <Text style={pageStyle.sectionHeader}>
-        Complete The New Tasks
+        Complete the new tasks
             </Text>
             {this.checkEmptyTasks()}
           </View>
