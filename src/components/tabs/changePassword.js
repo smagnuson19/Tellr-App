@@ -8,7 +8,9 @@ import {
 } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
+import Style2 from '../../styling/ParentStyle';
 import { colors } from '../../styling/base';
+import { colors2 } from '../../styling/parent';
 import { postChangePassword } from '../../actions/index';
 
 import Style from '../../styling/Style';
@@ -61,50 +63,58 @@ class ChangePassword extends Component {
   }
 
   render() {
-    return (
-      <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
-          <View style={Style.contentWrapper}>
-            <Text style={Style.headerText}>Change Password </Text>
-            <View style={Style.inputContainer}>
-              <FormInput
-                containerStyle={Style.fieldContainerSecondary}
-                inputStyle={Style.fieldTextSecondary}
-                onChangeText={text => this.setState({ oldPassword: text })}
-                value={this.state.oldPassword}
-                placeholder="Enter old password..."
-                placeholderTextColor={colors.placeholderColor}
-                returnKeyType="next"
-                secureTextEntry="true"
-                textContentType="password"
-              />
-              <FormInput
-                ref={(input) => { this.fithTextInput = input; }}
-                returnKeyType="done"
-                containerStyle={Style.fieldContainerSecondary}
-                inputStyle={Style.fieldTextSecondary}
-                onChangeText={text => this.setState({ newPassword: text })}
-                value={this.state.newPassword}
-                placeholder="Enter new password..."
-                placeholderTextColor={colors.placeholderColor}
-                secureTextEntry="true"
-                textContentType="password"
-              />
+    // if (this.props.user.accountType === 'Parent') {
+    if (true) {
+      return (
+        <View style={Style.rootContainer}>
+          <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
+            <View style={Style.contentWrapper}>
+              <Text style={Style2.headerText}>Change Password </Text>
+              <View style={Style.inputContainer}>
+                <FormInput
+                  containerStyle={Style.fieldContainerSecondary}
+                  inputStyle={Style.fieldTextSecondary}
+                  onChangeText={text => this.setState({ oldPassword: text })}
+                  value={this.state.oldPassword}
+                  placeholder="Enter old password..."
+                  placeholderTextColor={colors.placeholderColor}
+                  returnKeyType="next"
+                  secureTextEntry="true"
+                  textContentType="password"
+                />
+                <FormInput
+                  ref={(input) => { this.fithTextInput = input; }}
+                  returnKeyType="done"
+                  containerStyle={Style.fieldContainerSecondary}
+                  inputStyle={Style.fieldTextSecondary}
+                  onChangeText={text => this.setState({ newPassword: text })}
+                  value={this.state.newPassword}
+                  placeholder="Enter new password..."
+                  placeholderTextColor={colors.placeholderColor}
+                  secureTextEntry="true"
+                  textContentType="password"
+                />
+              </View>
+              <View style={Style.buttonContainer}>
+                <Button
+                  title="Change Password"
+                  rounded
+                  large
+                  style={Style.button}
+                  backgroundColor={colors.logoGreen}
+                  onPress={() => this.changePassword()}
+                />
+              </View>
             </View>
-            <View style={Style.buttonContainer}>
-              <Button
-                title="Change Password"
-                rounded
-                large
-                style={Style.button}
-                backgroundColor={colors.secondary}
-                onPress={() => this.changePassword()}
-              />
-            </View>
-          </View>
-        </LinearGradient>
-      </View>
-    );
+          </LinearGradient>
+        </View>
+      );
+    } else if (this.props.user.accountType === 'Child') {
+      return null;
+    } else {
+      console.log('ERROR: accountType not loaded or selected proprely');
+      return null;
+    }
   }
 }
 
