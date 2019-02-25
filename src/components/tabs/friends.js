@@ -170,27 +170,6 @@ class Friends extends Component {
             buttons={['Weekly Tasks', 'Monthly Tasks']}
             containerStyle={{ height: 30 }}
           />
-          <View style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: 0,
-            marginTop: 10,
-          }}
-          >
-            <Text style={{
-              color: 'white', fontSize: fonts.sm, textDecorationLine: 'underline', fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'left',
-            }}
-            >
-              {'Name'}
-            </Text>
-            <Text style={{
-              color: 'white', fontSize: fonts.sm, textDecorationLine: 'underline', fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'right',
-            }}
-            >
-              {'# Tasks Completed'}
-            </Text>
-          </View>
         </View>
       );
     }
