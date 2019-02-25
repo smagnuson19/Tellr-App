@@ -136,8 +136,8 @@ class NotificationCard extends Component {
   // Need to implement
   // return null if its a goal other wise return date for task
   displayDueDate() {
-    if (this.props.entry.notificationType === 'newTask' || this.props.entry.notificationType === 'taskComplete') {
-      if (this.props.entry.notificationType === 'newTask' && this.props.entry.displayRed === true) {
+    if (this.props.entry.notificationType === 'newTask' || this.props.entry.notificationType === 'taskComplete' || this.props.entry.notificationType === 'taskUnverified') {
+      if (this.props.entry.displayRed === true) {
         return (
           <View style={pageStyle.deadlineContainerRed}>
             <Text style={pageStyle.deadlineText}>
