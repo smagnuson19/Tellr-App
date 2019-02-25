@@ -3,7 +3,6 @@ import {
   View,
   ActivityIndicator,
   AsyncStorage,
-  Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
