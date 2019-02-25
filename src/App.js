@@ -53,9 +53,10 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <RootStack ref={(navigatorRef) => {
-          NavigationService.setTopLevelNavigator(navigatorRef);
-        }}
+        <RootStack
+          ref={(navigatorRef) => {
+            NavigationService.setTopLevelNavigator(navigatorRef);
+          }}
         />
       </Provider>
     );

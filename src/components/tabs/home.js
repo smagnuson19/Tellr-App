@@ -13,7 +13,7 @@ import NotificationCard from './notificationCard';
 import Child from './child';
 import {
   fetchNotificationInfo, fetchParentInfo, fetchUserInfo, postTaskCompleted, postTask,
-  postNotifications, postGoalApprove, postTaskVerified,
+  postNotifications, postGoalApprove, postTaskVerified, fetchAllSocial, fetchKidFriends,
 } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
 import { colors2 } from '../../styling/parent';
@@ -49,6 +49,14 @@ class Home extends Component {
     // Do we want to update children info as well?
     this.props.fetchNotificationInfo(this.props.account.email);
     this.props.fetchUserInfo(this.props.account.email);
+
+    if (this.props.account.accountType === 'Parent') {
+      console.log('refreshing parents');
+    } else {
+      console.log('refreshing kids');
+      this.props.fetchAllSocial(this.props.account.email);
+      this.props.fetchKidFriends(this.props.account.email);
+    }
     // No longer fetching
     this.setState({ isFetching: false });
   }
@@ -405,13 +413,12 @@ const pageStyle = StyleSheet.create({
     width: dimensions.fullWidth,
   },
   sectionHeader: {
-    fontSize: 25,
+    fontSize: fonts.md,
     color: '#fff',
-    fontFamily: fonts.secondary,
     justifyContent: 'flex-start',
     paddingVertical: 6,
     paddingHorizontal: 10,
-    fontWeight: 'bold',
+
   },
   divider: {
     backgroundColor: colors.primary,
@@ -449,5 +456,5 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  fetchParentInfo, fetchNotificationInfo, fetchUserInfo, postTaskCompleted, postTask, postNotifications, postGoalApprove, postTaskVerified,
+  fetchParentInfo, fetchNotificationInfo, fetchAllSocial, fetchKidFriends, fetchUserInfo, postTaskCompleted, postTask, postNotifications, postGoalApprove, postTaskVerified,
 })(Home);

@@ -1,5 +1,5 @@
 import { Dimensions } from 'react-native';
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import { scale } from 'react-native-size-matters';
 
 export const dimensions = {
   fullHeight: Dimensions.get('window').height,
@@ -33,7 +33,7 @@ export const colors = {
 export const fonts = {
   sm: 11,
   smmd: 15,
-  md: 19,
+  md: scale(20),
   lg: scale(25),
   xlg: scale(30),
   primary: 'Montserrat-Thin',
