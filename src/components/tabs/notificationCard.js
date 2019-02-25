@@ -137,14 +137,27 @@ class NotificationCard extends Component {
   // return null if its a goal other wise return date for task
   displayDueDate() {
     if (this.props.entry.notificationType === 'newTask' || this.props.entry.notificationType === 'taskComplete') {
-      return (
-        <Text>
-          {'Due: '}
-          {this.props.entry.deadline}
-        </Text>
-      );
+      if (this.props.entry.notificationType === 'newTask' && this.props.entry.displayRed === true) {
+        return (
+          <View style={pageStyle.deadlineContainerRed}>
+            <Text style={pageStyle.deadlineText}>
+              {'Due: '}
+              {this.props.entry.deadline}
+            </Text>
+          </View>
+        );
+      } else {
+        return (
+          <View style={pageStyle.descriptionContainer}>
+            <Text style={pageStyle.deadlineText}>
+              {'Due: '}
+              {this.props.entry.deadline}
+            </Text>
+          </View>
+        );
+      }
     } else {
-      return ('');
+      return null;
     }
   }
 
@@ -177,11 +190,7 @@ class NotificationCard extends Component {
               {this.props.entry.description}
             </Text>
           </View>
-          <View style={pageStyle.descriptionContainer}>
-            <Text style={pageStyle.deadlineText}>
-              {this.displayDueDate()}
-            </Text>
-          </View>
+          {this.displayDueDate()}
           {this.displayCorrectItems()}
         </Card>
       );
@@ -206,12 +215,14 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+
   pageFiller: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     marginLeft: 6,
   },
+
   divider: {
     backgroundColor: colors.black,
     height: 2,
@@ -251,13 +262,27 @@ const pageStyle = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+
   descriptionText: {
     textAlign: 'center',
+  },
+
+  deadlineContainerRed: {
+    backgroundColor: colors.red,
+    padding: 3,
+    marginLeft: 10,
+    marginRight: 10,
   },
 
   deadlineText: {
     textAlign: 'center',
     fontWeight: 'bold',
+  },
+
+  deadlineTextRed: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: colors.red,
   },
 
   actionBar: {
@@ -271,7 +296,6 @@ const pageStyle = StyleSheet.create({
     paddingHorizontal: 10,
     marginTop: 10,
     borderRadius: 8,
-
   },
 
   text: {
