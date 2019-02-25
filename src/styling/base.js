@@ -32,7 +32,7 @@ export const colors = {
 export const fonts = {
   sm: 11,
   smmd: 15,
-  md: 19,
+  md: scale(20),
   lg: scale(25),
   xlg: scale(30),
   primary: 'Montserrat-Thin',
