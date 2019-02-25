@@ -231,6 +231,7 @@ class Friends extends Component {
             score: item.score,
             name: item.name,
             avatarColor: item.iconUrl,
+            friendInfo: this.props.friendInfo,
           });
         },
       };

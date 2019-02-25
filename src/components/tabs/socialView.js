@@ -27,6 +27,8 @@ class SocialView extends Component {
     const score = navigation.getParam('score');
     const rank = navigation.getParam('rank');
     const avatarColor = navigation.getParam('avatarColor');
+    const friendInfo = navigation.getParam('friendInfo');
+    const taskComp = friendInfo[indEmail].taskCompletionRateWeek;
     this.state = {
       indEmail,
       name,
@@ -34,6 +36,8 @@ class SocialView extends Component {
       rank,
       taskhistory: [],
       avatarColor,
+      taskComp,
+      goalComp: 0,
     };
     console.log(indEmail);
     this.buttonPress = this.buttonPress.bind(this);
@@ -45,9 +49,12 @@ class SocialView extends Component {
       if (this.props.allFriend[key].email === this.state.indEmail) {
         const myList = [];
         Object.keys(this.props.allFriend[key].taskhist[0]).forEach((key1) => {
-          myList.push({ value: this.props.allFriend[key].taskhist[0][key1] + 0.2, index: addSubtractDate.subtract(new Date(), key1, 'days') });
+          if (key1 !== '32') {
+            myList.push({ value: this.props.allFriend[key].taskhist[0][key1] + 0.2, index: addSubtractDate.subtract(new Date(), key1, 'days') });
+          }
         });
         this.setState({ taskhistory: myList });
+        this.setState({ goalComp: this.props.allFriend[key].taskhist[0][32] });
       }
     });
   }
@@ -96,7 +103,7 @@ class SocialView extends Component {
     if (this.props.account.email === this.state.indEmail) {
       return (
         <Text style={{
-          marginBottom: '15%',
+          marginBottom: '13%',
         }}
         >
           {' '}
@@ -119,7 +126,7 @@ class SocialView extends Component {
     // const data = [7, 4, 5, 6, 2, 1, 7, 4, 5, 6, 2, 1];
     const data = this.state.taskhistory;
     const contentInset = {
-      top: 0, left: 0, right: 0, bottom: 0,
+      top: 0, left: 2, right: 2, bottom: 0,
     };
     return (
       <View
@@ -143,7 +150,7 @@ class SocialView extends Component {
         />
         <XAxis
           style={{
-            marginTop: 10, marginHorizontal: -15, marginRight: 5,
+            marginTop: 10, marginLeft: 10,
           }}
           data={data}
           formatLabel={value => `${(value.getMonth() + 1)}/${value.getDate()}`}
@@ -152,7 +159,7 @@ class SocialView extends Component {
           xAccessor={({ item }) => item.index}
           svg={{
             fill: 'black',
-            fontSize: 9,
+            fontSize: 11,
             fontWeight: 'bold',
           }}
           contentInset={contentInset}
@@ -163,71 +170,47 @@ class SocialView extends Component {
   }
 
   renderPieChart() {
-    const deviceWidth = Dimensions.get('window').width;
+    console.log(this.state.taskComp);
     return (
       <View style={{
-        marginTop: 40, flex: 1, flexDirection: 'row', justifyContent: 'space-between',
+        paddingTop: 30, flex: 1, flexDirection: 'row', justifyContent: 'space-between',
       }}
       >
         <View style={{ flex: 1, paddingLeft: 10 }}>
           <Text style={{
-            color: 'black', fontSize: 12, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center',
+            color: 'black', fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center',
           }}
           >
             {'Completion Percentage'}
           </Text>
           <ProgressCircle
-            style={{ height: 175, paddingTop: -250 }}
-            progress={0.7}
-            progressColor="rgb(24, 224, 24)"
-            startAngle={-Math.PI * 1.25}
-            endAngle={Math.PI * 0.75}
+            style={{ height: 158, paddingTop: 5 }}
+            progress={parseFloat(this.state.taskComp) / 100}
+            progressColor="rgb(28, 218, 28)"
+            startAngle={-Math.PI * 1}
+            endAngle={Math.PI * 1}
             strokeWidth={12}
+            backgroundColor="rgba(88, 248, 88, .3)"
           />
         </View>
-        <Text
-          style={{
-            position: 'absolute',
-            left: deviceWidth / 4 - 14,
-            top: 115,
-            fontSize: 20,
-            fontWeight: 'bold',
-            fontFamily: fonts.secondary,
-            color: 'rgb(24, 224, 24)',
-          }}
-        >
-          {'70%'}
-        </Text>
         <View
           style={{ flex: 1, paddingRight: 10 }}
         >
           <Text style={{
-            color: 'black', fontSize: 12, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center',
+            color: 'black', fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center',
           }}
           >
             {'Amount to Next Goal'}
           </Text>
           <ProgressCircle
-            style={{ height: 175, paddingTop: -250 }}
-            progress={0.7}
-            progressColor="rgb(24, 24, 224)"
-            startAngle={Math.PI * 1.25}
-            endAngle={-Math.PI * 0.75}
+            style={{ height: 158, paddingTop: 5 }}
+            progress={parseFloat(this.state.goalComp) / 100}
+            progressColor="rgb(28, 28, 228)"
+            startAngle={Math.PI * 1}
+            endAngle={-Math.PI * 1}
             strokeWidth={12}
+            backgroundColor="rgba(88, 88, 238,.5)"
           />
-          <Text
-            style={{
-              position: 'absolute',
-              left: deviceWidth / 4 - 20,
-              top: 115,
-              fontSize: 20,
-              fontWeight: 'bold',
-              fontFamily: fonts.secondary,
-              color: 'rgb(24, 24, 224)',
-            }}
-          >
-            {'70%'}
-          </Text>
         </View>
       </View>
     );
@@ -281,7 +264,7 @@ class SocialView extends Component {
         }}
         >
           <Text style={{
-            color: 'white', fontSize: 16, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center',
+            color: 'black', fontSize: 16, fontFamily: fonts.secondary, textAlign: 'center', fontWeight: 'bold',
           }}
           >
             {'Tasks Completed in Past Month'}
@@ -296,7 +279,7 @@ class SocialView extends Component {
     return (
       <View
         style={{
-          padding: 15, paddingTop: 15, paddingBottom: 85, alignItems: 'center',
+          padding: 10, paddingTop: 10, paddingBottom: 75, alignItems: 'center',
         }}
       >
         <View style={{
@@ -304,7 +287,7 @@ class SocialView extends Component {
           justifyContent: 'center',
           alignItems: 'center',
           marginBottom: 5,
-          marginTop: 50,
+          paddingTop: 20,
         }}
         >
           {this.determineDisplay()}
@@ -337,6 +320,32 @@ class SocialView extends Component {
             {this.renderTop()}
             {this.renderChart()}
             {this.renderPieChart()}
+            <Text
+              style={{
+                position: 'absolute',
+                left: '68%',
+                top: '68%',
+                fontSize: 20,
+                fontWeight: 'bold',
+                fontFamily: fonts.secondary,
+                color: 'rgb(24, 24, 224)',
+              }}
+            >
+              {`${this.state.goalComp}%`}
+            </Text>
+            <Text
+              style={{
+                position: 'absolute',
+                left: '19%',
+                top: '68%',
+                fontSize: 20,
+                fontWeight: 'bold',
+                fontFamily: fonts.secondary,
+                color: 'rgb(20, 218, 20)',
+              }}
+            >
+              { `${this.state.taskComp}%`}
+            </Text>
             {this.renderBottom()}
           </View>
         </LinearGradient>
