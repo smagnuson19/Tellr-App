@@ -12,6 +12,8 @@ import * as shape from 'd3-shape';
 import * as scale from 'd3-scale';
 import Style from '../../styling/Style';
 import { colors, fonts, dimensions } from '../../styling/base';
+import { colors2 } from '../../styling/parent';
+import Style2 from '../../styling/ParentStyle';
 import { fetchEarningsHistory } from '../../actions/index';
 
 
@@ -171,61 +173,122 @@ class Profile extends Component {
   }
 
   render() {
-    return (
-      <View style={{
-        width: dimensions.fullWidth,
-        height: dimensions.fullHeight,
-      }}
-      >
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={{ width: dimensions.fullWidth, height: dimensions.fullHeight }}>
-          <View>
-            <Text style={Style.headerTextLeaderboard}>Profile </Text>
-            <View style={pageStyle.sectionContainer}>
-              <Text style={pageStyle.sectionHeader}> Account </Text>
-              <Divider style={pageStyle.divider} />
+    if (this.props.user.accountType === 'Parent') {
+      return (
+        <View style={{
+          width: dimensions.fullWidth,
+          height: dimensions.fullHeight,
+        }}
+        >
+          <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={{ width: dimensions.fullWidth, height: dimensions.fullHeight }}>
+            <View>
+              <Text style={Style2.headerText}>Profile </Text>
               <View style={pageStyle.sectionContainer}>
-                <Text style={pageStyle.sectionText}> Name: </Text>
-                <Text style={pageStyle.subSectionText}>
-                  {' '}
-                  {this.props.user.firstName}
-                  {' '}
-                  {this.props.user.lastName}
-                </Text>
-                <Text style={pageStyle.sectionText}> Account Type: </Text>
-                <Text style={pageStyle.subSectionText}>
-                  {' '}
-                  {this.props.user.accountType}
-                  {' '}
-                </Text>
-                {this.determineDisplay()}
-                <Text style={pageStyle.sectionHeader}> Analytics </Text>
-                <Divider style={pageStyle.bdivider} />
+                <Text style={pageStyle.sectionHeader}> Account </Text>
+                <Divider style={pageStyle.divider} />
+                <View style={pageStyle.sectionContainer}>
+                  <Text style={pageStyle.sectionText}> Name: </Text>
+                  <Text style={pageStyle.darkSubSectionText}>
+                    {' '}
+                    {this.props.user.firstName}
+                    {' '}
+                    {this.props.user.lastName}
+                  </Text>
+                  <Text style={pageStyle.sectionText}> Account Type: </Text>
+                  <Text style={pageStyle.subSectionText}>
+                    {' '}
+                    {this.props.user.accountType}
+                    {' '}
+                  </Text>
+                  {this.determineDisplay()}
+                  <Text style={pageStyle.sectionHeader}> Analytics </Text>
+                  <Divider style={pageStyle.bdivider} />
+                </View>
               </View>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Analytics', {
+                email: this.props.user.email,
+              })
+              }
+              >
+                <Text style={{
+                  color: 'black', fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
+                }}
+                >
+                  {'Lifetime Balance'}
+                </Text>
+                {this.childCharts()}
+                <Text style={{
+                  color: 'black', fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
+                }}
+                >
+                  {'Click the Graph for More! '}
+                </Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Analytics', {
-              email: this.props.user.email,
-            })
-            }
-            >
-              <Text style={{
-                color: 'black', fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
-              }}
+          </LinearGradient>
+          {this.renderFooter()}
+        </View>
+      );
+    } else if (this.props.user.accountType === 'Child') {
+      return (
+        <View style={{
+          width: dimensions.fullWidth,
+          height: dimensions.fullHeight,
+        }}
+        >
+          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={{ width: dimensions.fullWidth, height: dimensions.fullHeight }}>
+            <View>
+              <Text style={Style.headerTextLeaderboard}>Profile </Text>
+              <View style={pageStyle.sectionContainer}>
+                <Text style={pageStyle.sectionHeader}> Account </Text>
+                <Divider style={pageStyle.divider} />
+                <View style={pageStyle.sectionContainer}>
+                  <Text style={pageStyle.sectionText}> Name: </Text>
+                  <Text style={pageStyle.subSectionText}>
+                    {' '}
+                    {this.props.user.firstName}
+                    {' '}
+                    {this.props.user.lastName}
+                  </Text>
+                  <Text style={pageStyle.sectionText}> Account Type: </Text>
+                  <Text style={pageStyle.subSectionText}>
+                    {' '}
+                    {this.props.user.accountType}
+                    {' '}
+                  </Text>
+                  {this.determineDisplay()}
+                  <Text style={pageStyle.sectionHeader}> Analytics </Text>
+                  <Divider style={pageStyle.bdivider} />
+                </View>
+              </View>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Analytics', {
+                email: this.props.user.email,
+              })
+              }
               >
-                {'Lifetime Balance'}
-              </Text>
-              {this.childCharts()}
-              <Text style={{
-                color: 'black', fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
-              }}
-              >
-                {'Click the Graph for More! '}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </LinearGradient>
-        {this.renderFooter()}
-      </View>
-    );
+                <Text style={{
+                  color: 'black', fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
+                }}
+                >
+                  {'Lifetime Balance'}
+                </Text>
+                {this.childCharts()}
+                <Text style={{
+                  color: 'black', fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
+                }}
+                >
+                  {'Click the Graph for More! '}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </LinearGradient>
+          {this.renderFooter()}
+        </View>
+      );
+    } else {
+      console.log('ERROR: accountType not loaded or selected proprely');
+      return null;
+    }
   }
 }
 
