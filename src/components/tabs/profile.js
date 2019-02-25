@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView,
+  View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { Divider, ButtonGroup } from 'react-native-elements';
-import { PieChart } from 'react-native-svg-charts';
+import {
+  AreaChart, XAxis, Grid, YAxis,
+} from 'react-native-svg-charts';
+import * as shape from 'd3-shape';
+import * as scale from 'd3-scale';
 import Style from '../../styling/Style';
 import Style2 from '../../styling/ParentStyle';
 import { colors, fonts, dimensions } from '../../styling/base';
@@ -76,31 +80,65 @@ class Profile extends Component {
 
   childCharts() {
     if (this.props.user.accountType === 'Child') {
-      // const completed = 10;
-      // const incomplete = 5;
-      const pieData = [
-        {
-          key: 1,
-          amount: 100,
-          svg: { fill: colors.logoGreen },
-        },
-        {
-          key: 2,
-          amount: 400,
-          svg: { fill: colors.red },
-        },
-      ];
-      console.log('Charting');
+      const balHist = [{ value: 0, index: new Date('2019-01-29') }, { value: 20, index: new Date('2019-02-02') }, { value: 50, index: new Date('2019-02-10') }, { value: 25, index: new Date('2019-02-11') }, { value: 65, index: new Date('2019-02-15') }];
+      const contentInset = {
+        top: 0, left: 5, right: 0, bottom: 5,
+      };
       return (
-        <PieChart
-          style={{
-            height: 200,
-            width: 200,
-            // backgroundColor: colors.logoGreen,
-          }}
-          valueAccessor={({ item }) => item.amount}
-          data={pieData}
-        />
+        <View style={{ height: 200, padding: 10, flexDirection: 'row' }}>
+          <YAxis
+            data={balHist}
+            style={{ marginBottom: 0 }}
+            yAccessor={({ item }) => item.value}
+            contentInset={contentInset}
+            formatLabel={value => `$${value}`}
+            svg={{
+              fill: 'black',
+              fontSize: 8,
+              fontWeight: 'bold',
+            }}
+            numberOfTicks={8}
+          />
+          <View
+            style={{
+              height: 200, marginLeft: 5, marginRight: 10, flexDirection: 'column', width: 370,
+            }}
+          >
+            <AreaChart
+              curve={shape.curveLinear}
+              data={balHist}
+              svg={{ fill: 'rgba(28, 228, 28, 0.8)' }}
+              yAccessor={({ item }) => item.value}
+              xAccessor={({ item }) => item.index}
+              // showGrid={false}
+              style={{
+                height: 200, flex: 1, marginLeft: 5, width: 370,
+              }}
+              gridMin={0}
+              contentInset={contentInset}
+              numberOfTicks={6}
+            >
+              <Grid />
+            </AreaChart>
+            <XAxis
+              style={{
+                marginTop: 10, marginLeft: 10,
+              }}
+              data={balHist}
+              formatLabel={value => `${(value.getMonth() + 1)}/${value.getDate()}`}
+              scale={scale.scaleTime}
+              labelStyle={{ color: 'black' }}
+              xAccessor={({ item }) => item.index}
+              svg={{
+                fill: 'black',
+                fontSize: 8,
+                fontWeight: 'bold',
+              }}
+              contentInset={contentInset}
+              numberOfTicks={6}
+            />
+          </View>
+        </View>
       );
     } else {
       console.log('no charts rn');
@@ -112,85 +150,74 @@ class Profile extends Component {
     return (
       <View
         style={{
-          padding: 20, paddingTop: 5, paddingBottom: 85, alignItems: 'center',
+          position: 'absolute', alignItems: 'center', top: '85%', left: '-1.5%',
         }}
       >
         <ButtonGroup
           onPress={() => this.props.navigation.navigate('SettingsPage')}
           buttons={['Settings']}
-          containerStyle={{ width: dimensions.fullWidth }}
+          containerStyle={{ width: dimensions.fullWidth, fill: 'rgba=(256, 256, 256, 1)' }}
         />
       </View>
     );
   }
 
   render() {
-    if (this.props.user.accountType === 'Parent') {
-      return (
-        <View style={Style.rootContainer}>
-          <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
-            <View style={Style.contentWrapper}>
-              <Text style={Style2.headerText}>Profile </Text>
+    return (
+      <View style={Style.rootContainer}>
+        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+          <View style={{ flex: 1 }}>
+            <Text style={Style.headerTextLeaderboard}>Profile </Text>
+            <View style={pageStyle.sectionContainer}>
+              <Text style={pageStyle.sectionHeader}> Account </Text>
+              <Divider style={pageStyle.divider} />
               <View style={pageStyle.sectionContainer}>
-                <Text style={pageStyle.sectionHeader}> Account </Text>
-                <Divider style={pageStyle.divider} />
-                <View style={pageStyle.sectionContainer}>
-                  <Text style={pageStyle.sectionText}> Name: </Text>
-                  <Text style={pageStyle.darkSubSectionText}>
-                    {' '}
-                    {this.props.user.firstName}
-                    {' '}
-                    {this.props.user.lastName}
-                  </Text>
-                  <Text style={pageStyle.sectionText}> Account Type: </Text>
-                  <Text style={pageStyle.darkSubSectionText}>
-                    {' '}
-                    {this.props.user.accountType}
-                    {' '}
-                  </Text>
-                  {this.displayChildren()}
-                </View>
+                <Text style={pageStyle.sectionText}> Name: </Text>
+                <Text style={pageStyle.subSectionText}>
+                  {' '}
+                  {this.props.user.firstName}
+                  {' '}
+                  {this.props.user.lastName}
+                </Text>
+                <Text style={pageStyle.sectionText}> Account Type: </Text>
+                <Text style={pageStyle.subSectionText}>
+                  {' '}
+                  {this.props.user.accountType}
+                  {' '}
+                </Text>
+                {this.determineDisplay()}
+                <Text style={pageStyle.subSectionText}>
+                  {' '}
+                </Text>
+                <Text style={pageStyle.sectionHeader}> Analytics </Text>
+                <Divider style={pageStyle.bdivider} />
               </View>
               {this.renderFooter()}
             </View>
-          </LinearGradient>
-        </View>
-      );
-    } else if (this.props.user.accountType === 'Child') {
-      return (
-        <View style={Style.rootContainer}>
-          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
-            <View style={Style.contentWrapper}>
-              <Text style={Style.headerText}>Profile </Text>
-              <View style={pageStyle.sectionContainer}>
-                <Text style={pageStyle.sectionHeader}> Account </Text>
-                <Divider style={pageStyle.divider} />
-                <View style={pageStyle.sectionContainer}>
-                  <Text style={pageStyle.sectionText}> Name: </Text>
-                  <Text style={pageStyle.subSectionText}>
-                    {' '}
-                    {this.props.user.firstName}
-                    {' '}
-                    {this.props.user.lastName}
-                  </Text>
-                  <Text style={pageStyle.sectionText}> Account Type: </Text>
-                  <Text style={pageStyle.subSectionText}>
-                    {' '}
-                    {this.props.user.accountType}
-                    {' '}
-                  </Text>
-                  {this.displayBalance()}
-                </View>
-              </View>
-              {this.renderFooter()}
-            </View>
-          </LinearGradient>
-        </View>
-      );
-    } else {
-      console.log('ERROR: accountType not loaded or selected proprely');
-      return null;
-    }
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Analytics', {
+              email: this.props.user.email,
+            })
+            }
+            >
+              <Text style={{
+                color: 'black', fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
+              }}
+              >
+                {'Lifetime Balance'}
+              </Text>
+              {this.childCharts()}
+              <Text style={{
+                color: 'black', fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', marginTop: 32,
+              }}
+              >
+                {'Click the Graph for More! '}
+              </Text>
+            </TouchableOpacity>
+            {this.renderFooter()}
+          </View>
+        </LinearGradient>
+      </View>
+    );
   }
 }
 
@@ -200,7 +227,7 @@ const pageStyle = StyleSheet.create({
   //   width: dimensions.fullWidth,
   // },
   sectionContainer: {
-    marginBottom: '5%',
+    marginBottom: '2%',
     width: dimensions.fullWidth,
   },
   sectionHeader: {
@@ -219,6 +246,16 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingVertical: 6,
     marginLeft: 5,
+  },
+  lastSectionText: {
+    fontSize: fonts.md,
+    fontWeight: 'bold',
+    color: colors.white,
+    fontFamily: fonts.secondary,
+    justifyContent: 'flex-start',
+    paddingVertical: 6,
+    marginLeft: 5,
+    marginBottom: -50,
   },
   subSectionText: {
     fontSize: fonts.smmd,
@@ -240,6 +277,12 @@ const pageStyle = StyleSheet.create({
     height: 2,
     marginTop: 2,
     marginBottom: 2,
+  },
+  bdivider: {
+    backgroundColor: colors.primary,
+    height: 2,
+    marginTop: 2,
+    marginBottom: 0,
   },
   settingsButton: {
     fontSize: fonts.md,

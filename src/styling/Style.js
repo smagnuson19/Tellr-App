@@ -145,6 +145,15 @@ const Style = StyleSheet.create({
     // background: linear-gradient(155.26, rgba(4, 27, 37, 0.961547) - 13.61, rgba(0, 6, 3, 0.76) - 146.55),
   },
 
+  pContainer: {
+    flex: 1,
+    width: dimensions.fullWidth,
+    justifyContent: 'center',
+    marginBottom: 0,
+    // background: linear-gradient(155.26, rgba(4, 27, 37, 0.961547) - 13.61, rgba(0, 6, 3, 0.76) - 146.55),
+  },
+
+
   // Wrapper for multiple FormInput Objects
   inputContainer: {
     flex: 1,

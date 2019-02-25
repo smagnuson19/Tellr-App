@@ -29,11 +29,12 @@ target 'TellrApp' do
   # Add any other dependencies here, including any 3rd party native libraries that you depend on for
   # React Native.
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
   pod 'RNImagePicker', :path => '../node_modules/react-native-image-picker'
 
-  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
   pod 'RNSound', :path => '../node_modules/react-native-sound'
