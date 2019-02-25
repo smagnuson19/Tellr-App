@@ -205,23 +205,19 @@ class Profile extends Component {
                   <Divider style={pageStyle.bdivider} />
                 </View>
               </View>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Analytics', {
-                email: this.props.user.email,
-              })
-              }
-              >
+              <TouchableOpacity onPress={() => console.log('Touchable Opacity Touched')}>
                 <Text style={{
-                  color: 'black', fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
+                  color: colors.logoGreen, fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
                 }}
                 >
-                  {'Lifetime Balance'}
+                  {'Analytics Available on Your Child\'s Profile'}
                 </Text>
                 {this.childCharts()}
                 <Text style={{
-                  color: 'black', fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
+                  color: colors.logoGreen, fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
                 }}
                 >
-                  {'Click the Graph for More! '}
+                  {'Log into thier account to see more!'}
                 </Text>
               </TouchableOpacity>
             </View>
