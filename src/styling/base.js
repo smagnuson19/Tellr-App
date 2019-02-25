@@ -20,6 +20,7 @@ export const colors = {
   black: 'rgb(0,0,0)',
   white: 'rgb(255,255,255)',
   red: 'rgb(255,0,0)',
+  babyBlue: 'rgb(137,207,240)',
   money: 'rgb(0, 100, 0)',
   clear: 'rgba(0,0,0,0)',
   button: 'rgba(250,0,0,.5)',
