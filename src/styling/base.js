@@ -1,4 +1,5 @@
 import { Dimensions } from 'react-native';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
 export const dimensions = {
   fullHeight: Dimensions.get('window').height,
@@ -24,14 +25,16 @@ export const colors = {
   button: 'rgba(250,0,0,.5)',
   logoGreen: 'rgb(61, 229, 148)',
   logoGreenHex: '#3de594',
+  NavigationBarColoredLine: 'rgb(5, 5, 5)',
 };
+
 
 export const fonts = {
   sm: 11,
   smmd: 15,
   md: 19,
-  lg: 28,
-  xlg: 35,
+  lg: scale(25),
+  xlg: scale(30),
   primary: 'Montserrat-Thin',
   secondary: 'Montserrat',
   logo: 'SignPainter',

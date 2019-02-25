@@ -4,27 +4,26 @@ import {
   Text,
   StyleSheet,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
-  Button, FormInput,
+  FormInput,
 } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import { NavigationActions } from 'react-navigation';
 import { postNewUser } from '../../actions';
 import Style from '../../styling/Style';
-import { colors } from '../../styling/base';
+import { colors, fonts } from '../../styling/base';
 
 
 class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '',
-      lastName: '',
+
       email: '',
       password: '',
-      familyName: '',
       // avatar: '',
     };
   }
@@ -42,34 +41,33 @@ class SignUp extends Component {
     const randomColor = require('randomcolor'); // import the script
     const color = randomColor(); // a hex code for an attractive color
 
+
+    const { navigation } = this.props;
+    const userType = navigation.getParam('userType');
+    const firstName = navigation.getParam('firstName');
+    const lastName = navigation.getParam('lastName');
+    const familyName = navigation.getParam('familyName');
+
     // Describing what will be sent
     const payLoad = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
+      firstName,
+      lastName,
       email: this.state.email,
       password: this.state.password,
-      familyName: this.state.familyName,
-      accountType: this.props.navigation.getParam('userType'),
+      familyName,
+      accountType: userType,
       avatarColor: color,
       // avatar: this.state.avatar,
     };
 
     // checking for errors and notifying user
-    if (this.state.firstName === '') {
-      Alert.alert('First Name cannot be empty');
-      console.log('ERROR: first name empty');
-    } else if (this.state.lastName === '') {
-      Alert.alert('Last Name cannot be empty');
-      console.log('ERROR: last name empty');
-    } else if (this.state.email === '') {
+
+    if (this.state.email === '') {
       Alert.alert('Email cannot be empty');
       console.log('ERROR: email empty');
     } else if (this.state.password === '') {
       Alert.alert('Password cannot be empty');
       console.log('ERROR: password empty');
-    } else if (this.state.familyName === '') {
-      Alert.alert('Family Name cannot be empty');
-      console.log('ERROR: family name empty');
     // } else if (this.state.avatar === '') {
     //   Alert.alert('Avatar cannot be empty');
     //   console.log('ERROR: avatar empty');
@@ -91,62 +89,13 @@ class SignUp extends Component {
     }
   }
 
-  displayAdditionalFields(userType) {
-    // if (userType === 'child') {
-    //   return (<View />);
-    // } else {
-    return (
-      <FormInput
-        inputStyle={Style.fieldText}
-        containerStyle={pageStyle.fieldContainer}
-        onChangeText={text => this.setState({ familyName: text })}
-        value={this.state.familyName}
-        placeholder="Family Name"
-        placeholderTextColor={colors.grey}
-        spellCheck="false"
-        returnKeyType="done"
-        ref={(input) => { this.lastInput = input; }}
-        onSubmitEditing={() => this.createAccount()}
-      />
-    );
-    // }
-  }
-
   render() {
-    const { navigation } = this.props;
-    const userType = navigation.getParam('userType');
-
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
             <Text style={Style.headerText}>Create Account </Text>
             <View style={pageStyle.inputContainer}>
-              <FormInput
-                containerStyle={pageStyle.fieldContainer}
-                onChangeText={text => this.setState({ firstName: text })}
-                value={this.state.firstName}
-                placeholder="First Name"
-                inputStyle={Style.fieldText}
-                placeholderTextColor={colors.grey}
-                spellCheck="false"
-                returnKeyType="next"
-                onSubmitEditing={() => { this.secondTextInput.focus(); }}
-                blurOnSubmit={false}
-              />
-              <FormInput
-                inputStyle={Style.fieldText}
-                containerStyle={pageStyle.fieldContainer}
-                onChangeText={text => this.setState({ lastName: text })}
-                value={this.state.lastName}
-                placeholder="Last Name"
-                placeholderTextColor={colors.grey}
-                spellCheck="false"
-                returnKeyType="next"
-                ref={(input) => { this.secondTextInput = input; }}
-                onSubmitEditing={() => { this.thirdTextInput.focus(); }}
-                blurOnSubmit={false}
-              />
               <FormInput
                 inputStyle={Style.fieldText}
                 containerStyle={pageStyle.fieldContainer}
@@ -157,7 +106,6 @@ class SignUp extends Component {
                 placeholderTextColor={colors.grey}
                 spellCheck="false"
                 returnKeyType="next"
-                ref={(input) => { this.thirdTextInput = input; }}
                 onSubmitEditing={() => { this.fourthTextInput.focus(); }}
                 blurOnSubmit={false}
               />
@@ -166,29 +114,23 @@ class SignUp extends Component {
                 containerStyle={pageStyle.fieldContainer}
                 onChangeText={text => this.setState({ password: text })}
                 value={this.state.password}
-                placeholder="Set Password"
+                placeholder="Password"
                 placeholderTextColor={colors.grey}
                 spellCheck="false"
-                returnKeyType="next"
+                returnKeyType="done"
                 secureTextEntry="true"
                 ref={(input) => { this.fourthTextInput = input; }}
-                onSubmitEditing={() => { this.lastInput.focus(); }}
-                blurOnSubmit={false}
               />
-
-              {this.displayAdditionalFields(userType)}
-
             </View>
             <View style={pageStyle.buttonContainer}>
-              <Button
-                large
-                raised
-                rounded
-                title="Get Started"
-                backgroundColor="#3de594"
+              <TouchableOpacity
+                style={pageStyle.bottomInputContainer}
                 onPress={() => this.createAccount()}
-                style={Style.button}
-              />
+              >
+                <Text style={pageStyle.buttonText}>
+                Let&apos;s Start!
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </LinearGradient>
@@ -202,7 +144,7 @@ const pageStyle = StyleSheet.create({
   fieldContainer: {
     borderBottomWidth: 1,
     flex: 0,
-    borderColor: colors.lightGrey,
+    borderColor: '#000000',
     color: colors.white,
   },
   inputContainer: {
@@ -214,12 +156,30 @@ const pageStyle = StyleSheet.create({
     alignItems: 'center',
   },
   buttonContainer: {
-    flex: 0,
+    flex: 1,
     margin: '10%',
     width: '80%',
     flexDirection: 'column',
     justifyContent: 'center',
 
+  },
+  buttonText: {
+    fontFamily: fonts.secondary,
+    textAlign: 'center',
+    justifyContent: 'center',
+    fontSize: fonts.lg,
+    color: '#ffff',
+
+  },
+  bottomInputContainer: {
+    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, // IOS
+    justifyContent: 'center',
+    backgroundColor: colors.secondary,
+    paddingTop: 25,
+    paddingBottom: 25,
   },
 
 });

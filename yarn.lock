@@ -6190,6 +6190,13 @@ react-moment@^0.8.4:
   resolved "https://registry.yarnpkg.com/react-moment/-/react-moment-0.8.4.tgz#18eb59e1541c8b216353e23c21e9db50e42e2edb"
   integrity sha512-QhI19OcfhiAn60/O6bMR0w8ApXrPFCjv6+eV0I/P9/AswzjgEAx4L7VxMBCpS/jrythLa12Q9v88req+ys4YpA==
 
+react-native-blur@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-blur/-/react-native-blur-3.2.2.tgz#5bfb50638d148982c9560436554ed01d77d6d07d"
+  integrity sha512-r7zNQISL7kQX5ocQEet5QVOBzoXP+Nr3dO7Wql+fV6rebx/8I7eAUHnfITDx12WoOmRpiJjbt/4xF5gTEll6Uw==
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-datepicker@^1.7.2:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/react-native-datepicker/-/react-native-datepicker-1.7.2.tgz#58d0822591a0ac9b32aba082650222a0ee29669d"
@@ -6232,6 +6239,14 @@ react-native-image-picker@^0.27.1:
   version "0.27.2"
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.27.2.tgz#c44195feb1a4855eead36fadacc8b82828329b2a"
   integrity sha512-1GuPIuQHjnLxmzUkmOHbI6cllETVRhJyrf8UoJXotD38+eX4JdcUSHGqV48XPc3e1u7b4HU7drFgyJcKFfQKRA==
+
+react-native-input-scroll-view@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/react-native-input-scroll-view/-/react-native-input-scroll-view-1.9.0.tgz#c0134823427052ef4d45e0daece686ba09b24fd0"
+  integrity sha512-hUkrzVsSFAnlwptn3M00MeZ3XvlxI+lkJqxkTVn+/Qb41Z5eu4U7RPkJdnGn0Nhl3+TJfOyKb3MFFimgOO2hqA==
+  dependencies:
+    lodash "^4.17.10"
+    prop-types "^15.5.10"
 
 react-native-leaderboard@^1.0.5:
   version "1.0.5"

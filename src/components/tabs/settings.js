@@ -13,7 +13,7 @@ import {
 } from '../../actions';
 import Style2 from '../../styling/ParentStyle';
 import Style from '../../styling/Style';
-import { colors, fonts, dimensions } from '../../styling/base';
+import { colors, fonts } from '../../styling/base';
 import { colors2 } from '../../styling/parent';
 
 class Settings extends Component {

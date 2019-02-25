@@ -16,6 +16,8 @@ PODS:
   - OneSignal (2.9.4)
   - React (0.57.3):
     - React/Core (= 0.57.3)
+  - react-native-blur (0.8.0):
+    - React
   - react-native-onesignal (3.2.12):
     - OneSignal (= 2.9.4)
     - React
@@ -77,6 +79,7 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - react-native-blur (from `../node_modules/react-native-blur`)
   - react-native-onesignal (from `../node_modules/react-native-onesignal/react-native-onesignal.podspec`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
@@ -113,6 +116,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
     :path: "../node_modules/react-native"
+  react-native-blur:
+    :path: "../node_modules/react-native-blur"
   react-native-onesignal:
     :path: "../node_modules/react-native-onesignal/react-native-onesignal.podspec"
   RNGestureHandler:
@@ -137,6 +142,7 @@ SPEC CHECKSUMS:
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
   OneSignal: a41f5a896177275662da07e23d6a809c0e105a89
   React: a197ec4fee34abff321271f5614cabc517faed71
+  react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-onesignal: fa2b1e784076b8e8a1e5d86789fbb3f5345778fa
   RNGestureHandler: 14c09a7361c272efea8f7f3799142c893a6a4485
   RNImagePicker: 0dbb6f40e666363fa989f95e7ba6a7aaf130a611

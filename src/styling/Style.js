@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-// import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import {
   colors, fonts, dimensions,
 } from './base';
@@ -72,7 +72,12 @@ const Style = StyleSheet.create({
     fontFamily: fonts.secondary,
     textAlign: 'center',
     fontSize: fonts.lg,
+  },
 
+  SignUpButtonText: {
+    fontFamily: fonts.secondary,
+    textAlign: 'center',
+    fontSize: fonts.lg,
   },
 
   buttonContainer: {
@@ -97,9 +102,8 @@ const Style = StyleSheet.create({
   fieldContainer: {
     borderBottomWidth: 1,
     flex: 0,
-    margin: '5 %',
+    margin: '5%',
     borderColor: colors.lightGrey,
-    color: colors.white,
   },
 
   // Style for a FormInput
