@@ -119,7 +119,8 @@ class RedeemMoney extends Component {
     // Describing what should be sent
     const payLoad = {
       email: this.props.user.email,
-      amount: this.state.amount,
+      amount: parseFloat(this.state.amount),
+      // amount: this.state.amount,
     };
 
     // Error checking to make sure child is selected and amount > 0
@@ -145,6 +146,7 @@ class RedeemMoney extends Component {
         }
       });
       //  ok to RedeemMoney
+      console.log(payLoad);
       Animated.sequence([
         Animated.spring(this.animatedValue, { toValue: 1, useNativeDriver: false }),
         Animated.spring(this.animatedValue, { toValue: 0, userNativeDriver: false }),
@@ -210,13 +212,13 @@ class RedeemMoney extends Component {
                 raised
                 onPress={() => this.redeemPress()}
                 title="Request Money!"
-                backgroundColor="#424242"
+                backgroundColor={colors.babyBlue}
                 accessibilityLabel="enter email"
                 color="white"
                 style={Style.button}
               />
             </View>
-            <Divider style={{ backgroundColor: colors.clear, height: 100 }} />
+            <Divider style={{ backgroundColor: colors.clear, height: 25 }} />
           </View>
         </LinearGradient>
       </View>
