@@ -11,9 +11,9 @@ import {
 import * as shape from 'd3-shape';
 import * as scale from 'd3-scale';
 import Style from '../../styling/Style';
-import Style2 from '../../styling/ParentStyle';
 import { colors, fonts, dimensions } from '../../styling/base';
-import { colors2 } from '../../styling/parent';
+import { fetchEarningsHistory } from '../../actions/index';
+
 
 class Profile extends Component {
   constructor(props) {
@@ -80,7 +80,13 @@ class Profile extends Component {
 
   childCharts() {
     if (this.props.user.accountType === 'Child') {
-      const balHist = [{ value: 0, index: new Date('2019-01-29') }, { value: 20, index: new Date('2019-02-02') }, { value: 50, index: new Date('2019-02-10') }, { value: 25, index: new Date('2019-02-11') }, { value: 65, index: new Date('2019-02-15') }];
+      // const balHist = [{ value: 0, index: new Date('2019-01-29') }, { value: 20, index: new Date('2019-02-02') }, { value: 50, index: new Date('2019-02-10') }, { value: 25, index: new Date('2019-02-11') }, { value: 65, index: new Date('2019-02-15') }];
+      const balHist = [];
+      console.log(this.props.earnings);
+      Object.keys(this.props.earnings).forEach((key) => {
+        balHist.push({ value: this.props.earnings[key][0], index: new Date(`${this.props.earnings[key][1]}`) });
+      });
+      console.log(balHist);
       const contentInset = {
         top: 0, left: 5, right: 0, bottom: 5,
       };
@@ -91,7 +97,7 @@ class Profile extends Component {
             style={{ marginBottom: 0 }}
             yAccessor={({ item }) => item.value}
             contentInset={{
-              top: 0, left: 5, right: 0, bottom: 25,
+              top: 5, left: 5, right: 0, bottom: 25,
             }}
             formatLabel={value => `$${value}`}
             svg={{
@@ -99,7 +105,7 @@ class Profile extends Component {
               fontSize: 8,
               fontWeight: 'bold',
             }}
-            numberOfTicks={8}
+            numberOfTicks={6}
           />
           <View
             style={{
@@ -298,8 +304,8 @@ const mapStateToProps = state => (
   {
     user: state.user.info,
     family: state.user.family,
+    earnings: state.user.earnings,
   });
 
 
-export default connect(mapStateToProps, {
-})(Profile);
+export default connect(mapStateToProps, { fetchEarningsHistory })(Profile);

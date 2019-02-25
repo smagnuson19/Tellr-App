@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { colors } from '../styling/base';
 import {
-  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial,
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory,
 } from '../actions/index';
 import Style from '../styling/Style';
 
@@ -29,6 +29,7 @@ class Loading extends Component {
       this.props.fetchGoals(email).then(() => { console.log('Goals pulled in'); });
       this.props.fetchKidFriends(email).then(() => { console.log('Friends pulled in'); });
       this.props.fetchAllSocial(email).then(() => { console.log('All friends pulled in'); });
+      this.props.fetchEarningsHistory(email).then(() => { console.log('Earnings pulled in'); });
     } else if (this.props.accountInfo.accountType === 'Parent') {
       this.props.fetchNotificationInfo(email).then(() => { console.log('Notifications pulled in'); });
       this.props.fetchParentInfo(email).then(() => { console.log('User Info pulled in'); });
@@ -120,5 +121,5 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial,
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory,
 })(Loading);
