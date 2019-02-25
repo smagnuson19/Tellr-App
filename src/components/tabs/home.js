@@ -16,6 +16,7 @@ import {
   postNotifications, postGoalApprove, postTaskVerified,
 } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
+import { colors2 } from '../../styling/parent';
 
 class Home extends Component {
   constructor(props) {
@@ -360,7 +361,7 @@ No Chores To Verify, Add some more!
     if (this.props.account.accountType === 'Parent') {
       return (
         <View style={Style.rootContainer}>
-          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+          <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
               {this.renderParentView()}
             </View>
