@@ -192,7 +192,6 @@ class Profile extends Component {
                 <Text style={pageStyle.sectionHeader}> Analytics </Text>
                 <Divider style={pageStyle.bdivider} />
               </View>
-              {this.renderFooter()}
             </View>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('Analytics', {
               email: this.props.user.email,
