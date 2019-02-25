@@ -34,6 +34,7 @@ class NotificationCard extends Component {
       this.props.entry.description,
       this.props.entry.redeemed,
       this.props.entry.notificationType,
+      this.props.entry.deadline,
     );
   }
 
@@ -135,7 +136,16 @@ class NotificationCard extends Component {
   // Need to implement
   // return null if its a goal other wise return date for task
   displayDueDate() {
-    return (null);
+    if (this.props.entry.notificationType === 'newTask' || this.props.entry.notificationType === 'taskComplete') {
+      return (
+        <Text>
+          {'Due: '}
+          {this.props.entry.deadline}
+        </Text>
+      );
+    } else {
+      return ('');
+    }
   }
 
   render() {
@@ -158,16 +168,18 @@ class NotificationCard extends Component {
               <Text style={pageStyle.price}>
           $
                 {this.props.entry.value}
-
               </Text>
             </View>
           </View>
           <Divider style={pageStyle.divider} />
           <View style={pageStyle.descriptionContainer}>
             <Text style={pageStyle.descriptionText}>
-              {this.displayDueDate()}
               {this.props.entry.description}
-
+            </Text>
+          </View>
+          <View style={pageStyle.descriptionContainer}>
+            <Text style={pageStyle.deadlineText}>
+              {this.displayDueDate()}
             </Text>
           </View>
           {this.displayCorrectItems()}
@@ -238,10 +250,14 @@ const pageStyle = StyleSheet.create({
     padding: 3,
     marginLeft: 10,
     marginRight: 10,
-
   },
   descriptionText: {
     textAlign: 'center',
+  },
+
+  deadlineText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
 
   actionBar: {
