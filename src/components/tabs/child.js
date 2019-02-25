@@ -90,7 +90,6 @@ class Child extends Component {
     return (
       <View style={pageStyle.homeWrapper}>
         <View style={pageStyle.topContainer}>
-
           <Text style={pageStyle.headerText}>
             {'Hey '}
             {this.props.firstName}
@@ -102,7 +101,6 @@ class Child extends Component {
               {this.props.balance}
             </Text>
           </View>
-
         </View>
         <ScrollView style={pageStyle.main}
           refreshControl={(
@@ -113,10 +111,9 @@ class Child extends Component {
             />
 )}
         >
-
           <View style={pageStyle.sectionContainer}>
             <Text style={pageStyle.sectionHeader}>
-        Complete The New Tasks
+        Complete the new tasks
             </Text>
             {this.checkEmptyTasks()}
           </View>
@@ -141,14 +138,11 @@ const pageStyle = StyleSheet.create({
     marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
-
     marginTop: 0,
   },
-
   main: {
     flex: 1,
   },
-
   headerText: {
     paddingTop: 80,
     marginLeft: 15,
@@ -156,7 +150,6 @@ const pageStyle = StyleSheet.create({
     fontSize: fonts.lg,
     color: colors.black,
   },
-
   balanceContainer: {
     backgroundColor: colors.linearGradientBottom,
     width: 100,
@@ -173,7 +166,6 @@ const pageStyle = StyleSheet.create({
     fontSize: fonts.md,
     fontFamily: fonts.secondary,
   },
-
   sectionContainer: {
     marginBottom: 15,
     width: dimensions.fullWidth,
@@ -196,10 +188,7 @@ const pageStyle = StyleSheet.create({
   noGoals: {
     alignItems: 'center',
     justifyContent: 'center',
-
-
   },
-
   noGoalsText: {
     fontSize: 21,
     fontWeight: '400',

@@ -166,6 +166,7 @@ class AddTask extends Component {
   }
 
   render() {
+    const moment = require('moment');
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
@@ -182,12 +183,12 @@ class AddTask extends Component {
                 returnKeyType="next"
               />
               <DatePicker
-
                 style={{ ...taskDeadlineStyles.style }}
                 date={this.state.taskDeadline}
                 mode="datetime"
                 placeholder="Task Deadline"
-                format="MMMM Do, h:mma"
+                minDate={moment().format('MMM Do, h:mma')}
+                format="MMM Do, h:mma"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 customStyles={{
