@@ -238,6 +238,7 @@ const pageStyle = StyleSheet.create({
   },
   amountContainer: {
     flex: 1,
+    marginBottom: -20,
     flexDirection: 'row',
     justifyContent: 'center',
   },
