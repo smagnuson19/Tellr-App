@@ -120,7 +120,11 @@ class Settings extends Component {
             <SettingsList.Item
               title="Change Password"
               titleStyle={pageStyle.sectionText}
-              onPress={() => this.props.navigation.navigate('ChangePassword')}
+              // onPress={() => this.props.navigation.navigate('ChangePassword')}
+              onPress={() => this.props.navigation.navigate('ChangePassword', {
+                accountTypeIndicator: 'Parent',
+              })
+              }
             />
             <SettingsList.Item
               title="Delete Account"
@@ -156,7 +160,10 @@ class Settings extends Component {
             <SettingsList.Item
               title="Change Password"
               titleStyle={pageStyle.sectionText}
-              onPress={() => this.props.navigation.navigate('ChangePassword')}
+              onPress={() => this.props.navigation.navigate('ChangePassword', {
+                accountTypeIndicator: 'Child',
+              })
+              }
             />
             <SettingsList.Item
               title="Delete Account"

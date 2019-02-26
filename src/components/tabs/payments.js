@@ -118,7 +118,6 @@ class Payments extends Component {
       console.log('ERROR: payment amount empty');
     } else {
       // Confirmation alert
-      // TODO: Add child's name
       Alert.alert(
         `Transfer $${this.state.amount} to Child Account`,
         'Are you sure you want to complete this action?',

@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import deviceStorage from './deviceStorage';
-import navigationService from '../navigation/navigationService';
+import NavigationService from '../navigation/navigationService';
 
+
+// For Debug purposes
 
 // const ROOT_URL = 'http://127.0.0.1:5000/api';
 const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
@@ -53,12 +55,17 @@ export function logoutUser() {
 }
 
 export function errorHandling(message, error) {
-  console.log(message + error);
+  if (error.response.data[0].Error !== undefined) {
+    console.log(message + error);
+  } else {
+    // probably something more severe here
+    console.log(error);
+  }
   if (error === ('Invalid Token' || 'Expired Token')) {
     console.log('Invalid Token -> Send to home');
     logoutUser();
     // want to go back to the login page
-    navigationService.navigate('Login');
+    NavigationService.navigate('Login');
   }
 }
 // use the below when auth is fully implemented - go to login and comment out {email, password}
@@ -79,7 +86,7 @@ export function loginUser(payLoad, resetAction) {
 
       // console.log(response.data[0].Success);
     }).catch((error) => {
-      console.log(`LoginError: ${error.response.data[0].Error}`);
+      console.log(`LoginError: ${error}`);
       // bug in error on backend
       dispatch(authError(`${error.response.data[0].Error}`));
     });
@@ -121,7 +128,7 @@ export function postTaskVerified(payLoad, userEmail, priority) {
           };
           return this.postNotifications(postData);
         }).catch((error) => {
-          errorHandling('postTaskVerfied Post Error: ', error.response.data[0].Error);
+          errorHandling('postTaskVerfied Post Error: ', error);
         });
     });
   };
@@ -140,7 +147,7 @@ export function postGoalApprove(payLoad, priority) {
           };
           return this.postNotifications(postData);
         }).catch((error) => {
-          errorHandling('`postNotifications Post Error:', error.response.data[0].Error);
+          errorHandling('`postNotifications Post Error:', error);
         });
     });
   };
@@ -157,7 +164,7 @@ export function postNotifications(payLoad) {
           return this.fetchNotificationInfo(payLoad.email);
         }).catch((error) => {
           console.log(error);
-          errorHandling('postNotifications Post Error:', error.response.data[0].Error);
+          errorHandling('postNotifications Post Error:', error);
         });
     });
   };
@@ -193,13 +200,13 @@ export function postNotificationsAlt(payLoad) {
               console.log(error);
               errorHandling(
                 'Notifications Grab Error: ',
-                error.response.data[0].Error,
+                error,
               );
             });
         });
     }).catch((error) => {
       console.log(error);
-      errorHandling('postNotifications Post Error:', error.response.data[0].Error);
+      errorHandling('postNotifications Post Error:', error);
     });
   };
 }
@@ -220,7 +227,7 @@ export function postTaskCompleted(payLoad, priority) {
         }).catch((error) => {
           errorHandling(
             'postTaskCompletion Post Error:',
-            error.response.data[0].Error,
+            error,
           );
         });
     });
@@ -236,7 +243,7 @@ export function postTask(payLoad) {
         }).catch((error) => {
           errorHandling(
             'postTask post Error:',
-            error.response.data[0].Error,
+            error,
           );
         });
     });
@@ -252,7 +259,7 @@ export function postRequest(payLoad) {
         }).catch((error) => {
           errorHandling(
             'postRequest post Error: ',
-            error.response.data[0].Error,
+            error,
           );
         });
     });
@@ -268,7 +275,7 @@ export function postForgotPassword(payLoad) {
         }).catch((error) => {
           errorHandling(
             'postForgotPassword post Error: ',
-            error.response.data[0].Error,
+            error,
           );
         });
     });
@@ -284,7 +291,7 @@ export function postChangePassword(payLoad) {
         }).catch((error) => {
           errorHandling(
             'postChangePassword post Error: ',
-            error.response.data[0].Error,
+            error,
           );
         });
     });
@@ -300,7 +307,7 @@ export function postDeleteAccount(payLoad) {
         }).catch((error) => {
           errorHandling(
             'deleteAccount post Error: ',
-            error.response.data[0].Error,
+            error,
           );
         });
     });
@@ -317,7 +324,7 @@ export function postParentDeleteAccount(payLoad) {
         }).catch((error) => {
           errorHandling(
             'postParentDelete post Error: ',
-            error.response.data[0].Error,
+            error,
           );
         });
     });
@@ -340,7 +347,7 @@ export function postFriendApprove(payLoad, priority) {
           console.log(error);
           errorHandling(
             'postFriendApprove post Error: ',
-            error.response.data[0].Error,
+            error,
           );
         });
     });
@@ -356,7 +363,7 @@ export function postRemoveFriend(payLoad) {
         }).catch((error) => {
           errorHandling(
             'postRemoveFriend post Error: ',
-            error.response.data[0].Error,
+            error,
           );
         });
     });
@@ -374,12 +381,17 @@ export function fetchUserInfo(email) {
             type: ActionTypes.FETCH_USER,
             payload: response.data,
           });
+          return Promise.resolve();
         }).catch((error) => {
           errorHandling(
             'fetchUserInfo fail : ',
-            error.response.data[0].Error,
+            error,
           );
+          return Promise.reject();
         });
+    }).catch(() => {
+      console.log('Failed on token asyncGrab');
+      return Promise.reject();
     });
   };
 }
@@ -397,6 +409,11 @@ export function fetchUserInfo(email) {
 //   }
 //   return dict;
 
+
+// IMPORTANT!!!
+// This function is used in login to check if there is a valid Token
+// stored in async AND in the database
+// It returns a promise so you can use .then and .catch
 export function fetchNotificationInfo(email) {
   return (dispatch) => {
     return AsyncStorage.getItem('token').then((token) => {
@@ -418,12 +435,17 @@ export function fetchNotificationInfo(email) {
             type: ActionTypes.FETCH_NOTIFICATIONS,
             payload: itemList,
           });
+          return Promise.resolve();
         }).catch((error) => {
           errorHandling(
             'Notifications Grab Error: ',
-            error.response.data[0].Error,
+            error,
           );
+          return Promise.reject();
         });
+    }).catch((error) => {
+      console.log('Error grabbing the token');
+      return Promise.reject();
     });
   };
 }
@@ -470,11 +492,13 @@ export function fetchGoals(email) {
           type: ActionTypes.FETCH_GOALS,
           payload: goalList,
         });
+        return Promise.resolve();
       }).catch((error) => {
         errorHandling(
           'Error in fetchGoals fetch: ',
-          error.response.data[0].Error,
+          error,
         );
+        return Promise.reject();
       });
     });
   };
@@ -490,7 +514,7 @@ export function postUpdateBalance(payLoad, email) {
         }).catch((error) => {
           errorHandling(
             'Error in postUpdateBalance post: ',
-            error.response.data[0].Error,
+            error,
           );
         });
     });
@@ -513,7 +537,7 @@ export function postRedeemMoney(payLoad) {
         }).catch((error) => {
           errorHandling(
             'Error in postRedeemMoney post: ',
-            error.response.data[0].Error,
+            error,
           );
         });
     });
@@ -537,7 +561,7 @@ export function postGoalRedeem(payLoad) {
         }).catch((error) => {
           errorHandling(
             'Error in postGoalsRedeem post: ',
-            error.response.data[0].Error,
+            error,
           );
         });
     });
@@ -555,7 +579,7 @@ export function postGoal(payLoad) {
         }).catch((error) => {
           errorHandling(
             'Error in postGoal post: ',
-            error.response.data[0].Error,
+            error,
           );
         });
     });
@@ -576,7 +600,7 @@ export function fetchKidGoals(email) {
       }).catch((error) => {
         errorHandling(
           'Error in fetchKidGoals: ',
-          error.response.data[0].Error,
+          error,
         );
       });
   });
@@ -602,7 +626,7 @@ export function fetchKidTasks(email) {
       }).catch((error) => {
         errorHandling(
           'Error in fetchKidTasks: ',
-          error.response.data[0].Error,
+          error,
 
         );
       });
@@ -647,11 +671,13 @@ export function fetchParentInfo(email) {
             type: ActionTypes.FETCH_FAMILY,
             payload: childList,
           });
+          return Promise.resolve();
         }).catch((error) => {
           errorHandling(
             'Error in fetchParentInfo fetch: ',
-            error.response.data[0].Error,
+            error,
           );
+          return Promise.reject();
         });
     });
   };
@@ -667,12 +693,15 @@ export function fetchKidFriends(email) {
             type: ActionTypes.FETCH_FRIENDINFO,
             payload: response.data,
           });
+          return Promise.resolve();
         });
     }).catch((error) => {
+      console.log(error);
       errorHandling(
         'Error in fetchKidFriends: ',
-        error.response.data[0].Error,
+        error,
       );
+      return Promise.reject();
     });
   };
 }
@@ -691,7 +720,7 @@ export function fetchIndividualSocial(email) {
       }).catch((error) => {
         errorHandling(
           'Error in fetchKidGoals: ',
-          error.response.data[0].Error,
+          error,
         );
       });
   });
@@ -712,11 +741,13 @@ export function fetchEarningsHistory(email) {
             type: ActionTypes.FETCH_EARNINGS,
             payload: list,
           });
+          return Promise.resolve();
         }).catch((error) => {
           errorHandling(
             'Error in fetchEarningsHistory: ',
-            error.response.data[0].Error,
+            error,
           );
+          return Promise.reject();
         });
     });
   };
@@ -732,12 +763,14 @@ export function fetchAllStats(email) {
             type: ActionTypes.FETCH_STATS,
             payload: response.data,
           });
+        return Promise.resolve();
         });
     }).catch((error) => {
       errorHandling(
         'Error in Stats: ',
         error.response.data[0].Error,
       );
+        return Promise.reject();
     });
   };
 }
@@ -778,11 +811,13 @@ export function fetchAllSocial(email) {
             type: ActionTypes.FETCH_ALL_SOC,
             payload: friendList,
           });
+          return Promise.resolve();
         }).catch((error) => {
           errorHandling(
             'Error in fetchAllSocial fetch: ',
-            error.response.data[0].Error,
+            error,
           );
+          return Promise.reject();
         });
     });
   };

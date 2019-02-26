@@ -195,7 +195,7 @@ class Profile extends Component {
                     {this.props.user.lastName}
                   </Text>
                   <Text style={pageStyle.sectionText}> Account Type: </Text>
-                  <Text style={pageStyle.subSectionText}>
+                  <Text style={pageStyle.darkSubSectionText}>
                     {' '}
                     {this.props.user.accountType}
                     {' '}
@@ -205,24 +205,26 @@ class Profile extends Component {
                   <Divider style={pageStyle.bdivider} />
                 </View>
               </View>
+<
               <TouchableOpacity onPress={() => this.props.navigation.navigate('Analytics', {
                 email: this.props.user.email,
                 allStats: this.props.allStats,
               })
               }
               >
+
                 <Text style={{
-                  color: 'black', fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
+                  color: colors.logoGreen, fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
                 }}
                 >
-                  {'Lifetime Balance'}
+                  {'Analytics Available on Your Child\'s Profile'}
                 </Text>
                 {this.childCharts()}
                 <Text style={{
-                  color: 'black', fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
+                  color: colors.logoGreen, fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
                 }}
                 >
-                  {'Click the Graph for More! '}
+                  {'Log into thier account to see more!'}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -303,7 +305,7 @@ const pageStyle = StyleSheet.create({
     width: dimensions.fullWidth,
   },
   sectionHeader: {
-    fontSize: 24,
+    fontSize: fonts.lg,
     color: '#fff',
     fontFamily: fonts.secondary,
     paddingVertical: 4,
@@ -312,7 +314,6 @@ const pageStyle = StyleSheet.create({
   },
   sectionText: {
     fontSize: fonts.md,
-    fontWeight: 'bold',
     color: colors.white,
     fontFamily: fonts.secondary,
     paddingVertical: 6,
