@@ -231,6 +231,7 @@ const pageStyle = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     flex: 1,
+    paddingTop: 22,
   },
   selectorsContainer: {
     flex: 1,
@@ -240,7 +241,7 @@ const pageStyle = StyleSheet.create({
   },
   amountContainer: {
     flex: 1,
-    marginBottom: -20,
+    marginBottom: -40,
     flexDirection: 'row',
     justifyContent: 'center',
   },
@@ -262,7 +263,7 @@ const pageStyle = StyleSheet.create({
 
   buttonBorder: {
     paddingHorizontal: 10,
-    marginBottom: 30,
+    marginBottom: -30,
     width: '100%',
   },
 
