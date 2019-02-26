@@ -195,7 +195,7 @@ class Profile extends Component {
                     {this.props.user.lastName}
                   </Text>
                   <Text style={pageStyle.sectionText}> Account Type: </Text>
-                  <Text style={pageStyle.subSectionText}>
+                  <Text style={pageStyle.darkSubSectionText}>
                     {' '}
                     {this.props.user.accountType}
                     {' '}
@@ -205,24 +205,19 @@ class Profile extends Component {
                   <Divider style={pageStyle.bdivider} />
                 </View>
               </View>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Analytics', {
-                email: this.props.user.email,
-                allStats: this.props.allStats,
-              })
-              }
-              >
+              <TouchableOpacity onPress={() => console.log('Touchable Opacity Touched')}>
                 <Text style={{
-                  color: 'black', fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
+                  color: colors.logoGreen, fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
                 }}
                 >
-                  {'Lifetime Balance'}
+                  {'Analytics Available for Children'}
                 </Text>
                 {this.childCharts()}
                 <Text style={{
-                  color: 'black', fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
+                  color: colors.logoGreen, fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
                 }}
                 >
-                  {'Click the Graph for More! '}
+                  {'Log Into their account to see more!'}
                 </Text>
               </TouchableOpacity>
             </View>
