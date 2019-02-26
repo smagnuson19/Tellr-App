@@ -15,6 +15,7 @@ import {
 } from 'react-native-elements';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
+import { verticalScale, scale } from 'react-native-size-matters';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { postGoal } from '../actions';
 import Style from '../styling/Style';
@@ -22,6 +23,7 @@ import Style from '../styling/Style';
 import { colors } from '../styling/base';
 
 const Sound = require('react-native-sound');
+
 
 let laser;
 
@@ -279,7 +281,7 @@ class NewGoal extends Component {
                   placeholderTextColor={colors.placeholderColor}
                 />
               </View>
-              <View style={Style.button}>
+              <View style={Style.button2}>
                 <Button
                   title="Set Goal!"
                   rounded
@@ -290,12 +292,12 @@ class NewGoal extends Component {
                 />
                 <Image
                   style={{
-                    width: 150 * 1.2, height: 200 * 1.2, alignSelf: 'center',
+                    width: verticalScale(150), height: scale(200), alignSelf: 'center',
                   }}
                   source={{ uri: this.state.image }}
                 />
               </View>
-              <Divider style={{ backgroundColor: colors.clear, height: 70 }} />
+              <Divider style={{ backgroundColor: colors.clear, height: verticalScale(15) }} />
             </View>
           </LinearGradient>
         </View>
