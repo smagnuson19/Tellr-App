@@ -39,7 +39,6 @@ class Loading extends Component {
   // userinfo call also checks for bad tokens
   fetchAtLoad(email) {
     if (this.props.accountInfo.accountType === 'Child') {
-
       this.props.fetchNotificationInfo(email).then((response) => {
         console.log('Notifications pulled in');
         this.props.fetchGoals(email)
@@ -60,7 +59,6 @@ class Loading extends Component {
       }).catch((error) => {
         this.setState({ loginVerify: false });
       });
-
     } else if (this.props.accountInfo.accountType === 'Parent') {
       this.props.fetchNotificationInfo(email).then(() => {
         console.log('Notifications pulled in ');
