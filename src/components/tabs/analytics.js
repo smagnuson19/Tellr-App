@@ -11,7 +11,7 @@ import { Divider, ButtonGroup } from 'react-native-elements';
 import * as scale from 'd3-scale';
 import * as shape from 'd3-shape';
 import { fonts, colors, dimensions } from '../../styling/base';
-import { fetchAllSocial } from '../../actions/index';
+import { fetchAllStats } from '../../actions/index';
 import Style from '../../styling/Style';
 
 // const API_KEY = '';
@@ -21,53 +21,130 @@ class Analytics extends Component {
     super(props);
     const { navigation } = this.props;
     const indEmail = navigation.getParam('email');
+    console.log(this.props.allStats);
     this.state = {
       filter: 0,
-      alldata: [],
-      counter: 0,
-      indEmail,
-      histWeek: [],
-      histMonth: [],
-      histYear: [],
-      indWeek: [],
+      datDict: {},
+      timeDict: {},
+      barDict: {},
+      tickDict: {},
     };
-    console.log(indEmail);
     this.buttonPress = this.buttonPress.bind(this);
   }
 
   componentWillMount() {
-    const addSubtractDate = require('add-subtract-date');
-    const testda = [14, 5, 6, 8, 12, 5, 9];
-    const data1 = [];
+    const datDict = {};
     const alldat = [];
-    Object.keys(testda).forEach((key1) => {
-      data1.push({ value: testda[key1], index: parseInt(key1, 10) });
-      alldat.push({ value: testda[key1] });
+    const addSubtractDate = require('add-subtract-date');
+    Object.keys(this.props.allStats[0].retNeg).forEach((key1) => {
+      alldat.push({ value: this.props.allStats[0].retNeg[key1] });
     });
-    const testda2 = [-2, -14, -20, 0, -5, -6, -2];
-    const data2 = [];
-    const ind = [];
-    ind.push(new Date());
-    Object.keys(testda2).forEach((key2) => {
-      data2.push({ value: testda2[key2], index: parseInt(key2, 10) });
-      ind.push(addSubtractDate.subtract(new Date(), parseInt(key2, 10) + 1, 'days'));
-      alldat.push({ value: testda2[key2] });
+    Object.keys(this.props.allStats[0].retPos).forEach((key2) => {
+      alldat.push({ value: this.props.allStats[0].retPos[key2] });
     });
-    const barData = [
+    datDict[0] = alldat;
+
+    const alldat1 = [];
+    Object.keys(this.props.allStats[1].retNeg).forEach((key3) => {
+      alldat1.push({ value: this.props.allStats[1].retNeg[key3] });
+    });
+    Object.keys(this.props.allStats[1].retPos).forEach((key4) => {
+      alldat1.push({ value: this.props.allStats[1].retPos[key4] });
+    });
+    datDict[1] = alldat1;
+
+    const alldat2 = [];
+    Object.keys(this.props.allStats[2].retNeg).forEach((key5) => {
+      alldat2.push({ value: this.props.allStats[2].retNeg[key5] });
+    });
+    Object.keys(this.props.allStats[2].retPos).forEach((key6) => {
+      alldat2.push({ value: this.props.allStats[2].retPos[key6] });
+    });
+    datDict[2] = alldat2;
+
+    this.setState({ datDict });
+
+    const timeDict = {};
+    const timezero = [];
+
+    let i = 0;
+    for (i = 0; i < 8; i++) {
+      timezero.push({ value: 1, index: addSubtractDate.subtract(new Date(), i, 'days') });
+    }
+    timeDict[0] = timezero;
+    console.log(datDict);
+    const timeone = [];
+
+    let j = 0;
+    for (j = 0; j < 9; j++) {
+      timeone.push({ value: 1, index: addSubtractDate.subtract(new Date(), 4 * j, 'days') });
+    }
+    timeDict[1] = timeone;
+
+    const timetwo = [];
+
+    let k = 0;
+    for (k = 0; k < 7; k++) {
+      timetwo.push({ value: 1, index: addSubtractDate.subtract(new Date(), 60 * k, 'days') });
+    }
+    timeDict[2] = timetwo;
+
+    this.setState({ timeDict });
+
+    const barDict = {};
+
+    const barzero = [
       {
-        data: data1,
+        data: valMaker(this.props.allStats[0].retPos),
         svg: {
           fill: 'rgb(24, 128, 24)',
         },
       },
       {
-        data: data2,
+        data: valMaker(this.props.allStats[0].retNeg),
       },
-
     ];
-    this.setState({ alldata: alldat });
-    this.setState({ histWeek: barData });
-    this.setState({ indWeek: ind });
+
+    barDict[0] = barzero;
+
+    const barone = [
+      {
+        data: valMaker(this.props.allStats[1].retPos),
+        svg: {
+          fill: 'rgb(24, 128, 24)',
+        },
+      },
+      {
+        data: valMaker(this.props.allStats[1].retNeg),
+      },
+    ];
+
+    barDict[1] = barone;
+
+
+    const bartwo = [
+      {
+        data: valMaker(this.props.allStats[2].retPos),
+        svg: {
+          fill: 'rgb(24, 128, 24)',
+        },
+      },
+      {
+        data: valMaker(this.props.allStats[2].retNeg),
+      },
+    ];
+
+    barDict[2] = bartwo;
+
+    const tickDict = {
+      0: 6,
+      1: 6,
+      2: 3,
+    };
+
+    this.setState({ tickDict });
+
+    this.setState({ barDict });
   }
 
   buttonPress(action, goalName, sEmail, cEmail, priority) {
@@ -75,18 +152,23 @@ class Analytics extends Component {
   }
 
   renderChart() {
-    const balHist = [{ value: 0, index: new Date('2019-01-29') }, { value: 20, index: new Date('2019-02-02') }, { value: 50, index: new Date('2019-02-10') }, { value: 25, index: new Date('2019-02-11') }, { value: 65, index: new Date('2019-02-15') }];
+    const deviceWidth = Dimensions.get('window').width;
+    console.log(this.state.barDict[0]);
+    const balHist = [];
+    Object.keys(this.props.allStats[this.state.filter].balanceGraph).forEach((key) => {
+      balHist.push({ value: this.props.allStats[this.state.filter].balanceGraph[key][0], index: new Date(`${this.props.allStats[this.state.filter].balanceGraph[key][1]}`) });
+    });
     const contentInset = {
       top: 0, left: 5, right: 0, bottom: 5,
     };
     return (
       <View style={{
-        height: 200, padding: 10, marginLeft: 0, flexDirection: 'row',
+        height: 200, padding: 10, marginLeft: 0, flexDirection: 'row', width: deviceWidth,
       }}
       >
         <YAxis
           data={balHist}
-          style={{ marginBottom: 0 }}
+          style={{ marginBottom: 3 }}
           yAccessor={({ item }) => item.value}
           contentInset={contentInset}
           formatLabel={value => `$${value}`}
@@ -95,11 +177,11 @@ class Analytics extends Component {
             fontSize: 8,
             fontWeight: 'bold',
           }}
-          numberOfTicks={8}
+          numberOfTicks={6}
         />
         <View
           style={{
-            height: 200, marginLeft: 5, marginRight: 5, flexDirection: 'column', width: 370,
+            height: 200, marginLeft: 5, marginRight: 5, flexDirection: 'column',
           }}
         >
           <AreaChart
@@ -110,7 +192,7 @@ class Analytics extends Component {
             xAccessor={({ item }) => item.index}
             // showGrid={false}
             style={{
-              height: 200, flex: 1, marginLeft: 5, width: 370,
+              height: 200, flex: 1, marginLeft: 5, width: deviceWidth - 45,
             }}
             gridMin={0}
             contentInset={contentInset}
@@ -120,7 +202,7 @@ class Analytics extends Component {
           </AreaChart>
           <XAxis
             style={{
-              marginTop: 10, marginLeft: 10,
+              marginTop: 10, marginLeft: 0,
             }}
             data={balHist}
             formatLabel={value => `${(value.getMonth() + 1)}/${value.getDate()}`}
@@ -133,7 +215,7 @@ class Analytics extends Component {
               fontWeight: 'bold',
             }}
             contentInset={contentInset}
-            numberOfTicks={6}
+            numberOfTicks={7}
           />
         </View>
       </View>
@@ -141,39 +223,38 @@ class Analytics extends Component {
   }
 
   renderPieChart() {
-    const balHist = [{ value: 0, index: this.state.indWeek[0] }, { value: 20, index: this.state.indWeek[1] }, { value: 50, index: this.state.indWeek[2] }, { value: 25, index: this.state.indWeek[3] }, { value: 65, index: this.state.indWeek[4] }, { value: 100, index: this.state.indWeek[5] }, { value: 62, index: this.state.indWeek[6] }, { value: 22, index: this.state.indWeek[7] }];
-    console.log(this.state.histWeek);
     const deviceWidth = Dimensions.get('window').width;
     const contentInset = {
       top: 0, left: 5, right: 0, bottom: 5,
     };
+    console.log(this.state.datDict);
     return (
       <View style={{
-        marginTop: 15, height: 220, padding: 10, marginLeft: 0, flexDirection: 'row',
+        marginTop: 15, height: 220, padding: 10, marginLeft: 0, flexDirection: 'row', width: deviceWidth,
       }}
       >
         <YAxis
-          data={this.state.alldata}
+          data={this.state.datDict[this.state.filter]}
           style={{ marginBottom: 0 }}
           yAccessor={({ item }) => item.value}
           contentInset={{
-            top: 0, left: 5, right: 0, bottom: 5,
+            top: 5, left: 5, right: 0, bottom: 5,
           }}
+          numberOfTicks={8}
           formatLabel={value => `$${value}`}
           svg={{
             fill: 'black',
             fontSize: 8,
             fontWeight: 'bold',
           }}
-          numberOfTicks={6}
         />
         <View style={{
-          flex: 1, flexDirection: 'column', height: 200, width: 370, marginLeft: 0, marginRight: 10,
+          flex: 1, flexDirection: 'column', height: 200, width: deviceWidth, marginLeft: 0, marginRight: 0,
         }}
         >
           <BarChart
-            style={{ height: 200, width: 370 }}
-            data={this.state.histWeek}
+            style={{ height: 200, width: deviceWidth - 45 }}
+            data={this.state.barDict[this.state.filter]}
             yAccessor={({ item }) => item.value}
             xAccessor={({ value, index }) => increment(index * 7)}
             svg={{
@@ -185,9 +266,9 @@ class Analytics extends Component {
           </BarChart>
           <XAxis
             style={{
-              marginTop: 10, marginLeft: 5,
+              marginTop: 10, marginLeft: 10, width: deviceWidth - 40,
             }}
-            data={balHist}
+            data={this.state.timeDict[this.state.filter]}
             formatLabel={value => `${(value.getMonth() + 1)}/${value.getDate()}`}
             scale={scale.scaleTime}
             labelStyle={{ color: 'black' }}
@@ -198,9 +279,9 @@ class Analytics extends Component {
               fontWeight: 'bold',
             }}
             contentInset={{
-              top: 0, left: 15, right: -5, bottom: 5,
+              top: 0, left: 10, right: 0, bottom: 5,
             }}
-            numberOfTicks={7}
+            numberOfTicks={this.state.tickDict[this.state.filter]}
           />
         </View>
       </View>
@@ -263,77 +344,98 @@ class Analytics extends Component {
     const deviceWidth = Dimensions.get('window').width;
     return (
       <View style={{
-        marginTop: 33, flex: 1, flexDirection: 'row', marginBottom: 80, // justifyContent: 'space-between',
+        paddingTop: 30, flex: 1, flexDirection: 'row',
       }}
       >
-        <View style={{ flex: 1, paddingLeft: 15, paddingVertical: 25 }}>
+        <View style={{ flex: 1, paddingLeft: 10 }}>
+          <Text style={{
+            color: 'black', fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center', paddingBottom: 8,
+          }}
+          >
+            {'Average Task Value'}
+          </Text>
           <ProgressCircle
-            style={{ height: 150 }}
-            progress={0.7}
-            progressColor="rgb(248, 28, 28)"
-            startAngle={-Math.PI * 1.25}
-            endAngle={Math.PI * 0.75}
+            style={{ height: 158, paddingTop: 5 }}
+            progress={parseFloat(this.props.allStats[this.state.filter].avgTask) / 50}
+            progressColor="rgb(28, 218, 28)"
+            startAngle={-Math.PI * 1}
+            endAngle={Math.PI * 1}
             strokeWidth={12}
+            backgroundColor="rgba(88, 248, 88, .3)"
           />
         </View>
-        <Text
-          style={{
-            position: 'absolute',
-            left: deviceWidth / 4 - 14,
-            top: 115,
-            fontSize: 20,
-            fontWeight: 'bold',
-            fontFamily: fonts.secondary,
-            color: 'rgb(24, 224, 24)',
-          }}
+        <View
+          style={{ flex: 1, paddingRight: 10 }}
         >
-          {'70%'}
-        </Text>
-        <View style={{ flex: 1, paddingRight: 15, paddingVertical: 25 }}>
+          <Text style={{
+            color: 'black', fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center', paddingBottom: 8,
+          }}
+          >
+            {'Average Goal Cost'}
+          </Text>
           <ProgressCircle
-            style={{ height: 150 }}
-            progress={0.7}
+            style={{ height: 158, paddingTop: 5 }}
+            progress={parseFloat(this.props.allStats[this.state.filter].avgGoal) / 50}
+            progressColor="rgb(28, 28, 228)"
+            startAngle={Math.PI * 1}
+            endAngle={-Math.PI * 1}
+            strokeWidth={12}
+            backgroundColor="rgba(88, 88, 238,.5)"
+          />
+        </View>
+      </View>
+    );
+  }
+
+  render2Bottom() {
+    const deviceWidth = Dimensions.get('window').width;
+    return (
+      <View style={{
+        paddingTop: 30, flex: 1, flexDirection: 'row',
+      }}
+      >
+        <View style={{ flex: 1, paddingLeft: 10 }}>
+          <Text style={{
+            color: 'black', fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center', paddingBottom: 8,
+          }}
+          >
+            {'Net Weekly Earnings'}
+          </Text>
+          <ProgressCircle
+            style={{ height: 158, paddingTop: 5 }}
+            progress={parseFloat(this.props.allStats[this.state.filter].rate) / 50}
+            progressColor="rgb(216, 28, 218)"
+            startAngle={-Math.PI * 1}
+            endAngle={Math.PI * 1}
+            strokeWidth={12}
+            backgroundColor="rgba(218, 24, 218, .3)"
+          />
+        </View>
+        <View
+          style={{ flex: 1, paddingRight: 10 }}
+        >
+          <Text style={{
+            color: 'black', fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center', paddingBottom: 8,
+          }}
+          >
+            {'Total Earnings'}
+          </Text>
+          <ProgressCircle
+            style={{ height: 158, paddingTop: 5 }}
+            progress={parseFloat(this.props.allStats[this.state.filter].net) / 250}
             progressColor="rgb(256, 165, 0)"
-            startAngle={-Math.PI * 1.25}
-            endAngle={Math.PI * 0.75}
+            startAngle={Math.PI * 1}
+            endAngle={-Math.PI * 1}
             strokeWidth={12}
+            backgroundColor="rgba(256, 165, 0, .3)"
           />
         </View>
-        <Text
-          style={{
-            position: 'absolute',
-            left: deviceWidth / 4 - 14,
-            top: 115,
-            fontSize: 20,
-            fontWeight: 'bold',
-            fontFamily: fonts.secondary,
-            color: 'rgb(256, 165, 0)',
-          }}
-        >
-          {'70%'}
-        </Text>
       </View>
     );
   }
 
 
   render() {
-    // const props = {
-    //   labelBy: 'username',
-    //   sortBy: 'score',
-    //   data: this.state.filter > 0 ? this.state.monthlyData : this.state.weeklyData,
-    //   icon: 'iconUrl',
-    //   sort: this.sort,
-    //   onRowPress: (item, index) => {
-    //     this.props.navigation.navigate('SocialIndividual', {
-    //       email: item.email,
-    //       rank: index,
-    //       score: item.score,
-    //       name: item.username,
-    //     });
-    //   },
-    // };
-
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
@@ -345,7 +447,7 @@ class Analytics extends Component {
             <ButtonGroup
               onPress={(x) => { this.setState({ filter: x }); }}
               selectedIndex={this.state.filter}
-              buttons={['Weekly', 'Monthly', 'Yearly']}
+              buttons={['Week', 'Month', 'Year']}
               containerStyle={{ height: 20, backgroundColor: 'rgba(250, 27, 3, 0.05)', borderColor: 'black' }}
               selectedTextStyle={{
                 color: 'black', fontSize: 11, fontFamily: fonts.secondary,
@@ -365,7 +467,87 @@ class Analytics extends Component {
               {this.renderPieChart()}
               {this.renderM2()}
               <Divider style={pageStyle.divider} />
+              <Text
+                style={{
+                  position: 'absolute',
+                  left: '70%',
+                  top: '64%',
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                  fontFamily: fonts.secondary,
+                  color: 'rgb(24, 24, 224)',
+                }}
+              >
+                {`$${this.props.allStats[this.state.filter].avgTask}`}
+              </Text>
+              <Text
+                style={{
+                  position: 'absolute',
+                  left: '22.5%',
+                  top: '64%',
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                  fontFamily: fonts.secondary,
+                  color: 'rgb(20, 218, 20)',
+                }}
+              >
+                {`$${this.props.allStats[this.state.filter].avgGoal}`}
+              </Text>
+
+              <Text
+                style={{
+                  position: 'absolute',
+                  left: '20%',
+                  top: '83%',
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                  fontFamily: fonts.secondary,
+                  color: 'rgb(216, 28, 218)',
+                }}
+              >
+                {`$${this.props.allStats[this.state.filter].rate}`}
+              </Text>
+              <Text
+                style={{
+                  position: 'absolute',
+                  left: '68%',
+                  top: '83%',
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                  fontFamily: fonts.secondary,
+                  color: 'rgb(256, 165, 0)',
+                }}
+              >
+                {`$${this.props.allStats[this.state.filter].net}`}
+              </Text>
               {this.renderBottom()}
+              {this.render2Bottom()}
+              <Text style={pageStyle.subSectionText}>
+                {' '}
+                {' '}
+                {' '}
+                {' '}
+              </Text>
+              <Text style={pageStyle.subSectionText}>
+                {' '}
+                {' '}
+              </Text>
+              <Text style={pageStyle.subSectionText}>
+                {' '}
+                {' '}
+              </Text>
+              <Text style={pageStyle.subSectionText}>
+                {' '}
+                {' '}
+              </Text>
+              <Text style={pageStyle.subSectionText}>
+                {' '}
+                {' '}
+              </Text>
+              <Text style={pageStyle.subSectionText}>
+                {' '}
+                {' '}
+              </Text>
             </ScrollView>
           </View>
         </LinearGradient>
@@ -391,29 +573,12 @@ const increment = (und) => {
   }
 };
 
-const ordinalSuffixOf = (i) => {
-  const reali = parseInt(i, 10) + 1;
-  const j = reali % 10;
-
-  const k = reali % 100;
-  if (j === 1 && k !== 11) {
-    return `${reali}st`;
-  }
-  if (j === 2 && k !== 12) {
-    return `${reali}nd`;
-  }
-  if (j === 3 && k !== 13) {
-    return `${reali}rd`;
-  }
-  return `${reali}th`;
-};
-
-const numTasks = (i) => {
-  if (i === 1) {
-    return `${i} Task`;
-  } else {
-    return `${i} Tasks`;
-  }
+const valMaker = (lis) => {
+  const retList = [];
+  Object.keys(lis).forEach((key) => {
+    retList.unshift({ value: lis[key] });
+  });
+  return retList;
 };
 
 const pageStyle = StyleSheet.create({
@@ -495,8 +660,8 @@ const pageStyle = StyleSheet.create({
 const mapStateToProps = state => (
   {
     account: state.user.info,
-    allFriend: state.user.allFriend,
+    allStats: state.user.allStats,
   });
 
 
-export default connect(mapStateToProps, { fetchAllSocial })(Analytics);
+export default connect(mapStateToProps, { fetchAllStats })(Analytics);
