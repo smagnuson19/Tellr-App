@@ -5,6 +5,7 @@ import NavigationService from '../navigation/navigationService';
 
 
 // For Debug purposes
+
 // const ROOT_URL = 'http://127.0.0.1:5000/api';
 const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
@@ -23,6 +24,7 @@ export const ActionTypes = {
   FETCH_IND: 'FETCH_IND',
   FETCH_ALL_SOC: 'FETCH_ALL_SOC',
   FETCH_EARNINGS: 'FETCH_EARNINGS',
+  FETCH_STATS: 'FETCH_STATS',
 };
 
 // trigger to deauth if there is error
@@ -747,6 +749,28 @@ export function fetchEarningsHistory(email) {
           );
           return Promise.reject();
         });
+    });
+  };
+}
+
+export function fetchAllStats(email) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.get(`${ROOT_URL}/analytics/${email}/all`, { headers: { authorization: token } })
+        .then((response) => {
+          console.log(response.data);
+          dispatch({
+            type: ActionTypes.FETCH_STATS,
+            payload: response.data,
+          });
+        return Promise.resolve();
+        });
+    }).catch((error) => {
+      errorHandling(
+        'Error in Stats: ',
+        error.response.data[0].Error,
+      );
+        return Promise.reject();
     });
   };
 }

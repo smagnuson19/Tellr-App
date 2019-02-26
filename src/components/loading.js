@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { colors } from '../styling/base';
 import {
-  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory,
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats,
 } from '../actions/index';
 import Style from '../styling/Style';
 
@@ -39,6 +39,7 @@ class Loading extends Component {
   // userinfo call also checks for bad tokens
   fetchAtLoad(email) {
     if (this.props.accountInfo.accountType === 'Child') {
+
       this.props.fetchNotificationInfo(email).then((response) => {
         console.log('Notifications pulled in');
         this.props.fetchGoals(email)
@@ -53,9 +54,13 @@ class Loading extends Component {
         this.props.fetchEarningsHistory(email)
           .then(() => { console.log('Earnings pulled in'); })
           .catch(() => { this.setState({ loginVerify: false }); });
+        this.props.fetchAllStats(email)
+          .then(() => { console.log('Stats pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
       }).catch((error) => {
         this.setState({ loginVerify: false });
       });
+
     } else if (this.props.accountInfo.accountType === 'Parent') {
       this.props.fetchNotificationInfo(email).then(() => {
         console.log('Notifications pulled in ');
@@ -167,5 +172,5 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory,
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats,
 })(Loading);

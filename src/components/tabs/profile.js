@@ -84,7 +84,7 @@ class Profile extends Component {
     if (this.props.user.accountType === 'Child') {
       // const balHist = [{ value: 0, index: new Date('2019-01-29') }, { value: 20, index: new Date('2019-02-02') }, { value: 50, index: new Date('2019-02-10') }, { value: 25, index: new Date('2019-02-11') }, { value: 65, index: new Date('2019-02-15') }];
       const balHist = [];
-      console.log(this.props.earnings);
+
       Object.keys(this.props.earnings).forEach((key) => {
         balHist.push({ value: this.props.earnings[key][0], index: new Date(`${this.props.earnings[key][1]}`) });
       });
@@ -205,7 +205,14 @@ class Profile extends Component {
                   <Divider style={pageStyle.bdivider} />
                 </View>
               </View>
-              <TouchableOpacity onPress={() => console.log('Touchable Opacity Touched')}>
+<
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Analytics', {
+                email: this.props.user.email,
+                allStats: this.props.allStats,
+              })
+              }
+              >
+
                 <Text style={{
                   color: colors.logoGreen, fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
                 }}
