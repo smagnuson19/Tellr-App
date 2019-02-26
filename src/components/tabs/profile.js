@@ -84,7 +84,7 @@ class Profile extends Component {
     if (this.props.user.accountType === 'Child') {
       // const balHist = [{ value: 0, index: new Date('2019-01-29') }, { value: 20, index: new Date('2019-02-02') }, { value: 50, index: new Date('2019-02-10') }, { value: 25, index: new Date('2019-02-11') }, { value: 65, index: new Date('2019-02-15') }];
       const balHist = [];
-      console.log(this.props.earnings);
+
       Object.keys(this.props.earnings).forEach((key) => {
         balHist.push({ value: this.props.earnings[key][0], index: new Date(`${this.props.earnings[key][1]}`) });
       });
@@ -195,7 +195,7 @@ class Profile extends Component {
                     {this.props.user.lastName}
                   </Text>
                   <Text style={pageStyle.sectionText}> Account Type: </Text>
-                  <Text style={pageStyle.darkSubSectionText}>
+                  <Text style={pageStyle.subSectionText}>
                     {' '}
                     {this.props.user.accountType}
                     {' '}
@@ -205,19 +205,24 @@ class Profile extends Component {
                   <Divider style={pageStyle.bdivider} />
                 </View>
               </View>
-              <TouchableOpacity onPress={() => console.log('Touchable Opacity Touched')}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Analytics', {
+                email: this.props.user.email,
+                allStats: this.props.allStats,
+              })
+              }
+              >
                 <Text style={{
-                  color: colors.logoGreen, fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
+                  color: 'black', fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
                 }}
                 >
-                  {'Analytics Available on Your Child\'s Profile'}
+                  {'Lifetime Balance'}
                 </Text>
                 {this.childCharts()}
                 <Text style={{
-                  color: colors.logoGreen, fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
+                  color: 'black', fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
                 }}
                 >
-                  {'Log into thier account to see more!'}
+                  {'Click the Graph for More! '}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -298,7 +303,7 @@ const pageStyle = StyleSheet.create({
     width: dimensions.fullWidth,
   },
   sectionHeader: {
-    fontSize: fonts.lg,
+    fontSize: 24,
     color: '#fff',
     fontFamily: fonts.secondary,
     paddingVertical: 4,
@@ -307,6 +312,7 @@ const pageStyle = StyleSheet.create({
   },
   sectionText: {
     fontSize: fonts.md,
+    fontWeight: 'bold',
     color: colors.white,
     fontFamily: fonts.secondary,
     paddingVertical: 6,

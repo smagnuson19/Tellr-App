@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { colors } from '../styling/base';
 import {
-  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory,
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats,
 } from '../actions/index';
 import Style from '../styling/Style';
 
@@ -52,6 +52,9 @@ class Loading extends Component {
           .catch(() => { this.setState({ loginVerify: false }); });
         this.props.fetchEarningsHistory(email)
           .then(() => { console.log('Earnings pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
+        this.props.fetchAllStats(email)
+          .then(() => { console.log('Stats pulled in'); })
           .catch(() => { this.setState({ loginVerify: false }); });
       }).catch((error) => {
         this.setState({ loginVerify: false });
@@ -167,5 +170,5 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory,
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats,
 })(Loading);

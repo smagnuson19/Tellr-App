@@ -10,6 +10,7 @@ const UserReducer = (
     friendInfo: null,
     allFriend: null,
     earnings: null,
+    allStats: null,
   },
   action,
 ) => {
@@ -23,6 +24,7 @@ const UserReducer = (
         friendInfo: state.friendInfo,
         allFriend: state.allFriend,
         earnings: state.earnings,
+        allStats: state.allStats,
       };
     case ActionTypes.FETCH_FAMILY:
       return {
@@ -33,6 +35,7 @@ const UserReducer = (
         friendInfo: state.friendInfo,
         allFriend: state.allFriend,
         earnings: state.earnings,
+        allStats: state.allStats,
       };
     case ActionTypes.FETCH_NOTIFICATIONS:
       return {
@@ -43,6 +46,7 @@ const UserReducer = (
         friendInfo: state.friendInfo,
         allFriend: state.allFriend,
         earnings: state.earnings,
+        allStats: state.allStats,
       };
     case ActionTypes.FETCH_GOALS:
       return {
@@ -53,6 +57,7 @@ const UserReducer = (
         friendInfo: state.friendInfo,
         allFriend: state.allFriend,
         earnings: state.earnings,
+        allStats: state.allStats,
       };
     case ActionTypes.FETCH_FRIENDINFO:
       return {
@@ -63,6 +68,7 @@ const UserReducer = (
         friendInfo: action.payload,
         allFriend: state.allFriend,
         earnings: state.earnings,
+        allStats: state.allStats,
       };
     case ActionTypes.FETCH_ALL_SOC:
       return {
@@ -73,6 +79,7 @@ const UserReducer = (
         friendInfo: state.friendInfo,
         allFriend: action.payload,
         earnings: state.earnings,
+        allStats: state.allStats,
       };
     case ActionTypes.FETCH_EARNINGS:
       return {
@@ -83,6 +90,18 @@ const UserReducer = (
         friendInfo: state.friendInfo,
         allFriend: state.allFriend,
         earnings: action.payload,
+        allStats: state.allStats,
+      };
+    case ActionTypes.FETCH_STATS:
+      return {
+        info: state.info,
+        family: state.family,
+        notifications: state.notifications,
+        goals: state.goals,
+        friendInfo: state.friendInfo,
+        allFriend: state.allFriend,
+        earnings: state.earnings,
+        allStats: action.payload,
       };
     default:
       return state;
