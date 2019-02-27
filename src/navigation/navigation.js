@@ -15,6 +15,7 @@ import Home from '../components/tabs/home';
 import Payments from '../components/tabs/payments';
 import AddTask from '../components/tabs/addTask';
 import redeemMoney from '../components/tabs/redeemMoney';
+import redeemedGoals from '../components/tabs/redeemedGoals';
 import Profile from '../components/tabs/profile';
 import Goals from '../components/tabs/goals';
 import NewGoal from '../components/newGoal';
@@ -262,6 +263,12 @@ const AppStack = createStackNavigator(
     },
     redeemMoney: {
       screen: redeemMoney,
+      navigationOptions: () => ({
+        headerTransparent: 'True',
+      }),
+    },
+    redeemedGoals: {
+      screen: redeemedGoals,
       navigationOptions: () => ({
         headerTransparent: 'True',
       }),
