@@ -479,7 +479,7 @@ export function fetchGoals(email) {
         const defaultGoal = {
           goalName: 'No Redeemed Goals',
           goalDescription: 'Earn Money to Redeem Goals!',
-          goalImage: 'http://chittagongit.com//images/goal-icon/goal-icon-4.jpg',
+          goalImage: 'https://i.imgur.com/x1QZReP.png',
           goalValue: 0,
           App: 1,
           redeemed: true,
