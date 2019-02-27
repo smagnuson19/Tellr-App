@@ -196,8 +196,9 @@ class NewGoal extends Component {
       ]).start(() => {
         console.log('Animated');
         this.props.postGoal(payLoad).then((response) => {
+          console.log('trying to navigate');
           this.props.navigation.dispatch(resetAction);
-        });
+        }).catch(() => { console.log('JNFKNJHLS'); });
       });
     } else {
       console.log('Submitted');

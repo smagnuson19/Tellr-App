@@ -575,12 +575,13 @@ export function postGoal(payLoad) {
         .then((response) => {
           console.log(`postGoal: ${response.data[0]}`);
           // return this.fetchGoals(payLoad.email);
-          errorHandling('bla', 'Invalid Token');
+          return Promise.resolve();
         }).catch((error) => {
           errorHandling(
             'Error in postGoal post: ',
             error,
           );
+          return Promise.reject();
         });
     });
   };
@@ -763,14 +764,14 @@ export function fetchAllStats(email) {
             type: ActionTypes.FETCH_STATS,
             payload: response.data,
           });
-        return Promise.resolve();
+          return Promise.resolve();
         });
     }).catch((error) => {
       errorHandling(
         'Error in Stats: ',
         error.response.data[0].Error,
       );
-        return Promise.reject();
+      return Promise.reject();
     });
   };
 }

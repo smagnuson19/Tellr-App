@@ -56,8 +56,8 @@ const pageStyle = StyleSheet.create({
   numberPadContainer: {
     flex: 1,
     paddingHorizontal: 10,
-    paddingTop: '30%',
-    paddingBottom: 5,
+    paddingTop: '20%',
+    paddingBottom: '7%',
     alignItems: 'center',
   },
   numberButtonContainer: {
