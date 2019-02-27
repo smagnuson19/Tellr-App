@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, Image,
+  View, Text, StyleSheet, Image,
 } from 'react-native';
 import { Card, Divider } from 'react-native-elements';
 
@@ -9,7 +9,7 @@ import { Card, Divider } from 'react-native-elements';
 import { fonts, colors } from '../../styling/base';
 import Style from '../../styling/Style';
 
-class GoalsCard extends Component {
+class RedeemedGoalsCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,54 +29,23 @@ class GoalsCard extends Component {
 
   displayCorrectItems(redeemed) {
     if (redeemed !== true) {
+      return null;
+    } else {
       return (
         <View style={pageStyle.actionBar}>
-          <TouchableOpacity style={pageStyle.redeemButton}
-            onPress={() => this.buttonPress()}
-          >
-            <View style={pageStyle.buttonView}>
-              <Text style={pageStyle.text}>
-          Redeem!
-              </Text>
-            </View>
-          </TouchableOpacity>
+          <View style={pageStyle.buttonView}>
+            <Text style={pageStyle.text}>
+          Redeemed On
+            </Text>
+          </View>
         </View>
       );
-    } else {
-      return null;
-      // return (
-      //   <View style={pageStyle.actionBar}>
-      //     <TouchableOpacity style={pageStyle.greyButton}
-      //       onPress={() => this.buttonPress()}
-      //     >
-      //       <View style={pageStyle.buttonView}>
-      //         <Text style={pageStyle.text}>
-      //     Done!
-      //         </Text>
-      //       </View>
-      //     </TouchableOpacity>
-      //   </View>
-      // );
     }
   }
 
   render() {
-    const progString0 = 'Progress: ';
-    const progString1 = '%';
-    console.log(this.props.goals.goalImage);
-    let progress0 = parseFloat(this.props.balance) / parseFloat(this.props.goals.goalValue);
-    if (this.props.goals.redeemed === true) {
-      progress0 = 1;
-    }
-    if (Number.isNaN(progress0)) {
-      progress0 = 0;
-    }
-    const progress = Math.trunc(Math.min(progress0 * 100, 100));
-    const progressString = `${progString0} ${progress} ${progString1}`;
-    const style = pageStyle.cardContainer;
-    if (this.props.goals.redeemed === true) {
-      return null;
-    }
+    const progressString = 'Progress 100%';
+    const style = pageStyle.redeemedContainer;
     return (
       <Card
         containerStyle={style}
@@ -106,7 +75,7 @@ class GoalsCard extends Component {
           <Text style={Style.headerText}>{progressString}</Text>
           <Image
             style={{
-              width: 150, height: 200, alignSelf: 'center', opacity: Math.min(progress0 + 0.2, 1),
+              width: 150, height: 200, alignSelf: 'center',
             }}
             source={{ uri: this.props.goals.goalImage }}
           />
@@ -123,6 +92,14 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderRadius: 8,
+  },
+
+  redeemedContainer: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    borderRadius: 8,
+    backgroundColor: colors.logoGreen,
   },
 
   headerView: {
@@ -217,4 +194,4 @@ const pageStyle = StyleSheet.create({
 
 });
 
-export default GoalsCard;
+export default RedeemedGoalsCard;

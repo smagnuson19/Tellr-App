@@ -477,8 +477,8 @@ export function fetchGoals(email) {
         });// end for each
 
         const defaultGoal = {
-          goalName: 'This Is the Goal Tab',
-          goalDescription: 'Add Goals Below or Redeem Completed Goals',
+          goalName: 'No Redeemed Goals',
+          goalDescription: 'Earn Money to Redeem Goals!',
           goalImage: 'http://chittagongit.com//images/goal-icon/goal-icon-4.jpg',
           goalValue: 0,
           App: 1,

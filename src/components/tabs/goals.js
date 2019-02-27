@@ -268,7 +268,7 @@ class Goals extends Component {
                 </ScrollView>
                 <TouchableOpacity style={{ borderWidth: verticalScale(12), borderColor: 'transparent' }} onPress={() => this.props.navigation.navigate('redeemedGoals')}>
                   <Text style={{
-                    color: colors.logoGreen, fontWeight: 'bold', fontSize: 22, textAlign: 'center',
+                    color: 'white', fontWeight: 'bold', fontSize: 22, textAlign: 'center',
                   }}
                   >
                     {'View Redeemed Goals'}
