@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import {
   // View, Text, StyleSheet, AsyncStorage,
-  View, Text, ScrollView, Alert, Animated, TouchableOpacity,
+  View, Text, ScrollView, Alert, Animated,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { verticalScale } from 'react-native-size-matters';
-
 import LinearGradient from 'react-native-linear-gradient';
 // import Login from './login';
 import { Card, Button, Divider } from 'react-native-elements';
@@ -240,7 +238,7 @@ class Goals extends Component {
                         color="black"
                         buttonStyle={{
                           backgroundColor: colors.linearGradientBottom,
-                          width: 125,
+                          width: 120,
                           height: 45,
                           alignSelf: 'center',
                           borderColor: 'transparent',
@@ -266,15 +264,6 @@ class Goals extends Component {
                   {this.renderGoals()}
                   <Divider style={{ backgroundColor: colors.clear, height: 105 }} />
                 </ScrollView>
-                <TouchableOpacity style={{ borderWidth: verticalScale(12), borderColor: 'transparent' }} onPress={() => this.props.navigation.navigate('redeemedGoals')}>
-                  <Text style={{
-                    color: colors.logoGreen, fontWeight: 'bold', fontSize: 22, textAlign: 'center',
-                  }}
-                  >
-                    {'View Redeemed Goals'}
-                  </Text>
-                </TouchableOpacity>
-                <Divider style={{ backgroundColor: colors.clear, height: verticalScale(60) }} />
               </View>
             </LinearGradient>
           </View>
