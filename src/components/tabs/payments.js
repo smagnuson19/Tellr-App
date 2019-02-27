@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Button } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 import RNPickerSelect from 'react-native-picker-select';
+// import { verticalScale, scale } from 'react-native-size-matters';
 import { postUpdateBalance } from '../../actions';
 import Style from '../../styling/ParentStyle';
 import { colors2, fonts2, dimensions2 } from '../../styling/parent';
@@ -308,7 +309,7 @@ const pageStyle = StyleSheet.create({
 
   buttonBorder: {
     paddingHorizontal: '5%',
-    paddingBottom: '15%',
+    paddingBottom: '13%',
     width: '100%',
   },
 
