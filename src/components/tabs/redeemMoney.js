@@ -57,6 +57,8 @@ class RedeemMoney extends Component {
       } else {
         updatedAmount = '';
       }
+    } else if (updatedAmount.length >= 5) {
+      return { amount: updatedAmount };
     } else if (item === '.') {
       if (updatedAmount === '') {
         updatedAmount = '0.';

@@ -264,7 +264,7 @@ class Goals extends Component {
                   </Card>
                   <Divider style={{ backgroundColor: colors.clear, height: 35 }} />
                   {this.renderGoals()}
-                  <Divider style={{ backgroundColor: colors.clear, height: 105 }} />
+                  <Divider style={{ backgroundColor: colors.clear, height: 50 }} />
                 </ScrollView>
                 <TouchableOpacity style={{ borderWidth: verticalScale(12), borderColor: 'transparent' }} onPress={() => this.props.navigation.navigate('redeemedGoals')}>
                   <Text style={{
