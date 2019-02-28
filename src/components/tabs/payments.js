@@ -98,14 +98,25 @@ class Payments extends Component {
         ],
       },
     ];
-    return (
-      <View>
-        <Animated.Image
-          source={require('../../media/bill.png')}
-          style={imageStyles}
-        />
-      </View>
-    );
+    if (Math.round(Math.random()) === 0) {
+      return (
+        <View>
+          <Animated.Image
+            source={require('../../media/bill.png')}
+            style={imageStyles}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <Animated.Image
+            source={require('../../media/coin.png')}
+            style={imageStyles}
+          />
+        </View>
+      );
+    }
   }
 
 
