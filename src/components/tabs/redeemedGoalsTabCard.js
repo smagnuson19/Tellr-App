@@ -99,7 +99,7 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderRadius: 8,
-    backgroundColor: colors.logoGreen,
+    backgroundColor: 'rgba(0,255,127,0.9)',
   },
 
   headerView: {
