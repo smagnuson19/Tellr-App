@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { fonts2, colors2, dimensions2 } from '../../styling/parent';
 import NotificationCard from './notificationCard';
+import { linearGradientColors, otherColors, themeColors } from '../../styling/colorModes';
 
 import Style from '../../styling/Style';
 
@@ -19,9 +20,22 @@ class ParentViewOfChild extends Component {
     const childAccount = navigation.getParam('childInfo');
     this.state = {
       childAccount,
+      colorMode: '',
     };
     console.log(childAccount);
     this.buttonPress = this.buttonPress.bind(this);
+  }
+
+  componentWillMount() {
+    this.setMode();
+  }
+
+  setMode() {
+    if (this.props.user.accountType === 'Parent') {
+      this.setState({ colorMode: 0 });
+    } else {
+      this.setState({ colorMode: 1 });
+    }
   }
 
 
@@ -99,7 +113,7 @@ class ParentViewOfChild extends Component {
   render() {
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
+        <LinearGradient colors={[linearGradientColors.top[this.state.colorMode], linearGradientColors.bottom[this.state.colorMode]]} style={Style.gradient}>
           <View style={pageStyle.homeWrapper}>
             <View style={pageStyle.topContainer}>
 

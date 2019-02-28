@@ -16,19 +16,25 @@ import {
   postNotifications, postGoalApprove, postTaskVerified, fetchAllSocial, fetchKidFriends,
 } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
-import { colors2 } from '../../styling/parent';
+// import { colors2 } from '../../styling/parent';
+import { linearGradientColors, otherColors, themeColors } from '../../styling/colorModes';
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isFetching: false,
+      colorMode: 0,
     };
 
     // Bind this instance used in navigationToAccount to this component
     this.navigationToAccount = this.navigationToAccount.bind(this);
     this.renderAction = this.renderAction.bind(this);
     this.onRefreshForChild = this.onRefreshForChild.bind(this);
+  }
+
+  componentWillMount() {
+    this.setMode();
   }
 
 
@@ -41,6 +47,14 @@ class Home extends Component {
   // child component and this function needs to be bound to the home component
   onRefreshForChild() {
     this.setState({ isFetching: true }, function () { this.reloadApiData(); });
+  }
+
+  setMode() {
+    if (this.props.account.accountType === 'Parent') {
+      this.setState({ colorMode: 0 });
+    } else {
+      this.setState({ colorMode: 1 });
+    }
   }
 
   // Pulls in new data for the pull Down Refresh
@@ -153,7 +167,7 @@ class Home extends Component {
           <Divider style={pageStyle.divider} />
 
           <View>
-            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors2.lightGrey }}> No Goals To Verify, have your child add more! </Text>
+            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}> No Goals To Verify, have your child add more! </Text>
           </View>
 
 
@@ -194,7 +208,7 @@ class Home extends Component {
           <Divider style={pageStyle.divider} />
 
           <View>
-            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors2.lightGrey }}> No Goals To Confirm, remind your child! </Text>
+            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}> No Goals To Confirm, remind your child! </Text>
           </View>
 
 
@@ -234,7 +248,7 @@ class Home extends Component {
           </Text>
           <Divider style={pageStyle.divider} />
           <View>
-            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors2.lightGrey }}>
+            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}>
               {' '}
 No Chores To Verify, Add some more!
             </Text>
@@ -361,7 +375,7 @@ No Chores To Verify, Add some more!
     if (this.props.account.accountType === 'Parent') {
       return (
         <View style={Style.rootContainer}>
-          <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
+          <LinearGradient colors={[linearGradientColors.top[this.state.colorMode], linearGradientColors.bottom[this.state.colorMode]]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
               {this.renderParentView()}
             </View>
@@ -371,7 +385,7 @@ No Chores To Verify, Add some more!
     } else {
       return (
         <View style={Style.rootContainer}>
-          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+          <LinearGradient colors={[linearGradientColors.top[this.state.colorMode], linearGradientColors.bottom[this.state.colorMode]]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
               {this.renderChildView()}
             </View>

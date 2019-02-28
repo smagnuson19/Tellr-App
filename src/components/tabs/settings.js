@@ -15,18 +15,32 @@ import Style2 from '../../styling/ParentStyle';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
 import { colors2 } from '../../styling/parent';
+import { linearGradientColors, otherColors, themeColors } from '../../styling/colorModes';
 
 class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      switchValue: false,
+      // switchValue: false,
+      colorMode: 0,
     };
-    this.onValueChange = this.onValueChange.bind(this);
+    // this.onValueChange = this.onValueChange.bind(this);
   }
 
-  onValueChange(value) {
-    this.setState({ switchValue: value });
+  // onValueChange(value) {
+  //   this.setState({ switchValue: value });
+  // }
+
+  componentWillMount() {
+    this.setMode();
+  }
+
+  setMode() {
+    if (this.props.user.accountType === 'Parent') {
+      this.setState({ colorMode: 0 });
+    } else {
+      this.setState({ colorMode: 1 });
+    }
   }
 
   parentDeleteDisplay() {
@@ -102,89 +116,90 @@ class Settings extends Component {
   }
 
   render() {
-    if (this.props.user.accountType === 'Parent') {
-      return (
-        <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
-          <Text style={Style2.headerText}>Settings </Text>
-          <SettingsList borderColor="#c8c7cc">
-            <SettingsList.Header headerStyle={pageStyle.sectionHeader2} headerText="Notifications" />
-            <SettingsList.Item
-              hasSwitch
-              switchState={this.state.switchValue}
-              switchOnValueChange={this.onValueChange}
-              hasNavArrow={false}
-              title="Allow Push Notifications"
-              titleStyle={pageStyle.sectionText}
-            />
-            <SettingsList.Header headerStyle={pageStyle.sectionHeader2} headerText="Manage" />
-            <SettingsList.Item
-              title="Change Password"
-              titleStyle={pageStyle.sectionText}
+    return (
+      <LinearGradient colors={[linearGradientColors.top[this.state.colorMode], linearGradientColors.bottom[this.state.colorMode]]} style={Style.gradient}>
+        <Text style={Style.headerText}>Settings </Text>
+        <SettingsList borderColor="#c8c7cc">
+          <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Styles" />
+          <SettingsList.Item
+              // hasSwitch
+              // switchState={this.state.switchValue}
+              // switchOnValueChange={this.onValueChange}
+            // onPress={() => this.setMode()}
+            hasNavArrow={false}
+            title="Night Mode"
+            titleStyle={pageStyle.sectionText}
+          />
+          <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Manage" />
+          <SettingsList.Item
+            title="Change Password"
+            titleStyle={pageStyle.sectionText}
               // onPress={() => this.props.navigation.navigate('ChangePassword')}
-              onPress={() => this.props.navigation.navigate('ChangePassword', {
-                accountTypeIndicator: 'Parent',
-              })
+            onPress={() => this.props.navigation.navigate('ChangePassword', {
+              accountTypeIndicator: this.props.user.accountType,
+            })
               }
-            />
-            <SettingsList.Item
-              title="Delete Account"
-              hasNavArrow={false}
-              titleStyle={{ fontSize: 16 }}
-              onPress={() => this.deleteAccount()}
-            />
-            {this.parentDeleteDisplay()}
-            <SettingsList.Item
-              title="Logout"
-              hasNavArrow={false}
-              titleStyle={pageStyle.sectionText}
-              onPress={() => this.logout()}
-            />
-          </SettingsList>
-        </LinearGradient>
-      );
-    } else if (this.props.user.accountType === 'Child') {
-      return (
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
-          <Text style={Style.headerText}>Settings </Text>
-          <SettingsList borderColor="#c8c7cc">
-            <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Notifications" />
-            <SettingsList.Item
-              hasSwitch
-              switchState={this.state.switchValue}
-              switchOnValueChange={this.onValueChange}
-              hasNavArrow={false}
-              title="Allow Push Notifications"
-              titleStyle={pageStyle.sectionText}
-            />
-            <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Manage" />
-            <SettingsList.Item
-              title="Change Password"
-              titleStyle={pageStyle.sectionText}
-              onPress={() => this.props.navigation.navigate('ChangePassword', {
-                accountTypeIndicator: 'Child',
-              })
-              }
-            />
-            <SettingsList.Item
-              title="Delete Account"
-              hasNavArrow={false}
-              titleStyle={{ fontSize: 16 }}
-              onPress={() => this.deleteAccount()}
-            />
-            {this.parentDeleteDisplay()}
-            <SettingsList.Item
-              title="Logout"
-              hasNavArrow={false}
-              titleStyle={pageStyle.sectionText}
-              onPress={() => this.logout()}
-            />
-          </SettingsList>
-        </LinearGradient>
-      );
-    } else {
-      console.log('ERROR: accountType not loaded or selected proprely');
-      return null;
-    }
+          />
+          <SettingsList.Item
+            title="Delete Account"
+            hasNavArrow={false}
+            titleStyle={{ fontSize: 16 }}
+            onPress={() => this.deleteAccount()}
+          />
+          {this.parentDeleteDisplay()}
+          <SettingsList.Item
+            title="Logout"
+            hasNavArrow={false}
+            titleStyle={pageStyle.sectionText}
+            onPress={() => this.logout()}
+          />
+        </SettingsList>
+      </LinearGradient>
+    );
+    // } else if (this.props.user.accountType === 'Child') {
+    //   return (
+    //     <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+    //       <Text style={Style.headerText}>Settings </Text>
+    //       <SettingsList borderColor="#c8c7cc">
+    //         <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Styles" />
+    //         <SettingsList.Item
+    //           // hasSwitch
+    //           // switchState={this.state.switchValue}
+    //           // switchOnValueChange={this.onValueChange}
+    //           hasNavArrow={false}
+    //           title="Night Mode"
+    //           titleStyle={pageStyle.sectionText}
+    //           onPress={() => this.setMode()}
+    //         />
+    //         <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Manage" />
+    //         <SettingsList.Item
+    //           title="Change Password"
+    //           titleStyle={pageStyle.sectionText}
+    //           onPress={() => this.props.navigation.navigate('ChangePassword', {
+    //             accountTypeIndicator: 'Child',
+    //           })
+    //           }
+    //         />
+    //         <SettingsList.Item
+    //           title="Delete Account"
+    //           hasNavArrow={false}
+    //           titleStyle={{ fontSize: 16 }}
+    //           onPress={() => this.deleteAccount()}
+    //         />
+    //         {this.parentDeleteDisplay()}
+    //         <SettingsList.Item
+    //           title="Logout"
+    //           hasNavArrow={false}
+    //           titleStyle={pageStyle.sectionText}
+    //           onPress={() => this.logout()}
+    //         />
+    //       </SettingsList>
+    //     </LinearGradient>
+    //   );
+    // } else {
+    //   console.log('ERROR: accountType not loaded or selected proprely');
+    //   return null;
+    // }
   }
 }
 
@@ -193,13 +208,14 @@ const pageStyle = StyleSheet.create({
     fontSize: fonts.md,
     fontFamily: fonts.secondary,
     marginTop: 15,
+    color: otherColors.headerColor[0],
   },
-  sectionHeader2: {
-    fontSize: fonts.md,
-    fontFamily: fonts.secondary,
-    marginTop: 15,
-    color: 'white',
-  },
+  // sectionHeader2: {
+  //   fontSize: fonts.md,
+  //   fontFamily: fonts.secondary,
+  //   marginTop: 15,
+  //   color: 'white',
+  // },
   sectionText: {
     fontSize: fonts.smmd,
     fontFamily: fonts.secondary,
