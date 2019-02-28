@@ -72,7 +72,7 @@
   "rnpm": {
     "assets": [
       "./src/fonts",
-      ".src/media"
+      "./src/media"
     ]
   },
   "jest": {
