@@ -19,13 +19,16 @@ import Style from '../../styling/ParentStyle';
 import { colors2, fonts2 } from '../../styling/parent';
 import { postTask } from '../../actions/index';
 
+const Sound = require('react-native-sound');
+
+let chime;
 
 class AddTask extends Component {
   animatedValue = new Animated.Value(0);
 
-  mopAnimation = new Animated.ValueXY({ x: -400, y: 200 })
+  mopAnimation = new Animated.ValueXY({ x: -350, y: 200 })
 
-  broomAnimation = new Animated.ValueXY({ x: -600, y: 200 })
+  broomAnimation = new Animated.ValueXY({ x: 0, y: 200 })
 
   constructor(props) {
     super(props);
@@ -42,6 +45,15 @@ class AddTask extends Component {
 
   componentWillMount() {
     this.fetchNames();
+    Sound.setCategory('Playback');
+    chime = new Sound(require('../../media/subT.wav'), (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      console.log('Loaded sound');
+      // loaded successfully
+    });
   }
 
   mopOverlay = () => {
@@ -55,7 +67,7 @@ class AddTask extends Component {
           {
             scale: this.animatedValue.interpolate({
               inputRange: [0, 1],
-              outputRange: [0.1, 0.3],
+              outputRange: [0.15, 0.4],
             }),
           },
         ],
@@ -64,7 +76,7 @@ class AddTask extends Component {
     return (
       <View>
         <Animated.Image
-          source={require('../../media/broom.png')}
+          source={require('../../media/mop.png')}
           style={imageStyles}
         />
       </View>
@@ -82,7 +94,7 @@ class AddTask extends Component {
           {
             scale: this.animatedValue.interpolate({
               inputRange: [0, 1],
-              outputRange: [0.1, 0.3],
+              outputRange: [0.3, 0.8],
             }),
           },
         ],
@@ -91,7 +103,7 @@ class AddTask extends Component {
     return (
       <View>
         <Animated.Image
-          source={require('../../media/mop.png')}
+          source={require('../../media/broom.png')}
           style={imageStyles}
         />
       </View>
@@ -148,15 +160,26 @@ class AddTask extends Component {
       Alert.alert('Please enter a Reward');
       console.log('ERROR: reward empty');
     } else {
+      chime.play((success) => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+          // reset the player to its uninitialized state (android only)
+          // this is the only option to recover after an error occured and use the player again
+          chime.reset();
+        }
+      });
+
       Animated.sequence([
         Animated.parallel([
           Animated.spring(this.animatedValue, { toValue: 1, useNativeDriver: false, duration: 10 }),
-          Animated.timing(this.broomAnimation, { toValue: { x: -300, y: -400 }, duration: 250, useNativeDriver: false }),
-          Animated.timing(this.mopAnimation, { toValue: { x: -600, y: -400 }, duration: 250, useNativeDriver: false }),
+          Animated.timing(this.mopAnimation, { toValue: { x: -350, y: -400 }, duration: 250, useNativeDriver: false }),
+          Animated.timing(this.broomAnimation, { toValue: { x: 0, y: -200 }, duration: 250, useNativeDriver: false }),
         ]),
         Animated.parallel([
-          Animated.spring(this.mopAnimation, { toValue: { x: -600, y: -1200 }, duration: 450, useNativeDriver: false }),
-          Animated.spring(this.broomAnimation, { toValue: { x: -300, y: -1200 }, duration: 450, useNativeDriver: false }),
+          Animated.spring(this.mopAnimation, { toValue: { x: 0, y: -800 }, duration: 1450, useNativeDriver: false }),
+          Animated.spring(this.broomAnimation, { toValue: { x: -400, y: -800 }, duration: 1450, useNativeDriver: false }),
         ]),
       ]).start(() => {
         console.log(payLoad);
