@@ -17,25 +17,31 @@ class RedeemedGoalsCard extends Component {
     };
   }
 
-  // action is boolean deny or accept
-  buttonPress(action) {
-    this.props.onPress(action,
-      this.props.goals.goalValue,
-      this.props.goals.App,
-      this.props.goals.goalName,
-      this.props.goals.redeemed);
-    // action is boolean deny or accept
-  }
+  // // action is boolean deny or accept
+  // buttonPress(action) {
+  //   this.props.onPress(action,
+  //     this.props.goals.goalValue,
+  //     this.props.goals.App,
+  //     this.props.goals.goalName,
+  //     this.props.goals.redeemed);
+  //   // action is boolean deny or accept
+  // }
 
-  displayCorrectItems(redeemed) {
+  displayCorrectItems(redeemed, date) {
     if (redeemed !== true) {
       return null;
     } else {
+      let dateString;
+      if (date !== null) {
+        dateString = `Redeemed on ${date}`;
+      } else {
+        dateString = '';
+      }
       return (
         <View style={pageStyle.actionBar}>
           <View style={pageStyle.buttonView}>
             <Text style={pageStyle.text}>
-          Redeemed On
+              {dateString}
             </Text>
           </View>
         </View>
@@ -80,7 +86,7 @@ class RedeemedGoalsCard extends Component {
             source={{ uri: this.props.goals.goalImage }}
           />
         </View>
-        {this.displayCorrectItems(this.props.goals.redeemed)}
+        {this.displayCorrectItems(this.props.goals.redeemed, this.props.goals.dateRedeemed)}
       </Card>
     );
   }

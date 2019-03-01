@@ -32,11 +32,7 @@ class redeemedGoals extends Component {
         return (
           this.props.goals.map(goal => (
             <View key={goal.id}>
-              <RedeemedGoalsCard goals={goal}
-                // completed
-                balance={this.props.user.balance}
-                onPress={this.redeemAction}
-              />
+              <RedeemedGoalsCard goals={goal} />
             </View>
           ))
         );
