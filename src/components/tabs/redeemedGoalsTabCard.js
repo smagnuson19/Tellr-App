@@ -6,8 +6,8 @@ import { Card, Divider } from 'react-native-elements';
 
 // import Style from '../../styling/Style';
 // import Ionicons from 'react-native-vector-icons/AntDesign';
-import { fonts, colors } from '../../styling/base';
-import Style from '../../styling/Style';
+import { fonts, colors, dimensions } from '../../styling/base';
+// import Style from '../../styling/Style';
 
 class RedeemedGoalsCard extends Component {
   constructor(props) {
@@ -38,19 +38,16 @@ class RedeemedGoalsCard extends Component {
         dateString = '';
       }
       return (
-        <View style={pageStyle.actionBar}>
-          <View style={pageStyle.buttonView}>
-            <Text style={pageStyle.text}>
-              {dateString}
-            </Text>
-          </View>
+        <View style={pageStyle.buttonView}>
+          <Text style={pageStyle.dateText}>
+            {dateString}
+          </Text>
         </View>
       );
     }
   }
 
   render() {
-    const progressString = 'Progress 100%';
     const style = pageStyle.redeemedContainer;
     return (
       <Card
@@ -78,10 +75,10 @@ class RedeemedGoalsCard extends Component {
             {this.props.goals.goalDescription}
 
           </Text>
-          <Text style={Style.headerText}>{progressString}</Text>
+          <Divider style={{ backgroundColor: colors.clear, height: 5 }} />
           <Image
             style={{
-              width: 150, height: 200, alignSelf: 'center',
+              width: 150 * 1.5, height: 200 * 1.5, alignSelf: 'center',
             }}
             source={{ uri: this.props.goals.goalImage }}
           />
@@ -105,7 +102,7 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderRadius: 8,
-    backgroundColor: 'rgba(0,255,127,0.9)',
+    backgroundColor: colors.babyBlue,
   },
 
   headerView: {
@@ -124,7 +121,7 @@ const pageStyle = StyleSheet.create({
     height: 2,
     marginTop: 6,
     marginBottom: 6,
-
+    width: dimensions.fullWidth * 0.8,
   },
   priceFiller: {
     flex: 1,
@@ -139,6 +136,7 @@ const pageStyle = StyleSheet.create({
     // padding: 1,
     textAlign: 'center',
     fontSize: fonts.md,
+    fontWeight: '400',
     // textAlign: 'center',
 
   },
@@ -184,7 +182,13 @@ const pageStyle = StyleSheet.create({
     borderRadius: 8,
 
   },
-
+  dateText: {
+    width: dimensions.fullWidth * 0.7,
+    margin: 10,
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
   text: {
     width: 70,
     margin: 10,
