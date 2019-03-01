@@ -469,6 +469,7 @@ export function fetchGoals(email) {
               goalImage: gList[key].image,
               App: gList[key].approved,
               redeemed: gList[key].redeemed,
+              dateRedeemed: gList[key].dateRedeemed,
               // goalProgress: (parseFloat(this.state.balance)/parseFloat(gList[key].value));
             });
           } else {
@@ -483,6 +484,7 @@ export function fetchGoals(email) {
           goalValue: 0,
           App: 1,
           redeemed: true,
+          dateRedeemed: null,
         };
 
         if (goalList.length === 0) {
