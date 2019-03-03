@@ -276,6 +276,13 @@ class Payments extends Component {
                 accessibilityLabel="enter email"
                 color="white"
                 style={Style.button}
+                buttonStyle={
+                    {
+                      backgroundColor: colors2.primary,
+                      borderColor: 'transparent',
+                      borderWidth: 0,
+                      borderRadius: 5,
+                    }}
               />
             </View>
           </View>

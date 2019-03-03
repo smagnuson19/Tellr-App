@@ -105,8 +105,15 @@ class ChangePassword extends Component {
                 <Button
                   title="Change Password"
                   large
+                  raised
                   style={Style.button}
-                  backgroundColor={colors.logoGreen}
+                  buttonStyle={
+                      {
+                        backgroundColor: colors2.primary,
+                        borderColor: 'transparent',
+                        borderWidth: 0,
+                        borderRadius: 5,
+                      }}
                   onPress={() => this.changePassword()}
                 />
               </View>

@@ -421,13 +421,13 @@ const pageStyle = StyleSheet.create({
 
   },
   divider: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors2.secondary,
     height: 2,
     marginTop: 6,
     marginBottom: 6,
   },
   topDivider: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors2.secondary,
     height: 2,
 
     marginBottom: 15,
