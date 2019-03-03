@@ -5,7 +5,7 @@ Avatars from: http://avatars.adorable.io/#demo
 
 import React, { Component } from 'react';
 import {
-  View, Text, Alert,
+  View, Text, Alert, StyleSheet,
 } from 'react-native';
 import { ButtonGroup, Button } from 'react-native-elements';
 import Leaderboard from 'react-native-leaderboard';
@@ -189,9 +189,9 @@ class Friends extends Component {
             <Button
               onPress={() => this.setState({ isDialogVisible: true })}
               title="Invite Friends!"
-              rounded
+              buttonStyle={pageStyle.button}
               style={Style.button}
-              backgroundColor={colors.logoGreen}
+              fontFamily={fonts.secondary}
             />
             <DialogInput
               isDialogVisible={this.state.isDialogVisible}
@@ -204,9 +204,9 @@ class Friends extends Component {
             <Button
               onPress={() => this.props.navigation.navigate('FriendRequests')}
               title="Friend Requests"
-              rounded
+              buttonStyle={pageStyle.button}
               style={Style.button}
-              backgroundColor={colors.logoGreen}
+              fontFamily={fonts.secondary}
             />
           </View>
         </View>
@@ -272,6 +272,15 @@ const numTasks = (i) => {
     return `${i} Tasks`;
   }
 };
+
+const pageStyle = StyleSheet.create({
+  button: {
+    backgroundColor: colors.linearGradientTop,
+    borderColor: 'transparent',
+    borderWidth: 0,
+    borderRadius: 5,
+  },
+});
 
 
 const mapStateToProps = state => (
