@@ -293,10 +293,17 @@ class NewGoal extends Component {
               <View style={Style.button2}>
                 <Button
                   title="Set Goal!"
-                  rounded
+                  raised
                   large
                   style={Style.button}
-                  backgroundColor={colors.secondary}
+                  color={colors.black}
+                  buttonStyle={{
+                    backgroundColor: colors.secondary,
+                    alignSelf: 'center',
+                    borderColor: 'transparent',
+                    borderWidth: 0,
+                    borderRadius: 5,
+                  }}
                   onPress={() => this.submitGoal()}
                 />
                 <Image

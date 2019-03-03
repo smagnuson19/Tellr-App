@@ -187,7 +187,7 @@ const pageStyle = StyleSheet.create({
   },
 
   redeemButton: {
-    backgroundColor: colors.logoGreen,
+    backgroundColor: colors.secondary,
     paddingHorizontal: 10,
     marginTop: 10,
     borderRadius: 8,

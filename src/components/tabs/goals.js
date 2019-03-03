@@ -8,7 +8,9 @@ import { verticalScale } from 'react-native-size-matters';
 
 import LinearGradient from 'react-native-linear-gradient';
 // import Login from './login';
-import { Card, Button, Divider } from 'react-native-elements';
+import {
+  Card, Button, Divider, ButtonGroup,
+} from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 // import { NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
@@ -18,7 +20,7 @@ import { postUpdateBalance, postGoalRedeem, fetchGoals } from '../../actions';
 
 // import AvatarImage from './avatarImage';
 // import GoalsCard from './goalsCard';
-import { colors } from '../../styling/base';
+import { colors, dimensions, fonts } from '../../styling/base';
 
 // Import the react-native-sound module
 const Sound = require('react-native-sound');
@@ -159,6 +161,20 @@ class Goals extends Component {
     return (<Text style={Style.headerText}>No Goals Yet</Text>);
   }
 
+  renderFooter() {
+    return (
+      <View>
+        <ButtonGroup
+          onPress={() => this.props.navigation.navigate('redeemedGoals')}
+          buttons={['View Redeemed Goals']}
+          containerStyle={{ width: dimensions.fullWidth, backgroundColor: colors.secondary, borderColor: 'black' }}
+          textStyle={{ fontFamily: fonts.secondary, color: colors.black }}
+          underlayColor={colors.secondary}
+        />
+      </View>
+    );
+  }
+
   render() {
     function sleep(time) {
       return new Promise(resolve => setTimeout(resolve, time));
@@ -266,14 +282,7 @@ class Goals extends Component {
                   {this.renderGoals()}
                   <Divider style={{ backgroundColor: colors.clear, height: 50 }} />
                 </ScrollView>
-                <TouchableOpacity style={{ borderWidth: verticalScale(12), borderColor: 'transparent' }} onPress={() => this.props.navigation.navigate('redeemedGoals')}>
-                  <Text style={{
-                    color: 'white', fontWeight: 'bold', fontSize: 22, textAlign: 'center',
-                  }}
-                  >
-                    {'View Redeemed Goals'}
-                  </Text>
-                </TouchableOpacity>
+                {this.renderFooter()}
                 <Divider style={{ backgroundColor: colors.clear, height: verticalScale(60) }} />
               </View>
             </LinearGradient>
