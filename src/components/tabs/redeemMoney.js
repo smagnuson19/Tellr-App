@@ -221,14 +221,21 @@ class RedeemMoney extends Component {
             <KeyPad onPress={this.aButtonPress} />
             <View style={pageStyle.buttonBorder}>
               <Button
+                onPress={() => this.redeemPress()}
                 large
                 raised
-                onPress={() => this.redeemPress()}
                 title="Request Money!"
-                backgroundColor={colors.babyBlue}
                 accessibilityLabel="enter email"
-                color="white"
+                color={colors.black}
+                fontFamily={fonts.secondary}
                 style={Style.button}
+                buttonStyle={{
+                  backgroundColor: colors.secondary,
+                  alignSelf: 'center',
+                  borderColor: 'transparent',
+                  borderWidth: 0,
+                  borderRadius: 5,
+                }}
               />
             </View>
             <Divider style={{ backgroundColor: colors.clear, height: 25 }} />
@@ -260,14 +267,14 @@ const pageStyle = StyleSheet.create({
   },
 
   dollarSign: {
-    color: 'white',
+    color: 'black',
     marginRight: -30,
     fontFamily: fonts.secondary,
     fontSize: 30,
   },
 
   amountStyle: {
-    color: 'white',
+    color: 'black',
     textAlign: 'center',
     fontFamily: fonts.secondary,
     fontSize: 90,

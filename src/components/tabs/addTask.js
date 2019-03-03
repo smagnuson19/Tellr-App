@@ -291,10 +291,16 @@ class AddTask extends Component {
             <View style={Style.buttonContainer}>
               <Button
                 title="Make them do it!"
-                rounded
+                raised
                 large
                 style={Style.button}
-                backgroundColor={colors2.logoGreen}
+                buttonStyle={
+                    {
+                      backgroundColor: colors2.primary,
+                      borderColor: 'transparent',
+                      borderWidth: 0,
+                      borderRadius: 5,
+                    }}
                 onPress={() => this.submitTask()}
               />
             </View>

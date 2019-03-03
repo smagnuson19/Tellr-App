@@ -9,7 +9,7 @@ import {
 import { StackActions, NavigationActions } from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Style2 from '../../styling/ParentStyle';
-import { colors } from '../../styling/base';
+import { colors, fonts } from '../../styling/base';
 import { colors2 } from '../../styling/parent';
 import { postChangePassword } from '../../actions/index';
 
@@ -104,10 +104,16 @@ class ChangePassword extends Component {
               <View style={Style.buttonContainer}>
                 <Button
                   title="Change Password"
-                  rounded
                   large
+                  raised
                   style={Style.button}
-                  backgroundColor={colors.logoGreen}
+                  buttonStyle={
+                      {
+                        backgroundColor: colors2.primary,
+                        borderColor: 'transparent',
+                        borderWidth: 0,
+                        borderRadius: 5,
+                      }}
                   onPress={() => this.changePassword()}
                 />
               </View>
@@ -149,10 +155,18 @@ class ChangePassword extends Component {
               <View style={Style.buttonContainer}>
                 <Button
                   title="Change Password"
-                  rounded
                   large
+                  raised
+                  fontFamily={fonts.secondary}
                   style={Style.button}
-                  backgroundColor={colors.babyBlue}
+                  color={colors.black}
+                  buttonStyle={{
+                    backgroundColor: colors.secondary,
+                    alignSelf: 'center',
+                    borderColor: 'transparent',
+                    borderWidth: 0,
+                    borderRadius: 5,
+                  }}
                   onPress={() => this.changePassword()}
                 />
               </View>
