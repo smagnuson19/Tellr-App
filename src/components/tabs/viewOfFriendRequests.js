@@ -46,7 +46,9 @@ class ViewOfFriendRequests extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text> No requests to show! </Text>
+          <Text style={pageStyle.noGoalsText}>
+            {'No requests to show!'}
+          </Text>
         </View>
       );
     }
@@ -86,16 +88,12 @@ class ViewOfFriendRequests extends Component {
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
-          <View style={pageStyle.homeWrapper}>
-            <View style={pageStyle.topContainer}>
-              <Text style={pageStyle.headerText}>
-                {'Friend Requests'}
-              </Text>
-            </View>
-            <ScrollView style={pageStyle.main}>
-              {this.checkEmptyRequests()}
-            </ScrollView>
-          </View>
+          <Text style={Style.headerText}>
+            {'Friend Requests'}
+          </Text>
+          <ScrollView style={pageStyle.main}>
+            {this.checkEmptyRequests()}
+          </ScrollView>
         </LinearGradient>
       </View>
     );
@@ -103,20 +101,12 @@ class ViewOfFriendRequests extends Component {
 }
 
 const pageStyle = StyleSheet.create({
-  homeWrapper: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    width: dimensions.fullWidth,
-    height: dimensions.fullHeight,
-  },
-  topContainer: {
-    width: dimensions.fullWidth,
-    backgroundColor: '#fff',
-    marginBottom: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-
-    marginTop: 0,
+  noGoalsText: {
+    fontSize: fonts.smmd,
+    fontWeight: 'bold',
+    color: colors.white,
+    fontFamily: fonts.secondary,
+    paddingHorizontal: 15,
   },
   main: {
     flex: 1,
