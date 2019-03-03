@@ -16,7 +16,7 @@ import {
   postNotifications, postGoalApprove, postTaskVerified, fetchAllSocial, fetchKidFriends,
 } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
-// import { colors2 } from '../../styling/parent';
+import { colors2 } from '../../styling/parent';
 import { linearGradientColors, otherColors, themeColors } from '../../styling/colorModes';
 
 class Home extends Component {
@@ -435,13 +435,13 @@ const pageStyle = StyleSheet.create({
 
   },
   divider: {
-    backgroundColor: colors2.secondary,
+    backgroundColor: colors.secondary,
     height: 2,
     marginTop: 6,
     marginBottom: 6,
   },
   topDivider: {
-    backgroundColor: colors2.secondary,
+    backgroundColor: colors.secondary,
     height: 2,
 
     marginBottom: 15,
