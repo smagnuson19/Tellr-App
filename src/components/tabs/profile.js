@@ -166,7 +166,8 @@ class Profile extends Component {
         <ButtonGroup
           onPress={() => this.props.navigation.navigate('SettingsPage')}
           buttons={['Settings']}
-          containerStyle={{ width: dimensions.fullWidth, fill: 'rgba=(256, 256, 256, 1)' }}
+          containerStyle={{ width: dimensions.fullWidth }}
+          textStyle={{ fontFamily: fonts.secondary, color: colors.black }}
         />
       </View>
     );

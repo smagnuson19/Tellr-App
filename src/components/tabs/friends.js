@@ -187,10 +187,12 @@ class Friends extends Component {
           }}
           >
             <Button
+              raised
               onPress={() => this.setState({ isDialogVisible: true })}
               title="Invite Friends!"
               buttonStyle={pageStyle.button}
               style={Style.button}
+              color={colors.black}
               fontFamily={fonts.secondary}
             />
             <DialogInput
@@ -202,10 +204,12 @@ class Friends extends Component {
               closeDialog={() => this.setState({ isDialogVisible: false })}
             />
             <Button
+              raised
               onPress={() => this.props.navigation.navigate('FriendRequests')}
               title="Friend Requests"
               buttonStyle={pageStyle.button}
               style={Style.button}
+              color={colors.black}
               fontFamily={fonts.secondary}
             />
           </View>
@@ -275,7 +279,7 @@ const numTasks = (i) => {
 
 const pageStyle = StyleSheet.create({
   button: {
-    backgroundColor: colors.babyBlue,
+    backgroundColor: colors.secondary,
     borderColor: 'transparent',
     borderWidth: 0,
     borderRadius: 5,

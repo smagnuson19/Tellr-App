@@ -20,7 +20,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import { postGoal } from '../actions';
 import Style from '../styling/Style';
 // import { colors, fonts } from '../styling/base';
-import { colors } from '../styling/base';
+import { colors, fonts } from '../styling/base';
 
 const Sound = require('react-native-sound');
 
@@ -226,11 +226,19 @@ class NewGoal extends Component {
               />
               <Divider style={{ backgroundColor: colors.clear, height: 70 }} />
               <Button
-                title="Take A Photo!"
-                rounded
                 large
+                raised
+                color={colors.black}
+                title="Take A Photo!"
                 style={Style.button2}
-                backgroundColor={colors.secondary}
+                fontFamily={fonts.secondary}
+                buttonStyle={{
+                  backgroundColor: colors.secondary,
+                  alignSelf: 'center',
+                  borderColor: 'transparent',
+                  borderWidth: 0,
+                  borderRadius: 5,
+                }}
                 onPress={() => this.choosePhoto()}
               />
               <Divider style={{ backgroundColor: colors.clear, height: 70 }} />
