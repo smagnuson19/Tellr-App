@@ -19,9 +19,6 @@ import { postRequest } from '../../actions/index';
 import AvatarImageFriend from './avatarImageFriend';
 
 // TODO:
-// change avatars:
-//       need to add avatars to backened as part of friendInfo, need to make landing page for avatar selection when create an account
-//       currently have as initials but this can change
 // Dislay "friend request accepted" or something
 
 class Friends extends Component {
@@ -220,7 +217,7 @@ class Friends extends Component {
       const props = {
         labelBy: 'name',
         sortBy: 'score',
-        data: this.state.filter > 0 ? this.state.weeklyTaskData : this.state.monthlyTaskData,
+        data: this.state.filter > 0 ? this.state.monthlyTaskData : this.state.weeklyTaskData,
         // icon: 'iconUrl',
         sort: this.sort,
         onRowPress: (item, index) => {
