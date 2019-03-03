@@ -39,7 +39,7 @@ class SignUp extends Component {
     // });
     //
     const randomColor = require('randomcolor'); // import the script
-    const color = randomColor(); // a hex code for an attractive color
+    const color = randomColor({ luminosity: 'dark' }); // a hex code for an attractive color
 
 
     const { navigation } = this.props;
