@@ -20,13 +20,7 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      switchValue: false,
     };
-    this.onValueChange = this.onValueChange.bind(this);
-  }
-
-  onValueChange(value) {
-    this.setState({ switchValue: value });
   }
 
   parentDeleteDisplay() {
@@ -35,7 +29,7 @@ class Settings extends Component {
         <SettingsList.Item
           title="Delete All Accounts"
           hasNavArrow={false}
-          titleStyle={{ fontSize: 16 }}
+          titleStyle={pageStyle.sectionText}
           onPress={() => this.deleteParenAccount()}
         />
       );
@@ -107,15 +101,6 @@ class Settings extends Component {
         <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
           <Text style={Style2.headerText}>Settings </Text>
           <SettingsList borderColor="#c8c7cc">
-            <SettingsList.Header headerStyle={pageStyle.sectionHeader2} headerText="Notifications" />
-            <SettingsList.Item
-              hasSwitch
-              switchState={this.state.switchValue}
-              switchOnValueChange={this.onValueChange}
-              hasNavArrow={false}
-              title="Allow Push Notifications"
-              titleStyle={pageStyle.sectionText}
-            />
             <SettingsList.Header headerStyle={pageStyle.sectionHeader2} headerText="Manage" />
             <SettingsList.Item
               title="Change Password"
@@ -129,7 +114,7 @@ class Settings extends Component {
             <SettingsList.Item
               title="Delete Account"
               hasNavArrow={false}
-              titleStyle={{ fontSize: 16 }}
+              titleStyle={pageStyle.sectionText}
               onPress={() => this.deleteAccount()}
             />
             {this.parentDeleteDisplay()}
@@ -147,15 +132,6 @@ class Settings extends Component {
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
           <Text style={Style.headerText}>Settings </Text>
           <SettingsList borderColor="#c8c7cc">
-            <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Notifications" />
-            <SettingsList.Item
-              hasSwitch
-              switchState={this.state.switchValue}
-              switchOnValueChange={this.onValueChange}
-              hasNavArrow={false}
-              title="Allow Push Notifications"
-              titleStyle={pageStyle.sectionText}
-            />
             <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Manage" />
             <SettingsList.Item
               title="Change Password"
@@ -168,7 +144,7 @@ class Settings extends Component {
             <SettingsList.Item
               title="Delete Account"
               hasNavArrow={false}
-              titleStyle={{ fontSize: 16 }}
+              titleStyle={pageStyle.sectionText}
               onPress={() => this.deleteAccount()}
             />
             {this.parentDeleteDisplay()}
