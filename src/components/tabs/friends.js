@@ -275,7 +275,7 @@ const numTasks = (i) => {
 
 const pageStyle = StyleSheet.create({
   button: {
-    backgroundColor: colors.linearGradientTop,
+    backgroundColor: colors.babyBlue,
     borderColor: 'transparent',
     borderWidth: 0,
     borderRadius: 5,
