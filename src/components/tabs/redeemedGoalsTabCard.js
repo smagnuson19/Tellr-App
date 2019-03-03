@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, Image,
+  View, Text, StyleSheet, Image,
 } from 'react-native';
 import { Card, Divider } from 'react-native-elements';
 
 // import Style from '../../styling/Style';
 // import Ionicons from 'react-native-vector-icons/AntDesign';
-import { fonts, colors } from '../../styling/base';
-import Style from '../../styling/Style';
+import { fonts, colors, dimensions } from '../../styling/base';
+// import Style from '../../styling/Style';
 
-class GoalsCard extends Component {
+class RedeemedGoalsCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,66 +17,38 @@ class GoalsCard extends Component {
     };
   }
 
-  // action is boolean deny or accept
-  buttonPress(action) {
-    this.props.onPress(action,
-      this.props.goals.goalValue,
-      this.props.goals.App,
-      this.props.goals.goalName,
-      this.props.goals.redeemed);
-    // action is boolean deny or accept
-  }
+  // // action is boolean deny or accept
+  // buttonPress(action) {
+  //   this.props.onPress(action,
+  //     this.props.goals.goalValue,
+  //     this.props.goals.App,
+  //     this.props.goals.goalName,
+  //     this.props.goals.redeemed);
+  //   // action is boolean deny or accept
+  // }
 
-  displayCorrectItems(redeemed) {
+  displayCorrectItems(redeemed, date) {
     if (redeemed !== true) {
+      return null;
+    } else {
+      let dateString;
+      if (date !== null) {
+        dateString = `Redeemed on ${date}`;
+      } else {
+        dateString = '';
+      }
       return (
-        <View style={pageStyle.actionBar}>
-          <TouchableOpacity style={pageStyle.redeemButton}
-            onPress={() => this.buttonPress()}
-          >
-            <View style={pageStyle.buttonView}>
-              <Text style={pageStyle.text}>
-          Redeem!
-              </Text>
-            </View>
-          </TouchableOpacity>
+        <View style={pageStyle.buttonView}>
+          <Text style={pageStyle.dateText}>
+            {dateString}
+          </Text>
         </View>
       );
-    } else {
-      return null;
-      // return (
-      //   <View style={pageStyle.actionBar}>
-      //     <TouchableOpacity style={pageStyle.greyButton}
-      //       onPress={() => this.buttonPress()}
-      //     >
-      //       <View style={pageStyle.buttonView}>
-      //         <Text style={pageStyle.text}>
-      //     Done!
-      //         </Text>
-      //       </View>
-      //     </TouchableOpacity>
-      //   </View>
-      // );
     }
   }
 
   render() {
-    const progString0 = 'Progress: ';
-    const progString1 = '%';
-    console.log(this.props.goals.goalImage);
-    let progress0 = parseFloat(this.props.balance) / parseFloat(this.props.goals.goalValue);
-    if (this.props.goals.redeemed === true) {
-      progress0 = 1;
-    }
-    if (Number.isNaN(progress0)) {
-      progress0 = 0;
-    }
-    const progress = Math.trunc(Math.min(progress0 * 100, 100));
-    const progressString = `${progString0} ${progress} ${progString1}`;
-    const style = pageStyle.cardContainer;
-    if (this.props.goals.redeemed === true) {
-      return null;
-    }
+    const style = pageStyle.redeemedContainer;
     return (
       <Card
         containerStyle={style}
@@ -103,15 +75,15 @@ class GoalsCard extends Component {
             {this.props.goals.goalDescription}
 
           </Text>
-          <Text style={Style.headerText}>{progressString}</Text>
+          <Divider style={{ backgroundColor: colors.clear, height: 5 }} />
           <Image
             style={{
-              width: 150, height: 200, alignSelf: 'center', opacity: Math.min(progress0 + 0.2, 1),
+              width: 150 * 1.5, height: 200 * 1.5, alignSelf: 'center',
             }}
             source={{ uri: this.props.goals.goalImage }}
           />
         </View>
-        {this.displayCorrectItems(this.props.goals.redeemed)}
+        {this.displayCorrectItems(this.props.goals.redeemed, this.props.goals.dateRedeemed)}
       </Card>
     );
   }
@@ -123,6 +95,14 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderRadius: 8,
+  },
+
+  redeemedContainer: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    borderRadius: 8,
+    backgroundColor: colors.babyBlue,
   },
 
   headerView: {
@@ -141,7 +121,7 @@ const pageStyle = StyleSheet.create({
     height: 2,
     marginTop: 6,
     marginBottom: 6,
-
+    width: dimensions.fullWidth * 0.8,
   },
   priceFiller: {
     flex: 1,
@@ -156,6 +136,7 @@ const pageStyle = StyleSheet.create({
     // padding: 1,
     textAlign: 'center',
     fontSize: fonts.md,
+    fontWeight: '400',
     // textAlign: 'center',
 
   },
@@ -201,7 +182,13 @@ const pageStyle = StyleSheet.create({
     borderRadius: 8,
 
   },
-
+  dateText: {
+    width: dimensions.fullWidth * 0.7,
+    margin: 10,
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
   text: {
     width: 70,
     margin: 10,
@@ -217,4 +204,4 @@ const pageStyle = StyleSheet.create({
 
 });
 
-export default GoalsCard;
+export default RedeemedGoalsCard;

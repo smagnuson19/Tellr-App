@@ -57,6 +57,8 @@ class RedeemMoney extends Component {
       } else {
         updatedAmount = '';
       }
+    } else if (updatedAmount.length >= 5) {
+      return { amount: updatedAmount };
     } else if (item === '.') {
       if (updatedAmount === '') {
         updatedAmount = '0.';
@@ -96,14 +98,25 @@ class RedeemMoney extends Component {
         ],
       },
     ];
-    return (
-      <View>
-        <Animated.Image
-          source={require('../../media/bill.png')}
-          style={imageStyles}
-        />
-      </View>
-    );
+    if (Math.round(Math.random()) === 0) {
+      return (
+        <View>
+          <Animated.Image
+            source={require('../../media/bill.png')}
+            style={imageStyles}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <Animated.Image
+            source={require('../../media/coin.png')}
+            style={imageStyles}
+          />
+        </View>
+      );
+    }
   }
 
   redeemPress() {
@@ -208,14 +221,21 @@ class RedeemMoney extends Component {
             <KeyPad onPress={this.aButtonPress} />
             <View style={pageStyle.buttonBorder}>
               <Button
+                onPress={() => this.redeemPress()}
                 large
                 raised
-                onPress={() => this.redeemPress()}
                 title="Request Money!"
-                backgroundColor={colors.babyBlue}
                 accessibilityLabel="enter email"
-                color="white"
+                color={colors.black}
+                fontFamily={fonts.secondary}
                 style={Style.button}
+                buttonStyle={{
+                  backgroundColor: colors.secondary,
+                  alignSelf: 'center',
+                  borderColor: 'transparent',
+                  borderWidth: 0,
+                  borderRadius: 5,
+                }}
               />
             </View>
             <Divider style={{ backgroundColor: colors.clear, height: 25 }} />
@@ -247,14 +267,14 @@ const pageStyle = StyleSheet.create({
   },
 
   dollarSign: {
-    color: 'white',
+    color: 'black',
     marginRight: -30,
     fontFamily: fonts.secondary,
     fontSize: 30,
   },
 
   amountStyle: {
-    color: 'white',
+    color: 'black',
     textAlign: 'center',
     fontFamily: fonts.secondary,
     fontSize: 90,

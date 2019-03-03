@@ -36,7 +36,7 @@ class Profile extends Component {
       }
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionText}> Children: </Text>
+          <Text style={pageStyle.sectionTextParent}> Children: </Text>
           { kidsList.map(person => (
             <Text style={pageStyle.darkSubSectionText}>
               {' '}
@@ -117,7 +117,7 @@ class Profile extends Component {
             <AreaChart
               curve={shape.curveLinear}
               data={balHist}
-              svg={{ fill: 'rgba(28, 228, 28, 0.8)' }}
+              svg={{ fill: colors.babyBlue }}
               yAccessor={({ item }) => item.value}
               xAccessor={({ item }) => item.index}
               // showGrid={false}
@@ -166,7 +166,9 @@ class Profile extends Component {
         <ButtonGroup
           onPress={() => this.props.navigation.navigate('SettingsPage')}
           buttons={['Settings']}
-          containerStyle={{ width: dimensions.fullWidth, fill: 'rgba=(256, 256, 256, 1)' }}
+          containerStyle={{ width: dimensions.fullWidth, backgroundColor: colors.secondary, borderColor: 'black' }}
+          textStyle={{ fontFamily: fonts.secondary, color: colors.black }}
+          underlayColor={colors.secondary}
         />
       </View>
     );
@@ -184,24 +186,24 @@ class Profile extends Component {
             <View>
               <Text style={Style2.headerText}>Profile </Text>
               <View style={pageStyle.sectionContainer}>
-                <Text style={pageStyle.sectionHeader}> Account </Text>
+                <Text style={pageStyle.sectionHeaderParent}> Account </Text>
                 <Divider style={pageStyle.divider} />
                 <View style={pageStyle.sectionContainer}>
-                  <Text style={pageStyle.sectionText}> Name: </Text>
+                  <Text style={pageStyle.sectionTextParent}> Name: </Text>
                   <Text style={pageStyle.darkSubSectionText}>
                     {' '}
                     {this.props.user.firstName}
                     {' '}
                     {this.props.user.lastName}
                   </Text>
-                  <Text style={pageStyle.sectionText}> Account Type: </Text>
+                  <Text style={pageStyle.sectionTextParent}> Account Type: </Text>
                   <Text style={pageStyle.darkSubSectionText}>
                     {' '}
                     {this.props.user.accountType}
                     {' '}
                   </Text>
                   {this.determineDisplay()}
-                  <Text style={pageStyle.sectionHeader}> Analytics </Text>
+                  <Text style={pageStyle.sectionHeaderParent}> Analytics </Text>
                   <Divider style={pageStyle.bdivider} />
                 </View>
               </View>
@@ -298,7 +300,15 @@ const pageStyle = StyleSheet.create({
     width: dimensions.fullWidth,
   },
   sectionHeader: {
-    fontSize: 24,
+    fontSize: fonts.md,
+    // color: '#fff',
+    fontFamily: fonts.secondary,
+    paddingVertical: 4,
+    paddingLeft: 2,
+    paddingTop: 10,
+  },
+  sectionHeaderParent: {
+    fontSize: fonts.md,
     color: '#fff',
     fontFamily: fonts.secondary,
     paddingVertical: 4,
@@ -306,7 +316,15 @@ const pageStyle = StyleSheet.create({
     paddingTop: 10,
   },
   sectionText: {
-    fontSize: fonts.md,
+    fontSize: fonts.smmd,
+    fontWeight: 'bold',
+    // color: colors.white,
+    fontFamily: fonts.secondary,
+    paddingVertical: 6,
+    paddingLeft: 2,
+  },
+  sectionTextParent: {
+    fontSize: fonts.smmd,
     fontWeight: 'bold',
     color: colors.white,
     fontFamily: fonts.secondary,
@@ -322,27 +340,27 @@ const pageStyle = StyleSheet.create({
     marginBottom: -50,
   },
   subSectionText: {
-    fontSize: fonts.smmd,
+    fontSize: fonts.sm,
     fontFamily: fonts.secondary,
     paddingVertical: 6,
     paddingLeft: 2,
   },
   darkSubSectionText: {
-    fontSize: fonts.smmd,
-    color: colors.logoGreen,
+    fontSize: fonts.sm,
+    color: colors.white,
     fontFamily: fonts.secondary,
     paddingVertical: 6,
     paddingLeft: 3,
   },
   divider: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.secondary,
     height: 2,
     marginTop: 2,
     marginBottom: 2,
     width: dimensions.fullWidth,
   },
   bdivider: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.secondary,
     height: 2,
     marginTop: 2,
     marginBottom: 0,

@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Button } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 import RNPickerSelect from 'react-native-picker-select';
+// import { verticalScale, scale } from 'react-native-size-matters';
 import { postUpdateBalance } from '../../actions';
 import Style from '../../styling/ParentStyle';
 import { colors2, fonts2, dimensions2 } from '../../styling/parent';
@@ -97,14 +98,25 @@ class Payments extends Component {
         ],
       },
     ];
-    return (
-      <View>
-        <Animated.Image
-          source={require('../../media/bill.png')}
-          style={imageStyles}
-        />
-      </View>
-    );
+    if (Math.round(Math.random()) === 0) {
+      return (
+        <View>
+          <Animated.Image
+            source={require('../../media/bill.png')}
+            style={imageStyles}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <Animated.Image
+            source={require('../../media/coin.png')}
+            style={imageStyles}
+          />
+        </View>
+      );
+    }
   }
 
 
@@ -264,6 +276,13 @@ class Payments extends Component {
                 accessibilityLabel="enter email"
                 color="white"
                 style={Style.button}
+                buttonStyle={
+                    {
+                      backgroundColor: colors2.primary,
+                      borderColor: 'transparent',
+                      borderWidth: 0,
+                      borderRadius: 5,
+                    }}
               />
             </View>
           </View>
@@ -308,7 +327,7 @@ const pageStyle = StyleSheet.create({
 
   buttonBorder: {
     paddingHorizontal: '5%',
-    paddingBottom: '15%',
+    paddingBottom: '13%',
     width: '100%',
   },
 

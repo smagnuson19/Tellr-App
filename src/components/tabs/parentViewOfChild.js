@@ -71,7 +71,9 @@ class ParentViewOfChild extends Component {
           <Text style={pageStyle.sectionHeader}>
           Goals
           </Text>
-          <Text> No goals to show! </Text>
+          <Text style={{ color: colors2.white, paddingHorizontal: 15 }}>
+          No goals to show!
+          </Text>
         </View>
       );
     }
@@ -104,7 +106,9 @@ class ParentViewOfChild extends Component {
           <Text style={pageStyle.sectionHeader}>
           Chores
           </Text>
-          <Text> No chores to show! </Text>
+          <Text style={{ color: colors2.white, paddingHorizontal: 15 }}>
+          No chores to show!
+          </Text>
         </View>
       );
     }
@@ -177,7 +181,7 @@ const pageStyle = StyleSheet.create({
   },
 
   balanceContainer: {
-    backgroundColor: colors2.logoGreen,
+    backgroundColor: colors2.primary,
     width: 100,
     height: 100,
     borderRadius: 100,
@@ -188,7 +192,7 @@ const pageStyle = StyleSheet.create({
   },
   balanceText: {
     textAlign: 'center',
-    color: colors2.primary,
+    color: colors2.black,
     fontSize: fonts2.md,
     fontFamily: fonts2.secondary,
   },
@@ -199,6 +203,7 @@ const pageStyle = StyleSheet.create({
   },
   sectionHeader: {
     fontSize: fonts2.md,
+    fontWeight: 'bold',
     color: '#fff',
     fontFamily: fonts2.secondary,
     justifyContent: 'flex-start',

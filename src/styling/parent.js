@@ -7,7 +7,7 @@ export const dimensions2 = {
 
 export const colors2 = {
 
-  primary: 'rgb(0, 0, 0)',
+  primary: 'rgb(61, 229, 148)',
   secondary: '#15BFD6',
   grey: '#424242',
   linearGradientTop: 'rgba(4, 27, 37, 0.9615)',

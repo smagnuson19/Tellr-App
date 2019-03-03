@@ -31,8 +31,8 @@ export const colors = {
 
 
 export const fonts = {
-  sm: 11,
-  smmd: 15,
+  sm: scale(11),
+  smmd: scale(15),
   md: scale(20),
   lg: scale(25),
   xlg: scale(30),

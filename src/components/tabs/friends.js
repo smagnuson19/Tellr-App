@@ -5,7 +5,7 @@ Avatars from: http://avatars.adorable.io/#demo
 
 import React, { Component } from 'react';
 import {
-  View, Text, Alert,
+  View, Text, Alert, StyleSheet,
 } from 'react-native';
 import { ButtonGroup, Button } from 'react-native-elements';
 import Leaderboard from 'react-native-leaderboard';
@@ -19,9 +19,6 @@ import { postRequest } from '../../actions/index';
 import AvatarImageFriend from './avatarImageFriend';
 
 // TODO:
-// change avatars:
-//       need to add avatars to backened as part of friendInfo, need to make landing page for avatar selection when create an account
-//       currently have as initials but this can change
 // Dislay "friend request accepted" or something
 
 class Friends extends Component {
@@ -190,11 +187,13 @@ class Friends extends Component {
           }}
           >
             <Button
+              raised
               onPress={() => this.setState({ isDialogVisible: true })}
               title="Invite Friends!"
-              rounded
+              buttonStyle={pageStyle.button}
               style={Style.button}
-              backgroundColor={colors.logoGreen}
+              color={colors.black}
+              fontFamily={fonts.secondary}
             />
             <DialogInput
               isDialogVisible={this.state.isDialogVisible}
@@ -205,11 +204,13 @@ class Friends extends Component {
               closeDialog={() => this.setState({ isDialogVisible: false })}
             />
             <Button
+              raised
               onPress={() => this.props.navigation.navigate('FriendRequests')}
               title="Friend Requests"
-              rounded
+              buttonStyle={pageStyle.button}
               style={Style.button}
-              backgroundColor={colors.logoGreen}
+              color={colors.black}
+              fontFamily={fonts.secondary}
             />
           </View>
         </View>
@@ -220,7 +221,7 @@ class Friends extends Component {
       const props = {
         labelBy: 'name',
         sortBy: 'score',
-        data: this.state.filter > 0 ? this.state.weeklyTaskData : this.state.monthlyTaskData,
+        data: this.state.filter > 0 ? this.state.monthlyTaskData : this.state.weeklyTaskData,
         // icon: 'iconUrl',
         sort: this.sort,
         onRowPress: (item, index) => {
@@ -275,6 +276,15 @@ const numTasks = (i) => {
     return `${i} Tasks`;
   }
 };
+
+const pageStyle = StyleSheet.create({
+  button: {
+    backgroundColor: colors.secondary,
+    borderColor: 'transparent',
+    borderWidth: 0,
+    borderRadius: 5,
+  },
+});
 
 
 const mapStateToProps = state => (

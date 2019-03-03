@@ -15,13 +15,15 @@ import {
 } from 'react-native-elements';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
+import { verticalScale, scale } from 'react-native-size-matters';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { postGoal } from '../actions';
 import Style from '../styling/Style';
 // import { colors, fonts } from '../styling/base';
-import { colors } from '../styling/base';
+import { colors, fonts } from '../styling/base';
 
 const Sound = require('react-native-sound');
+
 
 let laser;
 
@@ -194,8 +196,9 @@ class NewGoal extends Component {
       ]).start(() => {
         console.log('Animated');
         this.props.postGoal(payLoad).then((response) => {
+          console.log('trying to navigate');
           this.props.navigation.dispatch(resetAction);
-        });
+        }).catch(() => { console.log('JNFKNJHLS'); });
       });
     } else {
       console.log('Submitted');
@@ -223,11 +226,19 @@ class NewGoal extends Component {
               />
               <Divider style={{ backgroundColor: colors.clear, height: 70 }} />
               <Button
-                title="Take A Photo!"
-                rounded
                 large
+                raised
+                color={colors.black}
+                title="Take A Photo!"
                 style={Style.button2}
-                backgroundColor={colors.secondary}
+                fontFamily={fonts.secondary}
+                buttonStyle={{
+                  backgroundColor: colors.secondary,
+                  alignSelf: 'center',
+                  borderColor: 'transparent',
+                  borderWidth: 0,
+                  borderRadius: 5,
+                }}
                 onPress={() => this.choosePhoto()}
               />
               <Divider style={{ backgroundColor: colors.clear, height: 70 }} />
@@ -279,7 +290,7 @@ class NewGoal extends Component {
                   placeholderTextColor={colors.placeholderColor}
                 />
               </View>
-              <View style={Style.button}>
+              <View style={Style.button2}>
                 <Button
                   title="Set Goal!"
                   rounded
@@ -290,12 +301,12 @@ class NewGoal extends Component {
                 />
                 <Image
                   style={{
-                    width: 150 * 1.2, height: 200 * 1.2, alignSelf: 'center',
+                    width: verticalScale(150), height: scale(200), alignSelf: 'center',
                   }}
                   source={{ uri: this.state.image }}
                 />
               </View>
-              <Divider style={{ backgroundColor: colors.clear, height: 70 }} />
+              <Divider style={{ backgroundColor: colors.clear, height: verticalScale(15) }} />
             </View>
           </LinearGradient>
         </View>

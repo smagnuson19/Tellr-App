@@ -469,6 +469,7 @@ export function fetchGoals(email) {
               goalImage: gList[key].image,
               App: gList[key].approved,
               redeemed: gList[key].redeemed,
+              dateRedeemed: gList[key].dateRedeemed,
               // goalProgress: (parseFloat(this.state.balance)/parseFloat(gList[key].value));
             });
           } else {
@@ -477,12 +478,13 @@ export function fetchGoals(email) {
         });// end for each
 
         const defaultGoal = {
-          goalName: 'This Is the Goal Tab',
-          goalDescription: 'Add Goals Below or Redeem Completed Goals',
-          goalImage: 'http://chittagongit.com//images/goal-icon/goal-icon-4.jpg',
+          goalName: 'No Redeemed Goals',
+          goalDescription: 'Earn Money to Redeem Goals!',
+          goalImage: 'https://i.imgur.com/x1QZReP.png',
           goalValue: 0,
           App: 1,
           redeemed: true,
+          dateRedeemed: null,
         };
 
         if (goalList.length === 0) {
@@ -575,12 +577,13 @@ export function postGoal(payLoad) {
         .then((response) => {
           console.log(`postGoal: ${response.data[0]}`);
           // return this.fetchGoals(payLoad.email);
-          errorHandling('bla', 'Invalid Token');
+          return Promise.resolve();
         }).catch((error) => {
           errorHandling(
             'Error in postGoal post: ',
             error,
           );
+          return Promise.reject();
         });
     });
   };
@@ -763,14 +766,14 @@ export function fetchAllStats(email) {
             type: ActionTypes.FETCH_STATS,
             payload: response.data,
           });
-        return Promise.resolve();
+          return Promise.resolve();
         });
     }).catch((error) => {
       errorHandling(
         'Error in Stats: ',
         error.response.data[0].Error,
       );
-        return Promise.reject();
+      return Promise.reject();
     });
   };
 }

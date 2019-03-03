@@ -21,6 +21,7 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
+<<<<<<< HEAD
       // switchValue: false,
       colorMode: 0,
     };
@@ -41,6 +42,9 @@ class Settings extends Component {
     } else {
       this.setState({ colorMode: 1 });
     }
+=======
+    };
+>>>>>>> 8e4605a311cc01d2b15b20bc0291f799bb4c5d4b
   }
 
   parentDeleteDisplay() {
@@ -49,7 +53,7 @@ class Settings extends Component {
         <SettingsList.Item
           title="Delete All Accounts"
           hasNavArrow={false}
-          titleStyle={{ fontSize: 16 }}
+          titleStyle={pageStyle.sectionText}
           onPress={() => this.deleteParenAccount()}
         />
       );
@@ -116,6 +120,7 @@ class Settings extends Component {
   }
 
   render() {
+<<<<<<< HEAD
     return (
       <LinearGradient colors={[linearGradientColors.top[this.state.colorMode], linearGradientColors.bottom[this.state.colorMode]]} style={Style.gradient}>
         <Text style={Style.headerText}>Settings </Text>
@@ -134,11 +139,23 @@ class Settings extends Component {
           <SettingsList.Item
             title="Change Password"
             titleStyle={pageStyle.sectionText}
+=======
+    if (this.props.user.accountType === 'Parent') {
+      return (
+        <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
+          <Text style={Style2.headerText}>Settings </Text>
+          <SettingsList borderColor="#c8c7cc">
+            <SettingsList.Header headerStyle={pageStyle.sectionHeader2} headerText="Manage" />
+            <SettingsList.Item
+              title="Change Password"
+              titleStyle={pageStyle.sectionText}
+>>>>>>> 8e4605a311cc01d2b15b20bc0291f799bb4c5d4b
               // onPress={() => this.props.navigation.navigate('ChangePassword')}
             onPress={() => this.props.navigation.navigate('ChangePassword', {
               accountTypeIndicator: this.props.user.accountType,
             })
               }
+<<<<<<< HEAD
           />
           <SettingsList.Item
             title="Delete Account"
@@ -200,6 +217,59 @@ class Settings extends Component {
     //   console.log('ERROR: accountType not loaded or selected proprely');
     //   return null;
     // }
+=======
+            />
+            <SettingsList.Item
+              title="Delete Account"
+              hasNavArrow={false}
+              titleStyle={pageStyle.sectionText}
+              onPress={() => this.deleteAccount()}
+            />
+            {this.parentDeleteDisplay()}
+            <SettingsList.Item
+              title="Logout"
+              hasNavArrow={false}
+              titleStyle={pageStyle.sectionText}
+              onPress={() => this.logout()}
+            />
+          </SettingsList>
+        </LinearGradient>
+      );
+    } else if (this.props.user.accountType === 'Child') {
+      return (
+        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+          <Text style={Style.headerText}>Settings </Text>
+          <SettingsList borderColor="#c8c7cc">
+            <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Manage" />
+            <SettingsList.Item
+              title="Change Password"
+              titleStyle={pageStyle.sectionText}
+              onPress={() => this.props.navigation.navigate('ChangePassword', {
+                accountTypeIndicator: 'Child',
+              })
+              }
+            />
+            <SettingsList.Item
+              title="Delete Account"
+              hasNavArrow={false}
+              titleStyle={pageStyle.sectionText}
+              onPress={() => this.deleteAccount()}
+            />
+            {this.parentDeleteDisplay()}
+            <SettingsList.Item
+              title="Logout"
+              hasNavArrow={false}
+              titleStyle={pageStyle.sectionText}
+              onPress={() => this.logout()}
+            />
+          </SettingsList>
+        </LinearGradient>
+      );
+    } else {
+      console.log('ERROR: accountType not loaded or selected proprely');
+      return null;
+    }
+>>>>>>> 8e4605a311cc01d2b15b20bc0291f799bb4c5d4b
   }
 }
 
