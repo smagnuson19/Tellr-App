@@ -187,7 +187,7 @@ class Analytics extends Component {
           <AreaChart
             curve={shape.curveLinear}
             data={balHist}
-            svg={{ fill: '#15BFD6' }}
+            svg={{ fill: colors.babyBlue }}
             yAccessor={({ item }) => item.value}
             xAccessor={({ item }) => item.index}
             // showGrid={false}
@@ -455,7 +455,7 @@ class Analytics extends Component {
               textStyle={{
                 color: 'black', fontSize: 11, fontFamily: fonts.secondary,
               }}
-              selectedButtonStyle={{ backgroundColor: '#3de594' }
+              selectedButtonStyle={{ backgroundColor: colors.secondary }
               }
             />
             <ScrollView>

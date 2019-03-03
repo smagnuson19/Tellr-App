@@ -117,7 +117,7 @@ class Profile extends Component {
             <AreaChart
               curve={shape.curveLinear}
               data={balHist}
-              svg={{ fill: 'rgba(28, 228, 28, 0.8)' }}
+              svg={{ fill: colors.babyBlue }}
               yAccessor={({ item }) => item.value}
               xAccessor={({ item }) => item.index}
               // showGrid={false}

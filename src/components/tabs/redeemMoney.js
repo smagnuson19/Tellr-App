@@ -267,14 +267,14 @@ const pageStyle = StyleSheet.create({
   },
 
   dollarSign: {
-    color: 'white',
+    color: 'black',
     marginRight: -30,
     fontFamily: fonts.secondary,
     fontSize: 30,
   },
 
   amountStyle: {
-    color: 'white',
+    color: 'black',
     textAlign: 'center',
     fontFamily: fonts.secondary,
     fontSize: 90,
