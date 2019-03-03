@@ -46,7 +46,7 @@ class ViewOfFriendRequests extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.noGoalsText}>
+          <Text style={pageStyle.noRequestsText}>
             {'No requests to show!'}
           </Text>
         </View>
@@ -101,7 +101,7 @@ class ViewOfFriendRequests extends Component {
 }
 
 const pageStyle = StyleSheet.create({
-  noGoalsText: {
+  noRequestsText: {
     fontSize: fonts.smmd,
     fontWeight: 'bold',
     color: colors.white,
