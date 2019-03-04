@@ -340,6 +340,7 @@ class AddTask extends Component {
                 raised
                 large
                 style={Style.button}
+                color={themeColors.headerColor[this.props.mode]}
                 buttonStyle={
                     {
                       backgroundColor: themeColors.buttonColor[this.props.mode],
@@ -374,7 +375,7 @@ const mapStateToProps = state => (
   {
     family: state.user.family,
     account: state.user.info,
-    mode: 1,
+    mode: 0,
   });
 
 export default connect(mapStateToProps, { postTask })(AddTask);
