@@ -261,7 +261,7 @@ const mapStateToProps = state => (
   {
     user: state.user.info,
     family: state.user.family,
-    mode: 1,
+    mode: state.user.colorMode.color,
   });
 
 

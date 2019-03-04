@@ -494,7 +494,7 @@ const mapStateToProps = state => (
     account: state.user.info,
     family: state.user.family,
     notifications: state.user.notifications,
-    mode: 1,
+    mode: state.user.colorMode.color,
   });
 
 

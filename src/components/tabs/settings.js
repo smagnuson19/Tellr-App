@@ -50,7 +50,7 @@ class Settings extends Component {
 
     if (this.state.switchValue === false) {
       console.log('switch value false, mode is 0');
-      colorIndex = 0;
+      colorIndex = 1;
     } else {
       console.log('switch value true, mode is 1');
       colorIndex = 1;
@@ -216,7 +216,6 @@ const mapStateToProps = state => (
     user: state.user.info,
     family: state.user.family,
     mode: state.user.colorMode.color,
-    // mode: 0,[0]
   });
 
 

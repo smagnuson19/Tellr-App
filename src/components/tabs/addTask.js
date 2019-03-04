@@ -375,7 +375,7 @@ const mapStateToProps = state => (
   {
     family: state.user.family,
     account: state.user.info,
-    mode: 0,
+    mode: state.user.colorMode.color,
   });
 
 export default connect(mapStateToProps, { postTask })(AddTask);
