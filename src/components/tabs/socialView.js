@@ -38,6 +38,7 @@ class SocialView extends Component {
       avatarColor,
       taskComp,
       goalComp: 0,
+      gridMaxNum: 0,
     };
     console.log(indEmail);
     this.buttonPress = this.buttonPress.bind(this);
@@ -49,12 +50,13 @@ class SocialView extends Component {
       if (this.props.allFriend[key].email === this.state.indEmail) {
         const myList = [];
         Object.keys(this.props.allFriend[key].taskhist[0]).forEach((key1) => {
-          if (key1 !== '32') {
+          if (parseInt(key1, 10) < 32) {
             myList.push({ value: this.props.allFriend[key].taskhist[0][key1] + 0.2, index: addSubtractDate.subtract(new Date(), key1, 'days') });
           }
         });
         this.setState({ taskhistory: myList });
         this.setState({ goalComp: this.props.allFriend[key].taskhist[0][32] });
+        this.setState({ gridMaxNum: this.props.allFriend[key].taskhist[0][33] });
       }
     });
   }
@@ -145,6 +147,7 @@ class SocialView extends Component {
             height: 200, flex: 1, marginLeft: 5,
           }}
           gridMin={0}
+          gridMax={this.state.gridMaxNum + 1}
           contentInset={contentInset}
           numberOfTicks={6}
         />
