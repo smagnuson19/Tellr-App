@@ -11,18 +11,16 @@ import SettingsList from 'react-native-settings-list';
 import {
   logoutUser, postChangePassword, postDeleteAccount, postParentDeleteAccount,
 } from '../../actions';
-import Style2 from '../../styling/ParentStyle';
 import Style from '../../styling/Style';
-import { colors, fonts } from '../../styling/base';
-import { colors2 } from '../../styling/parent';
-import { linearGradientColors, otherColors, themeColors } from '../../styling/colorModes';
+import { fonts } from '../../styling/base';
+import { themeColors } from '../../styling/colorModes';
 
 class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
       // switchValue: false,
-      colorMode: 0,
+      // colorMode: 0,
     };
     // this.onValueChange = this.onValueChange.bind(this);
   }
@@ -31,15 +29,24 @@ class Settings extends Component {
   //   this.setState({ switchValue: value });
   // }
 
-  componentWillMount() {
-    this.setMode();
-  }
 
-  setMode() {
-    if (this.props.user.accountType === 'Parent') {
-      this.setState({ colorMode: 0 });
+  // setMode() {
+  //   if (this.props.user.accountType === 'Parent') {
+  //     this.setState({ colorMode: 0 });
+  //   } else {
+  //     this.setState({ colorMode: 1 });
+  //   }
+  // }
+
+  headingDisplay() {
+    if (this.props.mode === 0) {
+      return (
+        <Text style={Style.headerTextLight}>Settings </Text>
+      );
     } else {
-      this.setState({ colorMode: 1 });
+      return (
+        <Text style={Style.headerTextDark}>Settings </Text>
+      );
     }
   }
 
@@ -116,11 +123,20 @@ class Settings extends Component {
   }
 
   render() {
+    console.log(this.props.mode);
     return (
-      <LinearGradient colors={[linearGradientColors.top[this.state.colorMode], linearGradientColors.bottom[this.state.colorMode]]} style={Style.gradient}>
-        <Text style={Style.headerText}>Settings </Text>
+      <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
+        {this.headingDisplay()}
         <SettingsList borderColor="#c8c7cc">
-          <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Styles" />
+          <SettingsList.Header
+            headerStyle={{
+              fontSize: fonts.md,
+              fontFamily: fonts.secondary,
+              marginTop: 15,
+              color: themeColors.headerColor[this.props.mode],
+            }}
+            headerText="Styles"
+          />
           <SettingsList.Item
               // hasSwitch
               // switchState={this.state.switchValue}
@@ -130,7 +146,15 @@ class Settings extends Component {
             title="Night Mode"
             titleStyle={pageStyle.sectionText}
           />
-          <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Manage" />
+          <SettingsList.Header
+            headerStyle={{
+              fontSize: fonts.md,
+              fontFamily: fonts.secondary,
+              marginTop: 15,
+              color: themeColors.headerColor[this.props.mode],
+            }}
+            headerText="Manage"
+          />
           <SettingsList.Item
             title="Change Password"
             titleStyle={pageStyle.sectionText}
@@ -156,66 +180,10 @@ class Settings extends Component {
         </SettingsList>
       </LinearGradient>
     );
-    // } else if (this.props.user.accountType === 'Child') {
-    //   return (
-    //     <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
-    //       <Text style={Style.headerText}>Settings </Text>
-    //       <SettingsList borderColor="#c8c7cc">
-    //         <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Styles" />
-    //         <SettingsList.Item
-    //           // hasSwitch
-    //           // switchState={this.state.switchValue}
-    //           // switchOnValueChange={this.onValueChange}
-    //           hasNavArrow={false}
-    //           title="Night Mode"
-    //           titleStyle={pageStyle.sectionText}
-    //           onPress={() => this.setMode()}
-    //         />
-    //         <SettingsList.Header headerStyle={pageStyle.sectionHeader} headerText="Manage" />
-    //         <SettingsList.Item
-    //           title="Change Password"
-    //           titleStyle={pageStyle.sectionText}
-    //           onPress={() => this.props.navigation.navigate('ChangePassword', {
-    //             accountTypeIndicator: 'Child',
-    //           })
-    //           }
-    //         />
-    //         <SettingsList.Item
-    //           title="Delete Account"
-    //           hasNavArrow={false}
-    //           titleStyle={{ fontSize: 16 }}
-    //           onPress={() => this.deleteAccount()}
-    //         />
-    //         {this.parentDeleteDisplay()}
-    //         <SettingsList.Item
-    //           title="Logout"
-    //           hasNavArrow={false}
-    //           titleStyle={pageStyle.sectionText}
-    //           onPress={() => this.logout()}
-    //         />
-    //       </SettingsList>
-    //     </LinearGradient>
-    //   );
-    // } else {
-    //   console.log('ERROR: accountType not loaded or selected proprely');
-    //   return null;
-    // }
   }
 }
 
 const pageStyle = StyleSheet.create({
-  sectionHeader: {
-    fontSize: fonts.md,
-    fontFamily: fonts.secondary,
-    marginTop: 15,
-    color: otherColors.headerColor[0],
-  },
-  // sectionHeader2: {
-  //   fontSize: fonts.md,
-  //   fontFamily: fonts.secondary,
-  //   marginTop: 15,
-  //   color: 'white',
-  // },
   sectionText: {
     fontSize: fonts.smmd,
     fontFamily: fonts.secondary,
@@ -226,6 +194,8 @@ const mapStateToProps = state => (
   {
     user: state.user.info,
     family: state.user.family,
+    // mode: state.user.colorMode,
+    mode: 0,
   });
 
 

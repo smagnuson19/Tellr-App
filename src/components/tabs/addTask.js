@@ -18,6 +18,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/ParentStyle';
 import { colors2, fonts2 } from '../../styling/parent';
 import { postTask } from '../../actions/index';
+import { themeColors } from '../../styling/colorModes';
 
 const Sound = require('react-native-sound');
 
@@ -110,6 +111,17 @@ class AddTask extends Component {
     );
   }
 
+  headingDisplay() {
+    if (this.props.mode === 0) {
+      return (
+        <Text style={Style.headerTextLight}>New Task </Text>
+      );
+    } else {
+      return (
+        <Text style={Style.headerTextDark}>New Task </Text>
+      );
+    }
+  }
 
   fetchNames() {
     const childrenList = [];
@@ -192,13 +204,19 @@ class AddTask extends Component {
     const moment = require('moment');
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
+        <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
-            <Text style={Style.headerText}>New Task </Text>
+            {this.headingDisplay()}
             <View style={Style.inputContainer}>
               <FormInput
                 containerStyle={Style.fieldContainerSecondary}
-                inputStyle={Style.fieldTextSecondary}
+                inputStyle={{
+                  color: themeColors.headerColor[this.props.mode],
+                  fontFamily: fonts2.secondary,
+                  textAlign: 'left',
+                  fontSize: fonts2.md,
+                  marginLeft: 25,
+                }}
                 onChangeText={text => this.setState({ taskName: text })}
                 value={this.state.taskName}
                 placeholder="Task Name"
@@ -216,7 +234,7 @@ class AddTask extends Component {
                 cancelBtnText="Cancel"
                 customStyles={{
                   dateText: {
-                    color: colors2.white,
+                    color: themeColors.headerColor[this.props.mode],
                     fontFamily: fonts2.secondary,
                     alignSelf: 'flex-start',
                     marginLeft: 8,
@@ -258,7 +276,23 @@ class AddTask extends Component {
                     childEmail: value,
                   });
                 }}
-                style={{ ...pickerSelectStyles }}
+                style={{
+                  inputIOS: {
+                    fontSize: fonts2.md,
+                    margin: 40,
+                    paddingTop: 7,
+                    paddingHorizontal: 8,
+                    paddingBottom: 7,
+                    borderWidth: 0.8,
+                    borderColor: colors2.lightGrey,
+                    color: themeColors.headerColor[this.props.mode],
+                    width: 320,
+                    marginLeft: 40,
+                    marginTop: 15,
+                    fontFamily: fonts2.secondary,
+                    alignSelf: 'flex-start',
+                  },
+                }}
                 placeholderTextColor={colors2.lightGrey}
                 value={this.state.childEmail}
               />
@@ -267,7 +301,13 @@ class AddTask extends Component {
                 onSubmitEditing={() => { this.fithTextInput.focus(); }}
                 blurOnSubmit={false}
                 containerStyle={Style.fieldContainerSecondary}
-                inputStyle={Style.fieldTextSecondary}
+                inputStyle={{
+                  color: themeColors.headerColor[this.props.mode],
+                  fontFamily: fonts2.secondary,
+                  textAlign: 'left',
+                  fontSize: fonts2.md,
+                  marginLeft: 25,
+                }}
                 onChangeText={text => this.setState({ taskDescription: text })}
                 value={this.state.taskDescription}
                 placeholder="Task Description..."
@@ -279,7 +319,13 @@ class AddTask extends Component {
                 returnKeyType="done"
                 onSubmitEditing={() => this.submitTask()}
                 containerStyle={Style.fieldContainerSecondary}
-                inputStyle={Style.fieldTextSecondary}
+                inputStyle={{
+                  color: themeColors.headerColor[this.props.mode],
+                  fontFamily: fonts2.secondary,
+                  textAlign: 'left',
+                  fontSize: fonts2.md,
+                  marginLeft: 25,
+                }}
                 onChangeText={text => this.setState({ reward: text })}
                 value={this.state.reward}
                 placeholder="Reward: $0.00"
@@ -296,7 +342,7 @@ class AddTask extends Component {
                 style={Style.button}
                 buttonStyle={
                     {
-                      backgroundColor: colors2.primary,
+                      backgroundColor: themeColors.buttonColor[this.props.mode],
                       borderColor: 'transparent',
                       borderWidth: 0,
                       borderRadius: 5,
@@ -310,24 +356,6 @@ class AddTask extends Component {
     );
   }
 }
-
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: fonts2.md,
-    margin: 40,
-    paddingTop: 7,
-    paddingHorizontal: 8,
-    paddingBottom: 7,
-    borderWidth: 0.8,
-    borderColor: colors2.lightGrey,
-    color: 'white',
-    width: 320,
-    marginLeft: 40,
-    marginTop: 15,
-    fontFamily: fonts2.secondary,
-    alignSelf: 'flex-start',
-  },
-});
 
 const taskDeadlineStyles = StyleSheet.create({
   style: {
@@ -346,6 +374,7 @@ const mapStateToProps = state => (
   {
     family: state.user.family,
     account: state.user.info,
+    mode: 1,
   });
 
 export default connect(mapStateToProps, { postTask })(AddTask);

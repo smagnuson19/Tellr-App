@@ -1,28 +1,22 @@
 import { Dimensions } from 'react-native';
 
-export const dimensions2 = {
+export const dimensions = {
   fullHeight: Dimensions.get('window').height,
   fullWidth: Dimensions.get('window').width,
 };
 
-// 0: night mode dark colors
-// 1: kids regular mode / pink colors - pink, light purple, blue lightlight?
+// 0: kids regular mode / pink colors - pink, light purple, blue lightlight?
+// 1: night mode dark colors
 // 2: kids mode 2 / blue and orange colors - light blue, dark blue, orange highlight
 
-
-export const linearGradientColors = {
-  top: { 0: 'rgba(4, 27, 37, 0.9615)', 1: 'rgba(250, 27, 3, 0.29615)', 2: 'rgba(64, 224, 208, .8)' },
-  bottom: { 0: 'rgba(1, 6, 3, 0.76)', 1: 'rgba(1, 2, 243, 0.376)', 2: 'rgba(25, 25, 112, 1)' },
-};
-
 export const themeColors = {
+  linearGradientTop: { 0: 'rgba(250, 27, 3, 0.29615)', 1: 'rgba(4, 27, 37, 0.9615)', 2: 'rgba(64, 224, 208, .8)' },
+  linearGradientBottom: { 0: 'rgba(1, 2, 243, 0.376)', 1: 'rgba(1, 6, 3, 0.76)', 2: 'rgba(25, 25, 112, 1)' },
   primary: { 0: 'rgb(61, 229, 148)', 1: 'rgb(61, 229, 148)' },
-  secondary: '#15BFD6',
+  secondary: { 0: '#15BFD6', 1: '#15BFD6' },
+  buttonColor: { 0: '#15BFD6', 1: 'rgb(61, 229, 148)' },
   highlight: '',
-};
-
-export const otherColors = {
-  headerColor: { 0: 'rgb(255,255,255)', 1: 'rgb(0,0,0)' },
+  headerColor: { 0: 'rgb(0,0,0)', 1: 'rgb(255,255,255)' },
   grey: '#424242',
   placeholderColor: 'grey',
   lightGrey: 'rgb(150, 150, 150)',

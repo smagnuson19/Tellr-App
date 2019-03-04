@@ -4,6 +4,8 @@ import {
   colors, fonts, dimensions,
 } from './base';
 
+import { themeColors } from './colorModes';
+
 
 const Style = StyleSheet.create({
   // Should wrap the entire page
@@ -30,7 +32,30 @@ const Style = StyleSheet.create({
     textAlign: 'center',
     fontFamily: fonts.secondary,
     fontSize: fonts.xlg,
-    color: colors.black,
+    color: colors.headerText,
+    marginTop: '20%',
+    marginBottom: '10%',
+  },
+
+  headerTextLight: {
+    flex: 0,
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: fonts.secondary,
+    fontSize: fonts.xlg,
+    color: themeColors.headerColor[0],
+    marginTop: '20%',
+    marginBottom: '10%',
+  },
+
+  headerTextDark: {
+    flex: 0,
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: fonts.secondary,
+    fontSize: fonts.xlg,
+    color: themeColors.headerColor[1],
+    // color: colors.headerText,
     marginTop: '20%',
     marginBottom: '10%',
   },
@@ -188,5 +213,6 @@ const Style = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
 
 export default Style;

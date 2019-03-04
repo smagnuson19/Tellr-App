@@ -8,24 +8,31 @@ import {
 } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
-import Style2 from '../../styling/ParentStyle';
 import { colors, fonts } from '../../styling/base';
-import { colors2 } from '../../styling/parent';
+import { themeColors } from '../../styling/colorModes';
 import { postChangePassword } from '../../actions/index';
 
 import Style from '../../styling/Style';
 
-let type;
-
 class ChangePassword extends Component {
   constructor(props) {
     super(props);
-    const { navigation } = this.props;
-    type = navigation.getParam('accountTypeIndicator');
     this.state = {
       oldPassword: '',
       newPassword: '',
     };
+  }
+
+  headingDisplay() {
+    if (this.props.mode === 0) {
+      return (
+        <Text style={Style.headerTextLight}>Change Password </Text>
+      );
+    } else {
+      return (
+        <Text style={Style.headerTextDark}>Change Password </Text>
+      );
+    }
   }
 
   changePassword() {
@@ -68,117 +75,57 @@ class ChangePassword extends Component {
   }
 
   render() {
-    // if (this.props.account.accountType === 'Parent') {
-    if (type === 'Parent') {
-    // if (true) {
-      return (
-        <View style={Style.rootContainer}>
-          <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
-            <View style={Style.contentWrapper}>
-              <Text style={Style2.headerText}>Change Password </Text>
-              <View style={Style.inputContainer}>
-                <FormInput
-                  containerStyle={Style.fieldContainerSecondary}
-                  inputStyle={Style.fieldTextSecondary}
-                  onChangeText={text => this.setState({ oldPassword: text })}
-                  value={this.state.oldPassword}
-                  placeholder="Enter old password..."
-                  placeholderTextColor={colors.placeholderColor}
-                  returnKeyType="next"
-                  secureTextEntry="true"
-                  textContentType="password"
-                />
-                <FormInput
-                  ref={(input) => { this.fithTextInput = input; }}
-                  returnKeyType="done"
-                  containerStyle={Style.fieldContainerSecondary}
-                  inputStyle={Style.fieldTextSecondary}
-                  onChangeText={text => this.setState({ newPassword: text })}
-                  value={this.state.newPassword}
-                  placeholder="Enter new password..."
-                  placeholderTextColor={colors.placeholderColor}
-                  secureTextEntry="true"
-                  textContentType="password"
-                />
-              </View>
-              <View style={Style.buttonContainer}>
-                <Button
-                  title="Change Password"
-                  large
-                  raised
-                  style={Style.button}
-                  buttonStyle={
+    return (
+      <View style={Style.rootContainer}>
+        <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
+          <View style={Style.contentWrapper}>
+            {this.headingDisplay()}
+            <View style={Style.inputContainer}>
+              <FormInput
+                containerStyle={Style.fieldContainerSecondary}
+                inputStyle={Style.fieldTextSecondary}
+                onChangeText={text => this.setState({ oldPassword: text })}
+                value={this.state.oldPassword}
+                placeholder="Enter old password..."
+                placeholderTextColor={colors.placeholderColor}
+                returnKeyType="next"
+                secureTextEntry="true"
+                textContentType="password"
+              />
+              <FormInput
+                ref={(input) => { this.fithTextInput = input; }}
+                returnKeyType="done"
+                containerStyle={Style.fieldContainerSecondary}
+                inputStyle={Style.fieldTextSecondary}
+                onChangeText={text => this.setState({ newPassword: text })}
+                value={this.state.newPassword}
+                placeholder="Enter new password..."
+                placeholderTextColor={colors.placeholderColor}
+                secureTextEntry="true"
+                textContentType="password"
+              />
+            </View>
+            <View style={Style.buttonContainer}>
+              <Button
+                title="Change Password"
+                large
+                raised
+                fontFamily={fonts.secondary}
+                style={Style.button}
+                buttonStyle={
                       {
-                        backgroundColor: colors2.primary,
+                        backgroundColor: themeColors.buttonColor[this.props.mode],
                         borderColor: 'transparent',
                         borderWidth: 0,
                         borderRadius: 5,
                       }}
-                  onPress={() => this.changePassword()}
-                />
-              </View>
+                onPress={() => this.changePassword()}
+              />
             </View>
-          </LinearGradient>
-        </View>
-      );
-    } else if (type === 'Child') {
-      return (
-        <View style={Style.rootContainer}>
-          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
-            <View style={Style.contentWrapper}>
-              <Text style={Style.headerText}>Change Password </Text>
-              <View style={Style.inputContainer}>
-                <FormInput
-                  containerStyle={Style.fieldContainerSecondary}
-                  inputStyle={Style.fieldTextSecondary}
-                  onChangeText={text => this.setState({ oldPassword: text })}
-                  value={this.state.oldPassword}
-                  placeholder="Enter old password..."
-                  placeholderTextColor={colors.placeholderColor}
-                  returnKeyType="next"
-                  secureTextEntry="true"
-                  textContentType="password"
-                />
-                <FormInput
-                  ref={(input) => { this.fithTextInput = input; }}
-                  returnKeyType="done"
-                  containerStyle={Style.fieldContainerSecondary}
-                  inputStyle={Style.fieldTextSecondary}
-                  onChangeText={text => this.setState({ newPassword: text })}
-                  value={this.state.newPassword}
-                  placeholder="Enter new password..."
-                  placeholderTextColor={colors.placeholderColor}
-                  secureTextEntry="true"
-                  textContentType="password"
-                />
-              </View>
-              <View style={Style.buttonContainer}>
-                <Button
-                  title="Change Password"
-                  large
-                  raised
-                  fontFamily={fonts.secondary}
-                  style={Style.button}
-                  color={colors.black}
-                  buttonStyle={{
-                    backgroundColor: colors.secondary,
-                    alignSelf: 'center',
-                    borderColor: 'transparent',
-                    borderWidth: 0,
-                    borderRadius: 5,
-                  }}
-                  onPress={() => this.changePassword()}
-                />
-              </View>
-            </View>
-          </LinearGradient>
-        </View>
-      );
-    } else {
-      console.log('ERROR: accountType not loaded or selected proprely');
-      console.log(type);
-      return null;
-    }
+          </View>
+        </LinearGradient>
+      </View>
+    );
   }
 }
 
@@ -186,6 +133,7 @@ class ChangePassword extends Component {
 const mapStateToProps = state => (
   {
     account: state.user.info,
+    mode: 0,
   });
 
 export default connect(mapStateToProps, { postChangePassword })(ChangePassword);
