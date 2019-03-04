@@ -17,14 +17,13 @@ import {
 } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
 import { colors2 } from '../../styling/parent';
-import { linearGradientColors, otherColors, themeColors } from '../../styling/colorModes';
+import { themeColors } from '../../styling/colorModes';
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isFetching: false,
-      colorMode: 0,
     };
 
     // Bind this instance used in navigationToAccount to this component
@@ -32,11 +31,6 @@ class Home extends Component {
     this.renderAction = this.renderAction.bind(this);
     this.onRefreshForChild = this.onRefreshForChild.bind(this);
   }
-
-  componentWillMount() {
-    this.setMode();
-  }
-
 
   // A pull down has been initiated
   onRefresh() {
@@ -47,14 +41,6 @@ class Home extends Component {
   // child component and this function needs to be bound to the home component
   onRefreshForChild() {
     this.setState({ isFetching: true }, function () { this.reloadApiData(); });
-  }
-
-  setMode() {
-    if (this.props.account.accountType === 'Parent') {
-      this.setState({ colorMode: 0 });
-    } else {
-      this.setState({ colorMode: 1 });
-    }
   }
 
   // Pulls in new data for the pull Down Refresh
@@ -161,7 +147,14 @@ class Home extends Component {
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts.md,
+            color: themeColors.headerColor[this.props.mode],
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+            paddingHorizontal: 10,
+          }}
+          >
           Verify Goals
           </Text>
           <Divider style={pageStyle.divider} />
@@ -176,7 +169,14 @@ class Home extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts.md,
+            color: themeColors.headerColor[this.props.mode],
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+            paddingHorizontal: 10,
+          }}
+          >
         Verify Goals
           </Text>
           <Divider style={pageStyle.divider} />
@@ -202,7 +202,14 @@ class Home extends Component {
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts.md,
+            color: themeColors.headerColor[this.props.mode],
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+            paddingHorizontal: 10,
+          }}
+          >
           Recently Completed Goals
           </Text>
           <Divider style={pageStyle.divider} />
@@ -217,7 +224,14 @@ class Home extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts.md,
+            color: themeColors.headerColor[this.props.mode],
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+            paddingHorizontal: 10,
+          }}
+          >
       Recently Completed Goals
           </Text>
           <Divider style={pageStyle.divider} />
@@ -243,7 +257,14 @@ class Home extends Component {
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts.md,
+            color: themeColors.headerColor[this.props.mode],
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+            paddingHorizontal: 10,
+          }}
+          >
           Verify Chore Completion
           </Text>
           <Divider style={pageStyle.divider} />
@@ -261,7 +282,14 @@ No Chores To Verify, Add some more!
       console.log(this.props.notifications);
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts.md,
+            color: themeColors.headerColor[this.props.mode],
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+            paddingHorizontal: 10,
+          }}
+          >
             Verify Chore Completion
           </Text>
           <Divider style={pageStyle.divider} />
@@ -375,7 +403,7 @@ No Chores To Verify, Add some more!
     if (this.props.account.accountType === 'Parent') {
       return (
         <View style={Style.rootContainer}>
-          <LinearGradient colors={[linearGradientColors.top[this.state.colorMode], linearGradientColors.bottom[this.state.colorMode]]} style={Style.gradient}>
+          <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
               {this.renderParentView()}
             </View>
@@ -385,7 +413,7 @@ No Chores To Verify, Add some more!
     } else {
       return (
         <View style={Style.rootContainer}>
-          <LinearGradient colors={[linearGradientColors.top[this.state.colorMode], linearGradientColors.bottom[this.state.colorMode]]} style={Style.gradient}>
+          <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
               {this.renderChildView()}
             </View>
@@ -432,7 +460,6 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingVertical: 6,
     paddingHorizontal: 10,
-
   },
   divider: {
     backgroundColor: colors.secondary,
@@ -466,6 +493,7 @@ const mapStateToProps = state => (
     account: state.user.info,
     family: state.user.family,
     notifications: state.user.notifications,
+    mode: 0,
   });
 
 
