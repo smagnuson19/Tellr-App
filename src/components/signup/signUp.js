@@ -12,6 +12,7 @@ import {
 } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import { NavigationActions } from 'react-navigation';
+import OneSignal from 'react-native-onesignal';
 import { postNewUser } from '../../actions';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
@@ -28,6 +29,15 @@ class SignUp extends Component {
     };
   }
 
+  generateID() {
+    let text = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (let i = 0; i < 5; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+  }
+
   createAccount() {
     // So that you are unable to navigate back to login page once logged in.
     // const resetAction = StackActions.reset({
@@ -39,7 +49,7 @@ class SignUp extends Component {
     // });
     //
     const randomColor = require('randomcolor'); // import the script
-    const color = randomColor(); // a hex code for an attractive color
+    const color = randomColor({ luminosity: 'dark' }); // a hex code for an attractive color
 
 
     const { navigation } = this.props;
@@ -48,6 +58,8 @@ class SignUp extends Component {
     const lastName = navigation.getParam('lastName');
     const familyName = navigation.getParam('familyName');
 
+    const id = this.generateID();
+    OneSignal.setExternalUserId(id);
     // Describing what will be sent
     const payLoad = {
       firstName,
@@ -57,6 +69,7 @@ class SignUp extends Component {
       familyName,
       accountType: userType,
       avatarColor: color,
+      oneSignalID: id,
       // avatar: this.state.avatar,
     };
 

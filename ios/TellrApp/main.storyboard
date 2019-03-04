@@ -48,7 +48,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Tellr-Logo.gif" width="233" height="122"/>
+        <image name="Tellr-Logo.gif" width="900" height="416"/>
         <image name="gradient.png" width="1125" height="2436"/>
         <image name="picture1" width="646" height="533"/>
     </resources>

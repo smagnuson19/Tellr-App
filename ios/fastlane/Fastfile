@@ -29,7 +29,7 @@ platform :ios do
     upload_to_testflight
   end
 
-  desc "Push a new beta build to TestFlight"
+  desc "Push a new production build to TestFlight"
   lane :production do
     increment_build_number(xcodeproj: "TellrApp.xcodeproj")
     match(type: "appstore")
