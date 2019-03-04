@@ -39,52 +39,114 @@ class Loading extends Component {
   // If its a bad token we obviously dont want to continue with the other functions and want to send to go home
   // better way here would be to dispatch error messages/ have something that checks each function
   // userinfo call also checks for bad tokens
+
+  // MAke this an await function for everything to finsih and then return true
+  // or false then continue on to next page or not
   fetchAtLoad(email) {
+    initialChildFetchCheck = {
+      fetchNotificationInfo: null,
+      fetchGoals: null,
+      fetchKidFriends: null,
+      fetchAllSocial: null,
+      fetchEarningsHistory: null,
+      fetchAllStats: null,
+      fetchTasksMonth: null,
+      fetchTasksYear: null,
+      fetchTasksWeek: null,
+      fetchUserInfo: null,
+    };
+
+    intialParentFetchCheck = {
+      fetchNotificationInfo: null,
+      fetchParentInfo: null,
+      fetchUserInfo: null,
+    };
     if (this.props.accountInfo.accountType === 'Child') {
       this.props.fetchNotificationInfo(email).then((response) => {
         console.log('Notifications pulled in');
+        initialChildFetchCheck.fetchNotificationInfo = true;
         this.props.fetchGoals(email)
-          .then(() => { console.log('Goals pulled in'); })
-          .catch(() => { this.setState({ loginVerify: false }); });
+          .then(() => {
+            console.log('Goals pulled in');
+            initialChildFetchCheck.fetchGoals = true;
+          })
+          .catch(() => {
+            initialChildFetchCheck.fetchGoals = false;
+          });
         this.props.fetchKidFriends(email)
-          .then(() => { console.log('Friends pulled in'); })
-          .catch(() => { this.setState({ loginVerify: false }); });
+          .then(() => {
+            console.log('Friends pulled in');
+            initialChildFetchCheck.fetchKidFriends = true;
+          })
+          .catch(() => {
+            initialChildFetchCheck.fetchKidFriends = false;
+          });
         this.props.fetchAllSocial(email)
-          .then(() => { console.log('All friends pulled in'); })
-          .catch(() => { this.setState({ loginVerify: false }); });
+          .then(() => {
+            console.log('All friends pulled in');
+            initialChildFetchCheck.fetchAllSocial = true;
+          })
+          .catch(() => {
+            initialChildFetchCheck.fetchAllSocial = false;
+          });
         this.props.fetchEarningsHistory(email)
-          .then(() => { console.log('Earnings pulled in'); })
-          .catch(() => { this.setState({ loginVerify: false }); });
+          .then(() => {
+            console.log('Earnings pulled in');
+            initialChildFetchCheck.fetchEarningsHistory = true;
+          })
+          .catch(() => {
+            initialChildFetchCheck.fetchEarningsHistory = true;
+          });
         this.props.fetchAllStats(email)
-          .then(() => { console.log('Stats pulled in'); })
-          .catch(() => { this.setState({ loginVerify: false }); });
-        this.props.fetchColorMode(email)
-          .then(() => { console.log('Color mode pulled in'); })
-          .catch(() => { this.setState({ loginVerify: false }); });
+          .then(() => {
+            console.log('Stats pulled in');
+            initialChildFetchCheck.fetchAllStats = true;
+          })
+          .catch(() => {
+            initialChildFetchCheck.fetchAllStats = false;
+          });
         this.props.fetchTasksWeek(email)
-          .then(() => { console.log('W Tasks pulled in'); })
-          .catch(() => { this.setState({ loginVerify: false }); });
+          .then(() => {
+            console.log('W Tasks pulled in');
+            initialChildFetchCheck.fetchTasksWeek = true;
+          })
+          .catch(() => {
+            initialChildFetchCheck.fetchTasksWeek = false;
+          });
         this.props.fetchTasksMonth(email)
-          .then(() => { console.log('M Tasks pulled in'); })
-          .catch(() => { this.setState({ loginVerify: false }); });
+          .then(() => {
+            console.log('M Tasks pulled in');
+            initialChildFetchCheck.fetchTasksMonth = true;
+          })
+          .catch(() => {
+            initialChildFetchCheck.fetchTasksMonth = false;
+          });
         this.props.fetchTasksYear(email)
-          .then(() => { console.log('Y Tasks pulled in'); })
-          .catch(() => { this.setState({ loginVerify: false }); });
+          .then(() => {
+            console.log('Y Tasks pulled in');
+            initialChildFetchCheck.fetchTasksYear = true;
+          })
+          .catch(() => {
+            nitialChildFetchCheck.fetchTasksYear = false;
+          });
       }).catch((error) => {
-        this.setState({ loginVerify: false });
+        initialChildFetchCheck.fetchNotificationInfo = false;
       });
     } else if (this.props.accountInfo.accountType === 'Parent') {
       this.props.fetchNotificationInfo(email).then(() => {
         console.log('Notifications pulled in ');
+        initialParentFetchCheck.fetchNotificationInfo = true;
         this.props.fetchParentInfo(email)
-          .then(() => { console.log('User Info pulled in'); })
-          .catch(() => { this.setState({ loginVerify: false }); });
-        this.props.fetchColorMode(email)
-          .then(() => { console.log('Color mode pulled in'); })
-          .catch(() => { this.setState({ loginVerify: false }); });
+          .then(() => {
+            console.log('User Info pulled in');
+            initialParentFetchCheck.fetchParentInfo = true;
+          })
+          .catch(() => {
+            initialParentFetchCheck.fetchParentInfo = true;
+          });
       }).catch(() => {
         console.log('Error on Notification');
-        this.setState({ loginVerify: false });
+        initialParentFetchCheck.fetchNotificationInfo = false;
       });
     } else {
       console.log('missing accountTypeID');
@@ -198,5 +260,7 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
+
   fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksWeek, fetchTasksMonth, fetchTasksYear, fetchColorMode,
+
 })(Loading);

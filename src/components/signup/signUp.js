@@ -22,32 +22,14 @@ class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      familyPassword: '',
       email: '',
       password: '',
       // avatar: '',
     };
   }
 
-  generateID() {
-    let text = '';
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    for (let i = 0; i < 5; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
-  }
-
   createAccount() {
-    // So that you are unable to navigate back to login page once logged in.
-    // const resetAction = StackActions.reset({
-    //   index: 0, // <-- currect active route from actions array
-    //   key: null,
-    //   actions: [
-    //     NavigationActions.navigate({ routeName: 'Loading', params: { emailParam: this.state.email } }),
-    //   ],
-    // });
-    //
     const randomColor = require('randomcolor'); // import the script
     const color = randomColor({ luminosity: 'dark' }); // a hex code for an attractive color
 
@@ -58,8 +40,10 @@ class SignUp extends Component {
     const lastName = navigation.getParam('lastName');
     const familyName = navigation.getParam('familyName');
 
-    const id = this.generateID();
-    OneSignal.setExternalUserId(id);
+    const id = OneSignal.configure();
+    if (id.userId === undefined) {
+      id.userId = null;
+    }
     // Describing what will be sent
     const payLoad = {
       firstName,
@@ -69,7 +53,8 @@ class SignUp extends Component {
       familyName,
       accountType: userType,
       avatarColor: color,
-      oneSignalID: id,
+      oneSignalID: id.userId,
+      familyPassword: this.state.familyPassword,
       // avatar: this.state.avatar,
     };
 
@@ -81,6 +66,12 @@ class SignUp extends Component {
     } else if (this.state.password === '') {
       Alert.alert('Password cannot be empty');
       console.log('ERROR: password empty');
+    // } else if (this.state.avatar === '') {
+    //   Alert.alert('Avatar cannot be empty');
+    //   console.log('ERROR: avatar empty');
+    } else if (this.state.familyPassword === '') {
+      Alert.alert('Family password cannot be empty');
+      console.log('ERROR: family password empty');
     // } else if (this.state.avatar === '') {
     //   Alert.alert('Avatar cannot be empty');
     //   console.log('ERROR: avatar empty');
@@ -125,6 +116,20 @@ class SignUp extends Component {
               <FormInput
                 inputStyle={Style.fieldText}
                 containerStyle={pageStyle.fieldContainer}
+                onChangeText={text => this.setState({ familyPassword: text })}
+                value={this.state.email}
+                placeholder="Family Password"
+                keyboardType="email-address"
+                placeholderTextColor={colors.grey}
+                spellCheck="false"
+                returnKeyType="next"
+                ref={(input) => { this.fourthTextInput = input; }}
+                onSubmitEditing={() => { this.fithTextInput.focus(); }}
+                blurOnSubmit={false}
+              />
+              <FormInput
+                inputStyle={Style.fieldText}
+                containerStyle={pageStyle.fieldContainer}
                 onChangeText={text => this.setState({ password: text })}
                 value={this.state.password}
                 placeholder="Password"
@@ -132,7 +137,7 @@ class SignUp extends Component {
                 spellCheck="false"
                 returnKeyType="done"
                 secureTextEntry="true"
-                ref={(input) => { this.fourthTextInput = input; }}
+                ref={(input) => { this.fithTextInput = input; }}
               />
             </View>
             <View style={pageStyle.buttonContainer}>

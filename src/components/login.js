@@ -34,6 +34,7 @@ class Login extends Component {
         email: this.state.email,
         password: this.state.password,
       };
+
       this.props.loginUser(payLoad).then(() => {
         if (this.props.authenticated) {
           console.log('User is logged in');
@@ -44,6 +45,7 @@ class Login extends Component {
       });
     }
   }
+
 
   forgotPassword(inputText) {
     console.log('forgot password clicked');

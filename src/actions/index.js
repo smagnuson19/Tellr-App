@@ -40,6 +40,7 @@ export function authError(error) {
   };
 }
 
+
 export async function deleteTokens() {
   try {
     await AsyncStorage.removeItem('token');
@@ -53,8 +54,22 @@ export async function deleteTokens() {
 // Send to url to delete token
 export function logoutUser() {
   return (dispatch) => {
-    deleteTokens();
-    dispatch({ type: ActionTypes.DEAUTH_USER });
+    AsyncStorage.getItem('email').then((storageEmail) => {
+      if (storageEmail === null) {
+        deleteTokens();
+        return dispatch({ type: ActionTypes.DEAUTH_USER });
+      } else {
+        const payLoad = { email: storageEmail };
+        return axios.post(`${ROOT_URL}/auth/logout`, { payLoad }).then((response) => {
+          deleteTokens();
+          dispatch({ type: ActionTypes.DEAUTH_USER });
+        }).catch((error) => {
+          console.log(`LoginError: ${error}`);
+          // bug in error on backend
+          return dispatch(authError(`${error.response.data[0].Error}`));
+        });
+      }
+    });
   };
 }
 
@@ -63,18 +78,21 @@ export function errorHandling(message, error) {
     console.log(message + error);
   } else {
     // probably something more severe here
-    console.log(error);
+    console.log(error.response);
   }
-  if (error === ('Invalid Token' || 'Expired Token')) {
+  if (error.response.data[0].Error === ('Invalid Token' || 'Expired Token')) {
     console.log('Invalid Token -> Send to home');
     logoutUser();
     // want to go back to the login page
     NavigationService.navigate('Login');
   }
+  if (error.response.status === 500) {
+    console.log('naviation to home on 500');
+    NavigationService.navigate('Login');
+  }
 }
 // use the below when auth is fully implemented - go to login and comment out {email, password}
 export function loginUser(payLoad, resetAction) {
-  console.log(payLoad);
   return (dispatch) => {
     return axios.post(`${ROOT_URL}/auth/login`, { payLoad }).then((response) => {
       dispatch({ type: ActionTypes.AUTH_USER });
