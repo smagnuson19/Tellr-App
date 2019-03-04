@@ -16,7 +16,6 @@ import {
   postNotifications, postGoalApprove, postTaskVerified, fetchAllSocial, fetchKidFriends, fetchColorMode,
 } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
-import { colors2 } from '../../styling/parent';
 import { themeColors } from '../../styling/colorModes';
 
 class Home extends Component {

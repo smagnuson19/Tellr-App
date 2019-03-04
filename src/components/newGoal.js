@@ -21,6 +21,7 @@ import { postGoal } from '../actions';
 import Style from '../styling/Style';
 // import { colors, fonts } from '../styling/base';
 import { colors, fonts } from '../styling/base';
+import { themeColors } from '../styling/colorModes';
 
 const Sound = require('react-native-sound');
 
@@ -123,6 +124,18 @@ class NewGoal extends Component {
     );
   }
 
+  headingDisplay() {
+    if (this.props.mode === 0) {
+      return (
+        <Text style={Style.headerTextLight}>New Goal! </Text>
+      );
+    } else {
+      return (
+        <Text style={Style.headerTextDark}>New Goal! </Text>
+      );
+    }
+  }
+
 
   choosePhoto() {
     console.log('Choosing Photo');
@@ -215,9 +228,9 @@ class NewGoal extends Component {
     if (this.state.image === '') {
       return (
         <View style={Style.rootContainer}>
-          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+          <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
-              <Text style={Style.headerText}>New Goal! </Text>
+              {this.headingDisplay()}
               <Image
                 source={require('../media/kids.png')}
                 style={{
@@ -228,12 +241,12 @@ class NewGoal extends Component {
               <Button
                 large
                 raised
-                color={colors.black}
+                color={themeColors.headerColor[this.props.mode]}
                 title="Take A Photo!"
                 style={Style.button2}
                 fontFamily={fonts.secondary}
                 buttonStyle={{
-                  backgroundColor: colors.secondary,
+                  backgroundColor: themeColors.buttonColor[this.props.mode],
                   alignSelf: 'center',
                   borderColor: 'transparent',
                   borderWidth: 0,
@@ -249,9 +262,9 @@ class NewGoal extends Component {
     } else {
       return (
         <View style={Style.rootContainer}>
-          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+          <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
-              <Text style={Style.headerText}>New Goal </Text>
+              {this.headingDisplay()}
               {this.girlOverlay()}
               {this.boyOverlay()}
               <View style={Style.inputContainer}>
@@ -296,9 +309,9 @@ class NewGoal extends Component {
                   raised
                   large
                   style={Style.button}
-                  color={colors.black}
+                  color={themeColors.headerColor[this.props.mode]}
                   buttonStyle={{
-                    backgroundColor: colors.secondary,
+                    backgroundColor: themeColors.buttonColor[this.props.mode],
                     alignSelf: 'center',
                     borderColor: 'transparent',
                     borderWidth: 0,
@@ -343,6 +356,7 @@ class NewGoal extends Component {
 const mapStateToProps = state => (
   {
     user: state.user.info,
+    mode: state.user.colorMode.color,
   });
 
 export default connect(mapStateToProps, { postGoal })(NewGoal);

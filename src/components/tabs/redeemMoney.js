@@ -10,6 +10,7 @@ import Style from '../../styling/Style';
 import KeyPad from './keypad';
 import { fonts, colors } from '../../styling/base';
 import { postRedeemMoney } from '../../actions';
+import { themeColors } from '../../styling/colorModes';
 // Import the react-native-sound module
 const Sound = require('react-native-sound');
 
@@ -40,6 +41,19 @@ class RedeemMoney extends Component {
       // loaded successfully
     });
   }
+
+  headingDisplay() {
+    if (this.props.mode === 0) {
+      return (
+        <Text style={Style.headerTextLight}>Redeem Money! </Text>
+      );
+    } else {
+      return (
+        <Text style={Style.headerTextDark}>Redeem Money! </Text>
+      );
+    }
+  }
+
 
   updateAmount(item, prevState, props) {
     let updatedAmount = prevState.amount;
@@ -143,7 +157,7 @@ class RedeemMoney extends Component {
       Alert.alert('Redemption cannot be zero. Please enter a valid payment');
       console.log('ERROR: payment amount empty');
     } else if (this.state.amount > this.props.user.balance) {
-      Alert.alert('You do not have enough money to request this Much');
+      Alert.alert('You do not have enough money to request this much');
       console.log(this.state.amount);
       console.log(this.props.user.balance);
       console.log('ERROR: not enough money in redeem money');
@@ -182,15 +196,30 @@ class RedeemMoney extends Component {
   render() {
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+        <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
             <View style={pageStyle.upperContainer}>
               <View style={pageStyle.buttonContainer}>
-                <Text style={Style.headerText}>Redeem Money! </Text>
+                {this.headingDisplay()}
               </View>
               <View style={pageStyle.amountContainer}>
-                <Text style={pageStyle.dollarSign}> $ </Text>
-                <Text style={pageStyle.amountStyle}>
+                <Text style={{
+                  color: themeColors.headerColor[this.props.mode],
+                  marginRight: -30,
+                  fontFamily: fonts.secondary,
+                  fontSize: 30,
+                }}
+                >
+                  {' '}
+$
+                </Text>
+                <Text style={{
+                  color: themeColors.headerColor[this.props.mode],
+                  textAlign: 'center',
+                  fontFamily: fonts.secondary,
+                  fontSize: 90,
+                }}
+                >
                   {' '}
                   {this.state.amount}
                   {' '}
@@ -226,11 +255,11 @@ class RedeemMoney extends Component {
                 raised
                 title="Request Money!"
                 accessibilityLabel="enter email"
-                color={colors.black}
+                color={themeColors.headerColor[this.props.mode]}
                 fontFamily={fonts.secondary}
                 style={Style.button}
                 buttonStyle={{
-                  backgroundColor: colors.secondary,
+                  backgroundColor: themeColors.buttonColor[this.props.mode],
                   alignSelf: 'center',
                   borderColor: 'transparent',
                   borderWidth: 0,
@@ -266,20 +295,20 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  dollarSign: {
-    color: 'black',
-    marginRight: -30,
-    fontFamily: fonts.secondary,
-    fontSize: 30,
-  },
+  // dollarSign: {
+  //   color: 'black',
+  //   marginRight: -30,
+  //   fontFamily: fonts.secondary,
+  //   fontSize: 30,
+  // },
 
-  amountStyle: {
-    color: 'black',
-    textAlign: 'center',
-    fontFamily: fonts.secondary,
-    fontSize: 90,
-
-  },
+  // amountStyle: {
+  //   color: 'black',
+  //   textAlign: 'center',
+  //   fontFamily: fonts.secondary,
+  //   fontSize: 90,
+  //
+  // },
 
   buttonBorder: {
     paddingHorizontal: 10,
@@ -292,6 +321,7 @@ const pageStyle = StyleSheet.create({
 const mapStateToProps = state => (
   {
     user: state.user.info,
+    mode: state.user.colorMode.color,
   });
 
 export default connect(mapStateToProps, { postRedeemMoney })(RedeemMoney);
