@@ -11,7 +11,6 @@ import Style from '../styling/Style';
 import { colors, fonts } from '../styling/base';
 import { loginUser, postForgotPassword } from '../actions/index';
 
-
 class Login extends Component {
   constructor(props) {
     super(props);
