@@ -185,7 +185,7 @@ Balance:
             }}
             formatLabel={value => `$${value}`}
             svg={{
-              fill: 'black',
+              fill: themeColors.headerColor[this.props.mode],
               fontSize: 8,
               fontWeight: 'bold',
             }}
@@ -219,10 +219,10 @@ Balance:
               data={balHist}
               formatLabel={value => `${(value.getMonth() + 1)}/${value.getDate()}`}
               scale={scale.scaleTime}
-              labelStyle={{ color: 'black' }}
+              labelStyle={{ color: themeColors.headerColor[this.props.mode] }}
               xAccessor={({ item }) => item.index}
               svg={{
-                fill: 'black',
+                fill: themeColors.headerColor[this.props.mode],
                 fontSize: 8,
                 fontWeight: 'bold',
               }}
@@ -431,20 +431,20 @@ const pageStyle = StyleSheet.create({
     paddingVertical: 6,
     paddingLeft: 3,
   },
-  divider: {
-    backgroundColor: colors.secondary,
-    height: 2,
-    marginTop: 2,
-    marginBottom: 2,
-    width: dimensions.fullWidth,
-  },
-  bdivider: {
-    backgroundColor: colors.secondary,
-    height: 2,
-    marginTop: 2,
-    marginBottom: 0,
-    width: dimensions.fullWidth,
-  },
+  // divider: {
+  //   backgroundColor: colors.secondary,
+  //   height: 2,
+  //   marginTop: 2,
+  //   marginBottom: 2,
+  //   width: dimensions.fullWidth,
+  // },
+  // bdivider: {
+  //   backgroundColor: colors.secondary,
+  //   height: 2,
+  //   marginTop: 2,
+  //   marginBottom: 0,
+  //   width: dimensions.fullWidth,
+  // },
   settingsButton: {
     fontSize: fonts.md,
     fontWeight: 'bold',

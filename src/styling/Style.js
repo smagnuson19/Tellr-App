@@ -60,17 +60,6 @@ const Style = StyleSheet.create({
     marginBottom: '10%',
   },
 
-  headerTextLeaderboard: {
-    flex: 0,
-    justifyContent: 'center',
-    textAlign: 'center',
-    fontFamily: fonts.secondary,
-    fontSize: fonts.xlg,
-    color: colors.black,
-    marginTop: '20%',
-    marginBottom: '0%',
-  },
-
   headerTextContainter: {
     alignItems: 'flex-start',
     marginTop: -200,

@@ -4,9 +4,10 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { fonts, colors, dimensions } from '../../styling/base';
+import { fonts, dimensions } from '../../styling/base';
 import RequestCard from './requestCard';
 import { postFriendApprove, postNotificationsAlt } from '../../actions/index';
+import { themeColors } from '../../styling/colorModes';
 
 import Style from '../../styling/Style';
 
@@ -17,6 +18,18 @@ class ViewOfFriendRequests extends Component {
     };
 
     this.renderAction = this.renderAction.bind(this);
+  }
+
+  headingDisplay() {
+    if (this.props.mode === 0) {
+      return (
+        <Text style={Style.headerTextLight}>Friend Requests </Text>
+      );
+    } else {
+      return (
+        <Text style={Style.headerTextDark}>Friend Requests </Text>
+      );
+    }
   }
 
   checkEmptyRequests() {
@@ -46,7 +59,14 @@ class ViewOfFriendRequests extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.noRequestsText}>
+          <Text style={{
+            fontSize: fonts.smmd,
+            fontWeight: 'bold',
+            color: themeColors.headerColor[this.props.mode],
+            fontFamily: fonts.secondary,
+            paddingHorizontal: 15,
+          }}
+          >
             {'No requests to show!'}
           </Text>
         </View>
@@ -87,10 +107,8 @@ class ViewOfFriendRequests extends Component {
   render() {
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
-          <Text style={Style.headerText}>
-            {'Friend Requests'}
-          </Text>
+        <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
+          {this.headingDisplay()}
           <ScrollView style={pageStyle.main}>
             {this.checkEmptyRequests()}
           </ScrollView>
@@ -101,23 +119,16 @@ class ViewOfFriendRequests extends Component {
 }
 
 const pageStyle = StyleSheet.create({
-  noRequestsText: {
-    fontSize: fonts.smmd,
-    fontWeight: 'bold',
-    color: colors.white,
-    fontFamily: fonts.secondary,
-    paddingHorizontal: 15,
-  },
+  // noRequestsText: {
+  //   fontSize: fonts.smmd,
+  //   fontWeight: 'bold',
+  //   color: colors.white,
+  //   fontFamily: fonts.secondary,
+  //   paddingHorizontal: 15,
+  // },
   main: {
     flex: 1,
     marginBottom: 90,
-  },
-  headerText: {
-    paddingTop: 80,
-    marginLeft: 15,
-    alignContent: 'center',
-    fontSize: fonts.lg,
-    color: colors.black,
   },
   sectionContainer: {
     marginBottom: 15,
@@ -130,12 +141,6 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingVertical: 6,
   },
-  divider: {
-    backgroundColor: colors.primary,
-    height: 2,
-    marginTop: 6,
-    marginBottom: 6,
-  },
 });
 
 
@@ -143,6 +148,7 @@ const mapStateToProps = state => (
   {
     account: state.user.info,
     notifications: state.user.notifications,
+    mode: state.user.colorMode.color,
   });
 
 export default connect(mapStateToProps, { postFriendApprove, postNotificationsAlt })(ViewOfFriendRequests);
