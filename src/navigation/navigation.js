@@ -10,6 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { colors, fonts } from '../styling/base';
 import { colors2, fonts2 } from '../styling/parent';
+import { themeColors } from '../styling/colorModes';
 
 import Home from '../components/tabs/home';
 import Payments from '../components/tabs/payments';
@@ -29,6 +30,7 @@ import ViewOfFriendRequests from '../components/tabs/viewOfFriendRequests';
 import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 import SocialView from '../components/tabs/socialView';
 import ChangePassword from '../components/tabs/changePassword';
+import ThemeChange from '../components/tabs/themeChange';
 import Settings from '../components/tabs/settings';
 import Analytics from '../components/tabs/analytics';
 
@@ -88,6 +90,12 @@ const SettingsStack = createStackNavigator({
   },
   ChangePassword: {
     screen: ChangePassword,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
+  ThemeChange: {
+    screen: ThemeChange,
     navigationOptions: () => ({
       headerTransparent: 'True',
     }),
@@ -196,10 +204,10 @@ const ChildTabBar = createBottomTabNavigator({
     },
   }),
   tabBarOptions: {
-    activeTintColor: colors.primary,
+    activeTintColor: themeColors.primary[0],
     inactiveTintColor: 'white',
     style: {
-      backgroundColor: colors.linearGradientBottom,
+      backgroundColor: themeColors.linearGradientBottom[0],
       fontFamily: fonts.secondary,
     },
   },
