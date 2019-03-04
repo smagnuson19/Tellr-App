@@ -10,7 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { colors, fonts } from '../styling/base';
 import { colors2, fonts2 } from '../styling/parent';
-import { themeColors } from '../styling/colorModes';
+// import { themeColors } from '../styling/colorModes';
 
 import Home from '../components/tabs/home';
 import Payments from '../components/tabs/payments';
@@ -130,7 +130,7 @@ const ProfileStack = createStackNavigator({
   initialRouteName: 'Profile',
 });
 
-const ParentTabBar = createBottomTabNavigator({
+const ParentTabBarDark = createBottomTabNavigator({
   Home: HomeStack,
   Payments,
   'Add Task': AddTask,
@@ -173,6 +173,50 @@ const ParentTabBar = createBottomTabNavigator({
   initialRouteName: 'Home',
 });
 
+
+const ParentTabBarLight = createBottomTabNavigator({
+  Home: HomeStack,
+  Payments,
+  'Add Task': AddTask,
+  Profile: ProfileStack,
+},
+{
+  headerMode: 'none',
+  defaultNavigationOptions: ({ navigation }) => ({
+    headerTransparent: 'True',
+    headerMode: 'none',
+    tabBarIcon: ({ focused, horizontal, tintColor }) => {
+      const { routeName } = navigation.state;
+      let iconName;
+      if (routeName === 'Home') {
+        iconName = `ios-home${focused ? '' : ''}`;
+      } else if (routeName === 'Payments') {
+        iconName = `ios-card${focused ? '' : ''}`;
+      } else if (routeName === 'Add Task') {
+        iconName = `ios-add-circle${focused ? '' : ''}`;
+      } else if (routeName === 'Profile') {
+        iconName = `ios-person${focused ? '' : ''}`;
+      }
+
+      // You can return any component that you like here! We usually use an
+      // icon component from react-native-vector-icons
+      // https://ionicons.com/ ---> link for ionicons names
+      return <Ionicons name={iconName} size={25} color={tintColor} />;
+    },
+  }),
+  tabBarOptions: {
+    activeTintColor: colors.primary,
+    inactiveTintColor: 'white',
+    style: {
+      backgroundColor: colors.linearGradientBottom,
+      fontFamily: fonts.secondary,
+    },
+  },
+},
+{
+  initialRouteName: 'Home',
+});
+
 const ChildTabBar = createBottomTabNavigator({
   Home,
   Goals,
@@ -204,10 +248,10 @@ const ChildTabBar = createBottomTabNavigator({
     },
   }),
   tabBarOptions: {
-    activeTintColor: themeColors.primary[0],
+    activeTintColor: colors.primary,
     inactiveTintColor: 'white',
     style: {
-      backgroundColor: themeColors.linearGradientBottom[0],
+      backgroundColor: colors.linearGradientBottom,
       fontFamily: fonts.secondary,
     },
   },
@@ -248,8 +292,16 @@ const SignUpDialouge = createStackNavigator({
 
 const AppStack = createStackNavigator(
   {
-    ParentTabBar: {
-      screen: ParentTabBar,
+    ParentTabBarDark: {
+      screen: ParentTabBarDark,
+      navigationOptions: () => ({
+
+        header: null,
+
+      }),
+    },
+    ParentTabBarLight: {
+      screen: ParentTabBarLight,
       navigationOptions: () => ({
 
         header: null,

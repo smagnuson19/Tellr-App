@@ -1,46 +1,47 @@
 import React, { Component } from 'react';
 import {
-  View, Text, Alert,
+  View, Text, StyleSheet, Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
-  Button, FormInput,
+  Button,
 } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
-import { colors, fonts } from '../../styling/base';
+import RNPickerSelect from 'react-native-picker-select';
+import { colors, fonts, dimensions } from '../../styling/base';
 import { themeColors } from '../../styling/colorModes';
-import { postChangePassword } from '../../actions/index';
+import { postColorMode } from '../../actions/index';
 
 import Style from '../../styling/Style';
 
-class ChangePassword extends Component {
+class ThemeChange extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      oldPassword: '',
-      newPassword: '',
+      colorIndex: '',
+      themeList: [{ label: 'Light Mode', value: 0 }, { label: 'Night Mode', value: 1 }],
     };
   }
+
 
   headingDisplay() {
     if (this.props.mode === 0) {
       return (
-        <Text style={Style.headerTextLight}>Change Password </Text>
+        <Text style={Style.headerTextLight}>Theme Changer </Text>
       );
     } else {
       return (
-        <Text style={Style.headerTextDark}>Change Password </Text>
+        <Text style={Style.headerTextDark}>Theme Changer </Text>
       );
     }
   }
 
-  changePassword() {
-    // move to home page after you change password
+  changeTheme() {
+    // move to home page after you change the theme
     let resetAction;
     if (this.props.account.accountType === 'Parent') {
       if (this.props.mode === 0) {
-        console.log('Parent');
         resetAction = StackActions.reset({
           index: 0, // <-- currect active route from actions array
           key: null,
@@ -49,7 +50,6 @@ class ChangePassword extends Component {
           ],
         });
       } else {
-        console.log('Parent');
         resetAction = StackActions.reset({
           index: 0, // <-- currect active route from actions array
           key: null,
@@ -67,23 +67,20 @@ class ChangePassword extends Component {
         ],
       });
     }
+
     const payLoad = {
-      email: this.props.account.email,
-      password: this.state.oldPassword,
-      newPassword: this.state.newPassword,
+      color: this.state.colorIndex,
     };
-    // Error checking: make sure all of the fields are filled in
-    if (this.state.oldPassword === '') {
-      Alert.alert('Please enter your old password');
-      console.log('ERROR: old password empty');
-    } else if (this.state.newPassword === '') {
-      Alert.alert('Please enter your new password');
-      console.log('ERROR: new password empty');
+
+    if (this.state.colorIndex === '') {
+      Alert.alert('Please select a theme!');
+      console.log('ERROR: color index empty');
     } else {
       console.log(payLoad);
-      this.props.postChangePassword(payLoad).then(() => { this.props.navigation.dispatch(resetAction); });
+      this.props.postColorMode(payLoad, this.props.account.email).then(() => { this.props.navigation.dispatch(resetAction); });
     }
   }
+
 
   render() {
     return (
@@ -91,34 +88,39 @@ class ChangePassword extends Component {
         <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
             {this.headingDisplay()}
-            <View style={Style.inputContainer}>
-              <FormInput
-                containerStyle={Style.fieldContainerSecondary}
-                inputStyle={Style.fieldTextSecondary}
-                onChangeText={text => this.setState({ oldPassword: text })}
-                value={this.state.oldPassword}
-                placeholder="Enter old password..."
+            <View style={pageStyle.selectorsContainer}>
+              <RNPickerSelect
+                placeholder={{
+                  label: 'Select Theme',
+                  value: null,
+                }}
                 placeholderTextColor={colors.placeholderColor}
-                returnKeyType="next"
-                secureTextEntry="true"
-                textContentType="password"
-              />
-              <FormInput
-                ref={(input) => { this.fithTextInput = input; }}
-                returnKeyType="done"
-                containerStyle={Style.fieldContainerSecondary}
-                inputStyle={Style.fieldTextSecondary}
-                onChangeText={text => this.setState({ newPassword: text })}
-                value={this.state.newPassword}
-                placeholder="Enter new password..."
-                placeholderTextColor={colors.placeholderColor}
-                secureTextEntry="true"
-                textContentType="password"
+                items={this.state.themeList}
+                onValueChange={(value) => {
+                  this.setState({
+                    colorIndex: value,
+                  });
+                }}
+                style={{
+                  inputIOS: {
+                    fontSize: fonts.md,
+                    paddingTop: 10,
+                    paddingHorizontal: 10,
+                    paddingBottom: 10,
+                    borderWidth: 1,
+                    borderColor: themeColors.secondary[this.props.mode],
+                    color: themeColors.headerColor[this.props.mode],
+                    width: dimensions.fullWidth - 40,
+                    fontFamily: fonts.secondary,
+                    textAlign: 'center',
+                  },
+                }}
+                value={this.state.colorIndex}
               />
             </View>
             <View style={Style.buttonContainer}>
               <Button
-                title="Change Password"
+                title="Change The Theme!"
                 large
                 raised
                 fontFamily={fonts.secondary}
@@ -130,7 +132,7 @@ class ChangePassword extends Component {
                         borderWidth: 0,
                         borderRadius: 5,
                       }}
-                onPress={() => this.changePassword()}
+                onPress={() => this.changeTheme()}
               />
             </View>
           </View>
@@ -140,6 +142,13 @@ class ChangePassword extends Component {
   }
 }
 
+const pageStyle = StyleSheet.create({
+  selectorsContainer: {
+    flex: 1,
+    padding: '3%',
+    justifyContent: 'center',
+  },
+});
 
 const mapStateToProps = state => (
   {
@@ -147,4 +156,4 @@ const mapStateToProps = state => (
     mode: state.user.colorMode.color,
   });
 
-export default connect(mapStateToProps, { postChangePassword })(ChangePassword);
+export default connect(mapStateToProps, { postColorMode })(ThemeChange);

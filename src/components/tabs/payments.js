@@ -148,13 +148,24 @@ class Payments extends Component {
 
   postBalance() {
     // move to home page after you send a payment
-    const resetAction = StackActions.reset({
-      index: 0, // <-- currect active route from actions array
-      key: null,
-      actions: [
-        NavigationActions.navigate({ routeName: 'ParentTabBar' }),
-      ],
-    });
+    let resetAction;
+    if (this.props.mode === 0) {
+      resetAction = StackActions.reset({
+        index: 0, // <-- currect active route from actions array
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'ParentTabBarLight' }),
+        ],
+      });
+    } else {
+      resetAction = StackActions.reset({
+        index: 0, // <-- currect active route from actions array
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'ParentTabBarDark' }),
+        ],
+      });
+    }
     // Describing what should be sent
     const payLoad = {
       email: this.state.childEmail,
