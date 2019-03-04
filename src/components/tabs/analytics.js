@@ -28,6 +28,7 @@ class Analytics extends Component {
       timeDict: {},
       barDict: {},
       tickDict: {},
+      maxDict: {},
     };
     this.buttonPress = this.buttonPress.bind(this);
   }
@@ -145,6 +146,12 @@ class Analytics extends Component {
     this.setState({ tickDict });
 
     this.setState({ barDict });
+    const maxDict = {
+      0: this.props.allStats[0].max,
+      1: this.props.allStats[1].max,
+      2: this.props.allStats[2].max,
+    };
+    this.setState({ maxDict });
   }
 
   buttonPress(action, goalName, sEmail, cEmail, priority) {
@@ -170,8 +177,12 @@ class Analytics extends Component {
           data={balHist}
           style={{ marginBottom: 3 }}
           yAccessor={({ item }) => item.value}
-          contentInset={contentInset}
+          contentInset={{
+            top: 5, left: 5, right: 0, bottom: 5,
+          }}
           formatLabel={value => `$${value}`}
+          gridMax={this.state.maxDict[this.state.filter] + 1}
+          gridMin={0}
           svg={{
             fill: 'black',
             fontSize: 8,
@@ -190,6 +201,7 @@ class Analytics extends Component {
             svg={{ fill: colors.babyBlue }}
             yAccessor={({ item }) => item.value}
             xAccessor={({ item }) => item.index}
+
             // showGrid={false}
             style={{
               height: 200, flex: 1, marginLeft: 5, width: deviceWidth - 45,
@@ -197,6 +209,7 @@ class Analytics extends Component {
             gridMin={0}
             contentInset={contentInset}
             numberOfTicks={6}
+            gridMax={this.state.maxDict[this.state.filter] + 1}
           >
             <Grid />
           </AreaChart>
@@ -352,11 +365,11 @@ class Analytics extends Component {
             color: 'black', fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center', paddingBottom: 8,
           }}
           >
-            {'Average Task Value'}
+            {'Average Goal Cost'}
           </Text>
           <ProgressCircle
             style={{ height: 158, paddingTop: 5 }}
-            progress={parseFloat(this.props.allStats[this.state.filter].avgTask) / 50}
+            progress={parseFloat(this.props.allStats[this.state.filter].avgGoal) / 50}
             progressColor="rgb(28, 218, 28)"
             startAngle={-Math.PI * 1}
             endAngle={Math.PI * 1}
@@ -371,11 +384,11 @@ class Analytics extends Component {
             color: 'black', fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center', paddingBottom: 8,
           }}
           >
-            {'Average Goal Cost'}
+            {'Average Task Value'}
           </Text>
           <ProgressCircle
             style={{ height: 158, paddingTop: 5 }}
-            progress={parseFloat(this.props.allStats[this.state.filter].avgGoal) / 50}
+            progress={parseFloat(this.props.allStats[this.state.filter].avgTask) / 50}
             progressColor="rgb(28, 28, 228)"
             startAngle={Math.PI * 1}
             endAngle={-Math.PI * 1}
