@@ -11,6 +11,7 @@ const UserReducer = (
     allFriend: null,
     earnings: null,
     allStats: null,
+    colorMode: null,
   },
   action,
 ) => {
@@ -25,6 +26,7 @@ const UserReducer = (
         allFriend: state.allFriend,
         earnings: state.earnings,
         allStats: state.allStats,
+        colorMode: state.colorMode,
       };
     case ActionTypes.FETCH_FAMILY:
       return {
@@ -36,6 +38,7 @@ const UserReducer = (
         allFriend: state.allFriend,
         earnings: state.earnings,
         allStats: state.allStats,
+        colorMode: state.colorMode,
       };
     case ActionTypes.FETCH_NOTIFICATIONS:
       return {
@@ -47,6 +50,7 @@ const UserReducer = (
         allFriend: state.allFriend,
         earnings: state.earnings,
         allStats: state.allStats,
+        colorMode: state.colorMode,
       };
     case ActionTypes.FETCH_GOALS:
       return {
@@ -58,6 +62,7 @@ const UserReducer = (
         allFriend: state.allFriend,
         earnings: state.earnings,
         allStats: state.allStats,
+        colorMode: state.colorMode,
       };
     case ActionTypes.FETCH_FRIENDINFO:
       return {
@@ -69,6 +74,7 @@ const UserReducer = (
         allFriend: state.allFriend,
         earnings: state.earnings,
         allStats: state.allStats,
+        colorMode: state.colorMode,
       };
     case ActionTypes.FETCH_ALL_SOC:
       return {
@@ -80,6 +86,7 @@ const UserReducer = (
         allFriend: action.payload,
         earnings: state.earnings,
         allStats: state.allStats,
+        colorMode: state.colorMode,
       };
     case ActionTypes.FETCH_EARNINGS:
       return {
@@ -91,6 +98,7 @@ const UserReducer = (
         allFriend: state.allFriend,
         earnings: action.payload,
         allStats: state.allStats,
+        colorMode: state.colorMode,
       };
     case ActionTypes.FETCH_STATS:
       return {
@@ -102,6 +110,19 @@ const UserReducer = (
         allFriend: state.allFriend,
         earnings: state.earnings,
         allStats: action.payload,
+        colorMode: state.colorMode,
+      };
+    case ActionTypes.FETCH_COLORMODE:
+      return {
+        info: state.info,
+        family: state.family,
+        notifications: state.notifications,
+        goals: state.goals,
+        friendInfo: state.friendInfo,
+        allFriend: state.allFriend,
+        earnings: state.earnings,
+        allStats: state.allStats,
+        colorMode: action.payload,
       };
     default:
       return state;

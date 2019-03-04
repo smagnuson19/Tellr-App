@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { colors } from '../styling/base';
 import {
-  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats,
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchColorMode,
 } from '../actions/index';
 import Style from '../styling/Style';
 
@@ -56,6 +56,9 @@ class Loading extends Component {
         this.props.fetchAllStats(email)
           .then(() => { console.log('Stats pulled in'); })
           .catch(() => { this.setState({ loginVerify: false }); });
+        this.props.fetchColorMode(email)
+          .then(() => { console.log('Color mode pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
       }).catch((error) => {
         this.setState({ loginVerify: false });
       });
@@ -64,6 +67,9 @@ class Loading extends Component {
         console.log('Notifications pulled in ');
         this.props.fetchParentInfo(email)
           .then(() => { console.log('User Info pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
+        this.props.fetchColorMode(email)
+          .then(() => { console.log('Color mode pulled in'); })
           .catch(() => { this.setState({ loginVerify: false }); });
       }).catch(() => {
         console.log('Error on Notification');
@@ -170,5 +176,5 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats,
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchColorMode,
 })(Loading);
