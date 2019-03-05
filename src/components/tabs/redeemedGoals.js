@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   // View, Text, StyleSheet, AsyncStorage,
-  View, Text, ScrollView,
+  View, Text, ScrollView, RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -21,8 +21,20 @@ class redeemedGoals extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      isFetching: false,
     };
+  }
+
+  onRefresh() {
+    this.setState({ isFetching: true }, function () { this.reloadApiData(); });
+  }
+
+  reloadApiData() {
+    console.log('reloading api Data');
+    // Do we want to update children info as well?
+    this.props.fetchGoals(this.props.user.email);
+    // No longer fetching
+    this.setState({ isFetching: false });
   }
 
   renderGoals() {
@@ -66,7 +78,14 @@ class redeemedGoals extends Component {
             <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
               <View style={Style.contentWrapper}>
                 <Text style={Style.headerText}>Redeemed Goals!</Text>
-                <ScrollView>
+                <ScrollView refreshControl={(
+                  <RefreshControl
+                    onRefresh={() => this.onRefresh()}
+                    refreshing={this.state.isFetching}
+                    tintColor="#fff"
+                  />
+                )}
+                >
                   {this.renderGoals()}
                   <Divider style={{ backgroundColor: colors.clear, height: 105 }} />
                 </ScrollView>

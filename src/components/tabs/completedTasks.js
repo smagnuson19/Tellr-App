@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   // View, Text, StyleSheet, AsyncStorage,
-  View, Text, ScrollView,
+  View, Text, ScrollView, RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -10,7 +10,7 @@ import { Divider, ButtonGroup } from 'react-native-elements';
 // import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 // import RedeemedGoalsCard from './redeemedGoalsTabCard';
-import { fetchTasksWeek } from '../../actions';
+import { fetchTasksWeek, fetchTasksMonth, fetchTasksYear } from '../../actions';
 
 
 // import AvatarImage from './avatarImage';
@@ -22,7 +22,22 @@ class completedTasks extends Component {
     super(props);
     this.state = {
       filter: 0,
+      isFetching: false,
     };
+  }
+
+  onRefresh() {
+    this.setState({ isFetching: true }, function () { this.reloadApiData(); });
+  }
+
+  reloadApiData() {
+    console.log('reloading api Data');
+    // Do we want to update children info as well?
+    this.props.fetchTasksWeek(this.props.user.email);
+    this.props.fetchTasksMonth(this.props.user.email);
+    this.props.fetchTasksYear(this.props.user.email);
+    // No longer fetching
+    this.setState({ isFetching: false });
   }
 
   renderGoals() {
@@ -69,7 +84,14 @@ class completedTasks extends Component {
               selectedButtonStyle={{ backgroundColor: '#3de594' }
               }
             />
-            <ScrollView>
+            <ScrollView refreshControl={(
+              <RefreshControl
+                onRefresh={() => this.onRefresh()}
+                refreshing={this.state.isFetching}
+                tintColor="#fff"
+              />
+            )}
+            >
               {this.renderGoals()}
               <Divider style={{ backgroundColor: colors.clear, height: 105 }} />
             </ScrollView>
@@ -89,4 +111,4 @@ const mapStateToProps = state => (
     user: state.user.info,
   });
 
-export default connect(mapStateToProps, { fetchTasksWeek })(completedTasks);
+export default connect(mapStateToProps, { fetchTasksWeek, fetchTasksMonth, fetchTasksYear })(completedTasks);
