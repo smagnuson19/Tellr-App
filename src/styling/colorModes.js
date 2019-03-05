@@ -5,9 +5,8 @@ export const dimensions = {
   fullWidth: Dimensions.get('window').width,
 };
 
-// 0: kids regular mode / pink colors - pink, light purple, blue lightlight?
+// 0: kids regular mode / pink colors - pink, light purple, blue
 // 1: night mode dark colors
-// 2: kids mode 2 / blue and orange colors - light blue, dark blue, orange highlight
 
 export const themeColors = {
   linearGradientTop: { 0: 'rgba(250, 27, 3, 0.29615)', 1: 'rgba(4, 27, 37, 0.9615)', 2: 'rgba(64, 224, 208, .8)' },

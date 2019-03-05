@@ -242,7 +242,7 @@ Balance:
     return (
       <View
         style={{
-          position: 'absolute', top: '85%', left: '-2.2%',
+          position: 'absolute', top: '84%', left: '-2.2%',
         }}
       >
         <ButtonGroup
