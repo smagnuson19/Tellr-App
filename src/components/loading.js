@@ -24,7 +24,16 @@ class Loading extends Component {
 
     this.state = {
       email: null,
-      loginVerify: true,
+      fetchNotificationInfo: null,
+      fetchGoals: null,
+      fetchKidFriends: null,
+      fetchAllSocial: null,
+      fetchEarningsHistory: null,
+      fetchAllStats: null,
+      fetchTasksMonth: null,
+      fetchTasksYear: null,
+      fetchTasksWeek: null,
+      fetchParentInfo: null,
     };
   }
 
@@ -32,6 +41,7 @@ class Loading extends Component {
   componentDidMount() {
     this.fetchNames();
   }
+
 
   // IMPORTANT!!!!!!
   // Logic flow is if there is an error in fetchNotifications
@@ -42,7 +52,25 @@ class Loading extends Component {
 
   // MAke this an await function for everything to finsih and then return true
   // or false then continue on to next page or not
+  // checkForComplete(list) {
+  //   counter = 0;
+  //   if (list !== undefined) {
+  //     for (key in list) {
+  //       if (list[key] === null) {
+  //         return false;
+  //       }
+  //       if (list[key] === true) {
+  //         counter += 1;
+  //       }
+  //     }
+  //   }
+  //
+  //   return counter;
+  // }
+
+
   fetchAtLoad(email) {
+<<<<<<< HEAD
     initialChildFetchCheck = {
       fetchNotificationInfo: null,
       fetchGoals: null,
@@ -153,43 +181,153 @@ class Loading extends Component {
     } else {
       console.log('missing accountTypeID');
       this.setState({ loginVerify: false });
+=======
+    if (this.props.accountInfo != null) {
+      if (this.props.accountInfo.accountType === 'Child') {
+        this.props.fetchNotificationInfo(email).then((response) => {
+          console.log('Notifications pulled in');
+          this.setState({ fetchNotificationInfo: true });
+          this.props.fetchGoals(email)
+            .then(() => {
+              console.log('Goals pulled in');
+
+              this.setState({ fetchGoals: true });
+            })
+            .catch(() => {
+              this.setState({ fetchGoals: false });
+            });
+          this.props.fetchKidFriends(email)
+            .then(() => {
+              console.log('Friends pulled in');
+
+              this.setState({ fetchKidFriends: true });
+            })
+            .catch(() => {
+              this.setState({ fetchKidFriends: false });
+            });
+          this.props.fetchAllSocial(email)
+            .then(() => {
+              console.log('All friends pulled in');
+              this.setState({ fetchAllSocial: true });
+            })
+            .catch(() => {
+              this.setState({ fetchAllSocial: false });
+            });
+          this.props.fetchEarningsHistory(email)
+            .then(() => {
+              console.log('Earnings pulled in');
+
+              this.setState({ fetchEarningsHistory: true });
+            })
+            .catch(() => {
+              this.setState({ fetchEarningsHistory: false });
+            });
+          this.props.fetchAllStats(email)
+            .then(() => {
+              console.log('Stats pulled in');
+
+              this.setState({ fetchAllStats: true });
+            })
+            .catch(() => {
+              this.setState({ fetchAllStats: false });
+            });
+          this.props.fetchTasksWeek(email)
+            .then(() => {
+              console.log('W Tasks pulled in');
+
+              this.setState({ fetchTasksWeek: true });
+            })
+            .catch(() => {
+              this.setState({ fetchTasksWeek: false });
+            });
+          this.props.fetchTasksMonth(email)
+            .then(() => {
+              console.log('M Tasks pulled in');
+
+              this.setState({ fetchTasksMonth: true });
+            })
+            .catch(() => {
+              this.setState({ fetchTasksMonth: false });
+            });
+          this.props.fetchTasksYear(email)
+            .then(() => {
+              console.log('Y Tasks pulled in');
+
+              this.setState({ fetchTasksYear: true });
+            })
+            .catch(() => {
+              this.setState({ fetchTasksYear: false });
+            });
+        }).catch((error) => {
+          this.setState({ fetchNotificationInfo: false });
+        });
+      } else if (this.props.accountInfo.accountType === 'Parent') {
+        this.props.fetchNotificationInfo(email).then(() => {
+          console.log('Notifications pulled in ');
+
+          this.setState({ fetchNotificationInfo: true });
+          this.props.fetchParentInfo(email)
+            .then(() => {
+              console.log('User Info pulled in');
+
+              this.setState({ fetchParentInfo: true });
+            })
+            .catch(() => {
+              this.setState({ fetchParentInfo: false });
+            });
+        }).catch(() => {
+          console.log('Error on Notification');
+          this.setState({ fetchNotificationInfo: false });
+        });
+      } else {
+        console.log('missing accountTypeID');
+        this.goToLogin();
+      }
+>>>>>>> secure login updated
     }
   }
 
   fetchNames() {
     const { navigation } = this.props;
     const email = navigation.getParam('emailParam', 'NO-EMAIL');
-    console.log(email);
+    console.log('Email: ', email);
     // means there should be a token
     if (email === 'NO-EMAIL') {
-      console.log('yes');
       AsyncStorage.getItem('email').then((storageEmail) => {
         console.log(storageEmail);
         this.setState({ email: storageEmail });
         if (storageEmail != null) {
-          // this is going to check that async correctly pulled token AND token is valid
           this.props.fetchUserInfo(storageEmail)
             .then(() => {
-              this.fetchAtLoad(storageEmail); })
-            .catch(() => {
-              //something bad happened and they should be able to log in);
+              // this is going to check that async correctly pulled token AND token is valid
+              this.fetchAtLoad(storageEmail);
+            }).catch(() => {
+              this.goToLogin();
             });
+        } else {
+          this.goToLogin();
         }
       });
+    } else {
+      this.setState({ email });
+      this.props.fetchUserInfo(email)
+        .then(() => {
+          // this.fetchAtLoad();
+          console.log('happy');
+        }).catch(() => {
+          this.goToLogin();
+        });
     }
   }
 
   goToLogin() {
-    // this.props.navigation.navigate('Login');
+    this.props.navigation.navigate('Login');
   }
 
   loading() {
-    function sleep(time) {
-      return new Promise(resolve => setTimeout(resolve, time));
-    }
-
-
+    console.log(this.state);
     // figure out if Parent or Child user
+<<<<<<< HEAD
     let chooseRoute;
     if (this.props.accountInfo !== null && this.props.mode !== null) {
       if (this.props.accountInfo.accountType === 'Child') {
@@ -227,16 +365,60 @@ class Loading extends Component {
           // this.props.navigation.dispatch(resetAction);
           if (this.state.loginVerify) {
             this.props.navigation.navigate(chooseRoute);
+=======
+    // makes sure everything has returned something and then checks whether it
+    // was loaded correctly
+    // better loading flags should be used here at some point
+    if (this.props.accountInfo !== null) {
+      if (this.props.accountInfo.accountType === 'Child') {
+        if ((this.state.fetchNotificationInfo !== null)
+        && (this.state.fetchGoals !== null)
+        && (this.state.fetchKidFriends !== null)
+        && (this.state.fetchAllSocial !== null)
+        && (this.state.fetchEarningsHistory !== null)
+        && (this.state.fetchAllStats !== null)
+        && (this.state.fetchTasksMonth !== null)
+        && (this.state.fetchTasksYear !== null)
+        && (this.state.fetchTasksWeek !== null)
+        ) {
+          if ((this.state.fetchNotificationInfo === true)
+          && (this.state.fetchGoals === true)
+          && (this.state.fetchKidFriends === true)
+          && (this.state.fetchAllSocial === true)
+          && (this.state.fetchEarningsHistory === true)
+          && (this.state.fetchAllStats === true)
+          && (this.state.fetchTasksMonth === true)
+          && (this.state.fetchTasksYear === true)
+          && (this.state.fetchTasksWeek === true)
+          ) {
+            this.props.navigation.navigate('ChildTabBar');
           } else {
             this.goToLogin();
           }
-        });
+        }
+      } else if (this.props.accountInfo.accountType === 'Parent') {
+        if ((this.state.fetchNotificationInfo !== null)
+        && (this.state.fetchParentInfo !== null)
+        ) {
+          if ((this.state.fetchNotificationInfo === true)
+        && (this.state.fetchParentInfo === true)
+          ) {
+            this.props.navigation.navigate('ParentTabBar');
+>>>>>>> secure login updated
+          } else {
+            this.goToLogin();
+          }
+        }
+      } else {
+        console.log('Error in Loading', this.props.accountInfo.accountType);
       }
     }
   }
 
   render() {
+    // function will timeout if not everything is called in 15 seconds
     if (this.state.email != null) {
+      console.log('going into loading');
       this.loading();
     }
 
@@ -261,9 +443,14 @@ const mapStateToProps = state => (
     mode: state.user.colorMode,
   });
 
+<<<<<<< HEAD
 
 export default connect(mapStateToProps, {
 
   fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksWeek, fetchTasksMonth, fetchTasksYear, fetchColorMode,
+=======
+export default connect(mapStateToProps, {
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksWeek, fetchTasksMonth, fetchTasksYear,
+>>>>>>> secure login updated
 
 })(Loading);

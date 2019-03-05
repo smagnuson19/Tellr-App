@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import OneSignal from 'react-native-onesignal';
 import RootStack from './navigation/navigation';
+import deviceStorage from './actions/deviceStorage';
 import NavigationService from './navigation/navigationService';
 
 import reducers from './reducers';
@@ -48,6 +49,11 @@ export default class App extends Component {
 
   onIds(device) {
     console.log('Device info: ', device);
+
+    if (device.userId !== undefined) {
+      console.log('Device info: ', device);
+      deviceStorage.saveItem('deviceInfo', device.userId);
+    }
   }
 
   render() {

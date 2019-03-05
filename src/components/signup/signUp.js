@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Alert,
   TouchableOpacity,
+  AsyncStorage,
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
@@ -12,7 +13,7 @@ import {
 } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import { NavigationActions } from 'react-navigation';
-import OneSignal from 'react-native-onesignal';
+
 import { postNewUser } from '../../actions';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
@@ -29,37 +30,7 @@ class SignUp extends Component {
     };
   }
 
-  createAccount() {
-    const randomColor = require('randomcolor'); // import the script
-    const color = randomColor({ luminosity: 'dark' }); // a hex code for an attractive color
-
-
-    const { navigation } = this.props;
-    const userType = navigation.getParam('userType');
-    const firstName = navigation.getParam('firstName');
-    const lastName = navigation.getParam('lastName');
-    const familyName = navigation.getParam('familyName');
-
-    const id = OneSignal.configure();
-    if (id.userId === undefined) {
-      id.userId = null;
-    }
-    // Describing what will be sent
-    const payLoad = {
-      firstName,
-      lastName,
-      email: this.state.email,
-      password: this.state.password,
-      familyName,
-      accountType: userType,
-      avatarColor: color,
-      oneSignalID: id.userId,
-      familyPassword: this.state.familyPassword,
-      // avatar: this.state.avatar,
-    };
-
-    // checking for errors and notifying user
-
+  checkForValidAccount(payLoad) {
     if (this.state.email === '') {
       Alert.alert('Email cannot be empty');
       console.log('ERROR: email empty');
@@ -82,18 +53,47 @@ class SignUp extends Component {
         .then((response) => {
           // maybe backend returns a specific error so we can know for sure this
           // is the issue
-          console.log(response);
-
-          if (this.props.authenticated) {
-            this.props.navigation.navigate('Auth', { emailParam: this.state.email }, NavigationActions.navigate({ routeName: 'Loading' }));
-          } else if (this.props.errorMessage) {
-            Alert.alert(this.props.errorMessage);
-          }
         });
     }
   }
 
+  createAccount() {
+    const randomColor = require('randomcolor'); // import the script
+    const color = randomColor({ luminosity: 'dark' }); // a hex code for an attractive color
+
+
+    const { navigation } = this.props;
+    const userType = navigation.getParam('userType');
+    const firstName = navigation.getParam('firstName');
+    const lastName = navigation.getParam('lastName');
+    const familyName = navigation.getParam('familyName');
+
+    AsyncStorage.getItem('deviceInfo').then((deviceInfo) => {
+      console.log(deviceInfo);
+      const payLoad = {
+        firstName,
+        lastName,
+        email: this.state.email,
+        password: this.state.password,
+        familyName,
+        accountType: userType,
+        avatarColor: color,
+        oneSignalID: deviceInfo,
+        familyPassword: this.state.familyPassword,
+        // avatar: this.state.avatar,
+      };
+      this.checkForValidAccount(payLoad);
+    });
+
+    // checking for errors and notifying user
+  }
+
   render() {
+    if (this.props.authenticated) {
+      this.props.navigation.navigate('Auth', { emailParam: this.state.email }, NavigationActions.navigate({ routeName: 'Loading' }));
+    } else if (this.props.errorMessage) {
+      Alert.alert(this.props.errorMessage);
+    }
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
@@ -117,7 +117,7 @@ class SignUp extends Component {
                 inputStyle={Style.fieldText}
                 containerStyle={pageStyle.fieldContainer}
                 onChangeText={text => this.setState({ familyPassword: text })}
-                value={this.state.email}
+                value={this.state.familyPassword}
                 placeholder="Family Password"
                 keyboardType="email-address"
                 placeholderTextColor={colors.grey}
