@@ -172,7 +172,7 @@ Chores are fun! Ask for more! :)
           </View>
         </View>
         <Divider style={{
-          backgroundColor: themeColors.secondary[this.props.mode],
+          backgroundColor: themeColors.divider[this.props.mode],
           height: 2,
           marginTop: 6,
           marginBottom: 6,

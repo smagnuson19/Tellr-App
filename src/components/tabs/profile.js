@@ -280,7 +280,7 @@ Balance:
 Account
               </Text>
               <Divider style={{
-                backgroundColor: themeColors.secondary[this.props.mode],
+                backgroundColor: themeColors.divider[this.props.mode],
                 height: 2,
                 marginTop: 2,
                 marginBottom: 2,
@@ -351,7 +351,7 @@ Account Type:
 Analytics
                 </Text>
                 <Divider style={{
-                  backgroundColor: themeColors.secondary[this.props.mode],
+                  backgroundColor: themeColors.divider[this.props.mode],
                   height: 2,
                   marginTop: 2,
                   marginBottom: 0,
