@@ -270,6 +270,11 @@ $
                 fontFamily={fonts.secondary}
                 style={Style.button}
                 buttonStyle={{
+                  shadowColor: 'rgba(0, 0, 0, 0.2)',
+                  shadowOpacity: 0.8,
+                  elevation: 6,
+                  shadowRadius: 15,
+                  shadowOffset: { width: 1, height: 13 },
                   backgroundColor: themeColors.buttonColor[this.props.mode],
                   alignSelf: 'center',
                   borderColor: 'transparent',
