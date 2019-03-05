@@ -9,7 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { colors } from '../styling/base';
 import { colors2 } from '../styling/parent';
 import {
-  fetchUserInfo, fetchTasksWeek, fetchTasksMonth, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksYear, fetchColorMode, fetchParentAnalytics,
+  fetchUserInfo, fetchTasksWeek, fetchTasksMonth, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksYear, fetchColorMode, fetchParentAnalytics, fetchOtherParents,
 } from '../actions/index';
 import Style from '../styling/Style';
 // import { themeColors } from '../styling/colorModes';
@@ -36,6 +36,7 @@ class Loading extends Component {
       fetchParentInfo: null,
       fetchColorMode: null,
       fetchParentAnalytics: null,
+      fetchOtherParents: null,
     };
   }
 
@@ -183,6 +184,15 @@ class Loading extends Component {
             .catch(() => {
               this.setState({ fetchColorMode: false });
             });
+          this.props.fetchOtherParents(email)
+            .then(() => {
+              console.log('Other Parents Pulled in');
+
+              this.setState({ fetchOtherParents: true });
+            })
+            .catch(() => {
+              this.setState({ fetchOtherParents: false });
+            });
           this.props.fetchParentAnalytics(email)
             .then(() => {
               console.log('M Tasks pulled in');
@@ -284,14 +294,13 @@ class Loading extends Component {
         && (this.state.fetchParentInfo !== null)
         && (this.state.fetchColorMode !== null)
         && (this.state.fetchParentAnalytics !== null)
-
-
+        && (this.state.fetchOtherParents !== null)
         ) {
           if ((this.state.fetchNotificationInfo === true)
         && (this.state.fetchParentInfo === true)
         && (this.state.fetchColorMode === true)
         && (this.state.fetchParentAnalytics === true)
-
+        && (this.state.fetchOtherParents === true)
           ) {
             if (this.props.mode.color === 0) {
               this.props.navigation.navigate('ParentTabBarLight');
@@ -338,6 +347,6 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksWeek, fetchTasksMonth, fetchTasksYear, fetchColorMode, fetchParentAnalytics,
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchOtherParents, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksWeek, fetchTasksMonth, fetchTasksYear, fetchColorMode, fetchParentAnalytics,
 
 })(Loading);

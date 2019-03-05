@@ -30,6 +30,7 @@ export const ActionTypes = {
   FETCH_MCOMPLETED_TASKS: 'FETCH_MCOMPLETED_TASKS',
   FETCH_YCOMPLETED_TASKS: 'FETCH_YCOMPLETED_TASKS',
   FETCH_PARENT_ANALYTICS: 'FETCH_PARENT_ANALYTICS',
+  FETCH_OTHER_PARENTS: 'FETCH_OTHER_PARENTS',
 };
 
 // trigger to deauth if there is error
@@ -865,6 +866,28 @@ export function fetchAllStats(email) {
     }).catch((error) => {
       errorHandling(
         'Error in Stats: ',
+        error.response.data[0].Error,
+      );
+      return Promise.reject();
+    });
+  };
+}
+
+export function fetchOtherParents(email) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.get(`${ROOT_URL}/otherparents/${email}`, { headers: { authorization: token } })
+        .then((response) => {
+          console.log(response.data);
+          dispatch({
+            type: ActionTypes.FETCH_OTHER_PARENTS,
+            payload: response.data,
+          });
+          return Promise.resolve();
+        });
+    }).catch((error) => {
+      errorHandling(
+        'Error in Parents: ',
         error.response.data[0].Error,
       );
       return Promise.reject();
