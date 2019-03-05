@@ -137,6 +137,42 @@ const ProfileStack = createStackNavigator({
   initialRouteName: 'Profile',
 });
 
+const GoalsStack = createStackNavigator({
+  Goals: {
+    screen: Goals,
+    navigationOptions: () => ({
+      header: null,
+    }),
+  },
+  redeemedGoals: {
+    screen: redeemedGoals,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
+},
+{
+  initialRouteName: 'Goals',
+});
+
+const KidHomeStack = createStackNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: () => ({
+      header: null,
+    }),
+  },
+  CompletedTasks: {
+    screen: CompletedTasks,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
+},
+{
+  initialRouteName: 'Home',
+});
+
 const ParentTabBarDark = createBottomTabNavigator({
   Home: HomeStack,
   Payments,
@@ -225,8 +261,8 @@ const ParentTabBarLight = createBottomTabNavigator({
 });
 
 const ChildTabBarLight = createBottomTabNavigator({
-  Home,
-  Goals,
+  Home: KidHomeStack,
+  Goals: GoalsStack,
   Friends: FriendsStack,
   Profile: ProfileStack,
 },
@@ -268,8 +304,8 @@ const ChildTabBarLight = createBottomTabNavigator({
 });
 
 const ChildTabBarDark = createBottomTabNavigator({
-  Home,
-  Goals,
+  Home: KidHomeStack,
+  Goals: GoalsStack,
   Friends: FriendsStack,
   Profile: ProfileStack,
 },
@@ -380,18 +416,6 @@ const AppStack = createStackNavigator(
     },
     redeemMoney: {
       screen: redeemMoney,
-      navigationOptions: () => ({
-        headerTransparent: 'True',
-      }),
-    },
-    redeemedGoals: {
-      screen: redeemedGoals,
-      navigationOptions: () => ({
-        headerTransparent: 'True',
-      }),
-    },
-    CompletedTasks: {
-      screen: CompletedTasks,
       navigationOptions: () => ({
         headerTransparent: 'True',
       }),
