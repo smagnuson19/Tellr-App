@@ -29,6 +29,7 @@ class Home extends Component {
     this.navigationToAccount = this.navigationToAccount.bind(this);
     this.renderAction = this.renderAction.bind(this);
     this.onRefreshForChild = this.onRefreshForChild.bind(this);
+    this.navigationToCompletedTasks = this.navigationToCompletedTasks.bind(this);
   }
 
 
@@ -67,6 +68,10 @@ class Home extends Component {
     this.props.navigation.navigate('ChildPage', {
       childInfo: child,
     });
+  }
+
+  navigationToCompletedTasks() {
+    this.props.navigation.navigate('CompletedTasks');
   }
 
 
@@ -346,6 +351,7 @@ No Chores To Verify, Add some more!
           isFetching={this.state.isFetching}
           onPress={this.renderAction}
           refreshAPI={this.onRefreshForChild}
+          navigationToCompletedTasks={this.navigationToCompletedTasks}
         />
       );
     } else {
