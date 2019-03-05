@@ -127,6 +127,7 @@ class Child extends Component {
             </Text>
           </View>
         </View>
+        <Divider style={pageStyle.divider} />
         <ScrollView style={pageStyle.main}
           refreshControl={(
             <RefreshControl
@@ -161,7 +162,7 @@ const pageStyle = StyleSheet.create({
 
   topContainer: {
     width: dimensions.fullWidth,
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
     marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
