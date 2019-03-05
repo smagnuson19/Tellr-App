@@ -41,8 +41,10 @@ class NotificationCard extends Component {
   displaySenderName() {
     if (this.props.entry.senderName !== '' || this.props.entry.senderName !== null) {
       return (
-        <View style={pageStyle.pageFiller}>
-          <Text>
+        <View>
+          <Text style={pageStyle.senderName}>
+            Created By:
+            {' '}
             {this.props.entry.senderName}
           </Text>
         </View>
@@ -170,7 +172,6 @@ class NotificationCard extends Component {
           wrapperStyle={pageStyle.wrapperStyle}
         >
           <View style={pageStyle.headerView}>
-            {this.displaySenderName()}
             <View style={pageStyle.titleFiller}>
               <Text style={pageStyle.titleStyle}>
                 {this.props.entry.notificationName}
@@ -191,6 +192,7 @@ class NotificationCard extends Component {
             </Text>
           </View>
           {this.displayDueDate()}
+          {this.displaySenderName()}
           {this.displayCorrectItems()}
         </Card>
       );
@@ -266,12 +268,13 @@ const pageStyle = StyleSheet.create({
   descriptionContainer: {
     // backgroundColor: 'rgb(216, 217, 216)',
     padding: 3,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 3,
+    marginRight: 3,
   },
 
   descriptionText: {
     textAlign: 'center',
+    fontSize: fonts.smmd,
   },
 
   deadlineContainerRed: {
@@ -326,6 +329,12 @@ const pageStyle = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
+  },
+  senderName: {
+    textAlign: 'center',
+    flex: 1,
+    paddingLeft: 3,
+    paddingTop: 3,
   },
 
 });
