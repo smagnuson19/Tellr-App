@@ -207,7 +207,7 @@ const pageStyle = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: 5,
   },
 
   headerView: {
@@ -230,18 +230,25 @@ const pageStyle = StyleSheet.create({
     marginBottom: 6,
 
   },
+
+  titleFiller: {
+    width: '80%',
+    justifyContent: 'flex-start',
+  },
   priceFiller: {
     flex: 1,
+    width: '10%',
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginRight: 6,
+    paddingRight: 5,
   },
 
   titleStyle: {
+
     color: colors.primary,
     // padding: 1,
-    textAlign: 'center',
+    textAlign: 'left',
     fontSize: fonts.md,
     // textAlign: 'center',
 

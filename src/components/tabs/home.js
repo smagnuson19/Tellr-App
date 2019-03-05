@@ -441,7 +441,6 @@ const pageStyle = StyleSheet.create({
 
   avatarRow: {
     flexDirection: 'row',
-
     // width: dimensions.fullWidth,
     justifyContent: 'center',
     marginHorizontal: 20,

@@ -32,7 +32,11 @@ class AvatarImageFriend extends Component {
     return (
       <View style={pageStyle.avatarChildContainer}>
         <View style={{
-          width: 50, height: 50, borderRadius: 100, backgroundColor: aColor, justifyContent: 'center',
+          width: 50,
+          height: 50,
+          borderRadius: 100,
+          backgroundColor: aColor,
+          justifyContent: 'center',
         }}
         >
           <Text style={pageStyle.avatarText}>
