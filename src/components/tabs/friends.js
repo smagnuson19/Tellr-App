@@ -14,7 +14,7 @@ import DialogInput from 'react-native-dialog-input';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Style from '../../styling/Style';
-import { fonts } from '../../styling/base';
+import { fonts, dimensions } from '../../styling/base';
 import { postRequest, fetchKidFriends, fetchAllSocial } from '../../actions/index';
 import AvatarImageFriend from './avatarImageFriend';
 import { themeColors } from '../../styling/colorModes';
@@ -225,7 +225,7 @@ class Friends extends Component {
       return (
         <View
           style={{
-            padding: 15, paddingTop: 5, paddingBottom: 45, alignItems: 'center',
+            paddingTop: 5, paddingBottom: 45, alignItems: 'center',
           }}
         >
           <View style={{
@@ -244,6 +244,7 @@ class Friends extends Component {
                 backgroundColor: themeColors.buttonColor[this.props.mode],
                 borderColor: 'transparent',
                 borderWidth: 1,
+                width: dimensions.fullWidth / 2 - 21,
                 borderRadius: 5,
                 shadowColor: 'rgba(0, 0, 0, 0.2)',
                 shadowOpacity: 0.8,
@@ -271,6 +272,7 @@ class Friends extends Component {
                 backgroundColor: themeColors.buttonColor[this.props.mode],
                 borderColor: 'transparent',
                 borderWidth: 1,
+                width: dimensions.fullWidth / 2 - 21,
                 borderRadius: 5,
                 shadowColor: 'rgba(0, 0, 0, 0.2)',
                 shadowOpacity: 0.8,
