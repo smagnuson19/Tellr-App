@@ -6,8 +6,8 @@ import NavigationService from '../navigation/navigationService';
 
 // For Debug purposes
 
-// const ROOT_URL = 'http://127.0.0.1:5000/api';
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+const ROOT_URL = 'http://127.0.0.1:5000/api';
+// const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
 
@@ -40,6 +40,7 @@ export function authError(error) {
   };
 }
 
+
 export async function deleteTokens() {
   try {
     await AsyncStorage.removeItem('token');
@@ -53,8 +54,22 @@ export async function deleteTokens() {
 // Send to url to delete token
 export function logoutUser() {
   return (dispatch) => {
-    deleteTokens();
-    dispatch({ type: ActionTypes.DEAUTH_USER });
+    AsyncStorage.getItem('email').then((storageEmail) => {
+      if (storageEmail === null) {
+        deleteTokens();
+        return dispatch({ type: ActionTypes.DEAUTH_USER });
+      } else {
+        const payLoad = { email: storageEmail };
+        return axios.post(`${ROOT_URL}/auth/logout`, { payLoad }).then((response) => {
+          deleteTokens();
+          dispatch({ type: ActionTypes.DEAUTH_USER });
+        }).catch((error) => {
+          console.log(`LoginError: ${error}`);
+          // bug in error on backend
+          return dispatch(authError(`${error.response.data[0].Error}`));
+        });
+      }
+    });
   };
 }
 
@@ -63,26 +78,28 @@ export function errorHandling(message, error) {
     console.log(message + error);
   } else {
     // probably something more severe here
-    console.log(error);
+    console.log(error.response);
   }
-  if (error === ('Invalid Token' || 'Expired Token')) {
+  if (error.response.data[0].Error === ('Invalid Token' || 'Expired Token')) {
     console.log('Invalid Token -> Send to home');
     logoutUser();
     // want to go back to the login page
     NavigationService.navigate('Login');
   }
+  if (error.response.status === 500) {
+    console.log('naviation to home on 500');
+  }
 }
 // use the below when auth is fully implemented - go to login and comment out {email, password}
 export function loginUser(payLoad, resetAction) {
-  console.log(payLoad);
   return (dispatch) => {
     return axios.post(`${ROOT_URL}/auth/login`, { payLoad }).then((response) => {
-      dispatch({ type: ActionTypes.AUTH_USER });
-      deviceStorage.saveItem('token', response.data[0].Token).then((error) => {
-        console.log(error);
-      });
-      deviceStorage.saveItem('email', payLoad.email).then((error) => {
-        console.log(error);
+      return deviceStorage.saveItem('token', response.data[0].Token).then(() => {
+        console.log('saved token');
+        return deviceStorage.saveItem('email', payLoad.email).then(() => {
+          console.log('saved email');
+          return dispatch({ type: ActionTypes.AUTH_USER });
+        });
       });
 
 
@@ -92,7 +109,11 @@ export function loginUser(payLoad, resetAction) {
     }).catch((error) => {
       console.log(`LoginError: ${error}`);
       // bug in error on backend
-      dispatch(authError(`${error.response.data[0].Error}`));
+      if (error.response.data[0] === undefined) {
+        dispatch(authError(`${error}`));
+      } else {
+        dispatch(authError(`${error.response.data[0].Error}`));
+      }
     });
   };
 }
@@ -104,16 +125,17 @@ export function postNewUser(payLoad) {
     return axios.post(`${ROOT_URL}/auth/register`, { payLoad })
       .then((response) => {
         console.log(`postNewUser post response ${response.data[0].Token}`);
-        dispatch({ type: ActionTypes.AUTH_USER });
-        deviceStorage.saveItem('token', response.data[0].Token).then((error) => {
-          console.log(error);
-        });
-        deviceStorage.saveItem('email', payLoad.email).then((error) => {
-          console.log(error);
+
+        return deviceStorage.saveItem('token', response.data[0].Token).then(() => {
+          console.log('Token Saved');
+          return deviceStorage.saveItem('email', payLoad.email).then((error) => {
+            console.log('email Saved');
+            return dispatch({ type: ActionTypes.AUTH_USER });
+          });
         });
       }).catch((error) => {
-        console.log(error.response.data[0].Error);
-        dispatch(authError(`${error.response.data[0].Error}`));
+        console.log(error.response.data[0]);
+        dispatch(authError(`${error.response.data[0].error}`));
       });
   };
 }

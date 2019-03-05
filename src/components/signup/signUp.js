@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Alert,
   TouchableOpacity,
+  AsyncStorage,
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
@@ -12,7 +13,7 @@ import {
 } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import { NavigationActions } from 'react-navigation';
-import OneSignal from 'react-native-onesignal';
+
 import { postNewUser } from '../../actions';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
@@ -22,65 +23,26 @@ class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      familyPassword: '',
       email: '',
       password: '',
       // avatar: '',
     };
   }
 
-  generateID() {
-    let text = '';
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    for (let i = 0; i < 5; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
-  }
-
-  createAccount() {
-    // So that you are unable to navigate back to login page once logged in.
-    // const resetAction = StackActions.reset({
-    //   index: 0, // <-- currect active route from actions array
-    //   key: null,
-    //   actions: [
-    //     NavigationActions.navigate({ routeName: 'Loading', params: { emailParam: this.state.email } }),
-    //   ],
-    // });
-    //
-    const randomColor = require('randomcolor'); // import the script
-    const color = randomColor({ luminosity: 'dark' }); // a hex code for an attractive color
-
-
-    const { navigation } = this.props;
-    const userType = navigation.getParam('userType');
-    const firstName = navigation.getParam('firstName');
-    const lastName = navigation.getParam('lastName');
-    const familyName = navigation.getParam('familyName');
-
-    const id = this.generateID();
-    OneSignal.setExternalUserId(id);
-    // Describing what will be sent
-    const payLoad = {
-      firstName,
-      lastName,
-      email: this.state.email,
-      password: this.state.password,
-      familyName,
-      accountType: userType,
-      avatarColor: color,
-      oneSignalID: id,
-      // avatar: this.state.avatar,
-    };
-
-    // checking for errors and notifying user
-
+  checkForValidAccount(payLoad) {
     if (this.state.email === '') {
       Alert.alert('Email cannot be empty');
       console.log('ERROR: email empty');
     } else if (this.state.password === '') {
       Alert.alert('Password cannot be empty');
       console.log('ERROR: password empty');
+    // } else if (this.state.avatar === '') {
+    //   Alert.alert('Avatar cannot be empty');
+    //   console.log('ERROR: avatar empty');
+    } else if (this.state.familyPassword === '') {
+      Alert.alert('Family password cannot be empty');
+      console.log('ERROR: family password empty');
     // } else if (this.state.avatar === '') {
     //   Alert.alert('Avatar cannot be empty');
     //   console.log('ERROR: avatar empty');
@@ -91,18 +53,47 @@ class SignUp extends Component {
         .then((response) => {
           // maybe backend returns a specific error so we can know for sure this
           // is the issue
-          console.log(response);
-
-          if (this.props.authenticated) {
-            this.props.navigation.navigate('Auth', { emailParam: this.state.email }, NavigationActions.navigate({ routeName: 'Loading' }));
-          } else if (this.props.errorMessage) {
-            Alert.alert(this.props.errorMessage);
-          }
         });
     }
   }
 
+  createAccount() {
+    const randomColor = require('randomcolor'); // import the script
+    const color = randomColor({ luminosity: 'dark' }); // a hex code for an attractive color
+
+
+    const { navigation } = this.props;
+    const userType = navigation.getParam('userType');
+    const firstName = navigation.getParam('firstName');
+    const lastName = navigation.getParam('lastName');
+    const familyName = navigation.getParam('familyName');
+
+    AsyncStorage.getItem('deviceInfo').then((deviceInfo) => {
+      console.log(deviceInfo);
+      const payLoad = {
+        firstName,
+        lastName,
+        email: this.state.email,
+        password: this.state.password,
+        familyName,
+        accountType: userType,
+        avatarColor: color,
+        oneSignalID: deviceInfo,
+        familyPassword: this.state.familyPassword,
+        // avatar: this.state.avatar,
+      };
+      this.checkForValidAccount(payLoad);
+    });
+
+    // checking for errors and notifying user
+  }
+
   render() {
+    if (this.props.authenticated) {
+      this.props.navigation.navigate('Auth', { emailParam: this.state.email }, NavigationActions.navigate({ routeName: 'Loading' }));
+    } else if (this.props.errorMessage) {
+      Alert.alert(this.props.errorMessage);
+    }
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
@@ -125,6 +116,20 @@ class SignUp extends Component {
               <FormInput
                 inputStyle={Style.fieldText}
                 containerStyle={pageStyle.fieldContainer}
+                onChangeText={text => this.setState({ familyPassword: text })}
+                value={this.state.familyPassword}
+                placeholder="Family Password"
+                keyboardType="email-address"
+                placeholderTextColor={colors.grey}
+                spellCheck="false"
+                returnKeyType="next"
+                ref={(input) => { this.fourthTextInput = input; }}
+                onSubmitEditing={() => { this.fithTextInput.focus(); }}
+                blurOnSubmit={false}
+              />
+              <FormInput
+                inputStyle={Style.fieldText}
+                containerStyle={pageStyle.fieldContainer}
                 onChangeText={text => this.setState({ password: text })}
                 value={this.state.password}
                 placeholder="Password"
@@ -132,7 +137,7 @@ class SignUp extends Component {
                 spellCheck="false"
                 returnKeyType="done"
                 secureTextEntry="true"
-                ref={(input) => { this.fourthTextInput = input; }}
+                ref={(input) => { this.fithTextInput = input; }}
               />
             </View>
             <View style={pageStyle.buttonContainer}>
