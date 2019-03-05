@@ -9,7 +9,7 @@ import { verticalScale } from 'react-native-size-matters';
 import LinearGradient from 'react-native-linear-gradient';
 // import Login from './login';
 import {
-  Card, Button, Divider, ButtonGroup,
+  Card, Button, Divider,
 } from 'react-native-elements';
 import { StackActions, NavigationActions } from 'react-navigation';
 // import { NavigationActions } from 'react-navigation';
@@ -202,25 +202,50 @@ class Goals extends Component {
 
   renderFooter() {
     return (
-      <View style={pageStyle.sectionContainer}>
-        <ButtonGroup
+      <View style={pageStyle.footerContainer}>
+        <Button
+          raised
           onPress={() => this.props.navigation.navigate('redeemedGoals')}
-          buttons={['View Redeemed Goals']}
-          containerStyle={{
-            width: dimensions.fullWidth - 20,
+          title="View Redeemed Goals!"
+          buttonStyle={{
             backgroundColor: themeColors.buttonColor[this.props.mode],
-            borderColor: 'black',
-            shadowColor: 'rgba(0,0,255, .9)', // IOS
-            shadowOffset: { height: 1, width: 1 }, // IOS
-            shadowOpacity: 1, // IOS
-            shadowRadius: 1, // IOS }}
+            borderColor: 'transparent',
+            borderWidth: 1,
+            borderRadius: 5,
+            shadowColor: 'rgba(0, 0, 0, 0.2)',
+            shadowOpacity: 0.8,
+            elevation: 6,
+            shadowRadius: 15,
+            shadowOffset: { width: 1, height: 13 },
           }}
-          textStyle={{ fontFamily: fonts.secondary, color: colors.black }}
-          underlayColor={colors.secondary}
+          fontFamily={fonts.secondary}
+          color="black"
         />
       </View>
     );
   }
+
+  // renderFooter2() {
+  //   return (
+  //     <View style={pageStyle.sectionContainer}>
+  //       <ButtonGroup
+  //         onPress={() => this.props.navigation.navigate('redeemedGoals')}
+  //         buttons={['View Redeemed Goals']}
+  //         containerStyle={{
+  //           width: dimensions.fullWidth - 20,
+  //           backgroundColor: colors.secondary,
+  //           borderColor: 'transparent',
+  //           shadowColor: 'rgba(0,0,255, .9)', // IOS
+  //           shadowOffset: { height: 1, width: 1 }, // IOS
+  //           shadowOpacity: 1, // IOS
+  //           shadowRadius: 1, // IOS }}
+  //         }}
+  //         textStyle={{ fontFamily: fonts.secondary, color: colors.black }}
+  //         underlayColor={colors.secondary}
+  //       />
+  //     </View>
+  //   );
+  // }
 
   render() {
     function sleep(time) {
@@ -352,6 +377,11 @@ class Goals extends Component {
 const pageStyle = StyleSheet.create({
   sectionContainer: {
     marginBottom: 15,
+    width: dimensions.fullWidth,
+  },
+  footerContainer: {
+    marginBottom: 15,
+    marginTop: 5,
     width: dimensions.fullWidth,
   },
 });

@@ -118,7 +118,7 @@ const pageStyle = StyleSheet.create({
     // padding: 1,
     textAlign: 'center',
     fontSize: fonts.md,
-    fontWeight: '400',
+    fontWeight: 'bold',
     // textAlign: 'center',
 
   },
@@ -169,7 +169,6 @@ const pageStyle = StyleSheet.create({
     margin: 10,
     textAlign: 'center',
     fontSize: 18,
-    fontWeight: 'bold',
   },
   text: {
     width: 70,

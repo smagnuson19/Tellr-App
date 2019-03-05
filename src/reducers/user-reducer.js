@@ -228,6 +228,7 @@ const UserReducer = (
         yTasks: state.yTasks,
         pAnalytics: action.payload,
       };
+
     default:
       return state;
   }

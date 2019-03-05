@@ -36,6 +36,7 @@ class Loading extends Component {
       fetchParentInfo: null,
       fetchColorMode: null,
       fetchParentAnalytics: null,
+
     };
   }
 
@@ -285,11 +286,13 @@ class Loading extends Component {
         && (this.state.fetchColorMode !== null)
         && (this.state.fetchParentAnalytics !== null)
 
+
         ) {
           if ((this.state.fetchNotificationInfo === true)
         && (this.state.fetchParentInfo === true)
         && (this.state.fetchColorMode === true)
         && (this.state.fetchParentAnalytics === true)
+
           ) {
             if (this.props.mode.color === 0) {
               this.props.navigation.navigate('ParentTabBarLight');
@@ -336,7 +339,6 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-
   fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksWeek, fetchTasksMonth, fetchTasksYear, fetchColorMode, fetchParentAnalytics,
 
 })(Loading);

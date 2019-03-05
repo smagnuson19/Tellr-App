@@ -3,7 +3,7 @@ import {
   View, Text, StyleSheet, ScrollView, RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Divider, ButtonGroup } from 'react-native-elements';
+import { Divider, Button } from 'react-native-elements';
 import { verticalScale } from 'react-native-size-matters';
 // import { NavigationActions } from 'react-navigation';
 import { fonts, colors, dimensions } from '../../styling/base';
@@ -128,13 +128,25 @@ Chores are fun! Ask for more! :)
 
   renderFooter() {
     return (
-      <View style={pageStyle.sectionContainer}>
-        <ButtonGroup
+      <View style={pageStyle.footerContainer}>
+        <Button
+          raised
           onPress={() => this.props.navigationToCompletedTasks()}
-          buttons={['View Completed Tasks']}
-          containerStyle={{ width: dimensions.fullWidth - 20, backgroundColor: themeColors.buttonColor[this.props.mode], borderColor: 'black' }}
-          textStyle={{ fontFamily: fonts.secondary, color: colors.black }}
-          underlayColor={colors.secondary}
+          title="View Completed Tasks!"
+          buttonStyle={{
+            backgroundColor: themeColors.buttonColor[this.props.mode],
+            borderColor: 'transparent',
+            borderWidth: 1,
+            borderRadius: 5,
+            shadowColor: 'rgba(0, 0, 0, 0.2)',
+            shadowOpacity: 0.8,
+            elevation: 6,
+            shadowRadius: 15,
+            shadowOffset: { width: 1, height: 13 },
+          }}
+          fontFamily={fonts.secondary}
+          // style={Style.button}
+          color="black"
         />
       </View>
     );
@@ -246,6 +258,11 @@ const pageStyle = StyleSheet.create({
   },
   sectionContainer: {
     marginBottom: 15,
+    width: dimensions.fullWidth,
+  },
+  footerContainer: {
+    marginBottom: 15,
+    marginTop: 5,
     width: dimensions.fullWidth,
   },
   sectionHeader: {
