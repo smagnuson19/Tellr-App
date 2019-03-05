@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   // View, Text, StyleSheet, AsyncStorage,
-  View, Text, ScrollView, Alert, Animated, RefreshControl,
+  View, Text, ScrollView, Alert, Animated, RefreshControl, StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { verticalScale } from 'react-native-size-matters';
@@ -202,11 +202,19 @@ class Goals extends Component {
 
   renderFooter() {
     return (
-      <View>
+      <View style={pageStyle.sectionContainer}>
         <ButtonGroup
           onPress={() => this.props.navigation.navigate('redeemedGoals')}
           buttons={['View Redeemed Goals']}
-          containerStyle={{ width: dimensions.fullWidth, backgroundColor: colors.secondary, borderColor: 'black' }}
+          containerStyle={{
+            width: dimensions.fullWidth - 20,
+            backgroundColor: colors.secondary,
+            borderColor: 'black',
+            shadowColor: 'rgba(0,0,255, .9)', // IOS
+            shadowOffset: { height: 1, width: 1 }, // IOS
+            shadowOpacity: 1, // IOS
+            shadowRadius: 1, // IOS }}
+          }}
           textStyle={{ fontFamily: fonts.secondary, color: colors.black }}
           underlayColor={colors.secondary}
         />
@@ -340,6 +348,13 @@ class Goals extends Component {
     }
   }
 }
+
+const pageStyle = StyleSheet.create({
+  sectionContainer: {
+    marginBottom: 15,
+    width: dimensions.fullWidth,
+  },
+});
 
 
 const mapStateToProps = state => (
