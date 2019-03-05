@@ -187,6 +187,14 @@ class Goals extends Component {
         return (
           this.props.goals.map(goal => (
             <View key={goal.id}>
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
+              {this.renderOverlay()}
               <GoalsCard goals={goal}
                 // completed
                 balance={this.props.user.balance}
@@ -272,26 +280,6 @@ class Goals extends Component {
         return (
           <View style={Style.rootContainer}>
             <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
-              {this.renderOverlay()}
               <View style={Style.contentWrapper}>
                 {this.headingDisplay()}
                 <ScrollView refreshControl={(
