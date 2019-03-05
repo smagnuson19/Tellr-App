@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Image,
+  View, Text, StyleSheet,
 } from 'react-native';
 import { Card, Divider } from 'react-native-elements';
 
@@ -9,7 +9,7 @@ import { Card, Divider } from 'react-native-elements';
 import { fonts, colors, dimensions } from '../../styling/base';
 // import Style from '../../styling/Style';
 
-class RedeemedGoalsCard extends Component {
+class CompletedTaskCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,31 +27,32 @@ class RedeemedGoalsCard extends Component {
   //   // action is boolean deny or accept
   // }
 
-  displayCorrectItems(redeemed, date) {
-    if (redeemed !== true) {
-      return null;
+  displayCorrectItems(timeCompleted) {
+    let dateString;
+    if (timeCompleted !== null) {
+      dateString = `Completed on ${timeCompleted}`;
     } else {
-      let dateString;
-      if (date !== null) {
-        dateString = `Redeemed on ${date}`;
-      } else {
-        dateString = '';
-      }
-      return (
-        <View style={pageStyle.buttonView}>
-          <Text style={pageStyle.dateText}>
-            {dateString}
-          </Text>
-        </View>
-      );
+      dateString = '';
     }
+    return (
+      <View style={pageStyle.buttonView}>
+        <Text style={pageStyle.dateText}>
+          {dateString}
+        </Text>
+      </View>
+    );
   }
 
   render() {
-    const style = pageStyle.redeemedContainer;
-    if (this.props.goals.redeemed !== true) {
-      return null;
-    }
+    const fX = 0.8 - 10 / (this.props.tasks.value + 11.5);
+    const opactiy = String(0.2 + Math.min(fX, 0.8));
+    const style = {
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      borderRadius: 8,
+      backgroundColor: `rgba(137, 207, 240, ${opactiy})`,
+    };
     return (
       <Card
         containerStyle={style}
@@ -61,13 +62,13 @@ class RedeemedGoalsCard extends Component {
           <View style={pageStyle.pageFiller} />
           <View style={pageStyle.titleFiller}>
             <Text style={pageStyle.titleStyle}>
-              {this.props.goals.goalName}
+              {this.props.tasks.name}
             </Text>
           </View>
           <View style={pageStyle.priceFiller}>
             <Text style={pageStyle.price}>
           $
-              {this.props.goals.goalValue}
+              {this.props.tasks.value}
 
             </Text>
           </View>
@@ -75,39 +76,17 @@ class RedeemedGoalsCard extends Component {
         <Divider style={pageStyle.divider} />
         <View style={pageStyle.descriptionContainer}>
           <Text style={pageStyle.descriptionText}>
-            {this.props.goals.goalDescription}
+            {this.props.tasks.description}
 
           </Text>
-          <Divider style={{ backgroundColor: colors.clear, height: 5 }} />
-          <Image
-            style={{
-              width: 150 * 1.5, height: 200 * 1.5, alignSelf: 'center',
-            }}
-            source={{ uri: this.props.goals.goalImage }}
-          />
         </View>
-        {this.displayCorrectItems(this.props.goals.redeemed, this.props.goals.dateRedeemed)}
+        {this.displayCorrectItems(this.props.tasks.timeCompleted)}
       </Card>
     );
   }
 }
 
 const pageStyle = StyleSheet.create({
-  cardContainer: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    borderRadius: 8,
-  },
-
-  redeemedContainer: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    borderRadius: 8,
-    backgroundColor: colors.babyBlue,
-  },
-
   headerView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -207,4 +186,4 @@ const pageStyle = StyleSheet.create({
 
 });
 
-export default RedeemedGoalsCard;
+export default CompletedTaskCard;

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView, RefreshControl, TouchableOpacity,
+  View, Text, StyleSheet, ScrollView, RefreshControl,
 } from 'react-native';
-import { Divider } from 'react-native-elements';
+import { Divider, ButtonGroup } from 'react-native-elements';
 import { verticalScale } from 'react-native-size-matters';
 // import { NavigationActions } from 'react-navigation';
 import { fonts, colors, dimensions } from '../../styling/base';
@@ -88,8 +88,30 @@ class Child extends Component {
     }
   }
 
+  renderFooter() {
+    return (
+      <View>
+        <ButtonGroup
+          onPress={() => this.props.navigationToCompletedTasks()}
+          buttons={['View Completed Tasks']}
+          containerStyle={{ width: dimensions.fullWidth, backgroundColor: colors.secondary, borderColor: 'black' }}
+          textStyle={{ fontFamily: fonts.secondary, color: colors.black }}
+          underlayColor={colors.secondary}
+        />
+      </View>
+    );
+  }
+
 
   render() {
+    // <TouchableOpacity style={{ borderWidth: verticalScale(12), borderColor: 'transparent' }} onPress={() => this.props.navigationToCompletedTasks()}>
+    //   <Text style={{
+    //     color: 'white', fontWeight: 'bold', fontSize: 22, textAlign: 'center',
+    //   }}
+    //   >
+    //     {'View Completed Tasks'}
+    //   </Text>
+    // </TouchableOpacity>
     return (
       <View style={pageStyle.homeWrapper}>
         <View style={pageStyle.topContainer}>
@@ -122,14 +144,7 @@ class Child extends Component {
           </View>
           {this.checkDeniedTasks()}
         </ScrollView>
-        <TouchableOpacity style={{ borderWidth: verticalScale(12), borderColor: 'transparent' }} onPress={() => this.props.navigationToCompletedTasks()}>
-          <Text style={{
-            color: 'white', fontWeight: 'bold', fontSize: 22, textAlign: 'center',
-          }}
-          >
-            {'View Completed Tasks'}
-          </Text>
-        </TouchableOpacity>
+        {this.renderFooter()}
         <Divider style={{ backgroundColor: colors.clear, height: verticalScale(60) }} />
       </View>
     );
