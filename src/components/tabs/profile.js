@@ -455,9 +455,9 @@ Analytics
               </View>
             </View>
             {this.analyticsDisplay()}
-            {this.renderFooter()}
           </View>
         </LinearGradient>
+        {this.renderFooter()}
       </View>
     );
   }
@@ -484,6 +484,8 @@ const pageStyle = StyleSheet.create({
     marginBottom: 15,
     marginTop: 5,
     width: dimensions.fullWidth,
+    position: 'absolute', // Here is the trick
+    bottom: 72, // Here is the trick
   },
   sectionHeaderParent: {
     fontSize: fonts.md,
