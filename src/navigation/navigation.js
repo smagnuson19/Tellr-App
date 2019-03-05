@@ -33,6 +33,7 @@ import ChangePassword from '../components/tabs/changePassword';
 import ThemeChange from '../components/tabs/themeChange';
 import Settings from '../components/tabs/settings';
 import Analytics from '../components/tabs/analytics';
+import ParentViewAnalytics from '../components/tabs/parentViewAnalytics';
 
 const HomeStack = createStackNavigator({
   Home: {
@@ -121,6 +122,12 @@ const ProfileStack = createStackNavigator({
   },
   Analytics: {
     screen: Analytics,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
+  ParentViewAnalytics: {
+    screen: ParentViewAnalytics,
     navigationOptions: () => ({
       headerTransparent: 'True',
     }),

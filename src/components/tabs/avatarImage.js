@@ -26,6 +26,9 @@ class AvatarImage extends Component {
       avatarLetters = this.props.pageNumber;
       console.log('something');
     } else if (this.props.individual !== undefined) {
+      console.log(this.props.individual);
+      console.log(this.props.individual.firstName);
+      console.log(this.props.individual.lastName);
       const firstLetter = this.props.individual.firstName.slice(0, 1).toUpperCase();
       const secondLetter = this.props.individual.lastName.slice(0, 1).toUpperCase();
       avatarLetters = firstLetter + secondLetter;

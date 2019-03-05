@@ -29,6 +29,7 @@ export const ActionTypes = {
   FETCH_WCOMPLETED_TASKS: 'FETCH_WCOMPLETED_TASKS',
   FETCH_MCOMPLETED_TASKS: 'FETCH_MCOMPLETED_TASKS',
   FETCH_YCOMPLETED_TASKS: 'FETCH_YCOMPLETED_TASKS',
+  FETCH_PARENT_ANALYTICS: 'FETCH_PARENT_ANALYTICS',
 };
 
 // trigger to deauth if there is error
@@ -824,6 +825,30 @@ export function fetchEarningsHistory(email) {
     });
   };
 }
+
+
+export function fetchParentAnalytics(email) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.get(`${ROOT_URL}/parentanalytics/${email}`, { headers: { authorization: token } })
+        .then((response) => {
+          console.log(response.data);
+          dispatch({
+            type: ActionTypes.FETCH_PARENT_ANALYTICS,
+            payload: response.data,
+          });
+          return Promise.resolve();
+        });
+    }).catch((error) => {
+      errorHandling(
+        'Error in Stats: ',
+        error.response.data[0].Error,
+      );
+      return Promise.reject();
+    });
+  };
+}
+
 
 export function fetchAllStats(email) {
   return (dispatch) => {
