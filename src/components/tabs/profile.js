@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { Divider, ButtonGroup } from 'react-native-elements';
+import { Divider, Button } from 'react-native-elements';
 import {
   AreaChart, XAxis, Grid, YAxis,
 } from 'react-native-svg-charts';
@@ -240,21 +240,46 @@ Balance:
 
   renderFooter() {
     return (
-      <View
-        style={{
-          position: 'absolute', top: '84%', left: '-2.2%',
-        }}
-      >
-        <ButtonGroup
+      <View style={pageStyle.footerContainer}>
+        <Button
+          raised
           onPress={() => this.props.navigation.navigate('SettingsPage')}
-          buttons={['Settings']}
-          containerStyle={{ width: dimensions.fullWidth, backgroundColor: themeColors.buttonColor[this.props.mode], borderColor: themeColors.black }}
-          textStyle={{ fontFamily: fonts.secondary, color: themeColors.black }}
-          underlayColor={themeColors.secondary[this.props.mode]}
+          title="Settings"
+          buttonStyle={{
+            backgroundColor: themeColors.buttonColor[this.props.mode],
+            borderColor: 'transparent',
+            borderWidth: 1,
+            borderRadius: 5,
+            shadowColor: 'rgba(0, 0, 0, 0.2)',
+            shadowOpacity: 0.8,
+            elevation: 6,
+            shadowRadius: 15,
+            shadowOffset: { width: 1, height: 13 },
+          }}
+          fontFamily={fonts.secondary}
+          color="black"
         />
       </View>
     );
   }
+
+  // renderFooter2() {
+  //   return (
+  //     <View
+  //       style={{
+  //         position: 'absolute', top: '84%',
+  //       }}
+  //     >
+  //       <ButtonGroup
+  //         onPress={() => this.props.navigation.navigate('SettingsPage')}
+  //         buttons={['Settings']}
+  //         containerStyle={{ width: dimensions.fullWidth - 20, backgroundColor: themeColors.buttonColor[this.props.mode], borderColor: 'transparent' }}
+  //         textStyle={{ fontFamily: fonts.secondary, color: themeColors.black }}
+  //         underlayColor={themeColors.secondary[this.props.mode]}
+  //       />
+  //     </View>
+  //   );
+  // }
 
   render() {
     return (
@@ -361,9 +386,9 @@ Analytics
               </View>
             </View>
             {this.analyticsDisplay()}
+            {this.renderFooter()}
           </View>
         </LinearGradient>
-        {this.renderFooter()}
       </View>
     );
   }
@@ -385,6 +410,11 @@ const pageStyle = StyleSheet.create({
     paddingVertical: 4,
     paddingLeft: 2,
     paddingTop: 10,
+  },
+  footerContainer: {
+    marginBottom: 15,
+    marginTop: 5,
+    width: dimensions.fullWidth,
   },
   sectionHeaderParent: {
     fontSize: fonts.md,
