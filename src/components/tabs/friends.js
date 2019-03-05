@@ -243,8 +243,13 @@ class Friends extends Component {
               buttonStyle={{
                 backgroundColor: themeColors.buttonColor[this.props.mode],
                 borderColor: 'transparent',
-                borderWidth: 0,
+                borderWidth: 1,
                 borderRadius: 5,
+                shadowColor: 'rgba(0, 0, 0, 0.2)',
+                shadowOpacity: 0.8,
+                elevation: 6,
+                shadowRadius: 15,
+                shadowOffset: { width: 1, height: 13 },
               }}
               style={Style.button}
               color={themeColors.buttonTextColor}
@@ -265,8 +270,13 @@ class Friends extends Component {
               buttonStyle={{
                 backgroundColor: themeColors.buttonColor[this.props.mode],
                 borderColor: 'transparent',
-                borderWidth: 0,
+                borderWidth: 1,
                 borderRadius: 5,
+                shadowColor: 'rgba(0, 0, 0, 0.2)',
+                shadowOpacity: 0.8,
+                elevation: 6,
+                shadowRadius: 15,
+                shadowOffset: { width: 1, height: 13 },
               }}
               style={Style.button}
               color={themeColors.buttonTextColor}
