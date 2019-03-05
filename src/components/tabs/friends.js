@@ -117,7 +117,31 @@ class Friends extends Component {
       // Do we want to update children info as well?
       this.props.fetchKidFriends(this.props.account.email);
       this.props.fetchAllSocial(this.props.account.email);
-      // No longer fetching
+      const weeklyTaskDataList = [];
+      Object.keys(this.props.friendInfo).forEach((key) => {
+        weeklyTaskDataList.push({
+          score: this.props.friendInfo[key].tasksCompletedWeek,
+          name: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+          // iconUrl: this.props.friendInfo[key].avatarUrl,
+          iconUrl: this.props.friendInfo[key].avatarColor,
+          email: key,
+        });
+      });
+      console.log(weeklyTaskDataList);
+      this.setState({ weeklyTaskData: weeklyTaskDataList });
+
+      const monthlyTaskDataList = [];
+      Object.keys(this.props.friendInfo).forEach((key) => {
+        monthlyTaskDataList.push({
+          score: this.props.friendInfo[key].tasksCompletedMonth,
+          name: `${this.props.friendInfo[key].firstName} ${this.props.friendInfo[key].lastName}`,
+          // iconUrl: this.props.friendInfo[key].avatarUrl,
+          iconUrl: this.props.friendInfo[key].avatarColor,
+          email: key,
+        });
+      });
+      console.log(monthlyTaskDataList);
+      this.setState({ monthlyTaskData: monthlyTaskDataList });
       this.setState({ isFetching: false });
     }
 

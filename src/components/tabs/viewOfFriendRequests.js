@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView,
+  View, Text, StyleSheet, ScrollView, RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { fonts, dimensions } from '../../styling/base';
 import RequestCard from './requestCard';
-import { postFriendApprove, postNotificationsAlt } from '../../actions/index';
+import { postFriendApprove, postNotificationsAlt, fetchKidFriends } from '../../actions/index';
 import { themeColors } from '../../styling/colorModes';
 
 import Style from '../../styling/Style';
@@ -15,9 +15,22 @@ class ViewOfFriendRequests extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isFetching: false,
     };
 
     this.renderAction = this.renderAction.bind(this);
+  }
+
+  onRefresh() {
+    this.setState({ isFetching: true }, function () { this.reloadApiData(); });
+  }
+
+  reloadApiData() {
+    console.log('reloading api Data');
+    // Do we want to update children info as well?
+    this.props.fetchKidFriends(this.props.account.email);
+    // No longer fetching
+    this.setState({ isFetching: false });
   }
 
   headingDisplay() {
@@ -109,7 +122,15 @@ class ViewOfFriendRequests extends Component {
       <View style={Style.rootContainer}>
         <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
           {this.headingDisplay()}
-          <ScrollView style={pageStyle.main}>
+          <ScrollView style={pageStyle.main}
+            refreshControl={(
+              <RefreshControl
+                onRefresh={() => this.onRefresh()}
+                refreshing={this.state.isFetching}
+                tintColor="#fff"
+              />
+          )}
+          >
             {this.checkEmptyRequests()}
           </ScrollView>
         </LinearGradient>
@@ -151,4 +172,4 @@ const mapStateToProps = state => (
     mode: state.user.colorMode.color,
   });
 
-export default connect(mapStateToProps, { postFriendApprove, postNotificationsAlt })(ViewOfFriendRequests);
+export default connect(mapStateToProps, { postFriendApprove, postNotificationsAlt, fetchKidFriends })(ViewOfFriendRequests);

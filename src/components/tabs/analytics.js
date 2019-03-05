@@ -164,7 +164,124 @@ class Analytics extends Component {
     console.log('reloading api Data');
     // Do we want to update children info as well?
     this.props.fetchAllStats(this.state.userEmail);
-    // No longer fetching
+    const datDict = {};
+    const alldat = [];
+    const addSubtractDate = require('add-subtract-date');
+    Object.keys(this.props.allStats[0].retNeg).forEach((key1) => {
+      alldat.push({ value: this.props.allStats[0].retNeg[key1] });
+    });
+    Object.keys(this.props.allStats[0].retPos).forEach((key2) => {
+      alldat.push({ value: this.props.allStats[0].retPos[key2] });
+    });
+    datDict[0] = alldat;
+
+    const alldat1 = [];
+    Object.keys(this.props.allStats[1].retNeg).forEach((key3) => {
+      alldat1.push({ value: this.props.allStats[1].retNeg[key3] });
+    });
+    Object.keys(this.props.allStats[1].retPos).forEach((key4) => {
+      alldat1.push({ value: this.props.allStats[1].retPos[key4] });
+    });
+    datDict[1] = alldat1;
+
+    const alldat2 = [];
+    Object.keys(this.props.allStats[2].retNeg).forEach((key5) => {
+      alldat2.push({ value: this.props.allStats[2].retNeg[key5] });
+    });
+    Object.keys(this.props.allStats[2].retPos).forEach((key6) => {
+      alldat2.push({ value: this.props.allStats[2].retPos[key6] });
+    });
+    datDict[2] = alldat2;
+
+    this.setState({ datDict });
+
+    const timeDict = {};
+    const timezero = [];
+
+    let i = 0;
+    for (i = 0; i < 8; i++) {
+      timezero.push({ value: 1, index: addSubtractDate.subtract(new Date(), i, 'days') });
+    }
+    timeDict[0] = timezero;
+    console.log(datDict);
+    const timeone = [];
+
+    let j = 0;
+    for (j = 0; j < 9; j++) {
+      timeone.push({ value: 1, index: addSubtractDate.subtract(new Date(), 4 * j, 'days') });
+    }
+    timeDict[1] = timeone;
+
+    const timetwo = [];
+
+    let k = 0;
+    for (k = 0; k < 7; k++) {
+      timetwo.push({ value: 1, index: addSubtractDate.subtract(new Date(), 60 * k, 'days') });
+    }
+    timeDict[2] = timetwo;
+
+    this.setState({ timeDict });
+
+    const barDict = {};
+
+    const barzero = [
+      {
+        data: valMaker(this.props.allStats[0].retPos),
+        svg: {
+          fill: 'rgb(24, 128, 24)',
+        },
+      },
+      {
+        data: valMaker(this.props.allStats[0].retNeg),
+      },
+    ];
+
+    barDict[0] = barzero;
+
+    const barone = [
+      {
+        data: valMaker(this.props.allStats[1].retPos),
+        svg: {
+          fill: 'rgb(24, 128, 24)',
+        },
+      },
+      {
+        data: valMaker(this.props.allStats[1].retNeg),
+      },
+    ];
+
+    barDict[1] = barone;
+
+
+    const bartwo = [
+      {
+        data: valMaker(this.props.allStats[2].retPos),
+        svg: {
+          fill: 'rgb(24, 128, 24)',
+        },
+      },
+      {
+        data: valMaker(this.props.allStats[2].retNeg),
+      },
+    ];
+
+    barDict[2] = bartwo;
+
+    const tickDict = {
+      0: 6,
+      1: 6,
+      2: 3,
+    };
+
+    this.setState({ tickDict });
+
+    this.setState({ barDict });
+    const maxDict = {
+      0: this.props.allStats[0].max,
+      1: this.props.allStats[1].max,
+      2: this.props.allStats[2].max,
+    };
+    this.setState({ maxDict });
     this.setState({ isFetching: false });
   }
 
