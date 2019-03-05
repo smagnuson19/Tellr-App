@@ -312,7 +312,7 @@ Balance:
       <View style={pageStyle.footerContainer}>
         <Button
           raised
-          onPress={() => this.props.navigation.navigate('SettingsPage')}
+          onPress={() => this.props.navigation.push('SettingsPage')}
           title="Settings"
           buttonStyle={{
             backgroundColor: themeColors.buttonColor[this.props.mode],
