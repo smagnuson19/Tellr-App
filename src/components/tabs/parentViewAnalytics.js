@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Dimensions, ScrollView, RefreshControl,
+  View, Text, StyleSheet, Dimensions, ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -26,7 +26,6 @@ class ParentViewAnalytics extends Component {
     const childAccount = navigation.getParam('actualChildInfo');
     this.state = {
       childAccount,
-      isFetching: false,
       filter: 0,
       datDict: {},
       timeDict: {},
@@ -490,14 +489,7 @@ class ParentViewAnalytics extends Component {
               selectedButtonStyle={{ backgroundColor: themeColors.buttonColor[this.props.mode] }
               }
             />
-            <ScrollView refreshControl={(
-              <RefreshControl
-                onRefresh={() => this.onRefresh()}
-                refreshing={this.state.isFetching}
-                tintColor="#fff"
-              />
-            )}
-            >
+            <ScrollView>
               {this.renderTop()}
               <Divider style={{
                 backgroundColor: themeColors.divider[this.props.mode],
