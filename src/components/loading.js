@@ -70,118 +70,6 @@ class Loading extends Component {
 
 
   fetchAtLoad(email) {
-<<<<<<< HEAD
-    initialChildFetchCheck = {
-      fetchNotificationInfo: null,
-      fetchGoals: null,
-      fetchKidFriends: null,
-      fetchAllSocial: null,
-      fetchEarningsHistory: null,
-      fetchAllStats: null,
-      fetchTasksMonth: null,
-      fetchTasksYear: null,
-      fetchTasksWeek: null,
-      fetchUserInfo: null,
-    };
-
-    intialParentFetchCheck = {
-      fetchNotificationInfo: null,
-      fetchParentInfo: null,
-      fetchUserInfo: null,
-    };
-    if (this.props.accountInfo.accountType === 'Child') {
-      this.props.fetchNotificationInfo(email).then((response) => {
-        console.log('Notifications pulled in');
-        initialChildFetchCheck.fetchNotificationInfo = true;
-        this.props.fetchGoals(email)
-          .then(() => {
-            console.log('Goals pulled in');
-            initialChildFetchCheck.fetchGoals = true;
-          })
-          .catch(() => {
-            initialChildFetchCheck.fetchGoals = false;
-          });
-        this.props.fetchKidFriends(email)
-          .then(() => {
-            console.log('Friends pulled in');
-            initialChildFetchCheck.fetchKidFriends = true;
-          })
-          .catch(() => {
-            initialChildFetchCheck.fetchKidFriends = false;
-          });
-        this.props.fetchAllSocial(email)
-          .then(() => {
-            console.log('All friends pulled in');
-            initialChildFetchCheck.fetchAllSocial = true;
-          })
-          .catch(() => {
-            initialChildFetchCheck.fetchAllSocial = false;
-          });
-        this.props.fetchEarningsHistory(email)
-          .then(() => {
-            console.log('Earnings pulled in');
-            initialChildFetchCheck.fetchEarningsHistory = true;
-          })
-          .catch(() => {
-            initialChildFetchCheck.fetchEarningsHistory = true;
-          });
-        this.props.fetchAllStats(email)
-          .then(() => {
-            console.log('Stats pulled in');
-            initialChildFetchCheck.fetchAllStats = true;
-          })
-          .catch(() => {
-            initialChildFetchCheck.fetchAllStats = false;
-          });
-        this.props.fetchTasksWeek(email)
-          .then(() => {
-            console.log('W Tasks pulled in');
-            initialChildFetchCheck.fetchTasksWeek = true;
-          })
-          .catch(() => {
-            initialChildFetchCheck.fetchTasksWeek = false;
-          });
-        this.props.fetchTasksMonth(email)
-          .then(() => {
-            console.log('M Tasks pulled in');
-            initialChildFetchCheck.fetchTasksMonth = true;
-          })
-          .catch(() => {
-            initialChildFetchCheck.fetchTasksMonth = false;
-          });
-        this.props.fetchTasksYear(email)
-          .then(() => {
-            console.log('Y Tasks pulled in');
-            initialChildFetchCheck.fetchTasksYear = true;
-          })
-          .catch(() => {
-            nitialChildFetchCheck.fetchTasksYear = false;
-          });
-      }).catch((error) => {
-        initialChildFetchCheck.fetchNotificationInfo = false;
-      });
-        while
-      return intitialChildFetchCheck
-    } else if (this.props.accountInfo.accountType === 'Parent') {
-      this.props.fetchNotificationInfo(email).then(() => {
-        console.log('Notifications pulled in ');
-        initialParentFetchCheck.fetchNotificationInfo = true;
-        this.props.fetchParentInfo(email)
-          .then(() => {
-            console.log('User Info pulled in');
-            initialParentFetchCheck.fetchParentInfo = true;
-          })
-          .catch(() => {
-            initialParentFetchCheck.fetchParentInfo = true;
-          });
-      }).catch(() => {
-        console.log('Error on Notification');
-        initialParentFetchCheck.fetchNotificationInfo = false;
-      });
-    } else {
-      console.log('missing accountTypeID');
-      this.setState({ loginVerify: false });
-=======
     if (this.props.accountInfo != null) {
       if (this.props.accountInfo.accountType === 'Child') {
         this.props.fetchNotificationInfo(email).then((response) => {
@@ -283,7 +171,6 @@ class Loading extends Component {
         console.log('missing accountTypeID');
         this.goToLogin();
       }
->>>>>>> secure login updated
     }
   }
 
@@ -327,45 +214,6 @@ class Loading extends Component {
   loading() {
     console.log(this.state);
     // figure out if Parent or Child user
-<<<<<<< HEAD
-    let chooseRoute;
-    if (this.props.accountInfo !== null && this.props.mode !== null) {
-      if (this.props.accountInfo.accountType === 'Child') {
-        if (this.props.mode.color === 0) {
-          chooseRoute = 'ChildTabBarLight';
-        } else if (this.props.mode.color === 1) {
-          chooseRoute = 'ChildTabBarDark';
-        } else {
-          console.log('Error in Loading', this.props.mode.color);
-        }
-      } else if (this.props.accountInfo.accountType === 'Parent') {
-        if (this.props.mode.color === 0) {
-          chooseRoute = 'ParentTabBarLight';
-        } else if (this.props.mode.color === 1) {
-          chooseRoute = 'ParentTabBarDark';
-        } else {
-          console.log('Error in Loading', this.props.mode.color);
-        }
-      } else {
-        console.log('Error in Loading', this.props.accountInfo.accountType);
-      }
-      //  So that you are unable to navigate back to login page once logged in.
-      if (chooseRoute != null) {
-        // const resetAction = StackActions.reset({
-        //   index: 0, // <-- currect active route from actions array
-        //   key: null,
-        //   actions: [
-        //     NavigationActions.navigate({ routeName: chooseRoute }),
-        //   ],
-        // });
-
-        // Usage!
-        sleep(500).then(() => {
-        // Do something after the sleep!
-          // this.props.navigation.dispatch(resetAction);
-          if (this.state.loginVerify) {
-            this.props.navigation.navigate(chooseRoute);
-=======
     // makes sure everything has returned something and then checks whether it
     // was loaded correctly
     // better loading flags should be used here at some point
@@ -404,7 +252,6 @@ class Loading extends Component {
         && (this.state.fetchParentInfo === true)
           ) {
             this.props.navigation.navigate('ParentTabBar');
->>>>>>> secure login updated
           } else {
             this.goToLogin();
           }
@@ -443,14 +290,9 @@ const mapStateToProps = state => (
     mode: state.user.colorMode,
   });
 
-<<<<<<< HEAD
 
 export default connect(mapStateToProps, {
 
   fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksWeek, fetchTasksMonth, fetchTasksYear, fetchColorMode,
-=======
-export default connect(mapStateToProps, {
-  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksWeek, fetchTasksMonth, fetchTasksYear,
->>>>>>> secure login updated
 
 })(Loading);
