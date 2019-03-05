@@ -15,7 +15,6 @@ import { fetchTasksWeek, fetchTasksMonth, fetchTasksYear } from '../../actions';
 import CompletedTaskCard from './completedTaskCard';
 
 
-
 // import AvatarImage from './avatarImage';
 // import GoalsCard from './goalsCard';
 import { colors, fonts } from '../../styling/base';
@@ -29,7 +28,7 @@ class completedTasks extends Component {
       taskDict: {},
     };
   }
-  
+
   componentWillMount() {
     const taskDict = {};
     taskDict[0] = this.props.wTasks;
@@ -37,7 +36,7 @@ class completedTasks extends Component {
     taskDict[2] = this.props.yTasks;
     this.setState({ taskDict });
   }
-  
+
   onRefresh() {
     this.setState({ isFetching: true }, function () { this.reloadApiData(); });
   }
@@ -51,18 +50,6 @@ class completedTasks extends Component {
     // No longer fetching
     this.setState({ isFetching: false });
   }
-
-  renderGoals() {
-    console.log('Weekly Tasks');
-    console.log(this.props.wTasks);
-    console.log('Monthly');
-    console.log(this.props.mTasks);
-    console.log('Yearly');
-    console.log(this.props.yTasks);
-    if (this.props.wTasks !== null && this.props.user !== null) {
-      if (this.props.wTasks.length > 0) {
-        return null;
-        // return (
 
   renderTasks(filter) {
     // console.log('Weekly Tasks');
