@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
 } from 'react-native';
+import { Divider } from 'react-native-elements';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { fonts2, colors2, dimensions2 } from '../../styling/parent';
@@ -135,6 +139,7 @@ class ParentViewOfChild extends Component {
               </View>
 
             </View>
+            <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
             <ScrollView style={pageStyle.main}>
 
               {this.renderGoalsToComplete()}
@@ -199,6 +204,7 @@ const pageStyle = StyleSheet.create({
 
   sectionContainer: {
     marginBottom: 15,
+    paddingHorizontal: 4,
     width: dimensions2.fullWidth,
   },
   sectionHeader: {
@@ -208,10 +214,9 @@ const pageStyle = StyleSheet.create({
     paddingHorizontal: 10,
   },
   divider: {
-    backgroundColor: colors2.primary,
     height: 2,
-    marginTop: 6,
-    marginBottom: 6,
+    marginTop: 3,
+    marginBottom: 3,
   },
   noGoals: {
     alignItems: 'center',
