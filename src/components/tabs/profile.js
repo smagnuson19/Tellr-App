@@ -13,7 +13,7 @@ import * as scale from 'd3-scale';
 import AvatarImage from './avatarImage';
 import Style from '../../styling/Style';
 import { colors, fonts, dimensions } from '../../styling/base';
-import { fetchEarningsHistory, fetchParentAnalytics } from '../../actions/index';
+import { fetchEarningsHistory, fetchParentAnalytics, fetchOtherParents } from '../../actions/index';
 import { themeColors } from '../../styling/colorModes';
 
 
@@ -56,15 +56,19 @@ class Profile extends Component {
           balance: this.props.family[i].balance,
         });
       }
+      const parentList = [];
+      Object.keys(this.props.otherParents).forEach((key) => {
+        parentList.push({ name: this.props.otherParents[key] });
+      });
       return (
         <View style={pageStyle.sectionContainer}>
           <Text style={{
             fontSize: fonts.smmd,
-            fontWeight: 'bold',
+            fontWeight: '500',
             color: themeColors.headerColor[this.props.mode],
             fontFamily: fonts.secondary,
             paddingVertical: 6,
-            paddingLeft: 2,
+            paddingLeft: 3,
           }}
           >
             Children:
@@ -75,13 +79,38 @@ class Profile extends Component {
               color: themeColors.headerColor[this.props.mode],
               fontFamily: fonts.secondary,
               paddingVertical: 6,
-              paddingLeft: 3,
+              paddingLeft: 15,
             }}
             >
               {' '}
               {person.name}
               {',  Balance: $'}
               {person.balance}
+              {''}
+            </Text>
+          ))}
+          <Text style={{
+            fontSize: fonts.smmd,
+            fontWeight: '500',
+            color: themeColors.headerColor[this.props.mode],
+            fontFamily: fonts.secondary,
+            paddingVertical: 6,
+            paddingLeft: 4,
+          }}
+          >
+            Other Parents:
+          </Text>
+          { parentList.map(person => (
+            <Text style={{
+              fontSize: fonts.sm,
+              color: themeColors.headerColor[this.props.mode],
+              fontFamily: fonts.secondary,
+              paddingVertical: 6,
+              paddingLeft: 15,
+            }}
+            >
+              {' '}
+              {person.name}
               {''}
             </Text>
           ))}
@@ -99,7 +128,7 @@ class Profile extends Component {
       <View>
         <Text style={{
           fontSize: fonts.smmd,
-          fontWeight: 'bold',
+          fontWeight: '500',
           color: themeColors.headerColor[this.props.mode],
           fontFamily: fonts.secondary,
           paddingVertical: 6,
@@ -114,7 +143,7 @@ Balance:
           fontFamily: fonts.secondary,
           color: themeColors.headerColor[this.props.mode],
           paddingVertical: 6,
-          paddingLeft: 2,
+          paddingLeft: 15,
         }}
         >
           {'  $'}
@@ -257,9 +286,7 @@ Balance:
     if (this.props.family === null) {
       return (
 
-        <View style={pageStyle.avatarRowNOICONS}>
-          <Text style={pageStyle.avatarRowNOICONSTEXT}> Please ask family members to sign up! </Text>
-        </View>
+        <View style={pageStyle.avatarRowNOICONS} />
       );
     } else {
       console.log('rendering avatars');
@@ -357,11 +384,11 @@ Account
               <View style={pageStyle.sectionContainer}>
                 <Text style={{
                   fontSize: fonts.smmd,
-                  fontWeight: 'bold',
+                  // fontWeight: 'bold',
                   color: themeColors.headerColor[this.props.mode],
                   fontFamily: fonts.secondary,
                   paddingVertical: 6,
-                  paddingLeft: 2,
+                  fontWeight: '500',
                 }}
                 >
                   {' '}
@@ -372,7 +399,7 @@ Name:
                   color: themeColors.headerColor[this.props.mode],
                   fontFamily: fonts.secondary,
                   paddingVertical: 6,
-                  paddingLeft: 3,
+                  paddingLeft: 15,
                 }}
                 >
                   {' '}
@@ -382,11 +409,11 @@ Name:
                 </Text>
                 <Text style={{
                   fontSize: fonts.smmd,
-                  fontWeight: 'bold',
+                  // fontWeight: 'bold',
                   color: themeColors.headerColor[this.props.mode],
                   fontFamily: fonts.secondary,
                   paddingVertical: 6,
-                  paddingLeft: 2,
+                  fontWeight: '500',
                 }}
                 >
                   {' '}
@@ -397,7 +424,7 @@ Account Type:
                   color: themeColors.headerColor[this.props.mode],
                   fontFamily: fonts.secondary,
                   paddingVertical: 6,
-                  paddingLeft: 3,
+                  paddingLeft: 15,
                 }}
                 >
                   {' '}
@@ -535,7 +562,8 @@ const mapStateToProps = state => (
     earnings: state.user.earnings,
     mode: state.user.colorMode.color,
     pAnalytics: state.user.pAnalytics,
+    otherParents: state.user.otherParents,
   });
 
 
-export default connect(mapStateToProps, { fetchEarningsHistory, fetchParentAnalytics })(Profile);
+export default connect(mapStateToProps, { fetchEarningsHistory, fetchParentAnalytics, fetchOtherParents })(Profile);

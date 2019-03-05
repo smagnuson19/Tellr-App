@@ -16,6 +16,7 @@ const UserReducer = (
     mTasks: null,
     yTasks: null,
     pAnalytics: null,
+    otherParents: null,
   },
   action,
 ) => {
@@ -35,6 +36,7 @@ const UserReducer = (
         mTasks: state.mTasks,
         yTasks: state.yTasks,
         pAnalytics: state.pAnalytics,
+        otherParents: state.otherParents,
       };
     case ActionTypes.FETCH_FAMILY:
       return {
@@ -51,6 +53,7 @@ const UserReducer = (
         mTasks: state.mTasks,
         yTasks: state.yTasks,
         pAnalytics: state.pAnalytics,
+        otherParents: state.otherParents,
       };
     case ActionTypes.FETCH_NOTIFICATIONS:
       return {
@@ -67,6 +70,7 @@ const UserReducer = (
         mTasks: state.mTasks,
         yTasks: state.yTasks,
         pAnalytics: state.pAnalytics,
+        otherParents: state.otherParents,
       };
     case ActionTypes.FETCH_GOALS:
       return {
@@ -83,6 +87,7 @@ const UserReducer = (
         mTasks: state.mTasks,
         yTasks: state.yTasks,
         pAnalytics: state.pAnalytics,
+        otherParents: state.otherParents,
       };
     case ActionTypes.FETCH_WCOMPLETED_TASKS:
       return {
@@ -99,6 +104,7 @@ const UserReducer = (
         mTasks: state.mTasks,
         yTasks: state.yTasks,
         pAnalytics: state.pAnalytics,
+        otherParents: state.otherParents,
       };
     case ActionTypes.FETCH_MCOMPLETED_TASKS:
       return {
@@ -115,6 +121,7 @@ const UserReducer = (
         mTasks: action.payload,
         yTasks: state.yTasks,
         pAnalytics: state.pAnalytics,
+        otherParents: state.otherParents,
       };
     case ActionTypes.FETCH_YCOMPLETED_TASKS:
       return {
@@ -131,6 +138,7 @@ const UserReducer = (
         mTasks: state.mTasks,
         yTasks: action.payload,
         pAnalytics: state.pAnalytics,
+        otherParents: state.otherParents,
       };
     case ActionTypes.FETCH_FRIENDINFO:
       return {
@@ -147,6 +155,7 @@ const UserReducer = (
         mTasks: state.mTasks,
         yTasks: state.yTasks,
         pAnalytics: state.pAnalytics,
+        otherParents: state.otherParents,
       };
     case ActionTypes.FETCH_ALL_SOC:
       return {
@@ -163,6 +172,7 @@ const UserReducer = (
         mTasks: state.mTasks,
         yTasks: state.yTasks,
         pAnalytics: state.pAnalytics,
+        otherParents: state.otherParents,
       };
     case ActionTypes.FETCH_EARNINGS:
       return {
@@ -179,6 +189,7 @@ const UserReducer = (
         mTasks: state.mTasks,
         yTasks: state.yTasks,
         pAnalytics: state.pAnalytics,
+        otherParents: state.otherParents,
       };
     case ActionTypes.FETCH_STATS:
       return {
@@ -195,6 +206,7 @@ const UserReducer = (
         mTasks: state.mTasks,
         yTasks: state.yTasks,
         pAnalytics: state.pAnalytics,
+        otherParents: state.otherParents,
       };
     case ActionTypes.FETCH_COLORMODE:
       return {
@@ -211,6 +223,7 @@ const UserReducer = (
         mTasks: state.mTasks,
         yTasks: state.yTasks,
         pAnalytics: state.pAnalytics,
+        otherParents: state.otherParents,
       };
     case ActionTypes.FETCH_PARENT_ANALYTICS:
       return {
@@ -227,6 +240,24 @@ const UserReducer = (
         mTasks: state.mTasks,
         yTasks: state.yTasks,
         pAnalytics: action.payload,
+        otherParents: state.otherParents,
+      };
+    case ActionTypes.FETCH_OTHER_PARENTS:
+      return {
+        info: state.info,
+        family: state.family,
+        notifications: state.notifications,
+        goals: state.goals,
+        friendInfo: state.friendInfo,
+        allFriend: state.allFriend,
+        earnings: state.earnings,
+        allStats: state.allStats,
+        colorMode: state.colorMode,
+        wTasks: state.wTasks,
+        mTasks: state.mTasks,
+        yTasks: state.yTasks,
+        pAnalytics: state.pAnalytics,
+        otherParents: action.payload,
       };
 
     default:
