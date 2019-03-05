@@ -26,6 +26,9 @@ export const ActionTypes = {
   FETCH_EARNINGS: 'FETCH_EARNINGS',
   FETCH_STATS: 'FETCH_STATS',
   FETCH_COLORMODE: 'FETCH_COLORMODE',
+  FETCH_WCOMPLETED_TASKS: 'FETCH_WCOMPLETED_TASKS',
+  FETCH_MCOMPLETED_TASKS: 'FETCH_MCOMPLETED_TASKS',
+  FETCH_YCOMPLETED_TASKS: 'FETCH_YCOMPLETED_TASKS',
 };
 
 // trigger to deauth if there is error
@@ -866,6 +869,120 @@ export function fetchAllSocial(email) {
           );
           return Promise.reject();
         });
+    });
+  };
+}
+
+export function fetchTasksWeek(email) {
+  console.log('Fetching Tasks Week');
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.get(`${ROOT_URL}/tasks/seecompleted/week/${email}`, { headers: { authorization: token } }).then((response) => {
+      // return axios.get(`${ROOT_URL}/social/${email}`, { headers: { authorization: token } }).then((response) => {
+        console.log(`fetchTasksWeek: ${response.data}`);
+        // make a list of the parent's children
+        const wTList = response.data;
+        const wTaskList = [];
+        // loop through each kid and make an object for them with FirstName, Email
+        Object.keys(wTList).forEach((key) => {
+          wTaskList.unshift({
+            key,
+            name: wTList[key].taskName,
+            value: wTList[key].reward,
+            description: wTList[key].taskDescription,
+            // dateCompleted: wTList[key].dateCompleted,
+            timeCompleted: wTList[key].timeCompleted,
+            // goalProgress: (parseFloat(this.state.balance)/parseFloat(gList[key].value));
+          });
+        });// end for each
+        dispatch({
+          type: ActionTypes.FETCH_WCOMPLETED_TASKS,
+          payload: wTaskList,
+        });
+        return Promise.resolve();
+      }).catch((error) => {
+        errorHandling(
+          'Error in fetchWeekly Goals fetch: ',
+          error,
+        );
+        return Promise.reject();
+      });
+    });
+  };
+}
+
+export function fetchTasksMonth(email) {
+  console.log('Fetching Tasks Month');
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.get(`${ROOT_URL}/tasks/seecompleted/month/${email}`, { headers: { authorization: token } }).then((response) => {
+      // return axios.get(`${ROOT_URL}/social/${email}`, { headers: { authorization: token } }).then((response) => {
+        console.log(`fetchTasksMonth: ${response.data}`);
+        // make a list of the parent's children
+        const mTList = response.data;
+        const mTaskList = [];
+        // loop through each kid and make an object for them with FirstName, Email
+        Object.keys(mTList).forEach((key) => {
+          mTaskList.unshift({
+            key,
+            name: mTList[key].taskName,
+            value: mTList[key].reward,
+            description: mTList[key].taskDescription,
+            // dateCompleted: mTList[key].dateCompleted,
+            timeCompleted: mTList[key].timeCompleted,
+            // goalProgress: (parseFloat(this.state.balance)/parseFloat(gList[key].value));
+          });
+        });// end for each
+        dispatch({
+          type: ActionTypes.FETCH_MCOMPLETED_TASKS,
+          payload: mTaskList,
+        });
+        return Promise.resolve();
+      }).catch((error) => {
+        errorHandling(
+          'Error in fetchMonthly Goals fetch: ',
+          error,
+        );
+        return Promise.reject();
+      });
+    });
+  };
+}
+
+export function fetchTasksYear(email) {
+  console.log('Fetching Tasks Year');
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.get(`${ROOT_URL}/tasks/seecompleted/year/${email}`, { headers: { authorization: token } }).then((response) => {
+      // return axios.get(`${ROOT_URL}/social/${email}`, { headers: { authorization: token } }).then((response) => {
+        console.log(`fetchTasksMonth: ${response.data}`);
+        // make a list of the parent's children
+        const yTList = response.data;
+        const yTaskList = [];
+        // loop through each kid and make an object for them with FirstName, Email
+        Object.keys(yTList).forEach((key) => {
+          yTaskList.unshift({
+            key,
+            name: yTList[key].taskName,
+            value: yTList[key].reward,
+            description: yTList[key].taskDescription,
+            // dateCompleted: yTList[key].dateCompleted,
+            timeCompleted: yTList[key].timeCompleted,
+            // goalProgress: (parseFloat(this.state.balance)/parseFloat(gList[key].value));
+          });
+        });// end for each
+        dispatch({
+          type: ActionTypes.FETCH_YCOMPLETED_TASKS,
+          payload: yTaskList,
+        });
+        return Promise.resolve();
+      }).catch((error) => {
+        errorHandling(
+          'Error in fetchMonthly Goals fetch: ',
+          error,
+        );
+        return Promise.reject();
+      });
     });
   };
 }

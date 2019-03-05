@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   // View, Text, StyleSheet, AsyncStorage,
-  View, Text, ScrollView, Alert, Animated,
+  View, Text, ScrollView, Alert, Animated, RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { verticalScale } from 'react-native-size-matters';
@@ -15,7 +15,9 @@ import { StackActions, NavigationActions } from 'react-navigation';
 // import { NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
 import GoalsCard from './goalsTabCard';
-import { postUpdateBalance, postGoalRedeem, fetchGoals } from '../../actions';
+import {
+  postUpdateBalance, postGoalRedeem, fetchGoals,
+} from '../../actions';
 
 
 // import AvatarImage from './avatarImage';
@@ -39,7 +41,7 @@ class Goals extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      isFetching: false,
     };
     this.redeemAction = this.redeemAction.bind(this);
   }
@@ -57,6 +59,7 @@ class Goals extends Component {
     });
   }
 
+
   headingDisplay() {
     if (this.props.mode === 0) {
       return (
@@ -67,6 +70,18 @@ class Goals extends Component {
         <Text style={Style.headerTextDark}>Goals! </Text>
       );
     }
+  }
+
+  onRefresh() {
+    this.setState({ isFetching: true }, function () { this.reloadApiData(); });
+  }
+
+  reloadApiData() {
+    console.log('reloading api Data');
+    // Do we want to update children info as well?
+    this.props.fetchGoals(this.props.user.email);
+    // No longer fetching
+    this.setState({ isFetching: false });
   }
 
   renderOverlay = () => {
@@ -246,7 +261,14 @@ class Goals extends Component {
               {this.renderOverlay()}
               <View style={Style.contentWrapper}>
                 {this.headingDisplay()}
-                <ScrollView>
+                <ScrollView refreshControl={(
+                  <RefreshControl
+                    onRefresh={() => this.onRefresh()}
+                    refreshing={this.state.isFetching}
+                    tintColor="#fff"
+                  />
+                )}
+                >
                   <Card title={balanceString}>
                     <Text style={{ marginBottom: 10 }}>
                Either spend your balance on the goals below or redeem it instantly by pressing the button
@@ -327,4 +349,6 @@ const mapStateToProps = state => (
     mode: state.user.colorMode.color,
   });
 
-export default connect(mapStateToProps, { postUpdateBalance, fetchGoals, postGoalRedeem })(Goals);
+export default connect(mapStateToProps, {
+  postUpdateBalance, fetchGoals, postGoalRedeem,
+})(Goals);

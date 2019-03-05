@@ -14,6 +14,7 @@ import Child from './child';
 import {
   fetchNotificationInfo, fetchParentInfo, fetchUserInfo, postTaskCompleted, postTask,
   postNotifications, postGoalApprove, postTaskVerified, fetchAllSocial, fetchKidFriends, fetchColorMode,
+  fetchTasksWeek, fetchTasksMonth, fetchGoals, fetchEarningsHistory, fetchAllStats, fetchTasksYear,
 } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
 import { themeColors } from '../../styling/colorModes';
@@ -29,6 +30,7 @@ class Home extends Component {
     this.navigationToAccount = this.navigationToAccount.bind(this);
     this.renderAction = this.renderAction.bind(this);
     this.onRefreshForChild = this.onRefreshForChild.bind(this);
+    this.navigationToCompletedTasks = this.navigationToCompletedTasks.bind(this);
   }
 
   // A pull down has been initiated
@@ -52,10 +54,17 @@ class Home extends Component {
 
     if (this.props.account.accountType === 'Parent') {
       console.log('refreshing parents');
+      this.props.fetchParentInfo(this.props.account.email);
     } else {
       console.log('refreshing kids');
       this.props.fetchAllSocial(this.props.account.email);
       this.props.fetchKidFriends(this.props.account.email);
+      this.props.fetchGoals(this.props.account.email);
+      this.props.fetchTasksWeek(this.props.account.email);
+      this.props.fetchTasksMonth(this.props.account.email);
+      this.props.fetchTasksYear(this.props.account.email);
+      this.props.fetchAllStats(this.props.account.email);
+      this.props.fetchEarningsHistory(this.props.account.email);
     }
     // No longer fetching
     this.setState({ isFetching: false });
@@ -67,6 +76,10 @@ class Home extends Component {
     this.props.navigation.navigate('ChildPage', {
       childInfo: child,
     });
+  }
+
+  navigationToCompletedTasks() {
+    this.props.navigation.navigate('CompletedTasks');
   }
 
 
@@ -388,6 +401,7 @@ No Chores To Verify, Add some more!
           isFetching={this.state.isFetching}
           onPress={this.renderAction}
           refreshAPI={this.onRefreshForChild}
+          navigationToCompletedTasks={this.navigationToCompletedTasks}
         />
       );
     } else {
@@ -509,4 +523,10 @@ export default connect(mapStateToProps, {
   postGoalApprove,
   postTaskVerified,
   fetchColorMode,
+  fetchTasksWeek,
+  fetchTasksMonth,
+  fetchGoals,
+  fetchEarningsHistory,
+  fetchAllStats,
+  fetchTasksYear,
 })(Home);

@@ -5,7 +5,7 @@ Avatars from: http://avatars.adorable.io/#demo
 
 import React, { Component } from 'react';
 import {
-  View, Text, Alert,
+  View, Text, Alert, StyleSheet, ScrollView, RefreshControl,
 } from 'react-native';
 import { ButtonGroup, Button } from 'react-native-elements';
 import Leaderboard from 'react-native-leaderboard';
@@ -14,8 +14,8 @@ import DialogInput from 'react-native-dialog-input';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Style from '../../styling/Style';
-import { fonts } from '../../styling/base';
-import { postRequest } from '../../actions/index';
+import { colors, fonts } from '../../styling/base';
+import { postRequest, fetchKidFriends, fetchAllSocial } from '../../actions/index';
 import AvatarImageFriend from './avatarImageFriend';
 import { themeColors } from '../../styling/colorModes';
 
@@ -33,6 +33,7 @@ class Friends extends Component {
       filter: 0,
       userRank: 1,
       userScore: 0,
+      isFetching: false,
       user: {
         name: this.props.account.email,
       },
@@ -91,6 +92,10 @@ class Friends extends Component {
     // this.setState({ monthlyGoalData: monthlyGoalDataList });
   }
 
+  onRefresh() {
+    this.setState({ isFetching: true }, function () { this.reloadApiData(); });
+  }
+
     sort = (data) => {
       const sorted = data && data.sort((item1, item2) => {
         return item2.score - item1.score;
@@ -105,6 +110,15 @@ class Friends extends Component {
       this.setState({ userScore: uScore });
 
       return sorted;
+    }
+
+    reloadApiData() {
+      console.log('reloading api Data');
+      // Do we want to update children info as well?
+      this.props.fetchKidFriends(this.props.account.email);
+      this.props.fetchAllSocial(this.props.account.email);
+      // No longer fetching
+      this.setState({ isFetching: false });
     }
 
     sendFriendInvite(inputText) {
@@ -278,7 +292,16 @@ class Friends extends Component {
 Leaderboard
               </Text>
               {this.renderHeader()}
-              <Leaderboard {...props} />
+              <ScrollView refreshControl={(
+                <RefreshControl
+                  onRefresh={() => this.onRefresh()}
+                  refreshing={this.state.isFetching}
+                  tintColor="#fff"
+                />
+              )}
+              >
+                <Leaderboard {...props} />
+              </ScrollView>
               {this.renderFooter()}
             </View>
           </LinearGradient>
@@ -320,4 +343,4 @@ const mapStateToProps = state => (
     mode: state.user.colorMode.color,
   });
 
-export default connect(mapStateToProps, { postRequest })(Friends);
+export default connect(mapStateToProps, { postRequest, fetchKidFriends, fetchAllSocial })(Friends);

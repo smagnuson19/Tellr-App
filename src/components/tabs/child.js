@@ -3,6 +3,9 @@ import {
   View, Text, StyleSheet, ScrollView, RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Divider, ButtonGroup } from 'react-native-elements';
+import { verticalScale } from 'react-native-size-matters';
+// import { NavigationActions } from 'react-navigation';
 import { fonts, colors, dimensions } from '../../styling/base';
 import NotificationCard from './notificationCard';
 import { themeColors } from '../../styling/colorModes';
@@ -96,8 +99,30 @@ Chores are fun! Ask for more! :)
     }
   }
 
+  renderFooter() {
+    return (
+      <View>
+        <ButtonGroup
+          onPress={() => this.props.navigationToCompletedTasks()}
+          buttons={['View Completed Tasks']}
+          containerStyle={{ width: dimensions.fullWidth, backgroundColor: colors.secondary, borderColor: 'black' }}
+          textStyle={{ fontFamily: fonts.secondary, color: colors.black }}
+          underlayColor={colors.secondary}
+        />
+      </View>
+    );
+  }
+
 
   render() {
+    // <TouchableOpacity style={{ borderWidth: verticalScale(12), borderColor: 'transparent' }} onPress={() => this.props.navigationToCompletedTasks()}>
+    //   <Text style={{
+    //     color: 'white', fontWeight: 'bold', fontSize: 22, textAlign: 'center',
+    //   }}
+    //   >
+    //     {'View Completed Tasks'}
+    //   </Text>
+    // </TouchableOpacity>
     return (
       <View style={pageStyle.homeWrapper}>
         <View style={pageStyle.topContainer}>
@@ -130,6 +155,8 @@ Chores are fun! Ask for more! :)
           </View>
           {this.checkDeniedTasks()}
         </ScrollView>
+        {this.renderFooter()}
+        <Divider style={{ backgroundColor: colors.clear, height: verticalScale(60) }} />
       </View>
     );
   }

@@ -9,7 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { colors } from '../styling/base';
 import { colors2 } from '../styling/parent';
 import {
-  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchColorMode,
+  fetchUserInfo, fetchTasksWeek, fetchTasksMonth, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksYear, fetchColorMode,
 } from '../actions/index';
 import Style from '../styling/Style';
 // import { themeColors } from '../styling/colorModes';
@@ -60,6 +60,14 @@ class Loading extends Component {
           .catch(() => { this.setState({ loginVerify: false }); });
         this.props.fetchColorMode(email)
           .then(() => { console.log('Color mode pulled in'); })
+        this.props.fetchTasksWeek(email)
+          .then(() => { console.log('W Tasks pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
+        this.props.fetchTasksMonth(email)
+          .then(() => { console.log('M Tasks pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
+        this.props.fetchTasksYear(email)
+          .then(() => { console.log('Y Tasks pulled in'); })
           .catch(() => { this.setState({ loginVerify: false }); });
       }).catch((error) => {
         this.setState({ loginVerify: false });
@@ -189,5 +197,5 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchColorMode,
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksWeek, fetchTasksMonth, fetchTasksYear, fetchColorMode,
 })(Loading);
