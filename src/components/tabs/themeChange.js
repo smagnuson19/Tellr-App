@@ -58,12 +58,20 @@ class ThemeChange extends Component {
           ],
         });
       }
+    } else if (this.props.mode === 0) {
+      resetAction = StackActions.reset({
+        index: 0, // <-- currect active route from actions array
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'ChildTabBarLight' }),
+        ],
+      });
     } else {
       resetAction = StackActions.reset({
         index: 0, // <-- currect active route from actions array
         key: null,
         actions: [
-          NavigationActions.navigate({ routeName: 'ChildTabBar' }),
+          NavigationActions.navigate({ routeName: 'ChildTabBarDark' }),
         ],
       });
     }

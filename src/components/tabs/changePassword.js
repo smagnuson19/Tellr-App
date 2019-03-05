@@ -40,7 +40,6 @@ class ChangePassword extends Component {
     let resetAction;
     if (this.props.account.accountType === 'Parent') {
       if (this.props.mode === 0) {
-        console.log('Parent');
         resetAction = StackActions.reset({
           index: 0, // <-- currect active route from actions array
           key: null,
@@ -49,7 +48,6 @@ class ChangePassword extends Component {
           ],
         });
       } else {
-        console.log('Parent');
         resetAction = StackActions.reset({
           index: 0, // <-- currect active route from actions array
           key: null,
@@ -58,12 +56,20 @@ class ChangePassword extends Component {
           ],
         });
       }
+    } else if (this.props.mode === 0) {
+      resetAction = StackActions.reset({
+        index: 0, // <-- currect active route from actions array
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'ChildTabBarLight' }),
+        ],
+      });
     } else {
       resetAction = StackActions.reset({
         index: 0, // <-- currect active route from actions array
         key: null,
         actions: [
-          NavigationActions.navigate({ routeName: 'ChildTabBar' }),
+          NavigationActions.navigate({ routeName: 'ChildTabBarDark' }),
         ],
       });
     }

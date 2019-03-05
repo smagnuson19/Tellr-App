@@ -107,13 +107,24 @@ class Goals extends Component {
     console.log(gApproved);
     console.log(gName);
 
-    const resetAction = StackActions.reset({
-      index: 0, // <-- currect active route from actions array
-      key: null,
-      actions: [
-        NavigationActions.navigate({ routeName: 'ChildTabBar' }),
-      ],
-    });
+    let resetAction;
+    if (this.props.mode === 0) {
+      resetAction = StackActions.reset({
+        index: 0, // <-- currect active route from actions array
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'ChildTabBarLight' }),
+        ],
+      });
+    } else {
+      resetAction = StackActions.reset({
+        index: 0, // <-- currect active route from actions array
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'ChildTabBarDark' }),
+        ],
+      });
+    }
     if (this.props.user.balance >= gValue && gApproved === 1 && gRedeemed === false) {
       // goal is good for redemption
       const payLoad = {

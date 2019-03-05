@@ -11,6 +11,7 @@ import {
   fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchColorMode,
 } from '../actions/index';
 import Style from '../styling/Style';
+// import { themeColors } from '../styling/colorModes';
 
 
 // IMPORTANT !!!!!!!!!
@@ -118,9 +119,9 @@ class Loading extends Component {
     if (this.props.accountInfo !== null && this.props.mode !== null) {
       if (this.props.accountInfo.accountType === 'Child') {
         if (this.props.mode.color === 0) {
-          chooseRoute = 'ChildTabBar';
+          chooseRoute = 'ChildTabBarLight';
         } else if (this.props.mode.color === 1) {
-          chooseRoute = 'ChildTabBar';
+          chooseRoute = 'ChildTabBarDark';
         } else {
           console.log('Error in Loading', this.props.mode.color);
         }
@@ -159,12 +160,10 @@ class Loading extends Component {
     }
   }
 
-
   render() {
     if (this.state.email != null) {
       this.loading();
     }
-
 
     return (
       <View style={Style.rootContainer}>

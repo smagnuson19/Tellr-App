@@ -10,7 +10,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { colors, fonts } from '../styling/base';
 import { colors2, fonts2 } from '../styling/parent';
-// import { themeColors } from '../styling/colorModes';
 
 import Home from '../components/tabs/home';
 import Payments from '../components/tabs/payments';
@@ -217,7 +216,7 @@ const ParentTabBarLight = createBottomTabNavigator({
   initialRouteName: 'Home',
 });
 
-const ChildTabBar = createBottomTabNavigator({
+const ChildTabBarLight = createBottomTabNavigator({
   Home,
   Goals,
   Friends: FriendsStack,
@@ -253,6 +252,49 @@ const ChildTabBar = createBottomTabNavigator({
     style: {
       backgroundColor: colors.linearGradientBottom,
       fontFamily: fonts.secondary,
+    },
+  },
+},
+{
+  initialRouteName: 'Home',
+});
+
+const ChildTabBarDark = createBottomTabNavigator({
+  Home,
+  Goals,
+  Friends: FriendsStack,
+  Profile: ProfileStack,
+},
+{
+  headerMode: 'none',
+  defaultNavigationOptions: ({ navigation }) => ({
+    headerTransparent: 'True',
+    headerMode: 'none',
+    tabBarIcon: ({ focused, horizontal, tintColor }) => {
+      const { routeName } = navigation.state;
+      let iconName;
+      if (routeName === 'Home') {
+        iconName = `ios-home${focused ? '' : ''}`;
+      } else if (routeName === 'Profile') {
+        iconName = `ios-person${focused ? '' : ''}`;
+      } else if (routeName === 'Goals') {
+        iconName = `ios-star${focused ? '' : ''}`;
+      } else if (routeName === 'Friends') {
+        iconName = `ios-contacts${focused ? '' : ''}`;
+      }
+
+      // You can return any component that you like here! We usually use an
+      // icon component from react-native-vector-icons
+      // https://ionicons.com/ ---> link for ionicons names
+      return <Ionicons name={iconName} size={25} color={tintColor} />;
+    },
+  }),
+  tabBarOptions: {
+    activeTintColor: colors2.logoGreen,
+    inactiveTintColor: 'white',
+    style: {
+      backgroundColor: colors2.linearGradientBottom,
+      fontFamily: fonts2.secondary,
     },
   },
 },
@@ -308,8 +350,15 @@ const AppStack = createStackNavigator(
 
       }),
     },
-    ChildTabBar: {
-      screen: ChildTabBar,
+    ChildTabBarLight: {
+      screen: ChildTabBarLight,
+      navigationOptions: () => ({
+
+        header: null,
+      }),
+    },
+    ChildTabBarDark: {
+      screen: ChildTabBarDark,
       navigationOptions: () => ({
 
         header: null,

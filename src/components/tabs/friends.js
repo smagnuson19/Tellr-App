@@ -109,13 +109,24 @@ class Friends extends Component {
 
     sendFriendInvite(inputText) {
       // move to home page after you submit a friend
-      const resetAction = StackActions.reset({
-        index: 0, // <-- currect active route from actions array
-        key: null,
-        actions: [
-          NavigationActions.navigate({ routeName: 'ChildTabBar' }),
-        ],
-      });
+      let resetAction;
+      if (this.props.mode === 0) {
+        resetAction = StackActions.reset({
+          index: 0, // <-- currect active route from actions array
+          key: null,
+          actions: [
+            NavigationActions.navigate({ routeName: 'ChildTabBarLight' }),
+          ],
+        });
+      } else {
+        resetAction = StackActions.reset({
+          index: 0, // <-- currect active route from actions array
+          key: null,
+          actions: [
+            NavigationActions.navigate({ routeName: 'ChildTabBarDark' }),
+          ],
+        });
+      }
       const payLoad = {
         email: this.props.account.email,
         friend: inputText,
