@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity,
+  View, Text, StyleSheet, TouchableOpacity, Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -10,9 +10,10 @@ import {
 } from 'react-native-svg-charts';
 import * as shape from 'd3-shape';
 import * as scale from 'd3-scale';
+import AvatarImage from './avatarImage';
 import Style from '../../styling/Style';
 import { colors, fonts, dimensions } from '../../styling/base';
-import { fetchEarningsHistory } from '../../actions/index';
+import { fetchEarningsHistory, fetchParentAnalytics } from '../../actions/index';
 import { themeColors } from '../../styling/colorModes';
 
 
@@ -21,8 +22,17 @@ class Profile extends Component {
     super(props);
     this.state = {
     };
+
+    this.navigationToAccount = this.navigationToAccount.bind(this);
   }
 
+  navigationToAccount(child) {
+    console.log('trying');
+    this.props.navigation.navigate('ParentViewAnalytics', {
+      childInfo: child,
+      actualChildInfo: this.props.pAnalytics[child.email],
+    });
+  }
 
   headingDisplay() {
     if (this.props.mode === 0) {
@@ -130,12 +140,17 @@ Balance:
   analyticsDisplay() {
     if (this.props.user.accountType === 'Parent') {
       return (
-        <Text style={{
-          color: themeColors.headerColor[this.props.mode], fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
-        }}
-        >
-          {'Analytics available for children. Log into their account to see more!'}
-        </Text>
+        <View style={pageStyle.homeWrapper}>
+          <Text style={{
+            color: themeColors.primary[this.props.mode], fontSize: 12, fontFamily: fonts.secondary, textAlign: 'left', paddingLeft: 8,
+          }}
+          >
+            {'Click on your child avatar(s) for individual spend analytics'}
+          </Text>
+          <View flexDirection="row" width={Dimensions.get('window').width} align="center">
+            {this.renderAvatarRow()}
+          </View>
+        </View>
       );
     } else {
       return (
@@ -235,6 +250,33 @@ Balance:
     } else {
       console.log('no charts rn');
       return null;
+    }
+  }
+
+  renderAvatarRow() {
+    if (this.props.family === null) {
+      return (
+
+        <View style={pageStyle.avatarRowNOICONS}>
+          <Text style={pageStyle.avatarRowNOICONSTEXT}> Please ask family members to sign up! </Text>
+        </View>
+      );
+    } else {
+      console.log('rendering avatars');
+      console.log(this.props.family);
+      console.log(this.props.pAnalytics);
+      return (
+        <View style={pageStyle.avatarRow} flexDirection="row" align="center">
+          { this.props.family.map(person => (
+            <View key={person.email}>
+              <AvatarImage
+                onPressNav={this.navigationToAccount}
+                individual={person}
+              />
+            </View>
+          ))}
+        </View>
+      );
     }
   }
 
@@ -462,7 +504,8 @@ const mapStateToProps = state => (
     family: state.user.family,
     earnings: state.user.earnings,
     mode: state.user.colorMode.color,
+    pAnalytics: state.user.pAnalytics,
   });
 
 
-export default connect(mapStateToProps, { fetchEarningsHistory })(Profile);
+export default connect(mapStateToProps, { fetchEarningsHistory, fetchParentAnalytics })(Profile);

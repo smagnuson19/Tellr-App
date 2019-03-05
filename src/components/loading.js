@@ -9,7 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { colors } from '../styling/base';
 import { colors2 } from '../styling/parent';
 import {
-  fetchUserInfo, fetchTasksWeek, fetchTasksMonth, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksYear, fetchColorMode,
+  fetchUserInfo, fetchTasksWeek, fetchTasksMonth, fetchNotificationInfo, fetchParentInfo, fetchParentAnalytics, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksYear, fetchColorMode,
 } from '../actions/index';
 import Style from '../styling/Style';
 // import { themeColors } from '../styling/colorModes';
@@ -78,6 +78,9 @@ class Loading extends Component {
         console.log('Notifications pulled in ');
         this.props.fetchParentInfo(email)
           .then(() => { console.log('User Info pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
+        this.props.fetchParentAnalytics(email)
+          .then(() => { console.log('Parent analytics pulled in'); })
           .catch(() => { this.setState({ loginVerify: false }); });
         this.props.fetchColorMode(email)
           .then(() => { console.log('Color mode pulled in'); })
@@ -198,5 +201,5 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksWeek, fetchTasksMonth, fetchTasksYear, fetchColorMode,
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchParentAnalytics, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksWeek, fetchTasksMonth, fetchTasksYear, fetchColorMode,
 })(Loading);

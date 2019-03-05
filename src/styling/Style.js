@@ -34,7 +34,7 @@ const Style = StyleSheet.create({
     fontSize: fonts.xlg,
     color: colors.headerText,
     marginTop: '20%',
-    marginBottom: '10%',
+    marginBottom: '3%',
   },
 
   headerTextLight: {
@@ -45,7 +45,7 @@ const Style = StyleSheet.create({
     fontSize: fonts.xlg,
     color: themeColors.headerColor[0],
     marginTop: '20%',
-    marginBottom: '10%',
+    marginBottom: '3%',
   },
 
   headerTextDark: {
