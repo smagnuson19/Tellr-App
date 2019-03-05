@@ -11,6 +11,7 @@ import { Divider, ButtonGroup } from 'react-native-elements';
 import * as scale from 'd3-scale';
 import * as shape from 'd3-shape';
 import { fonts, colors, dimensions } from '../../styling/base';
+import { themeColors } from '../../styling/colorModes';
 import { fetchAllStats } from '../../actions/index';
 import Style from '../../styling/Style';
 
@@ -19,12 +20,11 @@ import Style from '../../styling/Style';
 class Analytics extends Component {
   constructor(props) {
     super(props);
-    const { navigation } = this.props;
-    const indEmail = navigation.getParam('email');
+    // const { navigation } = this.props;
+    // const indEmail = navigation.getParam('email');
     console.log(this.props.allStats);
     this.state = {
       isFetching: false,
-      userEmail: indEmail,
       filter: 0,
       datDict: {},
       timeDict: {},
@@ -172,6 +172,18 @@ class Analytics extends Component {
     this.props.onPress(action, goalName, sEmail, cEmail, priority);
   }
 
+  headingDisplay() {
+    if (this.props.mode === 0) {
+      return (
+        <Text style={Style.headerTextLight}>Analytics </Text>
+      );
+    } else {
+      return (
+        <Text style={Style.headerTextDark}>Analytics </Text>
+      );
+    }
+  }
+
   renderChart() {
     const deviceWidth = Dimensions.get('window').width;
     console.log(this.state.barDict[0]);
@@ -198,7 +210,7 @@ class Analytics extends Component {
           gridMax={this.state.maxDict[this.state.filter] + 1}
           gridMin={0}
           svg={{
-            fill: 'black',
+            fill: themeColors.headerColor[this.props.mode],
             fontSize: 8,
             fontWeight: 'bold',
           }}
@@ -234,10 +246,10 @@ class Analytics extends Component {
             data={balHist}
             formatLabel={value => `${(value.getMonth() + 1)}/${value.getDate()}`}
             scale={scale.scaleTime}
-            labelStyle={{ color: 'black' }}
+            labelStyle={{ color: themeColors.headerColor[this.props.mode] }}
             xAccessor={({ item }) => item.index}
             svg={{
-              fill: 'black',
+              fill: themeColors.headerColor[this.props.mode],
               fontSize: 8,
               fontWeight: 'bold',
             }}
@@ -270,7 +282,7 @@ class Analytics extends Component {
           numberOfTicks={8}
           formatLabel={value => `$${value}`}
           svg={{
-            fill: 'black',
+            fill: themeColors.headerColor[this.props.mode],
             fontSize: 8,
             fontWeight: 'bold',
           }}
@@ -298,10 +310,10 @@ class Analytics extends Component {
             data={this.state.timeDict[this.state.filter]}
             formatLabel={value => `${(value.getMonth() + 1)}/${value.getDate()}`}
             scale={scale.scaleTime}
-            labelStyle={{ color: 'black' }}
+            labelStyle={{ color: themeColors.headerColor[this.props.mode] }}
             xAccessor={({ item }) => item.index}
             svg={{
-              fill: 'black',
+              fill: themeColors.headerColor[this.props.mode],
               fontSize: 8,
               fontWeight: 'bold',
             }}
@@ -323,7 +335,7 @@ class Analytics extends Component {
         }}
       >
         <Text style={{
-          color: 'black', fontSize: 18, fontFamily: fonts.secondary,
+          color: themeColors.headerColor[this.props.mode], fontSize: 18, fontFamily: fonts.secondary,
         }}
         >
           {'Balance History'}
@@ -340,7 +352,7 @@ class Analytics extends Component {
         }}
       >
         <Text style={{
-          color: 'black', fontSize: 18, fontFamily: fonts.secondary,
+          color: themeColors.headerColor[this.props.mode], fontSize: 18, fontFamily: fonts.secondary,
         }}
         >
           {'Earnings Vs. Spend'}
@@ -357,7 +369,7 @@ class Analytics extends Component {
         }}
       >
         <Text style={{
-          color: 'black', fontSize: 18, fontFamily: fonts.secondary,
+          color: themeColors.headerColor[this.props.mode], fontSize: 18, fontFamily: fonts.secondary,
         }}
         >
           {'Key Metrics'}
@@ -368,7 +380,7 @@ class Analytics extends Component {
 
 
   renderBottom() {
-    const deviceWidth = Dimensions.get('window').width;
+    // const deviceWidth = Dimensions.get('window').width;
     return (
       <View style={{
         paddingTop: 30, flex: 1, flexDirection: 'row',
@@ -376,7 +388,7 @@ class Analytics extends Component {
       >
         <View style={{ flex: 1, paddingLeft: 10 }}>
           <Text style={{
-            color: 'black', fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center', paddingBottom: 8,
+            color: themeColors.headerColor[this.props.mode], fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center', paddingBottom: 8,
           }}
           >
             {'Average Goal Cost'}
@@ -395,7 +407,7 @@ class Analytics extends Component {
           style={{ flex: 1, paddingRight: 10 }}
         >
           <Text style={{
-            color: 'black', fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center', paddingBottom: 8,
+            color: themeColors.headerColor[this.props.mode], fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center', paddingBottom: 8,
           }}
           >
             {'Average Task Value'}
@@ -415,7 +427,7 @@ class Analytics extends Component {
   }
 
   render2Bottom() {
-    const deviceWidth = Dimensions.get('window').width;
+    // const deviceWidth = Dimensions.get('window').width;
     return (
       <View style={{
         paddingTop: 30, flex: 1, flexDirection: 'row',
@@ -423,7 +435,7 @@ class Analytics extends Component {
       >
         <View style={{ flex: 1, paddingLeft: 10 }}>
           <Text style={{
-            color: 'black', fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center', paddingBottom: 8,
+            color: themeColors.headerColor[this.props.mode], fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center', paddingBottom: 8,
           }}
           >
             {'Net Weekly Earnings'}
@@ -442,7 +454,7 @@ class Analytics extends Component {
           style={{ flex: 1, paddingRight: 10 }}
         >
           <Text style={{
-            color: 'black', fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center', paddingBottom: 8,
+            color: themeColors.headerColor[this.props.mode], fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center', paddingBottom: 8,
           }}
           >
             {'Total Earnings'}
@@ -465,9 +477,9 @@ class Analytics extends Component {
   render() {
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+        <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
           <View style={{ flex: 1 }}>
-            <Text style={Style.headerTextLeaderboard}>Analytics </Text>
+            {this.headingDisplay()}
             <Text style={pageStyle.subSectionText}>
               {' '}
             </Text>
@@ -477,12 +489,12 @@ class Analytics extends Component {
               buttons={['Week', 'Month', 'Year']}
               containerStyle={{ height: 20, backgroundColor: 'rgba(250, 27, 3, 0.05)', borderColor: 'black' }}
               selectedTextStyle={{
-                color: 'black', fontSize: 11, fontFamily: fonts.secondary,
+                color: themeColors.headerColor[this.props.mode], fontSize: 11, fontFamily: fonts.secondary,
               }}
               textStyle={{
-                color: 'black', fontSize: 11, fontFamily: fonts.secondary,
+                color: themeColors.headerColor[this.props.mode], fontSize: 11, fontFamily: fonts.secondary,
               }}
-              selectedButtonStyle={{ backgroundColor: colors.secondary }
+              selectedButtonStyle={{ backgroundColor: themeColors.buttonColor[this.props.mode] }
               }
             />
             <ScrollView refreshControl={(
@@ -494,13 +506,31 @@ class Analytics extends Component {
             )}
             >
               {this.renderTop()}
-              <Divider style={pageStyle.bdivider} />
+              <Divider style={{
+                backgroundColor: themeColors.secondary[this.props.mode],
+                height: 2,
+                marginTop: 2,
+                marginBottom: 0,
+              }}
+              />
               {this.renderChart()}
               {this.renderM1()}
-              <Divider style={pageStyle.divider} />
+              <Divider style={{
+                backgroundColor: themeColors.secondary[this.props.mode],
+                height: 2,
+                marginTop: 5,
+                marginBottom: 0,
+              }}
+              />
               {this.renderPieChart()}
               {this.renderM2()}
-              <Divider style={pageStyle.divider} />
+              <Divider style={{
+                backgroundColor: themeColors.secondary[this.props.mode],
+                height: 2,
+                marginTop: 5,
+                marginBottom: 0,
+              }}
+              />
               <Text
                 style={{
                   position: 'absolute',
@@ -644,18 +674,18 @@ const pageStyle = StyleSheet.create({
     fontSize: fonts.lg,
     color: colors.black,
   },
-  bdivider: {
-    backgroundColor: colors.primary,
-    height: 2,
-    marginTop: 2,
-    marginBottom: 0,
-  },
-  divider: {
-    backgroundColor: colors.primary,
-    height: 2,
-    marginTop: 5,
-    marginBottom: 0,
-  },
+  // bdivider: {
+  //   backgroundColor: colors.primary,
+  //   height: 2,
+  //   marginTop: 2,
+  //   marginBottom: 0,
+  // },
+  // divider: {
+  //   backgroundColor: colors.primary,
+  //   height: 2,
+  //   marginTop: 5,
+  //   marginBottom: 0,
+  // },
   balanceContainer: {
     backgroundColor: colors.grey,
     width: 100,
@@ -695,6 +725,7 @@ const mapStateToProps = state => (
   {
     account: state.user.info,
     allStats: state.user.allStats,
+    mode: state.user.colorMode.color,
   });
 
 

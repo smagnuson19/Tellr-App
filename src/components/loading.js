@@ -7,10 +7,12 @@ import {
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { colors } from '../styling/base';
+import { colors2 } from '../styling/parent';
 import {
-  fetchUserInfo, fetchTasksWeek, fetchTasksMonth, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksYear,
+  fetchUserInfo, fetchTasksWeek, fetchTasksMonth, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksYear, fetchColorMode,
 } from '../actions/index';
 import Style from '../styling/Style';
+// import { themeColors } from '../styling/colorModes';
 
 
 // IMPORTANT !!!!!!!!!
@@ -56,6 +58,9 @@ class Loading extends Component {
         this.props.fetchAllStats(email)
           .then(() => { console.log('Stats pulled in'); })
           .catch(() => { this.setState({ loginVerify: false }); });
+        this.props.fetchColorMode(email)
+          .then(() => { console.log('Color mode pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
         this.props.fetchTasksWeek(email)
           .then(() => { console.log('W Tasks pulled in'); })
           .catch(() => { this.setState({ loginVerify: false }); });
@@ -73,6 +78,9 @@ class Loading extends Component {
         console.log('Notifications pulled in ');
         this.props.fetchParentInfo(email)
           .then(() => { console.log('User Info pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
+        this.props.fetchColorMode(email)
+          .then(() => { console.log('Color mode pulled in'); })
           .catch(() => { this.setState({ loginVerify: false }); });
       }).catch(() => {
         console.log('Error on Notification');
@@ -118,11 +126,23 @@ class Loading extends Component {
 
     // figure out if Parent or Child user
     let chooseRoute;
-    if (this.props.accountInfo !== null) {
+    if (this.props.accountInfo !== null && this.props.mode !== null) {
       if (this.props.accountInfo.accountType === 'Child') {
-        chooseRoute = 'ChildTabBar';
+        if (this.props.mode.color === 0) {
+          chooseRoute = 'ChildTabBarLight';
+        } else if (this.props.mode.color === 1) {
+          chooseRoute = 'ChildTabBarDark';
+        } else {
+          console.log('Error in Loading', this.props.mode.color);
+        }
       } else if (this.props.accountInfo.accountType === 'Parent') {
-        chooseRoute = 'ParentTabBar';
+        if (this.props.mode.color === 0) {
+          chooseRoute = 'ParentTabBarLight';
+        } else if (this.props.mode.color === 1) {
+          chooseRoute = 'ParentTabBarDark';
+        } else {
+          console.log('Error in Loading', this.props.mode.color);
+        }
       } else {
         console.log('Error in Loading', this.props.accountInfo.accountType);
       }
@@ -150,16 +170,14 @@ class Loading extends Component {
     }
   }
 
-
   render() {
     if (this.state.email != null) {
       this.loading();
     }
 
-
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+        <LinearGradient colors={[colors.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
             <View style={Style.headerText}>
               <ActivityIndicator size="large" color={Style.primary} />
@@ -175,9 +193,10 @@ class Loading extends Component {
 const mapStateToProps = state => (
   {
     accountInfo: state.user.info,
+    mode: state.user.colorMode,
   });
 
 
 export default connect(mapStateToProps, {
-  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksWeek, fetchTasksMonth, fetchTasksYear,
+  fetchUserInfo, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksWeek, fetchTasksMonth, fetchTasksYear, fetchColorMode,
 })(Loading);

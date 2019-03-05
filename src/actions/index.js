@@ -25,6 +25,7 @@ export const ActionTypes = {
   FETCH_ALL_SOC: 'FETCH_ALL_SOC',
   FETCH_EARNINGS: 'FETCH_EARNINGS',
   FETCH_STATS: 'FETCH_STATS',
+  FETCH_COLORMODE: 'FETCH_COLORMODE',
   FETCH_WCOMPLETED_TASKS: 'FETCH_WCOMPLETED_TASKS',
   FETCH_MCOMPLETED_TASKS: 'FETCH_MCOMPLETED_TASKS',
   FETCH_YCOMPLETED_TASKS: 'FETCH_YCOMPLETED_TASKS',
@@ -592,6 +593,26 @@ export function postGoal(payLoad) {
   };
 }
 
+
+export function postColorMode(payLoad, email) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.post(`${ROOT_URL}/color/${email}`, { payLoad }, { headers: { authorization: token } })
+        .then((response) => {
+          console.log(`postColorMode: ${response.data[0]}`);
+          // return this.fetchGoals(payLoad.email);
+          return Promise.resolve();
+        }).catch((error) => {
+          errorHandling(
+            'Error in postColorMode post: ',
+            error,
+          );
+          return Promise.reject();
+        });
+    });
+  };
+}
+
 export function fetchKidGoals(email) {
   return AsyncStorage.getItem('token').then((token) => {
     return axios.get(`${ROOT_URL}/goals/${email}`, { headers: { authorization: token } })
@@ -613,7 +634,6 @@ export function fetchKidGoals(email) {
 }
 
 export function fetchKidTasks(email) {
-  console.log('HEY');
   return AsyncStorage.getItem('token').then((token) => {
     return axios.get(`${ROOT_URL}/childtasks/${email}`, { headers: { authorization: token } })
       .then((response) => {
@@ -711,6 +731,30 @@ export function fetchKidFriends(email) {
     });
   };
 }
+
+export function fetchColorMode(email) {
+  return (dispatch) => {
+    return AsyncStorage.getItem('token').then((token) => {
+      return axios.get(`${ROOT_URL}/color/${email}`, { headers: { authorization: token } })
+        .then((response) => {
+          console.log('fetched color mode');
+          dispatch({
+            type: ActionTypes.FETCH_COLORMODE,
+            payload: response.data,
+          });
+          return Promise.resolve();
+        });
+    }).catch((error) => {
+      console.log(error);
+      errorHandling(
+        'Error in fetchColorMode: ',
+        error,
+      );
+      return Promise.reject();
+    });
+  };
+}
+
 
 export function fetchIndividualSocial(email) {
   return AsyncStorage.getItem('token').then((token) => {

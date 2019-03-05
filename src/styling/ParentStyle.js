@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import {
   colors2, fonts2, dimensions2,
 } from './parent';
+import { themeColors } from './colorModes';
 
 
 const Style = StyleSheet.create({
@@ -31,6 +32,29 @@ const Style = StyleSheet.create({
     fontFamily: fonts2.secondary,
     fontSize: fonts2.xlg,
     color: colors2.white,
+    marginTop: '20%',
+    marginBottom: '10%',
+  },
+
+  headerTextLight: {
+    flex: 0,
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: fonts2.secondary,
+    fontSize: fonts2.xlg,
+    color: themeColors.headerColor[0],
+    marginTop: '20%',
+    marginBottom: '10%',
+  },
+
+  headerTextDark: {
+    flex: 0,
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: fonts2.secondary,
+    fontSize: fonts2.xlg,
+    color: themeColors.headerColor[1],
+    // color: colors.headerText,
     marginTop: '20%',
     marginBottom: '10%',
   },

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { fonts2, colors2, dimensions2 } from '../../styling/parent';
 import NotificationCard from './notificationCard';
+import { themeColors } from '../../styling/colorModes';
 
 import Style from '../../styling/Style';
 
@@ -24,7 +25,6 @@ class ParentViewOfChild extends Component {
     this.buttonPress = this.buttonPress.bind(this);
   }
 
-
   buttonPress(action, goalName, sEmail, cEmail, priority) {
     this.props.onPress(action, goalName, sEmail, cEmail, priority);
   }
@@ -34,7 +34,15 @@ class ParentViewOfChild extends Component {
     if (this.state.childAccount.goals.length > 0) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts2.md,
+            fontWeight: 'bold',
+            color: themeColors.headerColor[this.props.mode],
+            fontFamily: fonts2.secondary,
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+          }}
+          >
           Goals
           </Text>
           {this.render}
@@ -54,10 +62,18 @@ class ParentViewOfChild extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts2.md,
+            fontWeight: 'bold',
+            color: themeColors.headerColor[this.props.mode],
+            fontFamily: fonts2.secondary,
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+          }}
+          >
           Goals
           </Text>
-          <Text style={{ color: colors2.white, paddingHorizontal: 15 }}>
+          <Text style={{ color: themeColors.headerColor[this.props.mode], paddingHorizontal: 15 }}>
           No goals to show!
           </Text>
         </View>
@@ -70,7 +86,15 @@ class ParentViewOfChild extends Component {
       return (
 
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts2.md,
+            fontWeight: 'bold',
+            color: themeColors.headerColor[this.props.mode],
+            fontFamily: fonts2.secondary,
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+          }}
+          >
             Chores
           </Text>
           { this.state.childAccount.tasks.map(goal => (
@@ -89,10 +113,18 @@ class ParentViewOfChild extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts2.md,
+            fontWeight: 'bold',
+            color: themeColors.headerColor[this.props.mode],
+            fontFamily: fonts2.secondary,
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+          }}
+          >
           Chores
           </Text>
-          <Text style={{ color: colors2.white, paddingHorizontal: 15 }}>
+          <Text style={{ color: themeColors.headerColor[this.props.mode], paddingHorizontal: 15 }}>
           No chores to show!
           </Text>
         </View>
@@ -103,7 +135,7 @@ class ParentViewOfChild extends Component {
   render() {
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
+        <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
           <View style={pageStyle.homeWrapper}>
             <View style={pageStyle.topContainer}>
 
@@ -111,7 +143,17 @@ class ParentViewOfChild extends Component {
                 {this.state.childAccount.firstName}
                 {'\'s Page' }
               </Text>
-              <View style={pageStyle.balanceContainer}>
+              <View style={{
+                backgroundColor: themeColors.primary[this.props.mode],
+                width: 100,
+                height: 100,
+                borderRadius: 100,
+                marginTop: 40,
+                marginBottom: 8,
+                marginRight: 8,
+                justifyContent: 'center',
+              }}
+              >
                 <Text style={pageStyle.balanceText}>
                   {'$'}
                   {this.state.childAccount.balance}
@@ -120,7 +162,6 @@ class ParentViewOfChild extends Component {
 
             </View>
             <ScrollView style={pageStyle.main}>
-
 
               {this.renderGoalsToComplete()}
 
@@ -220,6 +261,7 @@ const mapStateToProps = state => (
   {
     user: state.user.info,
     family: state.user.family,
+    mode: state.user.colorMode.color,
   });
 
 

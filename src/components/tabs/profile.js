@@ -12,9 +12,8 @@ import * as shape from 'd3-shape';
 import * as scale from 'd3-scale';
 import Style from '../../styling/Style';
 import { colors, fonts, dimensions } from '../../styling/base';
-import { colors2 } from '../../styling/parent';
-import Style2 from '../../styling/ParentStyle';
 import { fetchEarningsHistory } from '../../actions/index';
+import { themeColors } from '../../styling/colorModes';
 
 
 class Profile extends Component {
@@ -22,6 +21,19 @@ class Profile extends Component {
     super(props);
     this.state = {
     };
+  }
+
+
+  headingDisplay() {
+    if (this.props.mode === 0) {
+      return (
+        <Text style={Style.headerTextLight}>Profile </Text>
+      );
+    } else {
+      return (
+        <Text style={Style.headerTextDark}>Profile </Text>
+      );
+    }
   }
 
   // display children name and balance for Parent view
@@ -36,9 +48,26 @@ class Profile extends Component {
       }
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionTextParent}> Children: </Text>
+          <Text style={{
+            fontSize: fonts.smmd,
+            fontWeight: 'bold',
+            color: themeColors.headerColor[this.props.mode],
+            fontFamily: fonts.secondary,
+            paddingVertical: 6,
+            paddingLeft: 2,
+          }}
+          >
+            Children:
+          </Text>
           { kidsList.map(person => (
-            <Text style={pageStyle.darkSubSectionText}>
+            <Text style={{
+              fontSize: fonts.sm,
+              color: themeColors.headerColor[this.props.mode],
+              fontFamily: fonts.secondary,
+              paddingVertical: 6,
+              paddingLeft: 3,
+            }}
+            >
               {' '}
               {person.name}
               {',  Balance: $'}
@@ -58,8 +87,26 @@ class Profile extends Component {
   displayBalance() {
     return (
       <View>
-        <Text style={pageStyle.sectionText}> Balance: </Text>
-        <Text style={pageStyle.subSectionText}>
+        <Text style={{
+          fontSize: fonts.smmd,
+          fontWeight: 'bold',
+          color: themeColors.headerColor[this.props.mode],
+          fontFamily: fonts.secondary,
+          paddingVertical: 6,
+          paddingLeft: 2,
+        }}
+        >
+          {' '}
+Balance:
+        </Text>
+        <Text style={{
+          fontSize: fonts.sm,
+          fontFamily: fonts.secondary,
+          color: themeColors.headerColor[this.props.mode],
+          paddingVertical: 6,
+          paddingLeft: 2,
+        }}
+        >
           {'  $'}
           {this.props.user.balance}
           {' '}
@@ -77,6 +124,41 @@ class Profile extends Component {
     } else {
       console.log('ERROR: accountType not loaded or selected proprely');
       return null;
+    }
+  }
+
+  analyticsDisplay() {
+    if (this.props.user.accountType === 'Parent') {
+      return (
+        <Text style={{
+          color: themeColors.headerColor[this.props.mode], fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
+        }}
+        >
+          {'Analytics available for children. Log into their account to see more!'}
+        </Text>
+      );
+    } else {
+      return (
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Analytics', {
+          email: this.props.user.email,
+        })
+              }
+        >
+          <Text style={{
+            color: themeColors.headerColor[this.props.mode], fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
+          }}
+          >
+            {'Lifetime Balance'}
+          </Text>
+          {this.childCharts()}
+          <Text style={{
+            color: themeColors.headerColor[this.props.mode], fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
+          }}
+          >
+            {'Click the Graph for More! '}
+          </Text>
+        </TouchableOpacity>
+      );
     }
   }
 
@@ -103,7 +185,7 @@ class Profile extends Component {
             }}
             formatLabel={value => `$${value}`}
             svg={{
-              fill: 'black',
+              fill: themeColors.headerColor[this.props.mode],
               fontSize: 8,
               fontWeight: 'bold',
             }}
@@ -137,10 +219,10 @@ class Profile extends Component {
               data={balHist}
               formatLabel={value => `${(value.getMonth() + 1)}/${value.getDate()}`}
               scale={scale.scaleTime}
-              labelStyle={{ color: 'black' }}
+              labelStyle={{ color: themeColors.headerColor[this.props.mode] }}
               xAccessor={({ item }) => item.index}
               svg={{
-                fill: 'black',
+                fill: themeColors.headerColor[this.props.mode],
                 fontSize: 8,
                 fontWeight: 'bold',
               }}
@@ -160,133 +242,130 @@ class Profile extends Component {
     return (
       <View
         style={{
-          position: 'absolute', top: '85%', left: '-2.2%',
+          position: 'absolute', top: '84%', left: '-2.2%',
         }}
       >
         <ButtonGroup
           onPress={() => this.props.navigation.navigate('SettingsPage')}
           buttons={['Settings']}
-          containerStyle={{ width: dimensions.fullWidth, backgroundColor: colors.secondary, borderColor: 'black' }}
-          textStyle={{ fontFamily: fonts.secondary, color: colors.black }}
-          underlayColor={colors.secondary}
+          containerStyle={{ width: dimensions.fullWidth, backgroundColor: themeColors.buttonColor[this.props.mode], borderColor: themeColors.black }}
+          textStyle={{ fontFamily: fonts.secondary, color: themeColors.black }}
+          underlayColor={themeColors.secondary[this.props.mode]}
         />
       </View>
     );
   }
 
   render() {
-    if (this.props.user.accountType === 'Parent') {
-      return (
-        <View style={{
-          width: dimensions.fullWidth,
-          height: dimensions.fullHeight,
-        }}
-        >
-          <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={{ width: dimensions.fullWidth, height: dimensions.fullHeight }}>
-            <View>
-              <Text style={Style2.headerText}>Profile </Text>
-              <View style={pageStyle.sectionContainer}>
-                <Text style={pageStyle.sectionHeaderParent}> Account </Text>
-                <Divider style={pageStyle.divider} />
-                <View style={pageStyle.sectionContainer}>
-                  <Text style={pageStyle.sectionTextParent}> Name: </Text>
-                  <Text style={pageStyle.darkSubSectionText}>
-                    {' '}
-                    {this.props.user.firstName}
-                    {' '}
-                    {this.props.user.lastName}
-                  </Text>
-                  <Text style={pageStyle.sectionTextParent}> Account Type: </Text>
-                  <Text style={pageStyle.darkSubSectionText}>
-                    {' '}
-                    {this.props.user.accountType}
-                    {' '}
-                  </Text>
-                  {this.determineDisplay()}
-                  <Text style={pageStyle.sectionHeaderParent}> Analytics </Text>
-                  <Divider style={pageStyle.bdivider} />
-                </View>
-              </View>
-              <TouchableOpacity onPress={() => console.log('Touchable Opacity Touched')}>
-                <Text style={{
-                  color: colors.logoGreen, fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
-                }}
-                >
-                  {'Analytics Available for Children'}
-                </Text>
-                {this.childCharts()}
-                <Text style={{
-                  color: colors.logoGreen, fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
-                }}
-                >
-                  {'Log Into their account to see more!'}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </LinearGradient>
-          {this.renderFooter()}
-        </View>
-      );
-    } else if (this.props.user.accountType === 'Child') {
-      return (
-        <View style={{
-          width: dimensions.fullWidth,
-          height: dimensions.fullHeight,
-        }}
-        >
-          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={{ width: dimensions.fullWidth, height: dimensions.fullHeight }}>
-            <View>
-              <Text style={Style.headerTextLeaderboard}>Profile </Text>
-              <View style={pageStyle.sectionContainer}>
-                <Text style={pageStyle.sectionHeader}> Account </Text>
-                <Divider style={pageStyle.divider} />
-                <View style={pageStyle.sectionContainer}>
-                  <Text style={pageStyle.sectionText}> Name: </Text>
-                  <Text style={pageStyle.subSectionText}>
-                    {' '}
-                    {this.props.user.firstName}
-                    {' '}
-                    {this.props.user.lastName}
-                  </Text>
-                  <Text style={pageStyle.sectionText}> Account Type: </Text>
-                  <Text style={pageStyle.subSectionText}>
-                    {' '}
-                    {this.props.user.accountType}
-                    {' '}
-                  </Text>
-                  {this.determineDisplay()}
-                  <Text style={pageStyle.sectionHeader}> Analytics </Text>
-                  <Divider style={pageStyle.bdivider} />
-                </View>
-              </View>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Analytics', {
-                email: this.props.user.email,
-              })
-              }
+    return (
+      <View style={{
+        width: dimensions.fullWidth,
+        height: dimensions.fullHeight,
+      }}
+      >
+        <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={{ width: dimensions.fullWidth, height: dimensions.fullHeight }}>
+          <View>
+            {this.headingDisplay()}
+            <View style={pageStyle.sectionContainer}>
+              <Text style={{
+                fontSize: fonts.md,
+                color: themeColors.headerColor[this.props.mode],
+                fontFamily: fonts.secondary,
+                paddingVertical: 4,
+                paddingLeft: 2,
+                paddingTop: 10,
+              }}
               >
+                {' '}
+Account
+              </Text>
+              <Divider style={{
+                backgroundColor: themeColors.secondary[this.props.mode],
+                height: 2,
+                marginTop: 2,
+                marginBottom: 2,
+                width: dimensions.fullWidth,
+              }}
+              />
+              <View style={pageStyle.sectionContainer}>
                 <Text style={{
-                  color: 'black', fontSize: 18, fontFamily: fonts.secondary, textAlign: 'center',
+                  fontSize: fonts.smmd,
+                  fontWeight: 'bold',
+                  color: themeColors.headerColor[this.props.mode],
+                  fontFamily: fonts.secondary,
+                  paddingVertical: 6,
+                  paddingLeft: 2,
                 }}
                 >
-                  {'Lifetime Balance'}
+                  {' '}
+Name:
                 </Text>
-                {this.childCharts()}
                 <Text style={{
-                  color: 'black', fontSize: 12, fontFamily: fonts.secondary, textAlign: 'center', paddingTop: 8,
+                  fontSize: fonts.sm,
+                  color: themeColors.headerColor[this.props.mode],
+                  fontFamily: fonts.secondary,
+                  paddingVertical: 6,
+                  paddingLeft: 3,
                 }}
                 >
-                  {'Click the Graph for More! '}
+                  {' '}
+                  {this.props.user.firstName}
+                  {' '}
+                  {this.props.user.lastName}
                 </Text>
-              </TouchableOpacity>
+                <Text style={{
+                  fontSize: fonts.smmd,
+                  fontWeight: 'bold',
+                  color: themeColors.headerColor[this.props.mode],
+                  fontFamily: fonts.secondary,
+                  paddingVertical: 6,
+                  paddingLeft: 2,
+                }}
+                >
+                  {' '}
+Account Type:
+                </Text>
+                <Text style={{
+                  fontSize: fonts.sm,
+                  color: themeColors.headerColor[this.props.mode],
+                  fontFamily: fonts.secondary,
+                  paddingVertical: 6,
+                  paddingLeft: 3,
+                }}
+                >
+                  {' '}
+                  {this.props.user.accountType}
+                  {' '}
+                </Text>
+                {this.determineDisplay()}
+                <Text style={{
+                  fontSize: fonts.md,
+                  color: themeColors.headerColor[this.props.mode],
+                  fontFamily: fonts.secondary,
+                  paddingVertical: 4,
+                  paddingLeft: 2,
+                  paddingTop: 10,
+                }}
+                >
+                  {' '}
+Analytics
+                </Text>
+                <Divider style={{
+                  backgroundColor: themeColors.secondary[this.props.mode],
+                  height: 2,
+                  marginTop: 2,
+                  marginBottom: 0,
+                  width: dimensions.fullWidth,
+                }}
+                />
+              </View>
             </View>
-          </LinearGradient>
-          {this.renderFooter()}
-        </View>
-      );
-    } else {
-      console.log('ERROR: accountType not loaded or selected proprely');
-      return null;
-    }
+            {this.analyticsDisplay()}
+          </View>
+        </LinearGradient>
+        {this.renderFooter()}
+      </View>
+    );
   }
 }
 
@@ -352,20 +431,20 @@ const pageStyle = StyleSheet.create({
     paddingVertical: 6,
     paddingLeft: 3,
   },
-  divider: {
-    backgroundColor: colors.secondary,
-    height: 2,
-    marginTop: 2,
-    marginBottom: 2,
-    width: dimensions.fullWidth,
-  },
-  bdivider: {
-    backgroundColor: colors.secondary,
-    height: 2,
-    marginTop: 2,
-    marginBottom: 0,
-    width: dimensions.fullWidth,
-  },
+  // divider: {
+  //   backgroundColor: colors.secondary,
+  //   height: 2,
+  //   marginTop: 2,
+  //   marginBottom: 2,
+  //   width: dimensions.fullWidth,
+  // },
+  // bdivider: {
+  //   backgroundColor: colors.secondary,
+  //   height: 2,
+  //   marginTop: 2,
+  //   marginBottom: 0,
+  //   width: dimensions.fullWidth,
+  // },
   settingsButton: {
     fontSize: fonts.md,
     fontWeight: 'bold',
@@ -382,6 +461,7 @@ const mapStateToProps = state => (
     user: state.user.info,
     family: state.user.family,
     earnings: state.user.earnings,
+    mode: state.user.colorMode.color,
   });
 
 

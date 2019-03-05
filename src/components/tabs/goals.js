@@ -23,6 +23,7 @@ import {
 // import AvatarImage from './avatarImage';
 // import GoalsCard from './goalsCard';
 import { colors, dimensions, fonts } from '../../styling/base';
+import { themeColors } from '../../styling/colorModes';
 
 // Import the react-native-sound module
 const Sound = require('react-native-sound');
@@ -58,8 +59,21 @@ class Goals extends Component {
     });
   }
 
+
   onRefresh() {
     this.setState({ isFetching: true }, function () { this.reloadApiData(); });
+  }
+
+  headingDisplay() {
+    if (this.props.mode === 0) {
+      return (
+        <Text style={Style.headerTextLight}>Goals! </Text>
+      );
+    } else {
+      return (
+        <Text style={Style.headerTextDark}>Goals! </Text>
+      );
+    }
   }
 
   reloadApiData() {
@@ -108,13 +122,24 @@ class Goals extends Component {
     console.log(gApproved);
     console.log(gName);
 
-    const resetAction = StackActions.reset({
-      index: 0, // <-- currect active route from actions array
-      key: null,
-      actions: [
-        NavigationActions.navigate({ routeName: 'ChildTabBar' }),
-      ],
-    });
+    let resetAction;
+    if (this.props.mode === 0) {
+      resetAction = StackActions.reset({
+        index: 0, // <-- currect active route from actions array
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'ChildTabBarLight' }),
+        ],
+      });
+    } else {
+      resetAction = StackActions.reset({
+        index: 0, // <-- currect active route from actions array
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'ChildTabBarDark' }),
+        ],
+      });
+    }
     if (this.props.user.balance >= gValue && gApproved === 1 && gRedeemed === false) {
       // goal is good for redemption
       const payLoad = {
@@ -199,7 +224,7 @@ class Goals extends Component {
       if (this.props.goals.length === 0) {
         return (
           <View style={Style.rootContainer}>
-            <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+            <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
               <View style={Style.contentWrapper}>
                 <Text style={Style.headerText}>Loading Goals</Text>
               </View>
@@ -213,7 +238,7 @@ class Goals extends Component {
         });
         return (
           <View style={Style.rootContainer}>
-            <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+            <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
               {this.renderOverlay()}
               {this.renderOverlay()}
               {this.renderOverlay()}
@@ -235,7 +260,7 @@ class Goals extends Component {
               {this.renderOverlay()}
               {this.renderOverlay()}
               <View style={Style.contentWrapper}>
-                <Text style={Style.headerText}>Goals!</Text>
+                {this.headingDisplay()}
                 <ScrollView refreshControl={(
                   <RefreshControl
                     onRefresh={() => this.onRefresh()}
@@ -252,7 +277,7 @@ class Goals extends Component {
                       <Button
                         color="black"
                         buttonStyle={{
-                          backgroundColor: colors.linearGradientTop,
+                          backgroundColor: themeColors.newGoalButton[this.props.mode],
                           width: 120,
                           height: 45,
                           alignSelf: 'center',
@@ -276,7 +301,7 @@ class Goals extends Component {
                       <Button
                         color="black"
                         buttonStyle={{
-                          backgroundColor: colors.linearGradientBottom,
+                          backgroundColor: themeColors.redeemButton[this.props.mode],
                           width: 125,
                           height: 45,
                           alignSelf: 'center',
@@ -321,6 +346,7 @@ const mapStateToProps = state => (
   {
     goals: state.user.goals,
     user: state.user.info,
+    mode: state.user.colorMode.color,
   });
 
 export default connect(mapStateToProps, {

@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, RefreshControl,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { Divider, ButtonGroup } from 'react-native-elements';
 import { verticalScale } from 'react-native-size-matters';
 // import { NavigationActions } from 'react-navigation';
 import { fonts, colors, dimensions } from '../../styling/base';
 import NotificationCard from './notificationCard';
+import { themeColors } from '../../styling/colorModes';
 
 // import Style from '../../styling/Style';
 
@@ -51,7 +53,16 @@ class Child extends Component {
     } else {
       return (
         <View style={pageStyle.noGoals}>
-          <Text style={pageStyle.noGoalsText}> Chores are fun! Ask for more! :) </Text>
+          <Text style={{
+            fontSize: 21,
+            fontWeight: '400',
+            color: themeColors.headerColor[this.props.mode],
+            fontFamily: fonts.primary,
+          }}
+          >
+            {' '}
+Chores are fun! Ask for more! :)
+          </Text>
         </View>
       );
     }
@@ -217,13 +228,18 @@ const pageStyle = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  noGoalsText: {
-    fontSize: 21,
-    fontWeight: '400',
-    color: colors.black,
-    fontFamily: fonts.primary,
-  },
+  // noGoalsText: {
+  //   fontSize: 21,
+  //   fontWeight: '400',
+  //   color: colors.black,
+  //   fontFamily: fonts.primary,
+  // },
 });
 
+const mapStateToProps = state => (
+  {
+    mode: state.user.colorMode.color,
+  });
 
-export default Child;
+
+export default connect(mapStateToProps)(Child);

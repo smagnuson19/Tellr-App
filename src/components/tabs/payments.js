@@ -11,6 +11,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { postUpdateBalance } from '../../actions';
 import Style from '../../styling/ParentStyle';
 import { colors2, fonts2, dimensions2 } from '../../styling/parent';
+import { themeColors } from '../../styling/colorModes';
 import KeyPad from './keypad';
 
 
@@ -147,13 +148,24 @@ class Payments extends Component {
 
   postBalance() {
     // move to home page after you send a payment
-    const resetAction = StackActions.reset({
-      index: 0, // <-- currect active route from actions array
-      key: null,
-      actions: [
-        NavigationActions.navigate({ routeName: 'ParentTabBar' }),
-      ],
-    });
+    let resetAction;
+    if (this.props.mode === 0) {
+      resetAction = StackActions.reset({
+        index: 0, // <-- currect active route from actions array
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'ParentTabBarLight' }),
+        ],
+      });
+    } else {
+      resetAction = StackActions.reset({
+        index: 0, // <-- currect active route from actions array
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'ParentTabBarDark' }),
+        ],
+      });
+    }
     // Describing what should be sent
     const payLoad = {
       email: this.state.childEmail,
@@ -205,20 +217,33 @@ class Payments extends Component {
     }
 
     return (
-
       <View style={pageStyle.selectorsContainer}>
         <RNPickerSelect
           placeholder={{
             label: 'Select Child',
             value: null,
           }}
+          placeholderTextColor={colors2.placeholderColor}
           items={itemList}
           onValueChange={(value) => {
             this.setState({
               childEmail: value,
             });
           }}
-          style={{ ...pickerSelectStyles }}
+          style={{
+            inputIOS: {
+              fontSize: fonts2.md,
+              paddingTop: 10,
+              paddingHorizontal: 10,
+              paddingBottom: 10,
+              borderWidth: 1,
+              borderColor: themeColors.secondary[this.props.mode],
+              color: themeColors.headerColor[this.props.mode],
+              width: dimensions2.fullWidth - 30,
+              fontFamily: fonts2.secondary,
+              textAlign: 'center',
+            },
+          }}
           value={this.state.childEmail}
         />
       </View>
@@ -229,15 +254,28 @@ class Payments extends Component {
   render() {
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
+        <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
-
             <View style={pageStyle.upperContainer}>
               {this.selectorsContainer()}
-
               <View style={pageStyle.amountContainer}>
-                <Text style={pageStyle.dollarSign}> $ </Text>
-                <Text style={pageStyle.amountStyle}>
+                <Text style={{
+                  color: themeColors.headerColor[this.props.mode],
+                  marginRight: -30,
+                  fontFamily: fonts2.secondary,
+                  fontSize: 30,
+                }}
+                >
+                  {' '}
+$
+                </Text>
+                <Text style={{
+                  color: themeColors.headerColor[this.props.mode],
+                  textAlign: 'center',
+                  fontFamily: fonts2.secondary,
+                  fontSize: 90,
+                }}
+                >
                   {' '}
                   {this.state.amount}
                   {' '}
@@ -272,13 +310,12 @@ class Payments extends Component {
                 raised
                 onPress={() => this.sendMoney()}
                 title="Transfer Funds!"
-                backgroundColor={colors2.logoGreen}
                 accessibilityLabel="enter email"
-                color="white"
+                color={themeColors.headerColor[this.props.mode]}
                 style={Style.button}
                 buttonStyle={
                     {
-                      backgroundColor: colors2.primary,
+                      backgroundColor: themeColors.buttonColor[this.props.mode],
                       borderColor: 'transparent',
                       borderWidth: 0,
                       borderRadius: 5,
@@ -322,7 +359,6 @@ const pageStyle = StyleSheet.create({
     textAlign: 'center',
     fontFamily: fonts2.secondary,
     fontSize: 90,
-
   },
 
   buttonBorder: {
@@ -333,25 +369,12 @@ const pageStyle = StyleSheet.create({
 
 });
 
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: fonts2.md,
-    paddingTop: 10,
-    paddingHorizontal: 10,
-    paddingBottom: 10,
-    borderWidth: 1,
-    borderColor: colors2.secondary,
-    width: dimensions2.fullWidth - 30,
-    fontFamily: fonts2.secondary,
-    textAlign: 'center',
-  },
-});
-
 
 const mapStateToProps = state => (
   {
     user: state.user.info,
     family: state.user.family,
+    mode: state.user.colorMode.color,
   });
 
 

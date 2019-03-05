@@ -11,10 +11,7 @@ import { Divider } from 'react-native-elements';
 import Style from '../../styling/Style';
 import RedeemedGoalsCard from './redeemedGoalsTabCard';
 import { fetchGoals } from '../../actions';
-
-
-// import AvatarImage from './avatarImage';
-// import GoalsCard from './goalsCard';
+import { themeColors } from '../../styling/colorModes';
 import { colors } from '../../styling/base';
 
 class redeemedGoals extends Component {
@@ -25,8 +22,21 @@ class redeemedGoals extends Component {
     };
   }
 
+
   onRefresh() {
     this.setState({ isFetching: true }, function () { this.reloadApiData(); });
+  }
+
+  headingDisplay() {
+    if (this.props.mode === 0) {
+      return (
+        <Text style={Style.headerTextLight}>Redeemed Goals! </Text>
+      );
+    } else {
+      return (
+        <Text style={Style.headerTextDark}>Redeemed Goals! </Text>
+      );
+    }
   }
 
   reloadApiData() {
@@ -61,7 +71,7 @@ class redeemedGoals extends Component {
       if (this.props.goals.length === 0) {
         return (
           <View style={Style.rootContainer}>
-            <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+            <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
               <View style={Style.contentWrapper}>
                 <Text style={Style.headerText}>Loading Goals</Text>
               </View>
@@ -75,9 +85,9 @@ class redeemedGoals extends Component {
         });
         return (
           <View style={Style.rootContainer}>
-            <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+            <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
               <View style={Style.contentWrapper}>
-                <Text style={Style.headerText}>Redeemed Goals!</Text>
+                {this.headingDisplay()}
                 <ScrollView refreshControl={(
                   <RefreshControl
                     onRefresh={() => this.onRefresh()}
@@ -105,6 +115,7 @@ const mapStateToProps = state => (
   {
     goals: state.user.goals,
     user: state.user.info,
+    mode: state.user.colorMode.color,
   });
 
 export default connect(mapStateToProps, { fetchGoals })(redeemedGoals);

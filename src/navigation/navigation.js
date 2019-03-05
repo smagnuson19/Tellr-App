@@ -30,6 +30,7 @@ import ViewOfFriendRequests from '../components/tabs/viewOfFriendRequests';
 import SignUpFirstDialouge from '../components/signup/accountTypeSelector';
 import SocialView from '../components/tabs/socialView';
 import ChangePassword from '../components/tabs/changePassword';
+import ThemeChange from '../components/tabs/themeChange';
 import Settings from '../components/tabs/settings';
 import Analytics from '../components/tabs/analytics';
 
@@ -93,6 +94,12 @@ const SettingsStack = createStackNavigator({
       headerTransparent: 'True',
     }),
   },
+  ThemeChange: {
+    screen: ThemeChange,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
 },
 {
   initialRouteName: 'SettingsPage',
@@ -123,7 +130,7 @@ const ProfileStack = createStackNavigator({
   initialRouteName: 'Profile',
 });
 
-const ParentTabBar = createBottomTabNavigator({
+const ParentTabBarDark = createBottomTabNavigator({
   Home: HomeStack,
   Payments,
   'Add Task': AddTask,
@@ -166,7 +173,51 @@ const ParentTabBar = createBottomTabNavigator({
   initialRouteName: 'Home',
 });
 
-const ChildTabBar = createBottomTabNavigator({
+
+const ParentTabBarLight = createBottomTabNavigator({
+  Home: HomeStack,
+  Payments,
+  'Add Task': AddTask,
+  Profile: ProfileStack,
+},
+{
+  headerMode: 'none',
+  defaultNavigationOptions: ({ navigation }) => ({
+    headerTransparent: 'True',
+    headerMode: 'none',
+    tabBarIcon: ({ focused, horizontal, tintColor }) => {
+      const { routeName } = navigation.state;
+      let iconName;
+      if (routeName === 'Home') {
+        iconName = `ios-home${focused ? '' : ''}`;
+      } else if (routeName === 'Payments') {
+        iconName = `ios-card${focused ? '' : ''}`;
+      } else if (routeName === 'Add Task') {
+        iconName = `ios-add-circle${focused ? '' : ''}`;
+      } else if (routeName === 'Profile') {
+        iconName = `ios-person${focused ? '' : ''}`;
+      }
+
+      // You can return any component that you like here! We usually use an
+      // icon component from react-native-vector-icons
+      // https://ionicons.com/ ---> link for ionicons names
+      return <Ionicons name={iconName} size={25} color={tintColor} />;
+    },
+  }),
+  tabBarOptions: {
+    activeTintColor: colors.primary,
+    inactiveTintColor: 'white',
+    style: {
+      backgroundColor: colors.linearGradientBottom,
+      fontFamily: fonts.secondary,
+    },
+  },
+},
+{
+  initialRouteName: 'Home',
+});
+
+const ChildTabBarLight = createBottomTabNavigator({
   Home,
   Goals,
   Friends: FriendsStack,
@@ -209,6 +260,49 @@ const ChildTabBar = createBottomTabNavigator({
   initialRouteName: 'Home',
 });
 
+const ChildTabBarDark = createBottomTabNavigator({
+  Home,
+  Goals,
+  Friends: FriendsStack,
+  Profile: ProfileStack,
+},
+{
+  headerMode: 'none',
+  defaultNavigationOptions: ({ navigation }) => ({
+    headerTransparent: 'True',
+    headerMode: 'none',
+    tabBarIcon: ({ focused, horizontal, tintColor }) => {
+      const { routeName } = navigation.state;
+      let iconName;
+      if (routeName === 'Home') {
+        iconName = `ios-home${focused ? '' : ''}`;
+      } else if (routeName === 'Profile') {
+        iconName = `ios-person${focused ? '' : ''}`;
+      } else if (routeName === 'Goals') {
+        iconName = `ios-star${focused ? '' : ''}`;
+      } else if (routeName === 'Friends') {
+        iconName = `ios-contacts${focused ? '' : ''}`;
+      }
+
+      // You can return any component that you like here! We usually use an
+      // icon component from react-native-vector-icons
+      // https://ionicons.com/ ---> link for ionicons names
+      return <Ionicons name={iconName} size={25} color={tintColor} />;
+    },
+  }),
+  tabBarOptions: {
+    activeTintColor: colors2.logoGreen,
+    inactiveTintColor: 'white',
+    style: {
+      backgroundColor: colors2.linearGradientBottom,
+      fontFamily: fonts2.secondary,
+    },
+  },
+},
+{
+  initialRouteName: 'Home',
+});
+
 
 const SignUpDialouge = createStackNavigator({
   SignUpFirstDialouge: {
@@ -241,16 +335,31 @@ const SignUpDialouge = createStackNavigator({
 
 const AppStack = createStackNavigator(
   {
-    ParentTabBar: {
-      screen: ParentTabBar,
+    ParentTabBarDark: {
+      screen: ParentTabBarDark,
       navigationOptions: () => ({
 
         header: null,
 
       }),
     },
-    ChildTabBar: {
-      screen: ChildTabBar,
+    ParentTabBarLight: {
+      screen: ParentTabBarLight,
+      navigationOptions: () => ({
+
+        header: null,
+
+      }),
+    },
+    ChildTabBarLight: {
+      screen: ChildTabBarLight,
+      navigationOptions: () => ({
+
+        header: null,
+      }),
+    },
+    ChildTabBarDark: {
+      screen: ChildTabBarDark,
       navigationOptions: () => ({
 
         header: null,

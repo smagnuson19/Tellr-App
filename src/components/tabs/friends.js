@@ -5,7 +5,7 @@ Avatars from: http://avatars.adorable.io/#demo
 
 import React, { Component } from 'react';
 import {
-  View, Text, Alert, StyleSheet, ScrollView, RefreshControl,
+  View, Text, Alert, ScrollView, RefreshControl,
 } from 'react-native';
 import { ButtonGroup, Button } from 'react-native-elements';
 import Leaderboard from 'react-native-leaderboard';
@@ -14,9 +14,10 @@ import DialogInput from 'react-native-dialog-input';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Style from '../../styling/Style';
-import { colors, fonts } from '../../styling/base';
+import { fonts } from '../../styling/base';
 import { postRequest, fetchKidFriends, fetchAllSocial } from '../../actions/index';
 import AvatarImageFriend from './avatarImageFriend';
+import { themeColors } from '../../styling/colorModes';
 
 // TODO:
 // Dislay "friend request accepted" or something
@@ -122,13 +123,24 @@ class Friends extends Component {
 
     sendFriendInvite(inputText) {
       // move to home page after you submit a friend
-      const resetAction = StackActions.reset({
-        index: 0, // <-- currect active route from actions array
-        key: null,
-        actions: [
-          NavigationActions.navigate({ routeName: 'ChildTabBar' }),
-        ],
-      });
+      let resetAction;
+      if (this.props.mode === 0) {
+        resetAction = StackActions.reset({
+          index: 0, // <-- currect active route from actions array
+          key: null,
+          actions: [
+            NavigationActions.navigate({ routeName: 'ChildTabBarLight' }),
+          ],
+        });
+      } else {
+        resetAction = StackActions.reset({
+          index: 0, // <-- currect active route from actions array
+          key: null,
+          actions: [
+            NavigationActions.navigate({ routeName: 'ChildTabBarDark' }),
+          ],
+        });
+      }
       const payLoad = {
         email: this.props.account.email,
         friend: inputText,
@@ -159,7 +171,7 @@ class Friends extends Component {
           }}
           >
             <Text style={{
-              color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, textAlign: 'right', marginRight: 40,
+              color: themeColors.headerColor[this.props.mode], fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, textAlign: 'right', marginRight: 40,
             }}
             >
               {`${numTasks(this.state.userScore)} Done`}
@@ -169,7 +181,7 @@ class Friends extends Component {
               avatarColor={this.props.account.avatarColor}
             />
             <Text style={{
-              color: 'white', fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
+              color: themeColors.headerColor[this.props.mode], fontSize: fonts.md, fontFamily: fonts.secondary, flex: 1, marginLeft: 40,
             }}
             >
               {`${ordinalSuffixOf(this.state.userRank)} Place`}
@@ -204,9 +216,14 @@ class Friends extends Component {
               raised
               onPress={() => this.setState({ isDialogVisible: true })}
               title="Invite Friends!"
-              buttonStyle={pageStyle.button}
+              buttonStyle={{
+                backgroundColor: themeColors.buttonColor[this.props.mode],
+                borderColor: 'transparent',
+                borderWidth: 0,
+                borderRadius: 5,
+              }}
               style={Style.button}
-              color={colors.black}
+              color={themeColors.headerColor[this.props.mode]}
               fontFamily={fonts.secondary}
             />
             <DialogInput
@@ -221,9 +238,14 @@ class Friends extends Component {
               raised
               onPress={() => this.props.navigation.navigate('FriendRequests')}
               title="Friend Requests"
-              buttonStyle={pageStyle.button}
+              buttonStyle={{
+                backgroundColor: themeColors.buttonColor[this.props.mode],
+                borderColor: 'transparent',
+                borderWidth: 0,
+                borderRadius: 5,
+              }}
               style={Style.button}
-              color={colors.black}
+              color={themeColors.headerColor[this.props.mode]}
               fontFamily={fonts.secondary}
             />
           </View>
@@ -253,9 +275,22 @@ class Friends extends Component {
 
       return (
         <View style={Style.rootContainer}>
-          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+          <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
             <View style={{ flex: 1 }}>
-              <Text style={Style.headerTextLeaderboard}>Leaderboard </Text>
+              <Text style={{
+                flex: 0,
+                justifyContent: 'center',
+                textAlign: 'center',
+                fontFamily: fonts.secondary,
+                fontSize: fonts.xlg,
+                color: themeColors.headerColor[this.props.mode],
+                // color: colors.headerText,
+                marginTop: '20%',
+                marginBottom: '0%',
+              }}
+              >
+Leaderboard
+              </Text>
               {this.renderHeader()}
               <ScrollView refreshControl={(
                 <RefreshControl
@@ -300,20 +335,12 @@ const numTasks = (i) => {
   }
 };
 
-const pageStyle = StyleSheet.create({
-  button: {
-    backgroundColor: colors.secondary,
-    borderColor: 'transparent',
-    borderWidth: 0,
-    borderRadius: 5,
-  },
-});
-
 
 const mapStateToProps = state => (
   {
     account: state.user.info,
     friendInfo: state.user.friendInfo,
+    mode: state.user.colorMode.color,
   });
 
 export default connect(mapStateToProps, { postRequest, fetchKidFriends, fetchAllSocial })(Friends);

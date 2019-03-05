@@ -12,10 +12,12 @@ import AvatarImage from './avatarImage';
 import NotificationCard from './notificationCard';
 import Child from './child';
 import {
-  fetchUserInfo, fetchTasksWeek, fetchTasksMonth, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksYear,
+  fetchNotificationInfo, fetchParentInfo, fetchUserInfo, postTaskCompleted, postTask,
+  postNotifications, postGoalApprove, postTaskVerified, fetchAllSocial, fetchKidFriends, fetchColorMode,
+  fetchTasksWeek, fetchTasksMonth, fetchGoals, fetchEarningsHistory, fetchAllStats, fetchTasksYear,
 } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
-import { colors2 } from '../../styling/parent';
+import { themeColors } from '../../styling/colorModes';
 
 class Home extends Component {
   constructor(props) {
@@ -30,7 +32,6 @@ class Home extends Component {
     this.onRefreshForChild = this.onRefreshForChild.bind(this);
     this.navigationToCompletedTasks = this.navigationToCompletedTasks.bind(this);
   }
-
 
   // A pull down has been initiated
   onRefresh() {
@@ -49,6 +50,7 @@ class Home extends Component {
     // Do we want to update children info as well?
     this.props.fetchNotificationInfo(this.props.account.email);
     this.props.fetchUserInfo(this.props.account.email);
+    this.props.fetchColorMode(this.props.account.email);
 
     if (this.props.account.accountType === 'Parent') {
       console.log('refreshing parents');
@@ -158,13 +160,20 @@ class Home extends Component {
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts.md,
+            color: themeColors.headerColor[this.props.mode],
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+            paddingHorizontal: 10,
+          }}
+          >
           Verify Goals
           </Text>
           <Divider style={pageStyle.divider} />
 
           <View>
-            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors2.lightGrey }}> No Goals To Verify, have your child add more! </Text>
+            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}> No Goals To Verify, have your child add more! </Text>
           </View>
 
 
@@ -173,7 +182,14 @@ class Home extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts.md,
+            color: themeColors.headerColor[this.props.mode],
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+            paddingHorizontal: 10,
+          }}
+          >
         Verify Goals
           </Text>
           <Divider style={pageStyle.divider} />
@@ -199,13 +215,20 @@ class Home extends Component {
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts.md,
+            color: themeColors.headerColor[this.props.mode],
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+            paddingHorizontal: 10,
+          }}
+          >
           Recently Completed Goals
           </Text>
           <Divider style={pageStyle.divider} />
 
           <View>
-            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors2.lightGrey }}> No Goals To Confirm, remind your child! </Text>
+            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}> No Goals To Confirm, remind your child! </Text>
           </View>
 
 
@@ -214,7 +237,14 @@ class Home extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts.md,
+            color: themeColors.headerColor[this.props.mode],
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+            paddingHorizontal: 10,
+          }}
+          >
       Recently Completed Goals
           </Text>
           <Divider style={pageStyle.divider} />
@@ -240,12 +270,19 @@ class Home extends Component {
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts.md,
+            color: themeColors.headerColor[this.props.mode],
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+            paddingHorizontal: 10,
+          }}
+          >
           Verify Chore Completion
           </Text>
           <Divider style={pageStyle.divider} />
           <View>
-            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors2.lightGrey }}>
+            <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}>
               {' '}
 No Chores To Verify, Add some more!
             </Text>
@@ -258,7 +295,14 @@ No Chores To Verify, Add some more!
       console.log(this.props.notifications);
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={pageStyle.sectionHeader}>
+          <Text style={{
+            fontSize: fonts.md,
+            color: themeColors.headerColor[this.props.mode],
+            justifyContent: 'flex-start',
+            paddingVertical: 6,
+            paddingHorizontal: 10,
+          }}
+          >
             Verify Chore Completion
           </Text>
           <Divider style={pageStyle.divider} />
@@ -373,7 +417,7 @@ No Chores To Verify, Add some more!
     if (this.props.account.accountType === 'Parent') {
       return (
         <View style={Style.rootContainer}>
-          <LinearGradient colors={[colors2.linearGradientTop, colors2.linearGradientBottom]} style={Style.gradient}>
+          <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
               {this.renderParentView()}
             </View>
@@ -383,7 +427,7 @@ No Chores To Verify, Add some more!
     } else {
       return (
         <View style={Style.rootContainer}>
-          <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+          <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
             <View style={Style.contentWrapper}>
               {this.renderChildView()}
             </View>
@@ -430,16 +474,15 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingVertical: 6,
     paddingHorizontal: 10,
-
   },
   divider: {
-    backgroundColor: colors2.secondary,
+    backgroundColor: colors.secondary,
     height: 2,
     marginTop: 6,
     marginBottom: 6,
   },
   topDivider: {
-    backgroundColor: colors2.secondary,
+    backgroundColor: colors.secondary,
     height: 2,
 
     marginBottom: 15,
@@ -464,9 +507,26 @@ const mapStateToProps = state => (
     account: state.user.info,
     family: state.user.family,
     notifications: state.user.notifications,
+    mode: state.user.colorMode.color,
   });
 
 
 export default connect(mapStateToProps, {
-  fetchUserInfo, fetchTasksWeek, fetchTasksMonth, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksYear,
+  fetchParentInfo,
+  fetchNotificationInfo,
+  fetchAllSocial,
+  fetchKidFriends,
+  fetchUserInfo,
+  postTaskCompleted,
+  postTask,
+  postNotifications,
+  postGoalApprove,
+  postTaskVerified,
+  fetchColorMode,
+  fetchTasksWeek,
+  fetchTasksMonth,
+  fetchGoals,
+  fetchEarningsHistory,
+  fetchAllStats,
+  fetchTasksYear,
 })(Home);

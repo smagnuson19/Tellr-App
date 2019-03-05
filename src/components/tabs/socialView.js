@@ -13,6 +13,7 @@ import * as scale from 'd3-scale';
 import * as shape from 'd3-shape';
 import AvatarImageFriend from './avatarImageFriend';
 import { fonts, colors, dimensions } from '../../styling/base';
+import { themeColors } from '../../styling/colorModes';
 import { fetchAllSocial, postRemoveFriend } from '../../actions/index';
 import Style from '../../styling/Style';
 
@@ -68,13 +69,24 @@ class SocialView extends Component {
 
 
   removeFriend() {
-    const resetAction = StackActions.reset({
-      index: 0, // <-- currect active route from actions array
-      key: null,
-      actions: [
-        NavigationActions.navigate({ routeName: 'ChildTabBar' }),
-      ],
-    });
+    let resetAction;
+    if (this.props.mode === 0) {
+      resetAction = StackActions.reset({
+        index: 0, // <-- currect active route from actions array
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'ChildTabBarLight' }),
+        ],
+      });
+    } else {
+      resetAction = StackActions.reset({
+        index: 0, // <-- currect active route from actions array
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: 'ChildTabBarDark' }),
+        ],
+      });
+    }
     // email of yourself, remFriend is email of friend you're removing
     const payLoad = {
       email: this.props.account.email,
@@ -114,11 +126,18 @@ class SocialView extends Component {
     } else {
       return (
         <Button
+          raised
           onPress={() => this.removeFriendAlert()}
           title="Remove Friend"
-          rounded
           style={Style.button}
-          backgroundColor={colors.logoGreen}
+          buttonStyle={{
+            backgroundColor: themeColors.buttonColor[this.props.mode],
+            borderColor: 'transparent',
+            borderWidth: 0,
+            borderRadius: 5,
+          }}
+          color={themeColors.headerColor[this.props.mode]}
+          fontFamily={fonts.secondary}
         />
       );
     }
@@ -158,10 +177,10 @@ class SocialView extends Component {
           data={data}
           formatLabel={value => `${(value.getMonth() + 1)}/${value.getDate()}`}
           scale={scale.scaleTime}
-          labelStyle={{ color: 'black' }}
+          labelStyle={{ color: themeColors.headerColor[this.props.mode] }}
           xAccessor={({ item }) => item.index}
           svg={{
-            fill: 'black',
+            fill: themeColors.headerColor[this.props.mode],
             fontSize: 11,
             fontWeight: 'bold',
           }}
@@ -181,7 +200,7 @@ class SocialView extends Component {
       >
         <View style={{ flex: 1, paddingLeft: 10 }}>
           <Text style={{
-            color: 'black', fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center',
+            color: themeColors.headerColor[this.props.mode], fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center',
           }}
           >
             {'Completion Percentage'}
@@ -200,7 +219,7 @@ class SocialView extends Component {
           style={{ flex: 1, paddingRight: 10 }}
         >
           <Text style={{
-            color: 'black', fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center',
+            color: themeColors.headerColor[this.props.mode], fontSize: 13, fontWeight: 'bold', fontFamily: fonts.secondary, flex: 1, textAlign: 'center',
           }}
           >
             {'Amount to Next Goal'}
@@ -228,7 +247,7 @@ class SocialView extends Component {
         }}
       >
         <Text style={{
-          fontSize: fonts.lg, color: 'white', fontFamily: fonts.secondary, textAlign: 'center', fontWeight: 'bold',
+          fontSize: fonts.lg, color: themeColors.headerColor[this.props.mode], fontFamily: fonts.secondary, textAlign: 'center', fontWeight: 'bold',
         }}
         >
           {this.state.name}
@@ -242,7 +261,7 @@ class SocialView extends Component {
         }}
         >
           <Text style={{
-            color: 'white', fontSize: 16, fontFamily: fonts.secondary, flex: 1, textAlign: 'left', marginRight: 20, fontWeight: 'bold',
+            color: themeColors.headerColor[this.props.mode], fontSize: 16, fontFamily: fonts.secondary, flex: 1, textAlign: 'left', marginRight: 20, fontWeight: 'bold',
           }}
           >
             {`${numTasks(this.state.score)} Done`}
@@ -252,7 +271,7 @@ class SocialView extends Component {
             avatarColor={this.state.avatarColor}
           />
           <Text style={{
-            color: 'white', fontSize: 16, fontFamily: fonts.secondary, flex: 1, marginLeft: 40, fontWeight: 'bold',
+            color: themeColors.headerColor[this.props.mode], fontSize: 16, fontFamily: fonts.secondary, flex: 1, marginLeft: 40, fontWeight: 'bold',
           }}
           >
             {`${ordinalSuffixOf(this.state.rank)} Place`}
@@ -267,7 +286,7 @@ class SocialView extends Component {
         }}
         >
           <Text style={{
-            color: 'black', fontSize: 16, fontFamily: fonts.secondary, textAlign: 'center', fontWeight: 'bold',
+            color: themeColors.headerColor[this.props.mode], fontSize: 16, fontFamily: fonts.secondary, textAlign: 'center', fontWeight: 'bold',
           }}
           >
             {'Tasks Completed in Past Month'}
@@ -300,25 +319,9 @@ class SocialView extends Component {
   }
 
   render() {
-    // const props = {
-    //   labelBy: 'username',
-    //   sortBy: 'score',
-    //   data: this.state.filter > 0 ? this.state.monthlyData : this.state.weeklyData,
-    //   icon: 'iconUrl',
-    //   sort: this.sort,
-    //   onRowPress: (item, index) => {
-    //     this.props.navigation.navigate('SocialIndividual', {
-    //       email: item.email,
-    //       rank: index,
-    //       score: item.score,
-    //       name: item.username,
-    //     });
-    //   },
-    // };
-
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+        <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
           <View style={pageStyle.homeWrapper}>
             {this.renderTop()}
             {this.renderChart()}
@@ -457,6 +460,7 @@ const mapStateToProps = state => (
   {
     account: state.user.info,
     allFriend: state.user.allFriend,
+    mode: state.user.colorMode.color,
   });
 
 

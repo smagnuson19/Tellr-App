@@ -9,6 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Divider, ButtonGroup } from 'react-native-elements';
 // import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
+import { themeColors } from '../../styling/colorModes';
 
 // import RedeemedGoalsCard from './redeemedGoalsTabCard';
 import { fetchTasksWeek, fetchTasksMonth, fetchTasksYear } from '../../actions';
@@ -17,7 +18,7 @@ import CompletedTaskCard from './completedTaskCard';
 
 // import AvatarImage from './avatarImage';
 // import GoalsCard from './goalsCard';
-import { colors, fonts } from '../../styling/base';
+import { colors, fonts, dimensions } from '../../styling/base';
 
 class completedTasks extends Component {
   constructor(props) {
@@ -39,6 +40,18 @@ class completedTasks extends Component {
 
   onRefresh() {
     this.setState({ isFetching: true }, function () { this.reloadApiData(); });
+  }
+
+  headingDisplay() {
+    if (this.props.mode === 0) {
+      return (
+        <Text style={Style.headerTextLight}>Completed Tasks! </Text>
+      );
+    } else {
+      return (
+        <Text style={Style.headerTextDark}>Completed Tasks! </Text>
+      );
+    }
   }
 
   reloadApiData() {
@@ -70,7 +83,24 @@ class completedTasks extends Component {
           ))
         );
       } else {
-        return (<Text style={Style.headerText}>No Completed Tasks Yet!</Text>);
+        return (
+          <View style={{
+            marginTop: 20,
+            width: dimensions.fullWidth,
+          }}
+          >
+            <Text style={{
+              fontSize: fonts.smmd,
+              fontWeight: 'bold',
+              color: themeColors.headerColor[this.props.mode],
+              fontFamily: fonts.secondary,
+              paddingHorizontal: '10%',
+            }}
+            >
+No Completed Tasks Yet!
+            </Text>
+          </View>
+        );
       }
     } else {
       return null;
@@ -81,9 +111,9 @@ class completedTasks extends Component {
     console.log('rendering completed tasks');
     return (
       <View style={Style.rootContainer}>
-        <LinearGradient colors={[colors.linearGradientTop, colors.linearGradientBottom]} style={Style.gradient}>
+        <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
           <View style={Style.contentWrapper}>
-            <Text style={Style.headerText}>Completed Tasks!</Text>
+            {this.headingDisplay()}
             <ButtonGroup
               onPress={(x) => {
                 this.setState({ filter: x });
@@ -93,12 +123,12 @@ class completedTasks extends Component {
               buttons={['Week', 'Month', 'Year']}
               containerStyle={{ height: 20, backgroundColor: 'rgba(250, 27, 3, 0.05)', borderColor: 'black' }}
               selectedTextStyle={{
-                color: 'black', fontSize: 11, fontFamily: fonts.secondary,
+                color: themeColors.headerColor[this.props.mode], fontSize: 11, fontFamily: fonts.secondary,
               }}
               textStyle={{
-                color: 'black', fontSize: 11, fontFamily: fonts.secondary,
+                color: themeColors.headerColor[this.props.mode], fontSize: 11, fontFamily: fonts.secondary,
               }}
-              selectedButtonStyle={{ backgroundColor: '#3de594' }
+              selectedButtonStyle={{ backgroundColor: themeColors.buttonColor[this.props.mode] }
               }
             />
             <ScrollView refreshControl={(
@@ -126,6 +156,7 @@ const mapStateToProps = state => (
     wTasks: state.user.wTasks,
     yTasks: state.user.yTasks,
     user: state.user.info,
+    mode: state.user.colorMode.color,
   });
 
 export default connect(mapStateToProps, { fetchTasksWeek, fetchTasksMonth, fetchTasksYear })(completedTasks);
