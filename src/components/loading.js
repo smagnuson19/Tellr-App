@@ -132,6 +132,8 @@ class Loading extends Component {
       }).catch((error) => {
         initialChildFetchCheck.fetchNotificationInfo = false;
       });
+        while
+      return intitialChildFetchCheck
     } else if (this.props.accountInfo.accountType === 'Parent') {
       this.props.fetchNotificationInfo(email).then(() => {
         console.log('Notifications pulled in ');
@@ -167,9 +169,10 @@ class Loading extends Component {
         if (storageEmail != null) {
           // this is going to check that async correctly pulled token AND token is valid
           this.props.fetchUserInfo(storageEmail)
-            .then(() => { this.fetchAtLoad(storageEmail); })
+            .then(() => {
+              this.fetchAtLoad(storageEmail); })
             .catch(() => {
-              this.setState({ loginVerify: false });
+              //something bad happened and they should be able to log in);
             });
         }
       });

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import {
   // View, Text, StyleSheet, AsyncStorage,
+<<<<<<< HEAD
   View, Text, ScrollView, Alert, Animated, RefreshControl, StyleSheet,
+=======
+  View, Text, ScrollView, Alert, Animated,
+>>>>>>> small updates
 } from 'react-native';
 import { connect } from 'react-redux';
 import { verticalScale } from 'react-native-size-matters';

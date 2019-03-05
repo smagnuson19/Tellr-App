@@ -339,6 +339,7 @@ class AddTask extends Component {
                 }}
                 onChangeText={text => this.setState({ reward: text })}
                 value={this.state.reward}
+                keyboardType="decimal-pad"
                 placeholder="Reward: $0.00"
                 placeholderTextColor={colors2.placeholderColor}
               />
