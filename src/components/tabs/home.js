@@ -161,24 +161,16 @@ class Home extends Component {
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts.md,
-            color: themeColors.headerColor[this.props.mode],
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-            paddingHorizontal: 10,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
           Verify Goals
           </Text>
-          <Divider style={{
-            backgroundColor: themeColors.divider[this.props.mode],
-            height: 2,
-            marginTop: 6,
-            marginBottom: 6,
-          }}
-          />
-
+          <View
+            style={pageStyle.borderContainer}
+          >
+            <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
+          </View>
           <View>
             <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}> No Goals To Verify, have your child add more! </Text>
           </View>
@@ -189,24 +181,14 @@ class Home extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts.md,
-            color: themeColors.headerColor[this.props.mode],
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-            paddingHorizontal: 10,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
         Verify Goals
           </Text>
-          <Divider style={{
-            backgroundColor: themeColors.divider[this.props.mode],
-            height: 2,
-            marginTop: 6,
-            marginBottom: 6,
-          }}
-          />
-
+          <View style={pageStyle.borderContainer}>
+            <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
+          </View>
           { this.props.notifications.map(goals => (
 
             <NotificationCard
@@ -228,24 +210,14 @@ class Home extends Component {
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts.md,
-            color: themeColors.headerColor[this.props.mode],
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-            paddingHorizontal: 10,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
           Recently Completed Goals
           </Text>
-          <Divider style={{
-            backgroundColor: themeColors.divider[this.props.mode],
-            height: 2,
-            marginTop: 6,
-            marginBottom: 6,
-          }}
-          />
-
+          <View style={pageStyle.borderContainer}>
+            <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
+          </View>
           <View>
             <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}> No Goals To Confirm, remind your child! </Text>
           </View>
@@ -256,23 +228,14 @@ class Home extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts.md,
-            color: themeColors.headerColor[this.props.mode],
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-            paddingHorizontal: 10,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
       Recently Completed Goals
           </Text>
-          <Divider style={{
-            backgroundColor: themeColors.divider[this.props.mode],
-            height: 2,
-            marginTop: 6,
-            marginBottom: 6,
-          }}
-          />
+          <View style={pageStyle.borderContainer}>
+            <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
+          </View>
           { this.props.notifications.map(goal => (
 
             <NotificationCard
@@ -295,23 +258,14 @@ class Home extends Component {
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts.md,
-            color: themeColors.headerColor[this.props.mode],
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-            paddingHorizontal: 10,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
           Verify Chore Completion
           </Text>
-          <Divider style={{
-            backgroundColor: themeColors.divider[this.props.mode],
-            height: 2,
-            marginTop: 6,
-            marginBottom: 6,
-          }}
-          />
+          <View style={pageStyle.borderContainer}>
+            <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
+          </View>
           <View>
             <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}>
               {' '}
@@ -326,23 +280,14 @@ No Chores To Verify, Add some more!
       console.log(this.props.notifications);
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts.md,
-            color: themeColors.headerColor[this.props.mode],
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-            paddingHorizontal: 10,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
             Verify Chore Completion
           </Text>
-          <Divider style={{
-            backgroundColor: themeColors.divider[this.props.mode],
-            height: 2,
-            marginTop: 6,
-            marginBottom: 6,
-          }}
-          />
+          <View style={pageStyle.borderContainer}>
+            <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
+          </View>
 
           { this.props.notifications.map(goal => (
 
@@ -507,16 +452,20 @@ const pageStyle = StyleSheet.create({
   },
   sectionHeader: {
     fontSize: fonts.md,
-    color: '#fff',
     justifyContent: 'flex-start',
     paddingVertical: 6,
     paddingHorizontal: 10,
   },
   divider: {
-    backgroundColor: colors.secondary,
+    flex: 1,
     height: 2,
-    marginTop: 6,
+    marginTop: 1,
     marginBottom: 6,
+    width: '97%',
+  },
+  borderContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   topDivider: {
     backgroundColor: colors.secondary,

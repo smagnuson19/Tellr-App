@@ -50,6 +50,7 @@ const pageStyle = StyleSheet.create({
   avatarChildContainer: {
   },
   avatarBackground: {
+
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.2)',
     alignItems: 'center',
@@ -60,7 +61,11 @@ const pageStyle = StyleSheet.create({
     borderRadius: 100,
   },
   avatarText: {
+    padding: 0,
+    marginLeft: -4,
     textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     color: colors.white,
     fontSize: fonts.md,
     fontFamily: fonts.secondary,

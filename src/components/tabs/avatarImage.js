@@ -90,7 +90,10 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'center',
   },
   avatarText: {
+    padding: 0,
+    marginLeft: -4,
     textAlign: 'center',
+    justifyContent: 'center',
     color: colors.white,
     fontSize: fonts.md,
     fontFamily: fonts.secondary,
