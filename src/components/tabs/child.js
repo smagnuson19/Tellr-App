@@ -128,11 +128,11 @@ Chores are fun! Ask for more! :)
 
   renderFooter() {
     return (
-      <View>
+      <View style={pageStyle.sectionContainer}>
         <ButtonGroup
           onPress={() => this.props.navigationToCompletedTasks()}
           buttons={['View Completed Tasks']}
-          containerStyle={{ width: dimensions.fullWidth, backgroundColor: colors.secondary, borderColor: 'black' }}
+          containerStyle={{ width: dimensions.fullWidth - 20, backgroundColor: colors.secondary, borderColor: 'black' }}
           textStyle={{ fontFamily: fonts.secondary, color: colors.black }}
           underlayColor={colors.secondary}
         />
