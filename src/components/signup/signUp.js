@@ -14,7 +14,10 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { NavigationActions } from 'react-navigation';
 
-import { postNewUser } from '../../actions';
+import {
+  postNewUser,
+  authError,
+} from '../../actions';
 import Style from '../../styling/Style';
 import { colors, fonts } from '../../styling/base';
 
@@ -93,6 +96,7 @@ class SignUp extends Component {
       this.props.navigation.navigate('Auth', { emailParam: this.state.email }, NavigationActions.navigate({ routeName: 'Loading' }));
     } else if (this.props.errorMessage) {
       Alert.alert(this.props.errorMessage);
+      this.props.authError(null);
     }
     return (
       <View style={Style.rootContainer}>
@@ -213,5 +217,5 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  postNewUser,
+  postNewUser, authError,
 })(SignUp);

@@ -41,6 +41,7 @@ class Login extends Component {
           this.props.navigation.navigate('Loading');
         } else if (this.props.errorMessage) {
           Alert.alert(this.props.errorMessage);
+          this.props.authError(null);
         }
       });
     }
