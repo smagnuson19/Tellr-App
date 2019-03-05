@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Dimensions, ScrollView,
+  View, Text, StyleSheet, Dimensions, ScrollView, RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -23,6 +23,8 @@ class Analytics extends Component {
     const indEmail = navigation.getParam('email');
     console.log(this.props.allStats);
     this.state = {
+      isFetching: false,
+      userEmail: indEmail,
       filter: 0,
       datDict: {},
       timeDict: {},
@@ -152,6 +154,18 @@ class Analytics extends Component {
       2: this.props.allStats[2].max,
     };
     this.setState({ maxDict });
+  }
+
+  onRefresh() {
+    this.setState({ isFetching: true }, function () { this.reloadApiData(); });
+  }
+
+  reloadApiData() {
+    console.log('reloading api Data');
+    // Do we want to update children info as well?
+    this.props.fetchAllStats(this.state.userEmail);
+    // No longer fetching
+    this.setState({ isFetching: false });
   }
 
   buttonPress(action, goalName, sEmail, cEmail, priority) {
@@ -471,7 +485,14 @@ class Analytics extends Component {
               selectedButtonStyle={{ backgroundColor: colors.secondary }
               }
             />
-            <ScrollView>
+            <ScrollView refreshControl={(
+              <RefreshControl
+                onRefresh={() => this.onRefresh()}
+                refreshing={this.state.isFetching}
+                tintColor="#fff"
+              />
+            )}
+            >
               {this.renderTop()}
               <Divider style={pageStyle.bdivider} />
               {this.renderChart()}

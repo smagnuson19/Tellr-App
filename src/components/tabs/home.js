@@ -12,8 +12,7 @@ import AvatarImage from './avatarImage';
 import NotificationCard from './notificationCard';
 import Child from './child';
 import {
-  fetchNotificationInfo, fetchParentInfo, fetchUserInfo, postTaskCompleted, postTask,
-  postNotifications, postGoalApprove, postTaskVerified, fetchAllSocial, fetchKidFriends,
+  fetchUserInfo, fetchTasksWeek, fetchTasksMonth, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksYear,
 } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
 import { colors2 } from '../../styling/parent';
@@ -53,10 +52,17 @@ class Home extends Component {
 
     if (this.props.account.accountType === 'Parent') {
       console.log('refreshing parents');
+      this.props.fetchParentInfo(this.props.account.email);
     } else {
       console.log('refreshing kids');
       this.props.fetchAllSocial(this.props.account.email);
       this.props.fetchKidFriends(this.props.account.email);
+      this.props.fetchGoals(this.props.account.email);
+      this.props.fetchTasksWeek(this.props.account.email);
+      this.props.fetchTasksMonth(this.props.account.email);
+      this.props.fetchTasksYear(this.props.account.email);
+      this.props.fetchAllStats(this.props.account.email);
+      this.props.fetchEarningsHistory(this.props.account.email);
     }
     // No longer fetching
     this.setState({ isFetching: false });
@@ -462,5 +468,5 @@ const mapStateToProps = state => (
 
 
 export default connect(mapStateToProps, {
-  fetchParentInfo, fetchNotificationInfo, fetchAllSocial, fetchKidFriends, fetchUserInfo, postTaskCompleted, postTask, postNotifications, postGoalApprove, postTaskVerified,
+  fetchUserInfo, fetchTasksWeek, fetchTasksMonth, fetchNotificationInfo, fetchParentInfo, fetchGoals, fetchKidFriends, fetchAllSocial, fetchEarningsHistory, fetchAllStats, fetchTasksYear,
 })(Home);

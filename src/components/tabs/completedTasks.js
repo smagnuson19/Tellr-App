@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   // View, Text, StyleSheet, AsyncStorage,
-  View, Text, ScrollView,
+  View, Text, ScrollView, RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -9,8 +9,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Divider, ButtonGroup } from 'react-native-elements';
 // import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
+
+// import RedeemedGoalsCard from './redeemedGoalsTabCard';
+import { fetchTasksWeek, fetchTasksMonth, fetchTasksYear } from '../../actions';
 import CompletedTaskCard from './completedTaskCard';
-import { fetchTasksWeek } from '../../actions';
+
 
 
 // import AvatarImage from './avatarImage';
@@ -22,10 +25,11 @@ class completedTasks extends Component {
     super(props);
     this.state = {
       filter: 0,
+      isFetching: false,
       taskDict: {},
     };
   }
-
+  
   componentWillMount() {
     const taskDict = {};
     taskDict[0] = this.props.wTasks;
@@ -33,6 +37,32 @@ class completedTasks extends Component {
     taskDict[2] = this.props.yTasks;
     this.setState({ taskDict });
   }
+  
+  onRefresh() {
+    this.setState({ isFetching: true }, function () { this.reloadApiData(); });
+  }
+
+  reloadApiData() {
+    console.log('reloading api Data');
+    // Do we want to update children info as well?
+    this.props.fetchTasksWeek(this.props.user.email);
+    this.props.fetchTasksMonth(this.props.user.email);
+    this.props.fetchTasksYear(this.props.user.email);
+    // No longer fetching
+    this.setState({ isFetching: false });
+  }
+
+  renderGoals() {
+    console.log('Weekly Tasks');
+    console.log(this.props.wTasks);
+    console.log('Monthly');
+    console.log(this.props.mTasks);
+    console.log('Yearly');
+    console.log(this.props.yTasks);
+    if (this.props.wTasks !== null && this.props.user !== null) {
+      if (this.props.wTasks.length > 0) {
+        return null;
+        // return (
 
   renderTasks(filter) {
     // console.log('Weekly Tasks');
@@ -84,7 +114,14 @@ class completedTasks extends Component {
               selectedButtonStyle={{ backgroundColor: '#3de594' }
               }
             />
-            <ScrollView>
+            <ScrollView refreshControl={(
+              <RefreshControl
+                onRefresh={() => this.onRefresh()}
+                refreshing={this.state.isFetching}
+                tintColor="#fff"
+              />
+            )}
+            >
               {this.renderTasks(this.state.filter)}
               <Divider style={{ backgroundColor: colors.clear, height: 105 }} />
             </ScrollView>
@@ -104,4 +141,4 @@ const mapStateToProps = state => (
     user: state.user.info,
   });
 
-export default connect(mapStateToProps, { fetchTasksWeek })(completedTasks);
+export default connect(mapStateToProps, { fetchTasksWeek, fetchTasksMonth, fetchTasksYear })(completedTasks);
