@@ -49,6 +49,9 @@ class RedeemedGoalsCard extends Component {
 
   render() {
     const style = pageStyle.redeemedContainer;
+    if (this.props.goals.redeemed !== true) {
+      return null;
+    }
     return (
       <Card
         containerStyle={style}
