@@ -25,7 +25,6 @@ class Analytics extends Component {
     console.log(this.props.allStats);
     this.state = {
       isFetching: false,
-      userEmail: indEmail,
       filter: 0,
       datDict: {},
       timeDict: {},
@@ -176,11 +175,11 @@ class Analytics extends Component {
   headingDisplay() {
     if (this.props.mode === 0) {
       return (
-        <Text style={Style.headerTextLight}>Friend Requests </Text>
+        <Text style={Style.headerTextLight}>Analytics </Text>
       );
     } else {
       return (
-        <Text style={Style.headerTextDark}>Friend Requests </Text>
+        <Text style={Style.headerTextDark}>Analytics </Text>
       );
     }
   }

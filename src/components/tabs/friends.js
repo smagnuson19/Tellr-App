@@ -5,7 +5,7 @@ Avatars from: http://avatars.adorable.io/#demo
 
 import React, { Component } from 'react';
 import {
-  View, Text, Alert, StyleSheet, ScrollView, RefreshControl,
+  View, Text, Alert, ScrollView, RefreshControl,
 } from 'react-native';
 import { ButtonGroup, Button } from 'react-native-elements';
 import Leaderboard from 'react-native-leaderboard';
@@ -14,7 +14,7 @@ import DialogInput from 'react-native-dialog-input';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Style from '../../styling/Style';
-import { colors, fonts } from '../../styling/base';
+import { fonts } from '../../styling/base';
 import { postRequest, fetchKidFriends, fetchAllSocial } from '../../actions/index';
 import AvatarImageFriend from './avatarImageFriend';
 import { themeColors } from '../../styling/colorModes';

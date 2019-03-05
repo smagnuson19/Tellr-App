@@ -60,6 +60,7 @@ class Loading extends Component {
           .catch(() => { this.setState({ loginVerify: false }); });
         this.props.fetchColorMode(email)
           .then(() => { console.log('Color mode pulled in'); })
+          .catch(() => { this.setState({ loginVerify: false }); });
         this.props.fetchTasksWeek(email)
           .then(() => { console.log('W Tasks pulled in'); })
           .catch(() => { this.setState({ loginVerify: false }); });

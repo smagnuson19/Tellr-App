@@ -60,6 +60,10 @@ class Goals extends Component {
   }
 
 
+  onRefresh() {
+    this.setState({ isFetching: true }, function () { this.reloadApiData(); });
+  }
+
   headingDisplay() {
     if (this.props.mode === 0) {
       return (
@@ -70,10 +74,6 @@ class Goals extends Component {
         <Text style={Style.headerTextDark}>Goals! </Text>
       );
     }
-  }
-
-  onRefresh() {
-    this.setState({ isFetching: true }, function () { this.reloadApiData(); });
   }
 
   reloadApiData() {
