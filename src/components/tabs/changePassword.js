@@ -127,7 +127,7 @@ class ChangePassword extends Component {
                 title="Change Password"
                 large
                 raised
-                color={themeColors.headerColor[this.props.mode]}
+                color={themeColors.buttonTextColor}
                 fontFamily={fonts.secondary}
                 style={Style.button}
                 buttonStyle={

@@ -132,7 +132,7 @@ Chores are fun! Ask for more! :)
         <ButtonGroup
           onPress={() => this.props.navigationToCompletedTasks()}
           buttons={['View Completed Tasks']}
-          containerStyle={{ width: dimensions.fullWidth - 20, backgroundColor: colors.secondary, borderColor: 'black' }}
+          containerStyle={{ width: dimensions.fullWidth - 20, backgroundColor: themeColors.buttonColor[this.props.mode], borderColor: 'black' }}
           textStyle={{ fontFamily: fonts.secondary, color: colors.black }}
           underlayColor={colors.secondary}
         />

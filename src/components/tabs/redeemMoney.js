@@ -266,7 +266,7 @@ $
                 raised
                 title="Request Money!"
                 accessibilityLabel="enter email"
-                color={themeColors.headerColor[this.props.mode]}
+                color={themeColors.buttonTextColor}
                 fontFamily={fonts.secondary}
                 style={Style.button}
                 buttonStyle={{

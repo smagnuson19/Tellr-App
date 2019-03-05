@@ -289,7 +289,7 @@ New Theme:
                 raised
                 fontFamily={fonts.secondary}
                 style={Style.button}
-                color={themeColors.headerColor[this.props.mode]}
+                color={themeColors.buttonTextColor}
                 buttonStyle={
                       {
                         backgroundColor: themeColors.buttonColor[this.props.mode],

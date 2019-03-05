@@ -208,7 +208,7 @@ class Goals extends Component {
           buttons={['View Redeemed Goals']}
           containerStyle={{
             width: dimensions.fullWidth - 20,
-            backgroundColor: colors.secondary,
+            backgroundColor: themeColors.buttonColor[this.props.mode],
             borderColor: 'black',
             shadowColor: 'rgba(0,0,255, .9)', // IOS
             shadowOffset: { height: 1, width: 1 }, // IOS

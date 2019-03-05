@@ -247,7 +247,7 @@ class Friends extends Component {
                 borderRadius: 5,
               }}
               style={Style.button}
-              color={themeColors.headerColor[this.props.mode]}
+              color={themeColors.buttonTextColor}
               fontFamily={fonts.secondary}
             />
             <DialogInput
@@ -269,7 +269,7 @@ class Friends extends Component {
                 borderRadius: 5,
               }}
               style={Style.button}
-              color={themeColors.headerColor[this.props.mode]}
+              color={themeColors.buttonTextColor}
               fontFamily={fonts.secondary}
             />
           </View>
