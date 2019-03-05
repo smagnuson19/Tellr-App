@@ -44,7 +44,15 @@ class CompletedTaskCard extends Component {
   }
 
   render() {
-    const style = pageStyle.redeemedContainer;
+    const fX = 0.8 - 10 / (this.props.tasks.value + 11.5);
+    const opactiy = String(0.2 + Math.min(fX, 0.8));
+    const style = {
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      borderRadius: 8,
+      backgroundColor: `rgba(137, 207, 240, ${opactiy})`,
+    };
     return (
       <Card
         containerStyle={style}
@@ -79,21 +87,6 @@ class CompletedTaskCard extends Component {
 }
 
 const pageStyle = StyleSheet.create({
-  cardContainer: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    borderRadius: 8,
-  },
-
-  redeemedContainer: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    borderRadius: 8,
-    backgroundColor: colors.babyBlue,
-  },
-
   headerView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
