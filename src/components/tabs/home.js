@@ -170,7 +170,13 @@ class Home extends Component {
           >
           Verify Goals
           </Text>
-          <Divider style={pageStyle.divider} />
+          <Divider style={{
+            backgroundColor: themeColors.divider[this.props.mode],
+            height: 2,
+            marginTop: 6,
+            marginBottom: 6,
+          }}
+          />
 
           <View>
             <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}> No Goals To Verify, have your child add more! </Text>
@@ -192,7 +198,13 @@ class Home extends Component {
           >
         Verify Goals
           </Text>
-          <Divider style={pageStyle.divider} />
+          <Divider style={{
+            backgroundColor: themeColors.divider[this.props.mode],
+            height: 2,
+            marginTop: 6,
+            marginBottom: 6,
+          }}
+          />
 
           { this.props.notifications.map(goals => (
 
@@ -225,7 +237,13 @@ class Home extends Component {
           >
           Recently Completed Goals
           </Text>
-          <Divider style={pageStyle.divider} />
+          <Divider style={{
+            backgroundColor: themeColors.divider[this.props.mode],
+            height: 2,
+            marginTop: 6,
+            marginBottom: 6,
+          }}
+          />
 
           <View>
             <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}> No Goals To Confirm, remind your child! </Text>
@@ -247,7 +265,13 @@ class Home extends Component {
           >
       Recently Completed Goals
           </Text>
-          <Divider style={pageStyle.divider} />
+          <Divider style={{
+            backgroundColor: themeColors.divider[this.props.mode],
+            height: 2,
+            marginTop: 6,
+            marginBottom: 6,
+          }}
+          />
           { this.props.notifications.map(goal => (
 
             <NotificationCard
@@ -280,7 +304,13 @@ class Home extends Component {
           >
           Verify Chore Completion
           </Text>
-          <Divider style={pageStyle.divider} />
+          <Divider style={{
+            backgroundColor: themeColors.divider[this.props.mode],
+            height: 2,
+            marginTop: 6,
+            marginBottom: 6,
+          }}
+          />
           <View>
             <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}>
               {' '}
@@ -305,7 +335,13 @@ No Chores To Verify, Add some more!
           >
             Verify Chore Completion
           </Text>
-          <Divider style={pageStyle.divider} />
+          <Divider style={{
+            backgroundColor: themeColors.divider[this.props.mode],
+            height: 2,
+            marginTop: 6,
+            marginBottom: 6,
+          }}
+          />
 
           { this.props.notifications.map(goal => (
 
