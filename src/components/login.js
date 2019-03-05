@@ -9,7 +9,11 @@ import DialogInput from 'react-native-dialog-input';
 import Logo from './LoginAdditions/logo';
 import Style from '../styling/Style';
 import { colors, fonts } from '../styling/base';
-import { loginUser, postForgotPassword } from '../actions/index';
+import {
+  loginUser,
+  postForgotPassword,
+  authError,
+} from '../actions/index';
 
 class Login extends Component {
   constructor(props) {
@@ -170,4 +174,4 @@ const mapStateToProps = state => (
   });
 
 
-export default connect(mapStateToProps, { loginUser, postForgotPassword })(Login);
+export default connect(mapStateToProps, { loginUser, postForgotPassword, authError })(Login);

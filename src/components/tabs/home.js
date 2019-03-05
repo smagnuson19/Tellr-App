@@ -127,6 +127,16 @@ class Home extends Component {
         this.props.postTaskCompleted(payLoad, priority);
       }
       // Parent dismissed the goal child has completed
+    } else if (notificationType === 'Redemption') {
+      if (action === 'Complete') {
+        const payLoad = {
+          email: sEmail,
+          priority,
+        };
+        this.props.postNotifications(payLoad);
+        this.reloadApiData();
+      }
+      // Parent dismissed the goal child has completed
     } else if (notificationType === 'goalComplete') {
       if (action === 'Dismiss') {
         const payLoad = {
@@ -155,9 +165,48 @@ class Home extends Component {
     return ('nothing');
   }
 
+  renderRedeemMoney() {
+    if (this.props.notifications === null) {
+      return (null);
+    } else {
+      let shouldDisplay = false;
+      this.props.notifications.forEach((item) => {
+        if (item.notificationType === 'Redemption') { shouldDisplay = true; }
+      });
+      if (shouldDisplay) {
+        return (
+          <View style={pageStyle.sectionContainer}>
+            <Text style={[pageStyle.sectionHeader,
+              { color: themeColors.headerColor[this.props.mode] }]}
+            >
+          Money Requested
+            </Text>
+            <View style={pageStyle.borderContainer}>
+              <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
+            </View>
+            { this.props.notifications.map(goals => (
+
+              <NotificationCard
+                key={goals.priority}
+                entry={goals}
+                notificationTypePassed="Redemption"
+                onPress={this.renderAction}
+              />
+
+            ))}
+
+
+          </View>
+        );
+      } else {
+        return (null);
+      }
+    }
+  }
+
+
   // For goals that have not been approved yet
   renderGoalsToComplete() {
-    console.log(this.props);
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
@@ -338,8 +387,9 @@ No Chores To Verify, Add some more!
     return (
       <View style={pageStyle.homeWrapper}>
         <View style={pageStyle.topContainer}>
-
           {this.renderAvatarRow()}
+
+
         </View>
 
         <ScrollView style={pageStyle.main}
@@ -351,6 +401,7 @@ No Chores To Verify, Add some more!
             />
 )}
         >
+          {this.renderRedeemMoney()}
           {this.renderGoalsCompleted()}
           {this.renderGoalsToComplete()}
           {this.renderChoresToVerify()}
@@ -435,7 +486,6 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'flex-start',
     width: dimensions.fullWidth,
 
-    backgroundColor: '#fff',
     marginBottom: 15,
   },
 

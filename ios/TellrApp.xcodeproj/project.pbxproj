@@ -103,6 +103,7 @@
 		E4480EBBF5294A2E8BB80287 /* libRNSVG-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CA19651A8CD4D7B9E56D389 /* libRNSVG-tvOS.a */; };
 		EA0A2343220384E2000EF809 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = EA0A2316220384E2000EF809 /* main.jsbundle */; };
 		EA6C62792219FC6900DFC83B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		EA776C41222EFF620036FCA8 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = EA776C40222EFF620036FCA8 /* assets */; };
 		EAA1809222113A5900025734 /* main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAA1806322113A5900025734 /* main.storyboard */; };
 		EAA1809322113A5900025734 /* LauncScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAA1809122113A5900025734 /* LauncScreen.storyboard */; };
 		EAA1809622113A7900025734 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA1809522113A7900025734 /* ViewController.swift */; };
@@ -270,6 +271,7 @@
 		EA5B13FA220789300059C52F /* TellrApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = TellrApp.entitlements; path = TellrApp/TellrApp.entitlements; sourceTree = "<group>"; };
 		EA5B140C22078AFF0059C52F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EA5B140E22078B0B0059C52F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		EA776C40222EFF620036FCA8 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = TellrApp/assets; sourceTree = "<group>"; };
 		EAA1806322113A5900025734 /* main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = main.storyboard; path = TellrApp/main.storyboard; sourceTree = "<group>"; };
 		EAA1809122113A5900025734 /* LauncScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LauncScreen.storyboard; path = TellrApp/LauncScreen.storyboard; sourceTree = "<group>"; };
 		EAA1809422113A7800025734 /* TellrApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TellrApp-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 		13B07FAE1A68108700A75B9A /* TellrApp */ = {
 			isa = PBXGroup;
 			children = (
+				EA776C40222EFF620036FCA8 /* assets */,
 				EAA1809522113A7900025734 /* ViewController.swift */,
 				EA5B13FA220789300059C52F /* TellrApp.entitlements */,
 				EA0A2316220384E2000EF809 /* main.jsbundle */,
@@ -709,6 +712,7 @@
 				35367C1D0D354AEFA2BA991A /* AntDesign.ttf in Resources */,
 				9BCFD60D8CAC47EBBA3EADFF /* Entypo.ttf in Resources */,
 				A8E0C5714D1D4283A7E7DB7F /* EvilIcons.ttf in Resources */,
+				EA776C41222EFF620036FCA8 /* assets in Resources */,
 				DF36E6E698EE4E26BCC0CBFF /* Feather.ttf in Resources */,
 				2C483AE6EA1E41C39FA5B33E /* FontAwesome.ttf in Resources */,
 				BD2599038525454194F0FB52 /* FontAwesome5_Brands.ttf in Resources */,
