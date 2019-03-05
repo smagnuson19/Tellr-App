@@ -180,7 +180,7 @@ const UserReducer = (
         earnings: state.earnings,
         allStats: action.payload,
         colorMode: state.colorMode,
-         wTasks: state.wTasks,
+        wTasks: state.wTasks,
         mTasks: state.mTasks,
         yTasks: state.yTasks,
       };
