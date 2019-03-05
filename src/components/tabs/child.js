@@ -9,8 +9,7 @@ import { verticalScale } from 'react-native-size-matters';
 import { fonts, colors, dimensions } from '../../styling/base';
 import NotificationCard from './notificationCard';
 import { themeColors } from '../../styling/colorModes';
-
-// import Style from '../../styling/Style';
+import Style from '../../styling/Style';
 
 class Child extends Component {
   constructor(props) {
@@ -29,6 +28,34 @@ class Child extends Component {
   refreshAction() {
     this.props.refreshAPI();
   }
+
+
+  headingDisplay() {
+    if (this.props.mode === 0) {
+      return (
+        <Text style={Style.headerTextLight}>
+          {' '}
+          {'Hey '}
+          {this.props.firstName}
+          {'!'}
+          {' '}
+
+        </Text>
+      );
+    } else {
+      return (
+        <Text style={Style.headerTextDark}>
+          {' '}
+          {'Hey '}
+          {this.props.firstName}
+          {'!'}
+          {' '}
+
+        </Text>
+      );
+    }
+  }
+
 
   checkEmptyTasks() {
     let empty = true;
@@ -126,19 +153,31 @@ Chores are fun! Ask for more! :)
     return (
       <View style={pageStyle.homeWrapper}>
         <View style={pageStyle.topContainer}>
-          <Text style={pageStyle.headerText}>
-            {'Hey '}
-            {this.props.firstName}
-            {'!'}
-          </Text>
-          <View style={pageStyle.balanceContainer}>
+          {this.headingDisplay()}
+          <View style={{
+            backgroundColor: themeColors.buttonColor[this.props.mode],
+            width: 100,
+            height: 100,
+            borderRadius: 100,
+            marginTop: 40,
+            marginBottom: 8,
+            marginRight: 8,
+            justifyContent: 'center',
+          }}
+          >
             <Text style={pageStyle.balanceText}>
               {'$'}
               {this.props.balance}
             </Text>
           </View>
         </View>
-        <Divider style={pageStyle.divider} />
+        <Divider style={{
+          backgroundColor: themeColors.secondary[this.props.mode],
+          height: 2,
+          marginTop: 6,
+          marginBottom: 6,
+        }}
+        />
         <ScrollView style={pageStyle.main}
           refreshControl={(
             <RefreshControl
