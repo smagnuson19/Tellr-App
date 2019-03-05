@@ -34,6 +34,7 @@ class Loading extends Component {
       fetchTasksYear: null,
       fetchTasksWeek: null,
       fetchParentInfo: null,
+      fetchColorMode: null,
     };
   }
 
@@ -128,6 +129,15 @@ class Loading extends Component {
             .catch(() => {
               this.setState({ fetchTasksWeek: false });
             });
+          this.props.fetchColorMode(email)
+            .then(() => {
+              console.log('M Tasks pulled in');
+
+              this.setState({ fetchColorMode: true });
+            })
+            .catch(() => {
+              this.setState({ fetchColorMode: false });
+            });
           this.props.fetchTasksMonth(email)
             .then(() => {
               console.log('M Tasks pulled in');
@@ -162,6 +172,15 @@ class Loading extends Component {
             })
             .catch(() => {
               this.setState({ fetchParentInfo: false });
+            });
+          this.props.fetchColorMode(email)
+            .then(() => {
+              console.log('M Tasks pulled in');
+
+              this.setState({ fetchColorMode: true });
+            })
+            .catch(() => {
+              this.setState({ fetchColorMode: false });
             });
         }).catch(() => {
           console.log('Error on Notification');
@@ -228,6 +247,7 @@ class Loading extends Component {
         && (this.state.fetchTasksMonth !== null)
         && (this.state.fetchTasksYear !== null)
         && (this.state.fetchTasksWeek !== null)
+        && (this.state.fetchColorMode !== null)
         ) {
           if ((this.state.fetchNotificationInfo === true)
           && (this.state.fetchGoals === true)
@@ -238,8 +258,13 @@ class Loading extends Component {
           && (this.state.fetchTasksMonth === true)
           && (this.state.fetchTasksYear === true)
           && (this.state.fetchTasksWeek === true)
+          && (this.state.fetchColorMode === true)
           ) {
-            this.props.navigation.navigate('ChildTabBar');
+            if (this.props.mode.color === 0) {
+              this.props.navigation.navigate('ChildTabBarLight');
+            } else if (this.props.mode.color === 1) {
+              this.props.navigation.navigate('ChildTabBarDark');
+            }
           } else {
             this.goToLogin();
           }
@@ -247,11 +272,18 @@ class Loading extends Component {
       } else if (this.props.accountInfo.accountType === 'Parent') {
         if ((this.state.fetchNotificationInfo !== null)
         && (this.state.fetchParentInfo !== null)
+        && (this.state.fetchColorMode !== null)
+
         ) {
           if ((this.state.fetchNotificationInfo === true)
         && (this.state.fetchParentInfo === true)
+        && (this.state.fetchColorMode === true)
           ) {
-            this.props.navigation.navigate('ParentTabBar');
+            if (this.props.mode.color === 0) {
+              this.props.navigation.navigate('ParentTabBarLight');
+            } else if (this.props.mode.color === 1) {
+              this.props.navigation.navigate('ParentTabBarDark');
+            }
           } else {
             this.goToLogin();
           }
