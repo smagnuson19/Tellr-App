@@ -624,7 +624,7 @@ class Analytics extends Component {
             >
               {this.renderTop()}
               <Divider style={{
-                backgroundColor: themeColors.secondary[this.props.mode],
+                backgroundColor: themeColors.divider[this.props.mode],
                 height: 2,
                 marginTop: 2,
                 marginBottom: 0,
@@ -633,7 +633,7 @@ class Analytics extends Component {
               {this.renderChart()}
               {this.renderM1()}
               <Divider style={{
-                backgroundColor: themeColors.secondary[this.props.mode],
+                backgroundColor: themeColors.divider[this.props.mode],
                 height: 2,
                 marginTop: 5,
                 marginBottom: 0,
@@ -642,7 +642,7 @@ class Analytics extends Component {
               {this.renderPieChart()}
               {this.renderM2()}
               <Divider style={{
-                backgroundColor: themeColors.secondary[this.props.mode],
+                backgroundColor: themeColors.divider[this.props.mode],
                 height: 2,
                 marginTop: 5,
                 marginBottom: 0,

@@ -311,7 +311,7 @@ $
                 onPress={() => this.sendMoney()}
                 title="Transfer Funds!"
                 accessibilityLabel="enter email"
-                color={themeColors.headerColor[this.props.mode]}
+                color={themeColors.buttonTextColor}
                 style={Style.button}
                 buttonStyle={
                     {

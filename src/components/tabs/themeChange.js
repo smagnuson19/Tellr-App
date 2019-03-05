@@ -138,7 +138,7 @@ Night Mode
 Theme Preview:
               </Text>
               <Divider style={{
-                backgroundColor: themeColors.secondary[this.props.mode],
+                backgroundColor: themeColors.divider[this.props.mode],
                 height: 2,
                 marginTop: 2,
                 marginBottom: 2,
@@ -219,7 +219,7 @@ Night Mode:
 Change your theme?
                 </Text>
                 <Divider style={{
-                  backgroundColor: themeColors.secondary[this.props.mode],
+                  backgroundColor: themeColors.divider[this.props.mode],
                   height: 2,
                   marginTop: 2,
                   marginBottom: 0,
@@ -272,7 +272,7 @@ New Theme:
                       paddingHorizontal: 5,
                       paddingBottom: 5,
                       borderWidth: 1,
-                      borderColor: themeColors.secondary[this.props.mode],
+                      borderColor: themeColors.divider[this.props.mode],
                       color: themeColors.headerColor[this.props.mode],
                       width: dimensions.fullWidth - 100,
                       fontFamily: fonts.secondary,
@@ -289,7 +289,7 @@ New Theme:
                 raised
                 fontFamily={fonts.secondary}
                 style={Style.button}
-                color={themeColors.headerColor[this.props.mode]}
+                color={themeColors.buttonTextColor}
                 buttonStyle={
                       {
                         backgroundColor: themeColors.buttonColor[this.props.mode],

@@ -252,7 +252,7 @@ class Friends extends Component {
                 shadowOffset: { width: 1, height: 13 },
               }}
               style={Style.button}
-              color={themeColors.headerColor[this.props.mode]}
+              color={themeColors.buttonTextColor}
               fontFamily={fonts.secondary}
             />
             <DialogInput
@@ -279,7 +279,7 @@ class Friends extends Component {
                 shadowOffset: { width: 1, height: 13 },
               }}
               style={Style.button}
-              color={themeColors.headerColor[this.props.mode]}
+              color={themeColors.buttonTextColor}
               fontFamily={fonts.secondary}
             />
           </View>

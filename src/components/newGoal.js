@@ -252,7 +252,7 @@ class NewGoal extends Component {
               <Button
                 large
                 raised
-                color={themeColors.headerColor[this.props.mode]}
+                color={themeColors.buttonTextColor}
                 title="Take A Photo!"
                 style={Style.button2}
                 fontFamily={fonts.secondary}
