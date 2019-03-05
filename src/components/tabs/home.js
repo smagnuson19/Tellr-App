@@ -55,6 +55,7 @@ class Home extends Component {
     if (this.props.account.accountType === 'Parent') {
       console.log('refreshing parents');
       this.props.fetchParentInfo(this.props.account.email);
+      this.prop.fetchOtherParents(this.props.account.email);
     } else {
       console.log('refreshing kids');
       this.props.fetchAllSocial(this.props.account.email);
@@ -65,7 +66,6 @@ class Home extends Component {
       this.props.fetchTasksYear(this.props.account.email);
       this.props.fetchAllStats(this.props.account.email);
       this.props.fetchEarningsHistory(this.props.account.email);
-      this.prop.fetchOtherParents(this.props.account.email);
     }
     // No longer fetching
     this.setState({ isFetching: false });
