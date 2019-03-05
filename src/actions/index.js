@@ -846,6 +846,8 @@ export function fetchTasksWeek(email) {
             name: wTList[key].taskName,
             value: wTList[key].reward,
             description: wTList[key].taskDescription,
+            // dateCompleted: wTList[key].dateCompleted,
+            timeCompleted: wTList[key].timeCompleted,
             // goalProgress: (parseFloat(this.state.balance)/parseFloat(gList[key].value));
           });
         });// end for each
@@ -882,6 +884,8 @@ export function fetchTasksMonth(email) {
             name: mTList[key].taskName,
             value: mTList[key].reward,
             description: mTList[key].taskDescription,
+            // dateCompleted: mTList[key].dateCompleted,
+            timeCompleted: mTList[key].timeCompleted,
             // goalProgress: (parseFloat(this.state.balance)/parseFloat(gList[key].value));
           });
         });// end for each
@@ -918,6 +922,8 @@ export function fetchTasksYear(email) {
             name: yTList[key].taskName,
             value: yTList[key].reward,
             description: yTList[key].taskDescription,
+            // dateCompleted: yTList[key].dateCompleted,
+            timeCompleted: yTList[key].timeCompleted,
             // goalProgress: (parseFloat(this.state.balance)/parseFloat(gList[key].value));
           });
         });// end for each

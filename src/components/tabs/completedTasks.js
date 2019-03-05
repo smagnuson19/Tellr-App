@@ -9,7 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Divider, ButtonGroup } from 'react-native-elements';
 // import { StackActions, NavigationActions } from 'react-navigation';
 import Style from '../../styling/Style';
-// import RedeemedGoalsCard from './redeemedGoalsTabCard';
+import CompletedTaskCard from './completedTaskCard';
 import { fetchTasksWeek } from '../../actions';
 
 
@@ -22,30 +22,42 @@ class completedTasks extends Component {
     super(props);
     this.state = {
       filter: 0,
+      taskDict: {},
     };
   }
 
-  renderGoals() {
-    console.log('Weekly Tasks');
-    console.log(this.props.wTasks);
-    console.log('Monthly');
-    console.log(this.props.mTasks);
-    console.log('Yearly');
-    console.log(this.props.yTasks);
-    if (this.props.wTasks !== null && this.props.user !== null) {
-      if (this.props.wTasks.length > 0) {
-        return null;
-        // return (
+  componentWillMount() {
+    const taskDict = {};
+    taskDict[0] = this.props.wTasks;
+    taskDict[1] = this.props.mTasks;
+    taskDict[2] = this.props.yTasks;
+    this.setState({ taskDict });
+  }
 
-        // this.props.goals.map(goal => (
-        //   <View key={goal.id}>
-        //     <RedeemedGoalsCard goals={goal} />
-        //   </View>
-        // ))
-        // );
+  renderTasks(filter) {
+    // console.log('Weekly Tasks');
+    // console.log(this.props.wTasks);
+    // console.log('Monthly');
+    // console.log(this.props.mTasks);
+    // console.log('Yearly');
+    // console.log(this.props.yTasks);
+    // <RedeemedGoalsCard goals={goal} />
+    // <Text style={Style.headerText}>{task.name}</Text>
+    if (this.props.wTasks !== null) {
+      if (this.props.wTasks.length > 0) {
+        return (
+          this.state.taskDict[filter].map(task => (
+            <View key={task.id}>
+              <CompletedTaskCard tasks={task} />
+            </View>
+          ))
+        );
+      } else {
+        return (<Text style={Style.headerText}>No Completed Tasks Yet!</Text>);
       }
+    } else {
+      return null;
     }
-    return (<Text style={Style.headerText}>No Completed Tasks Yet!</Text>);
   }
 
   render() {
@@ -56,7 +68,10 @@ class completedTasks extends Component {
           <View style={Style.contentWrapper}>
             <Text style={Style.headerText}>Completed Tasks!</Text>
             <ButtonGroup
-              onPress={(x) => { this.setState({ filter: x }); }}
+              onPress={(x) => {
+                this.setState({ filter: x });
+                console.log(this.state.taskDict);
+              }}
               selectedIndex={this.state.filter}
               buttons={['Week', 'Month', 'Year']}
               containerStyle={{ height: 20, backgroundColor: 'rgba(250, 27, 3, 0.05)', borderColor: 'black' }}
@@ -70,7 +85,7 @@ class completedTasks extends Component {
               }
             />
             <ScrollView>
-              {this.renderGoals()}
+              {this.renderTasks(this.state.filter)}
               <Divider style={{ backgroundColor: colors.clear, height: 105 }} />
             </ScrollView>
           </View>
