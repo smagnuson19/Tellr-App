@@ -15,6 +15,7 @@ export const themeColors = {
   secondary: { 0: '#15BFD6', 1: '#15BFD6' },
   divider: { 0: 'rgb(0,0,0)', 1: '#15BFD6' },
   buttonColor: { 0: '#15BFD6', 1: 'rgb(61, 229, 148)' },
+  buttonTextColor: 'rgb(0,0,0)',
   newGoalButton: { 0: 'rgba(250, 27, 3, 0.29615)', 1: 'rgb(61, 229, 148)' },
   redeemButton: { 0: 'rgba(1, 2, 243, 0.376)', 1: 'rgb(137,207,240)' },
   headerColor: { 0: 'rgb(0,0,0)', 1: 'rgb(255,255,255)' },

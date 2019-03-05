@@ -351,7 +351,7 @@ class AddTask extends Component {
                 raised
                 large
                 style={Style.button}
-                color={themeColors.headerColor[this.props.mode]}
+                color={themeColors.buttonTextColor}
                 buttonStyle={
                     {
                       backgroundColor: themeColors.buttonColor[this.props.mode],

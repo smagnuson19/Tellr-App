@@ -136,7 +136,7 @@ class SocialView extends Component {
             borderWidth: 0,
             borderRadius: 5,
           }}
-          color={themeColors.headerColor[this.props.mode]}
+          color={themeColors.buttonTextColor}
           fontFamily={fonts.secondary}
         />
       );
