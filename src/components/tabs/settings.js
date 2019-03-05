@@ -123,7 +123,7 @@ class Settings extends Component {
           <SettingsList.Item
             title="Change Theme"
             titleStyle={pageStyle.sectionText}
-            onPress={() => this.props.navigation.navigate('ThemeChange')}
+            onPress={() => this.props.navigation.push('ThemeChange')}
           />
           <SettingsList.Header
             headerStyle={{
@@ -138,7 +138,7 @@ class Settings extends Component {
             title="Change Password"
             titleStyle={pageStyle.sectionText}
               // onPress={() => this.props.navigation.navigate('ChangePassword')}
-            onPress={() => this.props.navigation.navigate('ChangePassword', {
+            onPress={() => this.props.navigation.push('ChangePassword', {
               accountTypeIndicator: this.props.user.accountType,
             })
               }

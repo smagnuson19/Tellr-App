@@ -82,31 +82,6 @@ const FriendsStack = createStackNavigator({
 });
 
 
-const SettingsStack = createStackNavigator({
-  SettingsPage: {
-    screen: Settings,
-    navigationOptions: () => ({
-      headerTransparent: 'True',
-    }),
-  },
-  ChangePassword: {
-    screen: ChangePassword,
-    navigationOptions: () => ({
-      headerTransparent: 'True',
-    }),
-  },
-  ThemeChange: {
-    screen: ThemeChange,
-    navigationOptions: () => ({
-      headerTransparent: 'True',
-    }),
-  },
-},
-{
-  initialRouteName: 'SettingsPage',
-});
-
-
 const ProfileStack = createStackNavigator({
   Profile: {
     screen: Profile,
@@ -115,7 +90,7 @@ const ProfileStack = createStackNavigator({
     }),
   },
   SettingsPage: {
-    screen: SettingsStack,
+    screen: Settings,
     navigationOptions: () => ({
       headerTransparent: 'True',
     }),
@@ -128,6 +103,18 @@ const ProfileStack = createStackNavigator({
   },
   ParentViewAnalytics: {
     screen: ParentViewAnalytics,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
+  ChangePassword: {
+    screen: ChangePassword,
+    navigationOptions: () => ({
+      headerTransparent: 'True',
+    }),
+  },
+  ThemeChange: {
+    screen: ThemeChange,
     navigationOptions: () => ({
       headerTransparent: 'True',
     }),
