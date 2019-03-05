@@ -36,7 +36,6 @@ class Loading extends Component {
       fetchParentInfo: null,
       fetchColorMode: null,
       fetchParentAnalytics: null,
-
     };
   }
 
