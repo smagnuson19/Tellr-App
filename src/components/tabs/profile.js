@@ -30,7 +30,7 @@ class Profile extends Component {
     console.log('trying');
     this.props.navigation.navigate('ParentViewAnalytics', {
       childInfo: child,
-      actualChildInfo: this.props.pAnalytics[child.email],
+      // actualChildInfo: this.props.pAnalytics[child.email],
     });
   }
 
@@ -56,10 +56,10 @@ class Profile extends Component {
           balance: this.props.family[i].balance,
         });
       }
-      const parentList = [];
-      Object.keys(this.props.otherParents).forEach((key) => {
-        parentList.push({ name: this.props.otherParents[key] });
-      });
+      // const parentList = [];
+      // Object.keys(this.props.otherParents).forEach((key) => {
+      //   parentList.push({ name: this.props.otherParents[key] });
+      // });
       return (
         <View style={pageStyle.sectionContainer}>
           <Text style={{
@@ -100,21 +100,21 @@ class Profile extends Component {
           >
             Other Parents:
           </Text>
-          { parentList.map(person => (
-            <Text style={{
-              fontSize: fonts.sm,
-              color: themeColors.headerColor[this.props.mode],
-              fontFamily: fonts.secondary,
-              paddingVertical: 6,
-              paddingLeft: 15,
-            }}
-            >
-              {' '}
-              {person.name}
-              {''}
-            </Text>
-          ))}
         </View>
+      // { parentList.map(person => (
+      //   <Text style={{
+      //     fontSize: fonts.sm,
+      //     color: themeColors.headerColor[this.props.mode],
+      //     fontFamily: fonts.secondary,
+      //     paddingVertical: 6,
+      //     paddingLeft: 15,
+      //   }}
+      //   >
+      //     {' '}
+      //     {person.name}
+      //     {''}
+      //   </Text>
+      // ))}
       );
       // no kids so don't display anything about kids
     } else {
@@ -455,9 +455,9 @@ Analytics
               </View>
             </View>
             {this.analyticsDisplay()}
+            {this.renderFooter()}
           </View>
         </LinearGradient>
-        {this.renderFooter()}
       </View>
     );
   }
@@ -484,8 +484,6 @@ const pageStyle = StyleSheet.create({
     marginBottom: 15,
     marginTop: 5,
     width: dimensions.fullWidth,
-    position: 'absolute', // Here is the trick
-    bottom: 72, // Here is the trick
   },
   sectionHeaderParent: {
     fontSize: fonts.md,
@@ -563,8 +561,8 @@ const mapStateToProps = state => (
     family: state.user.family,
     earnings: state.user.earnings,
     mode: state.user.colorMode.color,
-    pAnalytics: state.user.pAnalytics,
-    otherParents: state.user.otherParents,
+    // pAnalytics: state.user.pAnalytics,
+    // otherParents: state.user.otherParents,
   });
 
 
