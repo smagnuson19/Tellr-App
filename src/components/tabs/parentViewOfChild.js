@@ -7,11 +7,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import { fonts2, colors2, dimensions2 } from '../../styling/parent';
 import NotificationCard from './notificationCard';
 import { themeColors } from '../../styling/colorModes';
-
+import { fonts } from '../../styling/base';
 import Style from '../../styling/Style';
 
-
-// const API_KEY = '';
 
 class ParentViewOfChild extends Component {
   constructor(props) {
@@ -34,14 +32,8 @@ class ParentViewOfChild extends Component {
     if (this.state.childAccount.goals.length > 0) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts2.md,
-            fontWeight: 'bold',
-            color: themeColors.headerColor[this.props.mode],
-            fontFamily: fonts2.secondary,
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
           Goals
           </Text>
@@ -62,14 +54,8 @@ class ParentViewOfChild extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts2.md,
-            fontWeight: 'bold',
-            color: themeColors.headerColor[this.props.mode],
-            fontFamily: fonts2.secondary,
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
           Goals
           </Text>
@@ -86,14 +72,8 @@ class ParentViewOfChild extends Component {
       return (
 
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts2.md,
-            fontWeight: 'bold',
-            color: themeColors.headerColor[this.props.mode],
-            fontFamily: fonts2.secondary,
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
             Chores
           </Text>
@@ -113,14 +93,8 @@ class ParentViewOfChild extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts2.md,
-            fontWeight: 'bold',
-            color: themeColors.headerColor[this.props.mode],
-            fontFamily: fonts2.secondary,
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
           Chores
           </Text>
@@ -186,7 +160,6 @@ const pageStyle = StyleSheet.create({
 
   topContainer: {
     width: dimensions2.fullWidth,
-    backgroundColor: '#fff',
     marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -229,12 +202,10 @@ const pageStyle = StyleSheet.create({
     width: dimensions2.fullWidth,
   },
   sectionHeader: {
-    fontSize: fonts2.md,
-    fontWeight: 'bold',
-    color: '#fff',
-    fontFamily: fonts2.secondary,
+    fontSize: fonts.md,
     justifyContent: 'flex-start',
     paddingVertical: 6,
+    paddingHorizontal: 10,
   },
   divider: {
     backgroundColor: colors2.primary,

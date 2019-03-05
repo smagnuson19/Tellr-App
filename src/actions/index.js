@@ -137,7 +137,7 @@ export function postNewUser(payLoad) {
         });
       }).catch((error) => {
         console.log(error.response.data[0]);
-        dispatch(authError(`${error.response.data[0].error}`));
+        dispatch(authError(`${error.response.data[0].Error}`));
       });
   };
 }

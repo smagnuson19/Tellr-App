@@ -14,7 +14,7 @@ import Child from './child';
 import {
   fetchNotificationInfo, fetchParentInfo, fetchUserInfo, postTaskCompleted, postTask,
   postNotifications, postGoalApprove, postTaskVerified, fetchAllSocial, fetchKidFriends, fetchColorMode,
-  fetchTasksWeek, fetchTasksMonth, fetchGoals, fetchEarningsHistory, fetchAllStats, fetchTasksYear, fetchOtherParents,
+  fetchTasksWeek, fetchTasksMonth, fetchGoals, fetchEarningsHistory, fetchAllStats, fetchTasksYear,
 } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
 import { themeColors } from '../../styling/colorModes';
@@ -55,7 +55,6 @@ class Home extends Component {
     if (this.props.account.accountType === 'Parent') {
       console.log('refreshing parents');
       this.props.fetchParentInfo(this.props.account.email);
-      this.prop.fetchOtherParents(this.props.account.email);
     } else {
       console.log('refreshing kids');
       this.props.fetchAllSocial(this.props.account.email);
@@ -127,6 +126,16 @@ class Home extends Component {
         this.props.postTaskCompleted(payLoad, priority);
       }
       // Parent dismissed the goal child has completed
+    } else if (notificationType === 'Redemption') {
+      if (action === 'Complete') {
+        const payLoad = {
+          email: sEmail,
+          priority,
+        };
+        this.props.postNotifications(payLoad);
+        this.reloadApiData();
+      }
+      // Parent dismissed the goal child has completed
     } else if (notificationType === 'goalComplete') {
       if (action === 'Dismiss') {
         const payLoad = {
@@ -155,30 +164,61 @@ class Home extends Component {
     return ('nothing');
   }
 
+  renderRedeemMoney() {
+    if (this.props.notifications === null) {
+      return (null);
+    } else {
+      let shouldDisplay = false;
+      this.props.notifications.forEach((item) => {
+        if (item.notificationType === 'Redemption') { shouldDisplay = true; }
+      });
+      if (shouldDisplay) {
+        return (
+          <View style={pageStyle.sectionContainer}>
+            <Text style={[pageStyle.sectionHeader,
+              { color: themeColors.headerColor[this.props.mode] }]}
+            >
+          Money Requested
+            </Text>
+            <View style={pageStyle.borderContainer}>
+              <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
+            </View>
+            { this.props.notifications.map(goals => (
+
+              <NotificationCard
+                key={goals.priority}
+                entry={goals}
+                notificationTypePassed="Redemption"
+                onPress={this.renderAction}
+              />
+
+            ))}
+
+
+          </View>
+        );
+      } else {
+        return (null);
+      }
+    }
+  }
+
+
   // For goals that have not been approved yet
   renderGoalsToComplete() {
-    console.log(this.props);
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts.md,
-            color: themeColors.headerColor[this.props.mode],
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-            paddingHorizontal: 10,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
           Verify Goals
           </Text>
-          <Divider style={{
-            backgroundColor: themeColors.divider[this.props.mode],
-            height: 2,
-            marginTop: 6,
-            marginBottom: 6,
-          }}
-          />
-
+          <View
+            style={pageStyle.borderContainer}
+          >
+            <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
+          </View>
           <View>
             <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}> No Goals To Verify, have your child add more! </Text>
           </View>
@@ -189,24 +229,14 @@ class Home extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts.md,
-            color: themeColors.headerColor[this.props.mode],
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-            paddingHorizontal: 10,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
         Verify Goals
           </Text>
-          <Divider style={{
-            backgroundColor: themeColors.divider[this.props.mode],
-            height: 2,
-            marginTop: 6,
-            marginBottom: 6,
-          }}
-          />
-
+          <View style={pageStyle.borderContainer}>
+            <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
+          </View>
           { this.props.notifications.map(goals => (
 
             <NotificationCard
@@ -228,24 +258,14 @@ class Home extends Component {
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts.md,
-            color: themeColors.headerColor[this.props.mode],
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-            paddingHorizontal: 10,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
           Recently Completed Goals
           </Text>
-          <Divider style={{
-            backgroundColor: themeColors.divider[this.props.mode],
-            height: 2,
-            marginTop: 6,
-            marginBottom: 6,
-          }}
-          />
-
+          <View style={pageStyle.borderContainer}>
+            <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
+          </View>
           <View>
             <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}> No Goals To Confirm, remind your child! </Text>
           </View>
@@ -256,23 +276,14 @@ class Home extends Component {
     } else {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts.md,
-            color: themeColors.headerColor[this.props.mode],
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-            paddingHorizontal: 10,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
       Recently Completed Goals
           </Text>
-          <Divider style={{
-            backgroundColor: themeColors.divider[this.props.mode],
-            height: 2,
-            marginTop: 6,
-            marginBottom: 6,
-          }}
-          />
+          <View style={pageStyle.borderContainer}>
+            <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
+          </View>
           { this.props.notifications.map(goal => (
 
             <NotificationCard
@@ -295,23 +306,14 @@ class Home extends Component {
     if (this.props.notifications === null) {
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts.md,
-            color: themeColors.headerColor[this.props.mode],
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-            paddingHorizontal: 10,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
           Verify Chore Completion
           </Text>
-          <Divider style={{
-            backgroundColor: themeColors.divider[this.props.mode],
-            height: 2,
-            marginTop: 6,
-            marginBottom: 6,
-          }}
-          />
+          <View style={pageStyle.borderContainer}>
+            <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
+          </View>
           <View>
             <Text style={{ fontSize: 18, paddingHorizontal: 10, color: colors.lightGrey }}>
               {' '}
@@ -326,23 +328,14 @@ No Chores To Verify, Add some more!
       console.log(this.props.notifications);
       return (
         <View style={pageStyle.sectionContainer}>
-          <Text style={{
-            fontSize: fonts.md,
-            color: themeColors.headerColor[this.props.mode],
-            justifyContent: 'flex-start',
-            paddingVertical: 6,
-            paddingHorizontal: 10,
-          }}
+          <Text style={[pageStyle.sectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
           >
             Verify Chore Completion
           </Text>
-          <Divider style={{
-            backgroundColor: themeColors.divider[this.props.mode],
-            height: 2,
-            marginTop: 6,
-            marginBottom: 6,
-          }}
-          />
+          <View style={pageStyle.borderContainer}>
+            <Divider style={[pageStyle.divider, { backgroundColor: themeColors.divider[this.props.mode] }]} />
+          </View>
 
           { this.props.notifications.map(goal => (
 
@@ -393,8 +386,9 @@ No Chores To Verify, Add some more!
     return (
       <View style={pageStyle.homeWrapper}>
         <View style={pageStyle.topContainer}>
-
           {this.renderAvatarRow()}
+
+
         </View>
 
         <ScrollView style={pageStyle.main}
@@ -406,6 +400,7 @@ No Chores To Verify, Add some more!
             />
 )}
         >
+          {this.renderRedeemMoney()}
           {this.renderGoalsCompleted()}
           {this.renderGoalsToComplete()}
           {this.renderChoresToVerify()}
@@ -490,13 +485,11 @@ const pageStyle = StyleSheet.create({
     justifyContent: 'flex-start',
     width: dimensions.fullWidth,
 
-    backgroundColor: '#fff',
     marginBottom: 15,
   },
 
   avatarRow: {
     flexDirection: 'row',
-
     // width: dimensions.fullWidth,
     justifyContent: 'center',
     marginHorizontal: 20,
@@ -507,16 +500,20 @@ const pageStyle = StyleSheet.create({
   },
   sectionHeader: {
     fontSize: fonts.md,
-    color: '#fff',
     justifyContent: 'flex-start',
     paddingVertical: 6,
     paddingHorizontal: 10,
   },
   divider: {
-    backgroundColor: colors.secondary,
+    flex: 1,
     height: 2,
-    marginTop: 6,
+    marginTop: 1,
     marginBottom: 6,
+    width: '97%',
+  },
+  borderContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   topDivider: {
     backgroundColor: colors.secondary,
@@ -566,5 +563,4 @@ export default connect(mapStateToProps, {
   fetchEarningsHistory,
   fetchAllStats,
   fetchTasksYear,
-  fetchOtherParents,
 })(Home);

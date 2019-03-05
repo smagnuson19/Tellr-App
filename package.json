@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/TellrApp/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'",
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/TellrApp/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios/TellrApp'",
     "test": "./node_modules/.bin/eslint src"
   },
   "dependencies": {
