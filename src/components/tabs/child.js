@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView, RefreshControl,
+  View, Text, StyleSheet, ScrollView, RefreshControl, TouchableOpacity,
 } from 'react-native';
+import { Divider } from 'react-native-elements';
+import { verticalScale } from 'react-native-size-matters';
+// import { NavigationActions } from 'react-navigation';
 import { fonts, colors, dimensions } from '../../styling/base';
 import NotificationCard from './notificationCard';
 
@@ -119,6 +122,15 @@ class Child extends Component {
           </View>
           {this.checkDeniedTasks()}
         </ScrollView>
+        <TouchableOpacity style={{ borderWidth: verticalScale(12), borderColor: 'transparent' }} onPress={() => this.props.navigationToCompletedTasks()}>
+          <Text style={{
+            color: 'white', fontWeight: 'bold', fontSize: 22, textAlign: 'center',
+          }}
+          >
+            {'View Completed Tasks'}
+          </Text>
+        </TouchableOpacity>
+        <Divider style={{ backgroundColor: colors.clear, height: verticalScale(60) }} />
       </View>
     );
   }
