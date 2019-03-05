@@ -14,7 +14,7 @@ import Child from './child';
 import {
   fetchNotificationInfo, fetchParentInfo, fetchUserInfo, postTaskCompleted, postTask,
   postNotifications, postGoalApprove, postTaskVerified, fetchAllSocial, fetchKidFriends, fetchColorMode,
-  fetchTasksWeek, fetchTasksMonth, fetchGoals, fetchEarningsHistory, fetchAllStats, fetchTasksYear, fetchOtherParents,
+  fetchTasksWeek, fetchTasksMonth, fetchGoals, fetchEarningsHistory, fetchAllStats, fetchTasksYear,
 } from '../../actions/index';
 import { fonts, colors, dimensions } from '../../styling/base';
 import { themeColors } from '../../styling/colorModes';
@@ -55,7 +55,6 @@ class Home extends Component {
     if (this.props.account.accountType === 'Parent') {
       console.log('refreshing parents');
       this.props.fetchParentInfo(this.props.account.email);
-      this.prop.fetchOtherParents(this.props.account.email);
     } else {
       console.log('refreshing kids');
       this.props.fetchAllSocial(this.props.account.email);
@@ -564,5 +563,4 @@ export default connect(mapStateToProps, {
   fetchEarningsHistory,
   fetchAllStats,
   fetchTasksYear,
-  fetchOtherParents,
 })(Home);

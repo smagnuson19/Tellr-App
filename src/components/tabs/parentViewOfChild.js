@@ -160,7 +160,6 @@ const pageStyle = StyleSheet.create({
 
   topContainer: {
     width: dimensions2.fullWidth,
-    backgroundColor: '#fff',
     marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',

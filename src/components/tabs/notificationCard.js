@@ -50,7 +50,7 @@ class NotificationCard extends Component {
         </View>
       );
     } else {
-      return (null);
+      return ('');
     }
   }
 
@@ -84,7 +84,6 @@ class NotificationCard extends Component {
       taskComplete: ['Accept', 'Deny'], // Parent verify task complete
       newTask: ['Complete', 'Ignore'], // child newTask
       taskUnverified: ['Complete', 'Ignore'], // child newTask
-      Redemption: ['Complete', ''],
     };
 
     // the goal is complete so we want to return nothing
