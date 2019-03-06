@@ -62,8 +62,8 @@ class Settings extends Component {
     };
     console.log(payLoad);
     this.props.postDeleteAccount(payLoad);
-    this.props.navigation.navigate('Auth', {}, NavigationActions.navigate({ routeName: 'Login' }));
   }
+
 
   deleteAccount() {
     // Confirmation alert
