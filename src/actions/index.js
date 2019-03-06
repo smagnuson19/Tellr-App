@@ -672,6 +672,9 @@ export function fetchKidTasks(email) {
             name: payload[key].taskName,
             value: payload[key].reward,
             description: payload[key].taskDescription,
+            timeCompleted: payload[key].timeCompleted,
+            verified: payload[key].verified,
+            deadline: payload[key].taskDeadline,
           });
         });
         console.log(list);

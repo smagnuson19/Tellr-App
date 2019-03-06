@@ -32,6 +32,74 @@ class ParentViewOfChild extends Component {
   }
 
 
+  renderCompletedGoals() {
+    const cg = [];
+    let empty = true;
+    for (let i = 0; i < this.state.childAccount.goals.length; i++) {
+      if (this.state.childAccount.goals[i].redeemed === true) {
+        cg.push(this.state.childAccount.goals[i]);
+        empty = false;
+      }
+    }
+
+    if (empty === false) {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={[pageStyle.subSectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
+          >
+        Completed:
+          </Text>
+
+          { cg.map(goal => (
+            <View key={goal.name}>
+              <NotificationCard
+                entry={goal}
+                displayButtons={false}
+              />
+            </View>
+          ))}
+        </View>
+      );
+    } else {
+      return (null);
+    }
+  }
+
+  renderProgressGoals() {
+    const pg = [];
+    let empty = true;
+    for (let i = 0; i < this.state.childAccount.goals.length; i++) {
+      if (this.state.childAccount.goals[i].redeemed === false) {
+        pg.push(this.state.childAccount.goals[i]);
+        empty = false;
+      }
+    }
+
+    if (empty === false) {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={[pageStyle.subSectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
+          >
+        In Progress:
+          </Text>
+
+          { pg.map(goal => (
+            <View key={goal.name}>
+              <NotificationCard
+                entry={goal}
+                displayButtons={false}
+              />
+            </View>
+          ))}
+        </View>
+      );
+    } else {
+      return (null);
+    }
+  }
+
   renderGoalsToComplete() {
     if (this.state.childAccount.goals.length > 0) {
       return (
@@ -41,17 +109,8 @@ class ParentViewOfChild extends Component {
           >
           Goals
           </Text>
-          {this.render}
-          { this.state.childAccount.goals.map(goal => (
-            <View key={goal.name}>
-              <NotificationCard
-                entry={goal}
-                displayButtons={false}
-
-              />
-
-            </View>
-          ))}
+          {this.renderCompletedGoals()}
+          {this.renderProgressGoals()}
 
         </View>
       );
@@ -71,6 +130,74 @@ class ParentViewOfChild extends Component {
     }
   }
 
+  renderCompletedTasks() {
+    const ct = [];
+    let empty = true;
+    for (let i = 0; i < this.state.childAccount.tasks.length; i++) {
+      if (this.state.childAccount.tasks[i].verified === true) {
+        ct.push(this.state.childAccount.tasks[i]);
+        empty = false;
+      }
+    }
+
+    if (empty === false) {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={[pageStyle.subSectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
+          >
+        Completed:
+          </Text>
+
+          { ct.map(goal => (
+            <View key={goal.name}>
+              <NotificationCard
+                entry={goal}
+                displayButtons={false}
+              />
+            </View>
+          ))}
+        </View>
+      );
+    } else {
+      return (null);
+    }
+  }
+
+  renderNewTasks() {
+    const nt = [];
+    let empty = true;
+    for (let i = 0; i < this.state.childAccount.tasks.length; i++) {
+      if (this.state.childAccount.tasks[i].verified === false) {
+        nt.push(this.state.childAccount.tasks[i]);
+        empty = false;
+      }
+    }
+
+    if (empty === false) {
+      return (
+        <View style={pageStyle.sectionContainer}>
+          <Text style={[pageStyle.subSectionHeader,
+            { color: themeColors.headerColor[this.props.mode] }]}
+          >
+        In Progress:
+          </Text>
+
+          { nt.map(goal => (
+            <View key={goal.name}>
+              <NotificationCard
+                entry={goal}
+                displayButtons={false}
+              />
+            </View>
+          ))}
+        </View>
+      );
+    } else {
+      return (null);
+    }
+  }
+
   renderChores() {
     if (this.state.childAccount.tasks.length > 0) {
       return (
@@ -81,17 +208,8 @@ class ParentViewOfChild extends Component {
           >
             Chores
           </Text>
-          { this.state.childAccount.tasks.map(goal => (
-
-            <NotificationCard
-              key={goal.name}
-              entry={goal}
-              displayButtons={false}
-            />
-
-
-          ))}
-
+          {this.renderCompletedTasks()}
+          {this.renderNewTasks()}
         </View>
       );
     } else {
@@ -216,10 +334,17 @@ const pageStyle = StyleSheet.create({
     width: dimensions2.fullWidth,
   },
   sectionHeader: {
-    fontSize: fonts.md,
+    fontSize: fonts.lg,
     justifyContent: 'flex-start',
     paddingVertical: 6,
     paddingHorizontal: 10,
+  },
+  subSectionHeader: {
+    fontSize: fonts.smmd,
+    justifyContent: 'flex-start',
+    paddingVertical: 6,
+    paddingHorizontal: 13,
+    fontWeight: 'bold',
   },
   divider: {
     height: 2,

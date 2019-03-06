@@ -19,6 +19,7 @@ export const themeColors = {
   newGoalButton: { 0: 'rgba(250, 27, 3, 0.29615)', 1: 'rgb(61, 229, 148)' },
   redeemButton: { 0: 'rgba(1, 2, 243, 0.376)', 1: 'rgb(137,207,240)' },
   headerColor: { 0: 'rgb(0,0,0)', 1: 'rgb(255,255,255)' },
+  headerColorReverse: { 0: 'rgb(255,255,255)', 1: 'rgb(0,0,0)' },
   grey: '#424242',
   placeholderColor: 'grey',
   lightGrey: 'rgb(150, 150, 150)',
