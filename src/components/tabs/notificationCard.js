@@ -40,17 +40,62 @@ class NotificationCard extends Component {
 
   displaySenderName() {
     if (this.props.entry.senderName !== '' || this.props.entry.senderName !== null) {
-      return (
-        <View>
-          <Text style={pageStyle.senderName}>
-            Created By:
-            {' '}
-            {this.props.entry.senderName}
-          </Text>
-        </View>
-      );
+      // PARENT: money requested Style: Requested by:
+      // recently completed goals & verify goals: Set by:
+      // verify chore completion: Completed by:
+      // not completed goals: To be completed by:
+      // CHILD: chores: Created by:
+      if (this.props.entry.notificationType === 'Redemption') {
+        return (
+          <View>
+            <Text style={pageStyle.senderName}>
+              Requested by:
+              {' '}
+              {this.props.entry.senderName}
+            </Text>
+          </View>
+        );
+      } else if (this.props.entry.notificationType === 'goalComplete' || this.props.entry.notificationType === 'newGoal') {
+        return (
+          <View>
+            <Text style={pageStyle.senderName}>
+              Set by:
+              {' '}
+              {this.props.entry.senderName}
+            </Text>
+          </View>
+        );
+      } else if (this.props.entry.notificationType === 'taskComplete') {
+        return (
+          <View>
+            <Text style={pageStyle.senderName}>
+              Completed by:
+              {' '}
+              {this.props.entry.senderName}
+            </Text>
+          </View>
+        );
+      } else if (this.props.entry.notificationType === 'newTask' || this.props.entry.notificationType === 'taskUnverified') {
+        return (
+          <View>
+            <Text style={pageStyle.senderName}>
+              Created by:
+              {' '}
+              {this.props.entry.senderName}
+            </Text>
+          </View>
+        );
+      } else {
+        return (
+          <View>
+            <Text style={pageStyle.senderName}>
+              {this.props.entry.senderName}
+            </Text>
+          </View>
+        );
+      }
     } else {
-      return ('');
+      return (null);
     }
   }
 
@@ -139,7 +184,8 @@ class NotificationCard extends Component {
   // Need to implement
   // return null if its a goal other wise return date for task
   displayDueDate() {
-    if (this.props.entry.notificationType === 'newTask' || this.props.entry.notificationType === 'taskComplete' || this.props.entry.notificationType === 'taskUnverified') {
+    if (this.props.entry.notificationType === 'newTask' || this.props.entry.notificationType === 'taskComplete'
+     || this.props.entry.notificationType === 'taskUnverified') {
       if (this.props.entry.displayRed === true) {
         return (
           <View style={pageStyle.deadlineContainerRed}>
@@ -159,6 +205,17 @@ class NotificationCard extends Component {
           </View>
         );
       }
+    // } else if (this.props.entry.notificationType === 'goalComplete') {
+    //   console.log('klsjf;alksfklsdfj');
+    //   console.log(this.props.entry);
+    //   return (
+    //     <View style={pageStyle.descriptionContainer}>
+    //       <Text style={pageStyle.deadlineText}>
+    //         {'Completed on: '}
+    //         {this.props.entry.deadline}
+    //       </Text>
+    //     </View>
+    //   );
     } else {
       return null;
     }
