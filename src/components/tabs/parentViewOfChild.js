@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { fonts2, colors2, dimensions2 } from '../../styling/parent';
 import NotificationCard from './notificationCard';
+import NotificationPvoc from './notificationPvoc';
 import { themeColors } from '../../styling/colorModes';
 import { fonts } from '../../styling/base';
 import Style from '../../styling/Style';
@@ -53,7 +54,7 @@ class ParentViewOfChild extends Component {
 
           { cg.map(goal => (
             <View key={goal.name}>
-              <NotificationCard
+              <NotificationPvoc
                 entry={goal}
                 displayButtons={false}
               />
@@ -87,7 +88,7 @@ class ParentViewOfChild extends Component {
 
           { pg.map(goal => (
             <View key={goal.name}>
-              <NotificationCard
+              <NotificationPvoc
                 entry={goal}
                 displayButtons={false}
               />
@@ -151,7 +152,7 @@ class ParentViewOfChild extends Component {
 
           { ct.map(goal => (
             <View key={goal.name}>
-              <NotificationCard
+              <NotificationPvoc
                 entry={goal}
                 displayButtons={false}
               />
@@ -185,7 +186,7 @@ class ParentViewOfChild extends Component {
 
           { nt.map(goal => (
             <View key={goal.name}>
-              <NotificationCard
+              <NotificationPvoc
                 entry={goal}
                 displayButtons={false}
               />
