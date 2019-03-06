@@ -123,7 +123,6 @@ export function loginUser(payLoad, resetAction) {
 // auth user to
 // give them a new token
 export function postNewUser(payLoad) {
-  console.log(payLoad);
   return (dispatch) => {
     return axios.post(`${ROOT_URL}/auth/register`, { payLoad })
       .then((response) => {
@@ -336,6 +335,10 @@ export function postDeleteAccount(payLoad) {
       return axios.post(`${ROOT_URL}/delete`, { payLoad }, { headers: { authorization: token } })
         .then((response) => {
           console.log(`Account deleted: ${response.data}`);
+          dispatch({ type: ActionTypes.DEAUTH_USER });
+          deleteTokens().then(() => {
+            NavigationService.navigate('Login');
+          });
         }).catch((error) => {
           errorHandling(
             'deleteAccount post Error: ',
