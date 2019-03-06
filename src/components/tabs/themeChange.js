@@ -114,8 +114,8 @@ Night Mode
     } else {
       console.log(payLoad);
       console.log(resetAction);
-      this.props.postColorMode(payLoad, this.props.account.email).then(() => { this.props.fetchColorMode(this.props.account.email); });
-      this.props.navigation.dispatch(resetAction);
+      this.props.postColorMode(payLoad, this.props.account.email).then(() => { this.props.fetchColorMode(this.props.account.email).then(() => { this.props.navigation.dispatch(resetAction); }); });
+      // this.props.navigation.dispatch(resetAction);
     }
   }
 
