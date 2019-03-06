@@ -111,6 +111,7 @@ class ParentViewOfChild extends Component {
   }
 
   render() {
+    console.log(this.state.childAccount);
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
@@ -122,7 +123,7 @@ class ParentViewOfChild extends Component {
                 {'\'s Page' }
               </Text>
               <View style={{
-                backgroundColor: themeColors.primary[this.props.mode],
+                backgroundColor: this.state.childAccount.avatarColor,
                 width: 100,
                 height: 100,
                 borderRadius: 100,
