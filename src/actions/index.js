@@ -6,8 +6,8 @@ import NavigationService from '../navigation/navigationService';
 
 // For Debug purposes
 
-// const ROOT_URL = 'http://127.0.0.1:5000/api';
-const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
+const ROOT_URL = 'http://127.0.0.1:5000/api';
+// const ROOT_URL = 'https://tellr-dartmouth.herokuapp.com/api';
 // const API_KEY = '';
 
 
@@ -123,6 +123,7 @@ export function loginUser(payLoad, resetAction) {
 // auth user to
 // give them a new token
 export function postNewUser(payLoad) {
+  console.log(payLoad);
   return (dispatch) => {
     return axios.post(`${ROOT_URL}/auth/register`, { payLoad })
       .then((response) => {
