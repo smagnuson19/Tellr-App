@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
   Alert,
-  Easing,
+  // Easing,
   Animated,
 } from 'react-native';
 import {
@@ -32,7 +32,7 @@ class AddTask extends Component {
 
   broomAnimation = new Animated.ValueXY({ x: 0, y: 200 });
 
-  rotateAnimation = new Animated.Value(0);
+  // rotateAnimation = new Animated.Value(0);
 
 
   constructor(props) {
@@ -61,9 +61,9 @@ class AddTask extends Component {
     });
   }
 
-  componentDidMount() {
-    this.startAnimation();
-  }
+  // componentDidMount() {
+  //   this.startAnimation();
+  // }
 
   mopOverlay = () => {
     const imageStyles = [
@@ -119,19 +119,19 @@ class AddTask extends Component {
     );
   }
 
-  startAnimation() {
-    this.rotateAnimation.setValue(0);
-    Animated.timing(
-      this.rotateAnimation,
-      {
-        toValue: 1,
-        duration: 800,
-        easing: Easing.linear,
-      },
-    ).start(() => {
-      this.startAnimation();
-    });
-  }
+  // startAnimation() {
+  //   this.rotateAnimation.setValue(0);
+  //   Animated.timing(
+  //     this.rotateAnimation,
+  //     {
+  //       toValue: 1,
+  //       duration: 8000,
+  //       easing: Easing.linear,
+  //     },
+  //   ).start(() => {
+  //     this.startAnimation();
+  //   });
+  // }
 
   headingDisplay() {
     if (this.props.mode === 0) {
@@ -235,6 +235,42 @@ class AddTask extends Component {
 
   render() {
     const moment = require('moment');
+    // <Animated.Image
+    //   style={[
+    //     taskDeadlineStyles.image,
+    //     {
+    //       transform: [
+    //         {
+    //           rotate: this.rotateAnimation.interpolate({
+    //             inputRange: [0, 1],
+    //             outputRange: [
+    //               '0deg', '360deg',
+    //             ],
+    //           }),
+    //         },
+    //       ],
+    //     },
+    //   ]}
+    //   source={require('../../media/broom.png')}
+    // />
+    // <Animated.Image
+    //   style={[
+    //     taskDeadlineStyles.image2,
+    //     {
+    //       transform: [
+    //         {
+    //           rotate: this.rotateAnimation.interpolate({
+    //             inputRange: [0, 1],
+    //             outputRange: [
+    //               '360deg', '0deg',
+    //             ],
+    //           }),
+    //         },
+    //       ],
+    //     },
+    //   ]}
+    //   source={require('../../media/mop.png')}
+    // />
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
@@ -247,7 +283,7 @@ class AddTask extends Component {
                   backgroundColor: 'rgba(150, 150, 150, 0.2)',
                   borderBottomColor: 'transparent',
                   marginTop: 10,
-                  marginBottom: 20,
+                  marginBottom: 40,
                 }}
                 inputStyle={{
                   color: themeColors.headerColor[this.props.mode],
@@ -344,8 +380,8 @@ class AddTask extends Component {
                 containerStyle={{
                   backgroundColor: 'rgba(150, 150, 150, 0.2)',
                   borderBottomColor: 'transparent',
-                  marginTop: 30,
-                  marginBottom: 20,
+                  marginTop: 40,
+                  marginBottom: 40,
                 }}
                 inputStyle={{
                   color: themeColors.headerColor[this.props.mode],
@@ -367,8 +403,8 @@ class AddTask extends Component {
                 containerStyle={{
                   backgroundColor: 'rgba(150, 150, 150, 0.2)',
                   borderBottomColor: 'transparent',
-                  marginTop: 30,
-                  marginBottom: 20,
+                  marginTop: 40,
+                  marginBottom: 40,
                 }}
                 inputStyle={{
                   color: themeColors.headerColor[this.props.mode],
@@ -386,42 +422,6 @@ class AddTask extends Component {
             </View>
             {this.mopOverlay()}
             {this.broomOverlay()}
-            <Animated.Image
-              style={[
-                taskDeadlineStyles.image,
-                {
-                  transform: [
-                    {
-                      rotate: this.rotateAnimation.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [
-                          '0deg', '360deg',
-                        ],
-                      }),
-                    },
-                  ],
-                },
-              ]}
-              source={require('../../media/broom.png')}
-            />
-            <Animated.Image
-              style={[
-                taskDeadlineStyles.image2,
-                {
-                  transform: [
-                    {
-                      rotate: this.rotateAnimation.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [
-                          '360deg', '0deg',
-                        ],
-                      }),
-                    },
-                  ],
-                },
-              ]}
-              source={require('../../media/mop.png')}
-            />
             <View style={Style.buttonContainer}>
               <Button
                 title="Make them do it!"
@@ -461,24 +461,24 @@ const taskDeadlineStyles = StyleSheet.create({
     fontFamily: fonts2.secondary,
     borderColor: colors2.lightGrey,
   },
-  image: {
-    width: 100,
-    height: 100,
-    position: 'absolute',
-    bottom: 250,
-    borderRadius: 1,
-    right: 40,
-    backgroundColor: 'transparent',
-  },
-  image2: {
-    width: 100,
-    height: 100,
-    position: 'absolute',
-    bottom: 250,
-    left: 40,
-    borderRadius: 1,
-    backgroundColor: 'transparent',
-  },
+  // image: {
+  //   width: 100,
+  //   height: 100,
+  //   position: 'absolute',
+  //   bottom: 250,
+  //   borderRadius: 1,
+  //   right: 40,
+  //   backgroundColor: 'transparent',
+  // },
+  // image2: {
+  //   width: 100,
+  //   height: 100,
+  //   position: 'absolute',
+  //   bottom: 250,
+  //   left: 40,
+  //   borderRadius: 1,
+  //   backgroundColor: 'transparent',
+  // },
 });
 
 
