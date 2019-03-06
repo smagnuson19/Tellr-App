@@ -111,18 +111,26 @@ class ParentViewOfChild extends Component {
   }
 
   render() {
+    console.log(this.state.childAccount);
     return (
       <View style={Style.rootContainer}>
         <LinearGradient colors={[themeColors.linearGradientTop[this.props.mode], themeColors.linearGradientBottom[this.props.mode]]} style={Style.gradient}>
           <View style={pageStyle.homeWrapper}>
             <View style={pageStyle.topContainer}>
 
-              <Text style={pageStyle.headerText}>
+              <Text style={{
+                paddingTop: 80,
+                marginLeft: 15,
+                alignContent: 'center',
+                fontSize: fonts2.lg,
+                color: themeColors.headerColor[this.props.mode],
+              }}
+              >
                 {this.state.childAccount.firstName}
                 {'\'s Page' }
               </Text>
               <View style={{
-                backgroundColor: themeColors.primary[this.props.mode],
+                backgroundColor: this.state.childAccount.avatarColor,
                 width: 100,
                 height: 100,
                 borderRadius: 100,
@@ -177,13 +185,13 @@ const pageStyle = StyleSheet.create({
     marginBottom: 90,
   },
 
-  headerText: {
-    paddingTop: 80,
-    marginLeft: 15,
-    alignContent: 'center',
-    fontSize: fonts2.lg,
-    color: colors2.black,
-  },
+  // headerText: {
+  //   paddingTop: 80,
+  //   marginLeft: 15,
+  //   alignContent: 'center',
+  //   fontSize: fonts2.lg,
+  //   color: colors2.black,
+  // },
 
   balanceContainer: {
     backgroundColor: colors2.primary,
@@ -197,7 +205,7 @@ const pageStyle = StyleSheet.create({
   },
   balanceText: {
     textAlign: 'center',
-    color: colors2.black,
+    color: themeColors.white,
     fontSize: fonts2.md,
     fontFamily: fonts2.secondary,
   },
