@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   Alert,
+  Easing,
   Animated,
 } from 'react-native';
 import {
@@ -27,9 +28,12 @@ let chime;
 class AddTask extends Component {
   animatedValue = new Animated.Value(0);
 
-  mopAnimation = new Animated.ValueXY({ x: -350, y: 200 })
+  mopAnimation = new Animated.ValueXY({ x: -350, y: 200 });
 
-  broomAnimation = new Animated.ValueXY({ x: 0, y: 200 })
+  broomAnimation = new Animated.ValueXY({ x: 0, y: 200 });
+
+  rotateAnimation = new Animated.Value(0);
+
 
   constructor(props) {
     super(props);
@@ -55,6 +59,10 @@ class AddTask extends Component {
       console.log('Loaded sound');
       // loaded successfully
     });
+  }
+
+  componentDidMount() {
+    this.startAnimation();
   }
 
   mopOverlay = () => {
@@ -109,6 +117,20 @@ class AddTask extends Component {
         />
       </View>
     );
+  }
+
+  startAnimation() {
+    this.rotateAnimation.setValue(0);
+    Animated.timing(
+      this.rotateAnimation,
+      {
+        toValue: 1,
+        duration: 800,
+        easing: Easing.linear,
+      },
+    ).start(() => {
+      this.startAnimation();
+    });
   }
 
   headingDisplay() {
@@ -220,18 +242,26 @@ class AddTask extends Component {
             {this.headingDisplay()}
             <View style={Style.inputContainer}>
               <FormInput
-                containerStyle={Style.fieldContainerSecondary}
+                // inputContainerStyle={Style.fieldContainerSecondary}
+                containerStyle={{
+                  backgroundColor: 'rgba(150, 150, 150, 0.2)',
+                  borderBottomColor: 'transparent',
+                  marginTop: 10,
+                  marginBottom: 20,
+                }}
                 inputStyle={{
                   color: themeColors.headerColor[this.props.mode],
                   fontFamily: fonts2.secondary,
                   textAlign: 'left',
                   fontSize: fonts2.md,
                   marginLeft: 25,
+                  borderBottomColor: '#0000',
+                  borderColor: '#0000',
                 }}
                 onChangeText={text => this.setState({ taskName: text })}
                 value={this.state.taskName}
                 placeholder="Task Name"
-                placeholderTextColor={colors2.placeholderColor}
+                placeholderTextColor="white"
                 returnKeyType="next"
               />
               <DatePicker
@@ -253,7 +283,7 @@ class AddTask extends Component {
                   },
                   placeholderText: {
                     fontFamily: fonts2.secondary,
-                    color: colors2.lightGrey,
+                    color: 'white',
                     alignSelf: 'flex-start',
                     marginLeft: 8,
                     fontSize: fonts2.md,
@@ -304,14 +334,19 @@ class AddTask extends Component {
                     alignSelf: 'flex-start',
                   },
                 }}
-                placeholderTextColor={colors2.lightGrey}
+                placeholderTextColor="white"
                 value={this.state.childEmail}
               />
               <FormInput
                 ref={(input) => { this.fourthTextInput = input; }}
                 onSubmitEditing={() => { this.fithTextInput.focus(); }}
                 blurOnSubmit={false}
-                containerStyle={Style.fieldContainerSecondary}
+                containerStyle={{
+                  backgroundColor: 'rgba(150, 150, 150, 0.2)',
+                  borderBottomColor: 'transparent',
+                  marginTop: 30,
+                  marginBottom: 20,
+                }}
                 inputStyle={{
                   color: themeColors.headerColor[this.props.mode],
                   fontFamily: fonts2.secondary,
@@ -322,14 +357,19 @@ class AddTask extends Component {
                 onChangeText={text => this.setState({ taskDescription: text })}
                 value={this.state.taskDescription}
                 placeholder="Task Description..."
-                placeholderTextColor={colors2.placeholderColor}
+                placeholderTextColor="white"
                 returnKeyType="next"
               />
               <FormInput
                 ref={(input) => { this.fithTextInput = input; }}
                 returnKeyType="done"
                 onSubmitEditing={() => this.submitTask()}
-                containerStyle={Style.fieldContainerSecondary}
+                containerStyle={{
+                  backgroundColor: 'rgba(150, 150, 150, 0.2)',
+                  borderBottomColor: 'transparent',
+                  marginTop: 30,
+                  marginBottom: 20,
+                }}
                 inputStyle={{
                   color: themeColors.headerColor[this.props.mode],
                   fontFamily: fonts2.secondary,
@@ -341,11 +381,47 @@ class AddTask extends Component {
                 value={this.state.reward}
                 keyboardType="decimal-pad"
                 placeholder="Reward: $0.00"
-                placeholderTextColor={colors2.placeholderColor}
+                placeholderTextColor="white"
               />
             </View>
             {this.mopOverlay()}
             {this.broomOverlay()}
+            <Animated.Image
+              style={[
+                taskDeadlineStyles.image,
+                {
+                  transform: [
+                    {
+                      rotate: this.rotateAnimation.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [
+                          '0deg', '360deg',
+                        ],
+                      }),
+                    },
+                  ],
+                },
+              ]}
+              source={require('../../media/broom.png')}
+            />
+            <Animated.Image
+              style={[
+                taskDeadlineStyles.image2,
+                {
+                  transform: [
+                    {
+                      rotate: this.rotateAnimation.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [
+                          '360deg', '0deg',
+                        ],
+                      }),
+                    },
+                  ],
+                },
+              ]}
+              source={require('../../media/mop.png')}
+            />
             <View style={Style.buttonContainer}>
               <Button
                 title="Make them do it!"
@@ -384,6 +460,24 @@ const taskDeadlineStyles = StyleSheet.create({
     marginLeft: 40,
     fontFamily: fonts2.secondary,
     borderColor: colors2.lightGrey,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    position: 'absolute',
+    bottom: 250,
+    borderRadius: 1,
+    right: 40,
+    backgroundColor: 'transparent',
+  },
+  image2: {
+    width: 100,
+    height: 100,
+    position: 'absolute',
+    bottom: 250,
+    left: 40,
+    borderRadius: 1,
+    backgroundColor: 'transparent',
   },
 });
 

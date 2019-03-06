@@ -7,7 +7,7 @@ import { Card, Divider } from 'react-native-elements';
 // import Style from '../../styling/Style';
 // import Ionicons from 'react-native-vector-icons/AntDesign';
 import { fonts, colors } from '../../styling/base';
-import Style from '../../styling/Style';
+// import Style from '../../styling/Style';
 
 class GoalsCard extends Component {
   constructor(props) {
@@ -103,10 +103,10 @@ class GoalsCard extends Component {
             {this.props.goals.goalDescription}
 
           </Text>
-          <Text style={Style.headerText}>{progressString}</Text>
+          <Text style={pageStyle.headerText}>{progressString}</Text>
           <Image
             style={{
-              width: 150, height: 200, alignSelf: 'center', opacity: Math.min(progress0 + 0.2, 1),
+              width: 150 * 1.3, height: 200 * 1.3, alignSelf: 'center', opacity: Math.min(progress0 + 0.2, 1),
             }}
             source={{ uri: this.props.goals.goalImage }}
           />
@@ -150,7 +150,16 @@ const pageStyle = StyleSheet.create({
     alignItems: 'center',
     marginRight: 6,
   },
-
+  headerText: {
+    flex: 0,
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: fonts.secondary,
+    fontSize: fonts.lg,
+    color: colors.headerText,
+    marginTop: '3%',
+    marginBottom: '3%',
+  },
   titleStyle: {
     color: colors.primary,
     // padding: 1,
