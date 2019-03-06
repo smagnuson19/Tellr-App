@@ -285,7 +285,12 @@ class NewGoal extends Component {
               {this.boyOverlay()}
               <View style={Style.inputContainer}>
                 <FormInput
-                  containerStyle={Style.fieldContainerThird}
+                  containerStyle={{
+                    backgroundColor: 'rgba(150, 150, 150, 0.2)',
+                    borderBottomColor: 'transparent',
+                    // marginTop: 10,
+                    // marginBottom: 40,
+                  }}
                   inputStyle={Style.fieldTextSecondary}
                   onChangeText={text => this.setState({ goalName: text })}
                   value={this.state.goalName}
@@ -296,7 +301,12 @@ class NewGoal extends Component {
                   blurOnSubmit={false}
                 />
                 <FormInput
-                  containerStyle={Style.fieldContainerThird}
+                  containerStyle={{
+                    backgroundColor: 'rgba(150, 150, 150, 0.2)',
+                    borderBottomColor: 'transparent',
+                    // marginTop: 10,
+                    // marginBottom: 40,
+                  }}
                   inputStyle={Style.fieldTextSecondary}
                   onChangeText={text => this.setState({ goalDescription: text })}
                   value={this.state.goalDescription}
@@ -308,7 +318,12 @@ class NewGoal extends Component {
                   blurOnSubmit={false}
                 />
                 <FormInput
-                  containerStyle={Style.fieldContainerThird}
+                  containerStyle={{
+                    backgroundColor: 'rgba(150, 150, 150, 0.2)',
+                    borderBottomColor: 'transparent',
+                    // marginTop: 10,
+                    // marginBottom: 40,
+                  }}
                   inputStyle={Style.fieldTextSecondary}
                   onChangeText={text => this.setState({ value: text })}
                   value={this.state.value}
