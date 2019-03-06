@@ -258,8 +258,7 @@ class Friends extends Component {
             />
             <DialogInput
               isDialogVisible={this.state.isDialogVisible}
-              title="Add Friends!"
-              message="Please enter your friend's email address"
+              title="Please enter your friend's email!"
               hintInput="example@email.com"
               submitInput={(inputText) => { this.sendFriendInvite(inputText); }}
               closeDialog={() => this.setState({ isDialogVisible: false })}
