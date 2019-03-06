@@ -9,7 +9,6 @@ import { Divider } from 'react-native-elements';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { fonts2, colors2, dimensions2 } from '../../styling/parent';
-import NotificationCard from './notificationCard';
 import NotificationPvoc from './notificationPvoc';
 import { themeColors } from '../../styling/colorModes';
 import { fonts } from '../../styling/base';
