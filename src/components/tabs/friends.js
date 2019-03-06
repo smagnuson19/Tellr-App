@@ -267,7 +267,7 @@ class Friends extends Component {
             <Button
               raised
               onPress={() => this.props.navigation.navigate('FriendRequests')}
-              title="Friend Requests"
+              title="See Invites"
               buttonStyle={{
                 backgroundColor: themeColors.buttonColor[this.props.mode],
                 borderColor: 'transparent',
