@@ -123,6 +123,7 @@ export function loginUser(payLoad, resetAction) {
 // auth user to
 // give them a new token
 export function postNewUser(payLoad) {
+  console.log(payLoad);
   return (dispatch) => {
     return axios.post(`${ROOT_URL}/auth/register`, { payLoad })
       .then((response) => {
