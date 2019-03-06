@@ -111,7 +111,7 @@ export function loginUser(payLoad, resetAction) {
     }).catch((error) => {
       console.log(`LoginError: ${error}`);
       // bug in error on backend
-      if (error.response.data[0] === undefined) {
+      if (error.response.data[0].Error === undefined) {
         dispatch(authError(`${error}`));
       } else {
         dispatch(authError(`${error.response.data[0].Error}`));
@@ -136,8 +136,11 @@ export function postNewUser(payLoad) {
           });
         });
       }).catch((error) => {
-        console.log(error.response.data[0]);
-        dispatch(authError(`${error.response.data[0].Error}`));
+        if (error.response.data[0].Error === undefined) {
+          dispatch(authError(`${error}`));
+        } else {
+          dispatch(authError(`${error.response.data[0].Error}`));
+        }
       });
   };
 }
