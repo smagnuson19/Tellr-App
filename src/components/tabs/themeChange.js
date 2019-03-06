@@ -11,7 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import RNPickerSelect from 'react-native-picker-select';
 import { colors, fonts, dimensions } from '../../styling/base';
 import { themeColors } from '../../styling/colorModes';
-import { postColorMode } from '../../actions/index';
+import { postColorMode, fetchColorMode } from '../../actions/index';
 
 import Style from '../../styling/Style';
 
@@ -69,7 +69,7 @@ Night Mode
     // move to home page after you change the theme
     let resetAction;
     if (this.props.account.accountType === 'Parent') {
-      if (this.props.mode === 0) {
+      if (this.props.mode === 1) {
         resetAction = StackActions.reset({
           index: 0, // <-- currect active route from actions array
           key: null,
@@ -86,7 +86,7 @@ Night Mode
           ],
         });
       }
-    } else if (this.props.mode === 0) {
+    } else if (this.props.mode === 1) {
       resetAction = StackActions.reset({
         index: 0, // <-- currect active route from actions array
         key: null,
@@ -113,7 +113,9 @@ Night Mode
       console.log('ERROR: color index empty');
     } else {
       console.log(payLoad);
-      this.props.postColorMode(payLoad, this.props.account.email).then(() => { this.props.navigation.dispatch(resetAction); });
+      console.log(resetAction);
+      this.props.postColorMode(payLoad, this.props.account.email).then(() => { this.props.fetchColorMode(this.props.account.email); });
+      this.props.navigation.dispatch(resetAction);
     }
   }
 
@@ -407,4 +409,4 @@ const mapStateToProps = state => (
     mode: state.user.colorMode.color,
   });
 
-export default connect(mapStateToProps, { postColorMode })(ThemeChange);
+export default connect(mapStateToProps, { postColorMode, fetchColorMode })(ThemeChange);
