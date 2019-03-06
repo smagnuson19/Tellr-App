@@ -171,7 +171,7 @@ Balance:
       return (
         <View style={pageStyle.homeWrapper}>
           <Text style={{
-            color: themeColors.buttonColor[this.props.mode], fontSize: 12, fontFamily: fonts.secondary, textAlign: 'left', paddingLeft: 8,
+            color: themeColors.headerColor[this.props.mode], fontSize: 12, fontFamily: fonts.secondary, textAlign: 'left', paddingLeft: 8,
           }}
           >
             {'Click on your child avatar(s) for individual spend analytics'}

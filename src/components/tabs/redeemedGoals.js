@@ -48,9 +48,26 @@ class redeemedGoals extends Component {
   }
 
   renderGoals() {
-    if (this.props.goals !== null && this.props.user !== null) {
-      console.log(this.props.goals);
-      if (this.props.goals.length > 0) {
+    if (this.props.goals !== null && this.props.user !== null && this.props.goals.length > 0) {
+      let empty = true;
+      for (let i = 0; i < this.props.goals.length; i++) {
+        if (this.props.goals[i].redeemed === true) {
+          empty = false;
+        }
+      }
+
+      if (empty) {
+        const temp = [{
+          goalName: 'No Redeemed Goals', goalDescription: 'Earn Money to Redeem Goals!', dateRedeemed: null, redeemed: true, goalImage: 'https://i.imgur.com/x1QZReP.png', goalValue: 0, App: 1,
+        }];
+        return (
+          temp.map(goal => (
+            <View key={goal.id}>
+              <RedeemedGoalsCard goals={goal} />
+            </View>
+          ))
+        );
+      } else {
         return (
           this.props.goals.map(goal => (
             <View key={goal.id}>
@@ -59,8 +76,9 @@ class redeemedGoals extends Component {
           ))
         );
       }
+    } else {
+      return (<Text style={Style.headerText}>No Goals Yet</Text>);
     }
-    return (<Text style={Style.headerText}>No Goals Yet</Text>);
   }
 
   render() {
