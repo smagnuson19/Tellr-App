@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
 import {
-  View, Alert, TouchableOpacity, Text,
+  View,
+  Alert,
+  TouchableOpacity,
+  Text,
+  AsyncStorage,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { FormInput, Button } from 'react-native-elements';
+import {
+  FormInput,
+  Button,
+} from 'react-native-elements';
 import DialogInput from 'react-native-dialog-input';
 import Logo from './LoginAdditions/logo';
 import Style from '../styling/Style';
-import { colors, fonts } from '../styling/base';
+import {
+  colors,
+  fonts,
+} from '../styling/base';
 import {
   loginUser,
   postForgotPassword,
@@ -34,19 +44,14 @@ class Login extends Component {
       Alert.alert('Please enter a password');
       console.log('ERROR: empty password login');
     } else {
-      const payLoad = {
-        email: this.state.email,
-        password: this.state.password,
-      };
-
-      this.props.loginUser(payLoad).then(() => {
-        if (this.props.authenticated) {
-          console.log('User is logged in');
-          this.props.navigation.navigate('Loading');
-        } else if (this.props.errorMessage) {
-          Alert.alert(this.props.errorMessage);
-          this.props.authError(null);
-        }
+      AsyncStorage.getItem('deviceInfo').then((deviceInfo) => {
+        console.log(deviceInfo);
+        const payLoad = {
+          email: this.state.email,
+          password: this.state.password,
+          oneSignalID: deviceInfo,
+        };
+        this.props.loginUser(payLoad);
       });
     }
   }
@@ -70,6 +75,13 @@ class Login extends Component {
   render() {
     // switched to SVG instead of a gif logo for blurry reasons.
     // const img = require('../media/Tellr-Logo.gif');
+    if (this.props.authenticated) {
+      console.log('User is logged in');
+      this.props.navigation.navigate('Loading');
+    } else if (this.props.errorMessage) {
+      Alert.alert(this.props.errorMessage);
+      this.props.authError(null);
+    }
     return (
       <View style={Style.rootContainer}>
 
