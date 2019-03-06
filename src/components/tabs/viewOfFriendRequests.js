@@ -6,7 +6,9 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { fonts, dimensions } from '../../styling/base';
 import RequestCard from './requestCard';
-import { postFriendApprove, postNotificationsAlt, fetchKidFriends } from '../../actions/index';
+import {
+  postFriendApprove, postNotificationsAlt, fetchKidFriends, fetchNotificationInfo,
+} from '../../actions/index';
 import { themeColors } from '../../styling/colorModes';
 
 import Style from '../../styling/Style';
@@ -28,6 +30,7 @@ class ViewOfFriendRequests extends Component {
   reloadApiData() {
     console.log('reloading api Data');
     // Do we want to update children info as well?
+    this.props.fetchNotificationInfo(this.props.account.email);
     this.props.fetchKidFriends(this.props.account.email);
     // No longer fetching
     this.setState({ isFetching: false });
@@ -172,4 +175,6 @@ const mapStateToProps = state => (
     mode: state.user.colorMode.color,
   });
 
-export default connect(mapStateToProps, { postFriendApprove, postNotificationsAlt, fetchKidFriends })(ViewOfFriendRequests);
+export default connect(mapStateToProps, {
+  postFriendApprove, postNotificationsAlt, fetchKidFriends, fetchNotificationInfo,
+})(ViewOfFriendRequests);
