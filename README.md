@@ -1,4 +1,4 @@
-# 18f-tellr-frontend
+# 18f Tellr Frontend
 
 ### See wiki tab for more details
 
@@ -18,6 +18,7 @@ Organize and streamline task assignment and chores in your household while teach
 #### Tech Stack
 
 We are using React Native for our frontend mobile app and flask / python for our backend.
+We use Metro Bundler and watchman as well.
 
 #### Data Objects
 
@@ -37,33 +38,55 @@ We followed [these](https://medium.com/@randerson112358/setup-react-native-envir
 
 1.  Install Cocoapods with gem
 `sudo gem install cocoapods`
-(optional for bugsnag to upload dSYM files) 
+(optional for bugsnag to upload dSYM files)
 `sudo gem install cocoapods-bugsnag`
 2. `yarn install`
 3. `react-native link`
 4. cd into ios folder and Link in Pods
  `pod install`
-6. cd to root TellrApp directory
-run `yarn start`
-7. run in Xcode
 
-Issues: If you run into an issue on install pods with react-native-image-picker
+**Let's make sure it works!**
+1. cd to root TellrApp directory
+run `yarn start`
+2. run in Xcode
+
+**Issues**: If you run into an issue on install pods with react-native-image-picker
 1. cd into node_modules/react-native-image-picker
 2. In package.json rename "name" value to RNImagePicker
 3. Rename the .podspec file to RNImagePicker
 4. cd ios and rename the .xcodeproject file to RNImagePicker.xcodeproject
 5. `pod install` again
 
+Alternatively, if you get any linker issues, that means React-Native-Image-Picker may have added itself back in. Delete any duplicate library pods. Linker commands are specific to pods.
+
 ## Deployment
-To run:
+
+
+**Make sure you open the xcworkspace NOT the xcproject file.**
+
+### Production Version
 The scheme 'DeployTellrApp' is shipped with xcode and is the production version. Just select it as your target in Xcode and click build.
 
-If you want a Debug version of TellrApp, you have to create a new scheme using TellrAppTests. Make sure in the build config that you build the React library first as you might encounter issues. No other libraries/dependencies need to be built. 
+**Possible issues**: Make sure the main.js bundle is built. It can be built through running `yarn build:ios` and then has to be manually added by dragging the file into the directory of your project in Xcode. It is important that you just create a reference to the file.
 
-Run `yarn start` in Tellr root directory.
-Once watchman is running open up the xcworkspace in xcode and build to the debug scheme you just made.
+Make sure certifications are setup correctly if trying to display on the phone. Easiest way is to create the certifications using your apple id. No developer account is required to run the app on your own phone.
 
-## Term 1 Demo Prioritizations
+
+### Dev Version
+If you want a Debug version of TellrApp, you have to create a new scheme using 'TellrAppTests'. Make sure in the build config that you build the React library first as you might encounter issues. No other libraries/dependencies need to be built.
+
+Run `yarn start` in Tellr root directory to boot up Metro Bundler. This bundles all of the JS files for you and will play nicely with watchman when developing. Once built, leave the window open.
+ Go into the **xcworkspace** and build `TellrAppTests`. Note: the debug version won't build to the phone. Can only be used in the emulator due to certification complexities.
+
+## Deployment To App Store or Testflight
+In order to do this, you need certificates, which requires an apple developer account.
+The app uses Push Notifications, App Groups, and Remote Notifications. This will put it on testflight, where you can check it out and then push it to the appstore from the developer portal.
+
+1. `cd ~/Tellr/ios`
+2. `fastlane ios production`
+
+
+## Term 1 Demo Prioritization
 1. User Login and signup flow complete
 2. Parents and children able to be a part of a Family and interact
 3. Children and parents able to add tasks/Goals
