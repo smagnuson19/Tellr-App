@@ -24,6 +24,8 @@ import {
   postForgotPassword,
   authError,
 } from '../actions/index';
+import deviceStorage from '../actions/deviceStorage';
+import FirstLaunchOnboarding from './LoginAdditions/firstLaunchOnboarding';
 
 class Login extends Component {
   constructor(props) {
@@ -32,7 +34,19 @@ class Login extends Component {
       email: '',
       password: '',
       isDialogVisible: false,
+      firstLaunch: null,
     };
+  }
+
+  componentDidMount() {
+    AsyncStorage.getItem('alreadyLaunched').then((value) => {
+      if (value == null) {
+        deviceStorage.saveItem('alreadyLaunched', JSON.stringify(true)); // No need to wait for `setItem` to finish
+        this.setState({ firstLaunch: true });
+      } else {
+        this.setState({ firstLaunch: false });
+      }
+    }); // Add some error handling, also you can simply do this.setState({fistLaunch: value == null})
   }
 
   // Don't allow going back once logged in
@@ -73,8 +87,7 @@ class Login extends Component {
   }
 
   render() {
-    // switched to SVG instead of a gif logo for blurry reasons.
-    // const img = require('../media/Tellr-Logo.gif');
+    // The two things we are checking for
     if (this.props.authenticated) {
       console.log('User is logged in');
       this.props.navigation.navigate('Loading');
@@ -82,100 +95,111 @@ class Login extends Component {
       Alert.alert(this.props.errorMessage);
       this.props.authError(null);
     }
-    return (
-      <View style={Style.rootContainer}>
 
-        <LinearGradient
-          colors={[colors.linearGradientTop, colors.linearGradientBottom]}
-          style={Style.gradient}
-        >
-          <View
-            style={Style.contentWrapper}
+    if (this.state.firstLaunch === null) {
+      return (null);
+
+      // turn the below to false in order to do some dev work on the firstlaunch screen
+    } else if (this.state.firstLaunch === true) {
+      // pass in a navigation prop to navigate back to this with this.state.firstLaunch
+      // set to false OR take the below out into another component.
+      // Alternatively could put FirstLaunchOnboarding on AuthLoading.js?
+      return (<FirstLaunchOnboarding />);
+    } else {
+      return (
+        <View style={Style.rootContainer}>
+
+          <LinearGradient
+            colors={[colors.linearGradientTop, colors.linearGradientBottom]}
+            style={Style.gradient}
           >
-            <Logo />
+            <View
+              style={Style.contentWrapper}
+            >
+              <Logo />
 
-            <View style={Style.inputContainer}>
-              <FormInput
-                containerStyle={Style.fieldContainer}
-                inputStyle={Style.fieldText}
-                onChangeText={text => this.setState({ email: text })}
-                value={this.state.text}
-                placeholder="Email..."
-                placeholderTextColor={colors.grey}
-                spellCheck={false}
-                keyboardType="email-address"
-                textContentType="username"
-                returnKeyType="next"
-                selectionColor={colors.grey}
-                onSubmitEditing={() => { this.secondTextInput.focus(); }}
-                blurOnSubmit={false}
-
-              />
-              <FormInput
-                containerStyle={Style.fieldContainer}
-                inputStyle={Style.fieldText}
-                onChangeText={text => this.setState({ password: text })}
-                value={this.state.password}
-                secureTextEntry
-                placeholderTextColor={colors.grey}
-                textContentType="password"
-                spellCheck={false}
-                placeholder="Password..."
-                returnKeyType="done"
-                selectionColor={colors.grey}
-                ref={(input) => { this.secondTextInput = input; }}
-                onSubmitEditing={() => this.submitEmail()}
-              />
-            </View>
-            <View style={Style.buttonContainer}>
-              <Button
-                large
-                raised
-
-                onPress={() => this.submitEmail()}
-                title="LOG IN"
-                backgroundColor={colors.secondary}
-                accessibilityLabel="enter email"
-                style={Style.button}
-              />
-              <Button
-                large
-                raised
-
-                title="CREATE ACCOUNT"
-                backgroundColor={colors.secondary}
-                onPress={() => this.props.navigation.navigate('SignUpFirstDialouge')}
-                style={Style.button}
-              />
-              <View
-                style={{ justifyContent: 'center', alignItems: 'center' }}
-              >
-                <TouchableOpacity
-                  onPress={() => this.setState({ isDialogVisible: true })}
-                >
-                  <Text style={{
-                    color: 'white', fontFamily: fonts.secondary, fontSize: fonts.smmd, fontWeight: 'bold',
-                  }}
-                  >
-Forgot Password?
-                  </Text>
-                </TouchableOpacity>
+              <View style={Style.inputContainer}>
+                <FormInput
+                  containerStyle={Style.fieldContainer}
+                  inputStyle={Style.fieldText}
+                  onChangeText={text => this.setState({ email: text })}
+                  value={this.state.text}
+                  placeholder="Email..."
+                  placeholderTextColor={colors.grey}
+                  spellCheck={false}
+                  keyboardType="email-address"
+                  textContentType="username"
+                  returnKeyType="next"
+                  selectionColor={colors.grey}
+                  onSubmitEditing={() => { this.secondTextInput.focus(); }}
+                  blurOnSubmit={false}
+                />
+                <FormInput
+                  containerStyle={Style.fieldContainer}
+                  inputStyle={Style.fieldText}
+                  onChangeText={text => this.setState({ password: text })}
+                  value={this.state.password}
+                  secureTextEntry
+                  placeholderTextColor={colors.grey}
+                  textContentType="password"
+                  spellCheck={false}
+                  placeholder="Password..."
+                  returnKeyType="done"
+                  selectionColor={colors.grey}
+                  ref={(input) => { this.secondTextInput = input; }}
+                  onSubmitEditing={() => this.submitEmail()}
+                />
               </View>
-              <DialogInput
-                isDialogVisible={this.state.isDialogVisible}
-                title="Forgot Password?"
-                message="Please enter the email address associated with the account, then check your inbox for a password reset email. "
-                hintInput="example@email.com"
-                submitInput={(inputText) => { this.forgotPassword(inputText); }}
-                closeDialog={() => this.setState({ isDialogVisible: false })}
-              />
+              <View style={Style.buttonContainer}>
+                <Button
+                  large
+                  raised
+
+                  onPress={() => this.submitEmail()}
+                  title="LOG IN"
+                  backgroundColor={colors.secondary}
+                  accessibilityLabel="enter email"
+                  style={Style.button}
+                />
+                <Button
+                  large
+                  raised
+
+                  title="CREATE ACCOUNT"
+                  backgroundColor={colors.secondary}
+                  onPress={() => this.props.navigation.navigate('SignUpFirstDialouge')}
+                  style={Style.button}
+                />
+                <View
+                  style={{ justifyContent: 'center', alignItems: 'center' }}
+                >
+                  <TouchableOpacity
+                    onPress={() => this.setState({ isDialogVisible: true })}
+                  >
+                    <Text style={{
+                      color: 'white', fontFamily: fonts.secondary, fontSize: fonts.smmd, fontWeight: 'bold',
+                    }}
+                    >
+     Forgot Password?
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <DialogInput
+                  isDialogVisible={this.state.isDialogVisible}
+                  title="Forgot Password?"
+                  message="Please enter the email address associated with the account, then check your inbox for a password reset email. "
+                  hintInput="example@email.com"
+                  submitInput={(inputText) => { this.forgotPassword(inputText); }}
+                  closeDialog={() => this.setState({ isDialogVisible: false })}
+                />
+              </View>
             </View>
-          </View>
-        </LinearGradient>
+          </LinearGradient>
 
-      </View>
+        </View>
 
-    );
+      );
+    }
   }
 }
 
