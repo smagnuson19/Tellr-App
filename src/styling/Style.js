@@ -25,7 +25,10 @@ const Style = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'column',
   },
-
+  logoWrapper: {
+    flex: 1,
+    paddingTop: '25%',
+  },
   headerText: {
     flex: 0,
     justifyContent: 'center',

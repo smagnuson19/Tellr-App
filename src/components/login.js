@@ -36,7 +36,10 @@ class Login extends Component {
       isDialogVisible: false,
       firstLaunch: null,
     };
+
+    this.navigateAway = this.navigateAway.bind(this);
   }
+
 
   componentDidMount() {
     AsyncStorage.getItem('alreadyLaunched').then((value) => {
@@ -47,6 +50,13 @@ class Login extends Component {
         this.setState({ firstLaunch: false });
       }
     }); // Add some error handling, also you can simply do this.setState({fistLaunch: value == null})
+  }
+
+  navigateAway(page) {
+    this.setState({ firstLaunch: false });
+    // dont necesarily need this for login page,
+    // as we just need to set the state
+    this.props.navigation.navigate(page);
   }
 
   // Don't allow going back once logged in
@@ -104,7 +114,11 @@ class Login extends Component {
       // pass in a navigation prop to navigate back to this with this.state.firstLaunch
       // set to false OR take the below out into another component.
       // Alternatively could put FirstLaunchOnboarding on AuthLoading.js?
-      return (<FirstLaunchOnboarding />);
+      return (
+        <FirstLaunchOnboarding
+          pageNavigation={this.navigateAway}
+        />
+      );
     } else {
       return (
         <View style={Style.rootContainer}>
@@ -116,7 +130,9 @@ class Login extends Component {
             <View
               style={Style.contentWrapper}
             >
-              <Logo />
+              <View style={Style.logoWrapper}>
+                <Logo />
+              </View>
 
               <View style={Style.inputContainer}>
                 <FormInput
