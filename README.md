@@ -12,6 +12,8 @@ Organize and streamline task assignment and chores in your household while teach
 ![Main](https://github.com/dartmouth-cs98/18f-tellr-frontend/blob/master/Data%20Model%20and%20Sketches/19W-Tellr-Main.png)
 ![Child](https://github.com/dartmouth-cs98/18f-tellr-frontend/blob/master/Data%20Model%20and%20Sketches/Tellr-19W-Child.png)
 
+### [View the App in action right here!](https://github.com/dartmouth-cs98/18f-tellr-frontend/wiki/In-Action)
+
 
 ## Architecture
 
