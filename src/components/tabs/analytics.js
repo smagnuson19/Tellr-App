@@ -163,7 +163,7 @@ class Analytics extends Component {
   reloadApiData() {
     console.log('reloading api Data');
     // Do we want to update children info as well?
-    this.props.fetchAllStats(this.state.userEmail);
+    this.props.fetchAllStats(this.props.account.email);
     const datDict = {};
     const alldat = [];
     const addSubtractDate = require('add-subtract-date');
