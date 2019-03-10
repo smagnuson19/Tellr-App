@@ -250,6 +250,7 @@ Balance:
               style={{
                 height: '100%', flex: 1, marginLeft: 5, width: '95%',
               }}
+              scale={scale.scaleTime}
               gridMin={0}
               contentInset={contentInset}
               numberOfTicks={6}
