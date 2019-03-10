@@ -58,6 +58,7 @@ run `yarn start`
 3. Rename the .podspec file to RNImagePicker
 4. cd ios and rename the .xcodeproject file to RNImagePicker.xcodeproject
 5. `pod install` again
+6. If that doesn't work check the Podfile in the ios directory and remove the react-native-image-picker lin
 
 Alternatively, if you get any linker issues, that means React-Native-Image-Picker may have added itself back in. Delete any duplicate library pods. Linker commands are specific to pods.
 
