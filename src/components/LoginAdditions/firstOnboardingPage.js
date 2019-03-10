@@ -28,10 +28,10 @@ const FirstOnboardingPage = () => {
       </View>
       <View style={pageStyle.bottomContainer}>
         <Text style={pageStyle.textStyling}>
-      The chore management,
-      task completion,
-      financial literacy and
-      family driven app
+      The family driven,
+      chore management,
+      task completion, and
+      financial literacy app
         </Text>
       </View>
 
