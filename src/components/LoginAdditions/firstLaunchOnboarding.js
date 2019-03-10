@@ -35,7 +35,7 @@ const FirstLaunchOnboarding = (props) => {
         {
 
           title: 'Create Tasks',
-          subtitle: 'Parents can create chores and keep track of what has been completed and what has not. ',
+          subtitle: 'Parents can create chores and keep track of what their kids have completed. ',
           backgroundColor: '#5f9ffe',
           image: (
             <Icon
@@ -49,7 +49,7 @@ const FirstLaunchOnboarding = (props) => {
         },
         {
           title: 'Monitor Spending',
-          subtitle: 'Gain insight into how money is being spent and budgeting',
+          subtitle: 'Gain insight into how money is spent and budgeted.',
           backgroundColor: '#5094fa',
           image: (
             <Icon
@@ -62,7 +62,7 @@ const FirstLaunchOnboarding = (props) => {
         },
         {
           title: 'Social Sharing',
-          subtitle: 'Kids can see how they stack up against their friends',
+          subtitle: 'Kids can see how they stack up against their friends!',
           backgroundColor: '#428cfa',
           image: (
             <Icon
@@ -74,7 +74,7 @@ const FirstLaunchOnboarding = (props) => {
           ),
         },
         {
-          title: 'Get Started Now',
+          title: 'Get Started Now!',
           subtitle: (
             <Button
               title="Sign Up"
