@@ -26,7 +26,6 @@ const Logo = () => {
         </Text>
       </Text>
 
-
     </View>
   );
 };
@@ -34,18 +33,19 @@ const Logo = () => {
 
 const pageStyle = StyleSheet.create({
   container: {
+    justifyContent: 'center',
     flex: 1,
     flexDirection: 'row',
+    alignContent: 'center',
   },
 
   firstLetter: {
-    padding: 0,
     fontSize: scale(126),
-    marginTop: '25%',
     paddingRight: '5%',
     color: colors.logoGreenHex,
     textAlign: 'right',
     justifyContent: 'center',
+    alignContent: 'center',
     fontFamily: fonts.logo,
 
   },
