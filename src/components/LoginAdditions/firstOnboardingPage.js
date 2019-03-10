@@ -80,6 +80,7 @@ const pageStyle = StyleSheet.create({
     textAlign: 'center',
     alignContent: 'flex-start',
     paddingTop: '5%',
+    color: '#fff',
   },
 
 
