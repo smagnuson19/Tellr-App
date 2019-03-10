@@ -222,7 +222,7 @@ class NewGoal extends Component {
         this.props.postGoal(payLoad).then((response) => {
           console.log('trying to navigate');
           this.props.navigation.dispatch(resetAction);
-        }).catch(() => { console.log('JNFKNJHLS'); });
+        }).catch(() => { this.props.navigation.dispatch(resetAction); });
       });
     } else {
       console.log('Submitted');
