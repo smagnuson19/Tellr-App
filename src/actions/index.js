@@ -356,6 +356,10 @@ export function postParentDeleteAccount(payLoad) {
       return axios.post(`${ROOT_URL}/deleteall`, { payLoad }, { headers: { authorization: token } })
         .then((response) => {
           console.log(`Parent account and associated children deleted: ${response.data}`);
+          dispatch({ type: ActionTypes.DEAUTH_USER });
+          deleteTokens().then(() => {
+            NavigationService.navigate('Login');
+          });
         }).catch((error) => {
           errorHandling(
             'postParentDelete post Error: ',
