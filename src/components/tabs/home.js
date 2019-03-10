@@ -407,7 +407,11 @@ No Chores To Verify, Add some more!
           {this.renderChoresToVerify()}
 
         </ScrollView>
-
+        <View style={pageStyle.bottomContainer}>
+          <Text>
+            {' '}
+          </Text>
+        </View>
       </View>
 
     );
@@ -487,6 +491,12 @@ const pageStyle = StyleSheet.create({
     width: dimensions.fullWidth,
 
     marginBottom: 15,
+  },
+  bottomContainer: {
+    marginTop: 0,
+    justifyContent: 'flex-start',
+    width: dimensions.fullWidth,
+    marginBottom: 50,
   },
 
   avatarRow: {
