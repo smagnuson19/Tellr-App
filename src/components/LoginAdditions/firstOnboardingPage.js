@@ -31,7 +31,7 @@ const FirstOnboardingPage = () => {
       The family driven,
       chore management,
       task completion, and
-      financial literacy
+      financial literacy app
         </Text>
       </View>
 
