@@ -49,11 +49,14 @@ export default class App extends Component {
   }
 
   onIds(device) {
-    console.log('Device info: ', device);
+    if (device.userId !== undefined && device.userId !== null && device !== null) {
+      const theId = device.userId;
+      console.log('Device info: ', theId);
 
-    if (device.userId !== undefined) {
-      console.log('Device info: ', device);
-      deviceStorage.saveItem('deviceInfo', device.userId);
+      if (theId.length > 0) {
+        console.log('Device info: ', theId);
+        deviceStorage.saveItem('deviceInfo', JSON.stringify(theId));
+      }
     }
   }
 
